@@ -5,5 +5,6 @@
 	$DB_Password = "mame";
 	$DB_Database = "FunTool" ;
 	$DB_Port = 3306 ;
+	$DEFAULT_FUNNIES = 5;
 
 ?>
