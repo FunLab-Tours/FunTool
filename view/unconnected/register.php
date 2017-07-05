@@ -3,7 +3,7 @@
 
 	if(isValidSubmit())
 		addUser();
-	else if((int) $_SERVER['CONTENT_LENGTH'] != 0)
+	else if(strlen(http_build_query($_POST)) != 0)
 		echo "Error.";
 
 ?>
