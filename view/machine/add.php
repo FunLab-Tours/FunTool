@@ -3,12 +3,12 @@
 
 	if(isValidMachineSubmit())
 		addMachine();
-	else if(strlen(http_build_query($_POST)) != 0)
+	else if(isset($_POST['submit']))
 		echo "Error.";
 
 ?>
 
-<form method="POST" action="add.php">
+<form method="POST" action="">
 	<input type="text" placeholder="Code machine" name="codeMachine" />								</br>
 	<input type="text" placeholder="Short label" name="shortLabel" />								</br>
 	<input type="text" placeholder="Long label" name="longLabel" />									</br>
@@ -18,5 +18,5 @@
 	<input type="text" placeholder="Comment" name="comment" />										</br>
 	<input type="text" placeholder="Doc link 1" name="docLink1" />									</br>
 	<input type="text" placeholder="Doc link 2" name="docLink2" />									</br>
-	<input type="submit" value="submit" />
+	<input type="submit" name="submit" value="submit" />
 </form>

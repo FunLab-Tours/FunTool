@@ -1,12 +1,12 @@
 <?php
-include('functions.php');
+    include('functions.php');
 
-if(strlen(http_build_query($_POST)) != 0)
-    deleteMaterial();
+    if(isset($_POST['submit']))
+        deleteMaterial();
 
 ?>
 
-<form method="POST" action="delete.php">
+<form method="POST" action="">
     <select name="materialList">
         <?php
             $labels = getMaterialList();
@@ -15,5 +15,5 @@ if(strlen(http_build_query($_POST)) != 0)
             }
         ?>
     </select></br>
-    <input type="submit" value="submit" />
+    <input type="submit" name="submit" value="submit" />
 </form>

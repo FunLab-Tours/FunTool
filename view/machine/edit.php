@@ -3,12 +3,12 @@
 
 	if(isValidMachineSubmit())
 		editMachine();
-	else if(strlen(http_build_query($_POST)) != 0)
+    else if(isset($_POST['submit']))
 		echo "Error.";
 
 ?>
 
-<form method="POST" action="edit.php">
+<form method="POST" action="">
 	<select name="machineList">
 		<?php 
 			$labels = getMachineList();
@@ -26,5 +26,5 @@
 	<input type="text" placeholder="Comment" name="comment" />										</br>
 	<input type="text" placeholder="Doc link 1" name="docLink1" />									</br>
 	<input type="text" placeholder="Doc link 2" name="docLink2" />									</br>
-	<input type="submit" value="submit" />
+	<input type="submit" name="submit" value="submit" />
 </form>

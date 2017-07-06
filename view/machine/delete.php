@@ -1,12 +1,12 @@
 <?php
 	include('functions.php');
 
-	if(strlen(http_build_query($_POST)) != 0)
+    if(isset($_POST['submit']))
 		deleteMachine();
 
 ?>
 
-<form method="POST" action="delete.php">
+<form method="POST" action="">
 	<select name="machineList">
 		<?php 
 			$labels = getMachineList();
@@ -15,5 +15,5 @@
 			}
 		?>
 	</select></br>
-	<input type="submit" value="submit" />
+	<input type="submit" name="submit" value="submit" />
 </form>
