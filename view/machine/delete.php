@@ -14,6 +14,6 @@
 				?><option value="<?=$buffer['idMachine']?>"><?=$buffer['codeMachine']?></option><?php
 			}
 		?>
-	</select>																						</br>
+	</select></br>
 	<input type="submit" value="submit" />
 </form>

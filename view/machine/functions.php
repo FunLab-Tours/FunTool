@@ -84,7 +84,7 @@
 
 		try {
 			$request->execute(array(
-				'idMachine' => $_POST['machineList'],
+				'idMachine' => $_POST['machineList']
 			));
 	
 			echo "Ok !";
