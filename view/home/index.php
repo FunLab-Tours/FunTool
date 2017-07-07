@@ -1,5 +1,5 @@
 <?php
     loadModules("lab");
-    echo listAllLab();
+    listAllLab();
 
 ?>

@@ -9,7 +9,6 @@ function addLab ($labName, $labDescription)
     $stmt->execute();
 }
 
-
 function deleteLab($idLab)
 {
     global $DB_DB;
