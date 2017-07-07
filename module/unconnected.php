@@ -1,6 +1,4 @@
 <?php
-include('../../include/db.php');
-include('../../include/config.php');
 
 function isValidSubmit() {
     if(isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['password']) && isset($_POST['passwordChecker']) && isset($_POST['telephoneNumber']) && isset($_POST['addressL1']) && isset($_POST['zipCode']) && isset($_POST['town']) && isset($_POST['country']) && isset($_POST['email']) && isset($_POST['birthDate']))
