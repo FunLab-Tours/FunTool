@@ -1,1 +1,5 @@
-hello
+<?php
+    loadModules("lab");
+    listAllLab();
+
+?>

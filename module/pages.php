@@ -22,4 +22,3 @@
 	include('include_static/footer.php');
 
 ?>
-
