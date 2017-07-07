@@ -14,28 +14,62 @@ function addLab ($labName, $labDescription)
         $stmt = $DB_DB->prepare("INSERT INTO Lab (labName, labDescription) VALUES (?, ?)");
         $stmt->bindParam(1, $labName);
         $stmt->bindParam(2, $labDescription);
-        $stmt->execute();
+            try
+                {
+                    $stmt->execute();
+                    echo "Lab added";
+                }
+
+            catch(Exception $e)
+                {
+                    echo $e;
+                    exit;
+                }
     }
 
 
 function deleteLab($idLab)
     {
         global $DB_DB;
-        $sql = "DELETE FROM Lab WHERE idLab=$idLab";
-        $result = $DB_DB->query($sql);
+        $stmt = $DB_DB->prepare("DELETE FROM Lab WHERE idLab=?");
+        $stmt->bindParam(1, $idLab);
+            try
+                {
+                    $stmt->execute();
+                    echo "Lab deleted";
+                }
+        
+            catch(Exception $e)
+                {
+                    echo $e;
+                    exit;
+                }
     }
 
 function updateLab($idLab, $labName, $labDescription)
     {
         global $DB_DB;
-        $sql = "UPDATE Lab SET labName = '$labName', labDescription = '$labDescription' WHERE idLab=$idLab";
-        $result = $DB_DB->query($sql);
+        $sql = "UPDATE Lab SET labName =?, labDescription =? WHERE idLab=?";
+        $stmt->bindParam(1, $labName);
+        $stmt->bindParam(2, $labDescription);
+        $stmt->bindParam(3, $idLab);
+            try
+                {
+                    $stmt->execute();
+                    echo "Lab Updated";
+                }
+        
+            catch(Exception $e)
+                {
+                    echo $e;
+                    exit;
+                }
     }
 
 function listAllLab()
     {
         global $DB_DB;
-        $sql = "SELECT * FROM Lab ORDER BY labName";
+        $sql = "SELECT * FROM Lab";
         $result = $DB_DB->query($sql);
         return $result;
     }
