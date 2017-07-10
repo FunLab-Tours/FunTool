@@ -1,6 +1,17 @@
+<?php
+    loadModules("user");
+    if(isValidSignOn()) {
+        addUser();
+        connectUser($_POST['login'], $_POST['password']);
+        header('Location: index.php');
+    }
+
+?>
+
 <form method="POST" action="">
     <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
     <input type="text" placeholder="<?=$lang["password"]?>" name="password" />
+    <input type="text" placeholder="<?=$lang["password"]?>" name="passwordChecker" />
     <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
     <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
     <input type="text" placeholder="<?=$lang["telephone"]?>" name="telephone" />
@@ -14,17 +25,13 @@
     <input type="text" placeholder="<?=$lang["emailBis"]?>" name="emailBis" />
     <input type="date" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
     <!-- inscriptionActiveList -->
-    <form>
-        <?=$lang["inscriptionActiveList"]?>
-        <input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>
-        <input type="radio" name="inscriptionActiveList" value="false"> <?=$lang["no"]?>
-    </form>
+    <?=$lang["inscriptionActiveList"]?>
+    <input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>
+    <input type="radio" name="inscriptionActiveList" value="false"> <?=$lang["no"]?>
     <!-- inscriptionNews -->
-    <form>
-        <?=$lang["inscriptionNews"]?>
-        <input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
-        <input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
-    </form>
+    <?=$lang["inscriptionNews"]?>
+    <input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
+    <input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
     <!-- idPicture -->
     <input type="submit" value="<?=$lang["submit"]?>" name="submit" />
 </form>

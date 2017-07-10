@@ -1,6 +1,10 @@
 <?php
     $lang = [];
 
+    $lang["profile"] = "Accéder à son profil";
+    $lang["membership"] = "Adhérer au FunLab";
+    $lang["funnies"] = "Gérer ses funnies";
+
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";
 
