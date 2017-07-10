@@ -1,5 +1,5 @@
 <?php
-    include('functions.php');
+    include('../../module/lab.php');
     include('../../include/db.php');
     include('../../include/config.php');
         
@@ -10,7 +10,7 @@
 ?>
 
 <form action="" method="post">
-    <input type="text" placeholder="<?=$lang["editMachine"]?>" name="labName" />
-    <input type="text" placeholder="Lab Description" name="labDescription" />
+    <input type="text" placeholder="<?=$lang["labName"]?>" name="labName" />
+    <input type="text" placeholder="<?=$lang["labDescription"]?>" name="labDescription" />
     <input type="submit" value="submit" name="submit">
 </form>

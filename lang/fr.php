@@ -23,6 +23,10 @@
     $lang["inscriptionNews"] = "S'inscrire à la newsletter";
     $lang["idPicture"] = "Photo de profil";
 
+    $lang["labName"] = "Entrez le nom du lab";
+    $lang["labDescription"] = "Entrez la déscription du lab";
+
+
     $error = [];
     $error[-1] = "Erreur Inconnue";
 
