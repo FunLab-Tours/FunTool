@@ -4,6 +4,7 @@
     $lang["profile"] = "Accéder à son profil";
     $lang["membership"] = "Adhérer au FunLab";
     $lang["funnies"] = "Gérer ses funnies";
+    $lang["lab_management"] = "Gérer les labs";
 
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";

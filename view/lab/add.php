@@ -1,16 +1,13 @@
 <?php
-    //  include('../../module/lab.php');
-    //  include('../../include/db.php');
-    //  include('../../include/config.php');
-     loadModules("lab");
 
-        
-        if(isset($_POST['submit']) && !empty($_POST['submit'])){
-            if (isValideLab($_POST['labName'])){
-                addLab($_POST['labName'],$_POST['labDescription']);
-                        header('Location: index.php');
-            }
+    loadModules("lab");
+
+    if(isset($_POST['submit']) && !empty($_POST['submit'])){
+        if (isValideLab($_POST['labName'])){
+            addLab($_POST['labName'],$_POST['labDescription']);
+                    header('Location: index.php');
         }
+    }
 
 ?>
 
