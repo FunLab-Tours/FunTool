@@ -65,4 +65,27 @@ function listAllLab()
         $result = $DB_DB->query($sql);
         return $result;
     }
+function isValideLab($labName)
+    {
+        if ($labName==""){
+            return false;
+        }
+        else { 
+            global $DB_DB;
+            $request = $DB_DB->prepare('SELECT COUNT(labName) as nb_entry FROM lab WHERE labName = :labName');
+            try {
+                $request->execute(array(
+                    'labName' => $labName,
+                ));
+            }
+            catch(Exception $e) {
+                    echo $e;
+            }
+
+            if($request->fetch()['nb_entry'] == 0)
+              return true;
+            return false;
+        }
+
+}
 ?>
