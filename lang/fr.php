@@ -1,9 +1,13 @@
 <?php
     $lang = [];
+
+    $lang["yes"] = "Oui";
+    $lang["no"] = "Non";
+
     $lang["submit"] = "Confirmer";
     $lang["editMachine"] = "Modifier une machine";
 
-    $lang["pseudo"] = "Pseudo";
+    $lang["login"] = "Pseudo";
     $lang["password"] = "Mot de passe";
     $lang["sign_on"] = "S'inscrire";
 

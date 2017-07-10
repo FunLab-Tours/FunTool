@@ -1,5 +1,15 @@
+<?php
+    loadModules("login");
+    if(isset($_POST['submit'])) {
+        if(isValidUser($_POST['login'], $_POST['password'])) {
+            connectUser($_POST['login'], $_POST['password']);
+            header('Location: index.php');
+        }
+    }
+?>
+
 <form method="POST" action="">
-    <input type="text" placeholder="<?=$lang["pseudo"]?>" name="login" />
+    <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
     <input type="password" placeholder="<?=$lang["password"]?>" name="password" />
     <input type="submit" value="<?=$lang["submit"]?>" name="submit" />
 </form>
