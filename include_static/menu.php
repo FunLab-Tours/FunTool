@@ -1,4 +1,9 @@
 <?php
+    if(isset($_POST["disconnect"])) {
+        loadModules("user");
+        disconnectUser();
+        header('Location: index.php');
+    }
 
     if(isset($_COOKIE['id']) && sha1($_COOKIE['id'] . $privateKey) == $_COOKIE['token']){
         ?>
@@ -8,6 +13,9 @@
         <a href="?page=lab"><?=$lang["lab_management"]?></a>
         <!-- Gestion machines. -->
         <!-- Gestion materiaux. -->
+        <form action="" method="post">
+            <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">
+        </form>
         <?php
     }
 
