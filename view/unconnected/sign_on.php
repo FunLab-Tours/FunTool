@@ -1,5 +1,5 @@
 <form method="POST" action="">
-    <input type="text" placeholder="<?=$lang["pseudo"]?>" name="pseudo" />
+    <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
     <input type="text" placeholder="<?=$lang["password"]?>" name="password" />
     <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
     <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
@@ -14,7 +14,17 @@
     <input type="text" placeholder="<?=$lang["emailBis"]?>" name="emailBis" />
     <input type="date" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
     <!-- inscriptionActiveList -->
+    <form>
+        <?=$lang["inscriptionActiveList"]?>
+        <input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>
+        <input type="radio" name="inscriptionActiveList" value="false"> <?=$lang["no"]?>
+    </form>
     <!-- inscriptionNews -->
+    <form>
+        <?=$lang["inscriptionNews"]?>
+        <input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
+        <input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
+    </form>
     <!-- idPicture -->
     <input type="submit" value="<?=$lang["submit"]?>" name="submit" />
 </form>

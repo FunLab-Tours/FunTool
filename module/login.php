@@ -1,5 +1,49 @@
 <?php
 
+function isValidUser($login, $password) {
+    global $DB_DB;
+
+    $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry FROM User WHERE login = :login && password = :password');
+
+    try {
+        $request->execute(array(
+            'login' => $login,
+            'password' => $password
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+
+    if($request->fetch()['nb_entry'] == 1)
+        return true;
+    return false;
+}
+
+function connectUser($login, $password) {
+    global $DB_DB;
+
+    $request = $DB_DB->prepare('SELECT idUser FROM User WHERE login = :login && password = :password');
+
+    try {
+        $request->execute(array(
+            'login' => $login,
+            'password' => $password
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+
+    $result = $request->fetch();
+
+    $privateKey = "thisisaprivatekey"; // TODO : use key from config.php.
+
+    setcookie("id", $result['idUser'], time() + 30000, "/");
+    setcookie("token", sha1($result['idUser'] . $privateKey), time() + 30000, "/");
+}
+
+// TODO : update.
 function isValidSubmit() {
     if(isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['password']) && isset($_POST['passwordChecker']) && isset($_POST['telephoneNumber']) && isset($_POST['addressL1']) && isset($_POST['zipCode']) && isset($_POST['town']) && isset($_POST['country']) && isset($_POST['email']) && isset($_POST['birthDate']))
         if($_POST['firstName'] != "" && $_POST['lastName'] != "" && $_POST['password'] != "" && $_POST['passwordChecker'] != "" && $_POST['telephoneNumber'] != "" && $_POST['addressL1'] != "" && $_POST['zipCode'] != "" && $_POST['town'] != "" && $_POST['country'] != "" && $_POST['email'] != "" && $_POST['birthDate'] != "")
@@ -7,6 +51,7 @@ function isValidSubmit() {
     return false;
 }
 
+// TODO : update.
 function addUser() {
     global $DB_DB;
 
@@ -37,12 +82,9 @@ function addUser() {
             'inscriptionNews' => $inscriptionNews,
             'idPicture' => NULL
         ));
-
-        echo "Ok !";
     }
     catch(Exception $e) {
         echo $e;
-        exit;
     }
 }
 
