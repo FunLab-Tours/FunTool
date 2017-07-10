@@ -1,5 +1,1 @@
-<?php
-    loadModules("lab");
-    listAllLab();
-
-?>
+Home to do.
