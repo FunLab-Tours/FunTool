@@ -8,6 +8,7 @@
 
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";
+    $lang["disconnect"] = "Se déconnecter";
 
     $lang["submit"] = "Confirmer";
     $lang["editMachine"] = "Modifier une machine";
