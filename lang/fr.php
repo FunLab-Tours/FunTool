@@ -37,7 +37,7 @@
     $lang["labDescriptionAddLab"] = "Entrez la description du lab";
 
     $lang["labName"] = "Nom du Lab";
-    $lang["labDescription"] = "Description du lab";
+    $lang["labDescription"] = "Description du Lab";
     $lang["addLab"] = "Ajouter un Lab";
 
 
