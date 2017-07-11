@@ -32,8 +32,12 @@
     $lang["inscriptionNews"] = "S'inscrire à la newsletter";
     $lang["idPicture"] = "Photo de profil";
 
-    $lang["labName"] = "Entrez le nom du lab";
-    $lang["labDescription"] = "Entrez la déscription du lab";
+    $lang["labNameAddLab"] = "Entrez le nom du lab";
+    $lang["labDescriptionAddLab"] = "Entrez la description du lab";
+
+    $lang["labName"] = "Nom du Lab";
+    $lang["labDescription"] = "Description du lab";
+    $lang["addLab"] = "Ajouter un Lab";
 
 
     $error = [];

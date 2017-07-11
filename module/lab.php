@@ -61,7 +61,7 @@ function updateLab($idLab, $labName, $labDescription)
 function listAllLab()
     {
         global $DB_DB;
-        $sql = "SELECT * FROM Lab";
+        $sql = "SELECT * FROM Lab ORDER BY labName";
         $result = $DB_DB->query($sql);
         return $result;
     }
