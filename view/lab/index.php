@@ -15,7 +15,7 @@
         echo "<tr>";
         echo "<td>".$row['labName']."</td>";
         echo "<td>".$row['labDescription']."</td>";    
-        //echo "<td><a href=\"edit.php?id=$row[id]\">Edit</a> | <a href=\"delete.php?id=$row[id]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
+        //echo "<td><a href=\"editLab.php?id=$row[id]\">Edit</a> | <a href=\"deleteLab.php?id=$row[id]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
     }
     ?>
     </table>

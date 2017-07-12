@@ -11,7 +11,7 @@ if(isset($_POST['update']) && !empty($_POST['update'])){
 
     else{
         updateLab($_POST['idLab'],$_POST['labName'], $_POST['labDescription'] );
-        header('Location: index.php');
+        header('Location: index.php?page=lab');
     }
 }
 
