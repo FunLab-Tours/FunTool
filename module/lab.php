@@ -42,12 +42,11 @@ function updateLab($idLab, $labName, $labDescription)
     {
         global $DB_DB;
         $sql = "UPDATE Lab SET labName =?, labDescription =? WHERE idLab=?";
-        $stmt->bindParam(1, $labName);
-        $stmt->bindParam(2, $labDescription);
-        $stmt->bindParam(3, $idLab);
+        $stmt = $DB_DB->prepare($sql);
+
             try
                 {
-                    $stmt->execute();
+                    $stmt->execute(array($labName,$labDescription,$idLab));
                     echo "Lab Updated";
                 }
         

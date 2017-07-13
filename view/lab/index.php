@@ -1,22 +1,16 @@
 <?php
-    include("addLab.php");
-?>
-
-
-<body>
-    <table width='80%' border=0>
- 
-    <tr bgcolor='#CCCCCC'>
-        <td><?=$lang["labName"]?></td>
-        <td><?=$lang["labDescription"]?></td>
-    </tr>
-     <?php     
-        foreach (listAllLab() as $row ) {         
-        echo "<tr>";
-        echo "<td>".$row['labName']."</td>";
-        echo "<td>".$row['labDescription']."</td>";    
-        //echo "<td><a href=\"editLab.php?id=$row[id]\">Edit</a> | <a href=\"deleteLab.php?id=$row[id]\" onClick=\"return confirm('Are you sure you want to delete?')\">Delete</a></td>";        
+    loadModules("lab");
+    if (isset($_GET['idEdit'])){
+        include("editLab.php");
     }
-    ?>
-    </table>
-</body>
+
+    else if (isset($_GET['idDelete'])){
+            include("deleteLab.php");
+    }
+    else {
+    include("addLab.php");
+    include("listLab.php");
+    
+    }
+
+?>

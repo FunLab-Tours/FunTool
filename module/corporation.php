@@ -3,7 +3,7 @@
 function addCorporation($corporateName, $logo, $telephone, $adressL1, $adressL2,$adressL3,$zipCode, $town, $country, $email, $nbFunnies)
     {
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO Lab (corporateName, logo, telephone, adressL1, adressL2, adressL3, zipCode, town, country, email, nbFunnies) VALUES (:corporateName, :logo, :telephone, :adressL1, :adressL2, :adressL3, :zipCode, :town, :country, :email, :nbFunnies)");
+        $stmt = $DB_DB->prepare("INSERT INTO corporation (corporateName, logo, telephone, adressL1, adressL2, adressL3, zipCode, town, country, email, nbFunnies) VALUES (:corporateName, :logo, :telephone, :adressL1, :adressL2, :adressL3, :zipCode, :town, :country, :email, :nbFunnies)");
 
 
     try {
@@ -54,7 +54,7 @@ function deleteCorporation($idCorporation)
 function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $adressL1, $adressL2,$adressL3,$zipCode, $town, $country, $email, $nbFunnies)
 {    
         global $DB_DB;
-        $stmt = $DB_DB->prepare("UPDATE Lab SET corporateName = :corporateName, logo = :logo, telephone = :telephone, adressL1 = :adressL1, adressL2 = :adressL2, adressL3 = :adressL3, zipCode = :zipCode , town = :town, country = :country, email = :email, nbFunnies = :nbFunnies WHERE idCorporation = :idCorporation");
+        $stmt = $DB_DB->prepare("UPDATE corporation SET corporateName = :corporateName, logo = :logo, telephone = :telephone, adressL1 = :adressL1, adressL2 = :adressL2, adressL3 = :adressL3, zipCode = :zipCode , town = :town, country = :country, email = :email, nbFunnies = :nbFunnies WHERE idCorporation = :idCorporation");
             try
                 {
         $stmt->execute(array(

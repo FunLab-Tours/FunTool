@@ -1,5 +1,4 @@
 <?php    
-    loadModules("lab");
 
     if(isset($_POST['submit']) && !empty($_POST['submit'])){
         if (isValideLab($_POST['labName'])){
