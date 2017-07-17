@@ -1,5 +1,6 @@
 <?php
-// TODO : redirect to create a lab if there isn't in the database.
+	// TODO : redirect to create a lab if there isn't in the database.
+
 	include('include_static/header.php');
 	include('include_static/menu.php');
 

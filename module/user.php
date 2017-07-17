@@ -1,4 +1,5 @@
 <?php
+    // TODO : use parameters.
     // TODO : encode password.
     // TODO : add profile picture.
     // TODO : use private key from config.php.

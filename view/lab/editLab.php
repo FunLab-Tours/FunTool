@@ -16,24 +16,26 @@
         <td><?=$lang["labDescription"]?></td>
     </tr>
 
-<?php
-    foreach(listAllLab() as $row) {
-        if($row['idLab'] == $_GET['idEdit']) {
-            echo "<tr>";
-            echo "<form action=\"\" method=\"post\">";
-            echo "<td><input type=\"text\" name=\"labName\" value =".$row['labName']." />";
-            echo "<td><input type=\"text\" name=\"labDescription\" value =".$row['labDescription']." />";
-            echo "<td><input type=\"submit\" value=\"submit\" name=\"submit\"> | <a href=\"index.php?page=lab\">Cancel</a>";
-
-        }
-        else {
-            echo "<tr>";
-            echo "<td>".$row['labName']."</td>";
-            echo "<td>".$row['labDescription']."</td>";
-        }
-    }
-
-?>
+        <?php
+            foreach(listAllLab() as $row) {
+                if($row['idLab'] == $_GET['idEdit']) { ?>
+                <tr>
+                    <form action="" method="post">
+                        <td><input type="text" name="labName" value ="<?=$row['labName']?>" /></td>
+                        <td><input type="text" name="labDescription" value ="<?=$row['labDescription']?>" /></td>
+                        <td><input type="submit" value="submit" name="submit"></td>
+                        <a href="index.php?page=lab">Cancel</a>
+                    </form>
+                <?php
+                }
+                else { ?>
+                    <tr>
+                        <td><?=$row['labName']?></td>
+                        <td><?=$row['labDescription']?></td>
+                <?php
+                }
+            }
+        ?>
 
     </table>
 </body>
