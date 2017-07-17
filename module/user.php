@@ -59,20 +59,128 @@
             && isset($_POST['town']) && isset($_POST['country'])
             && isset($_POST['email']) && isset($_POST['birthDate'])) {
 
-            if($_POST['login'] != "" && $_POST['password'] != ""
-                && $_POST['passwordChecker'] != "" && $_POST['firstName'] != ""
-                && $_POST['name'] != "" && $_POST['telephone'] != ""
-                && $_POST['adressL1'] != "" && $_POST['zipCode'] != ""
-                && $_POST['town'] != "" && $_POST['country'] != ""
-                && $_POST['email'] != "" && $_POST['birthDate'] != "") {
+            if(!isValidLogin($_POST['login']))
+                return false;
 
-                return true;
-            }
+            if(!isValidPassword($_POST['password']))
+                return false;
 
+            if(!isValidFirstName($_POST['firstName']))
+                return false;
+
+            if(!isValidName($_POST['name']))
+                return false;
+
+            if(!isValidTelephone($_POST['telephone']))
+                return false;
+
+            if(!isValidAdressL1($_POST['adressL1']))
+                return false;
+
+            if(!isValidAdressL2($_POST['adressL2']))
+                return false;
+
+            if(!isValidAdressL3($_POST['adressL3']))
+                return false;
+
+            if(!isValidZipCode($_POST['zipCode']))
+                return false;
+
+            if(!isValidTown($_POST['town']))
+                return false;
+
+            if(!isValidCountry($_POST['country']))
+                return false;
+
+            if(!isValidEmail($_POST['email']))
+                return false;
+
+            if(!isValidBirthDate($_POST['birthDate']))
+                return false;
+
+            return true;
         }
         return false;
     }
 
+    function isValidLogin($login) {
+        if($login == "")
+            return false;
+        return true;
+    }
+
+    function isValidPassword($password) {
+        if($password == "")
+            return false;
+        return true;
+    }
+
+    function isValidFirstName($firstName) {
+        if($firstName == "")
+            return false;
+        return true;
+    }
+
+    function isValidName($name) {
+        if($name == "")
+            return false;
+        return true;
+    }
+
+    function isValidTelephone($telephone) {
+        if($telephone == "")
+            return false;
+        return true;
+    }
+
+    function isValidAdressL1($adressL1) {
+        if($adressL1 == "")
+            return false;
+        return true;
+    }
+
+    function isValidAdressL2($adressL2) {
+        if($adressL2 == "")
+            return false;
+        return true;
+    }
+
+    function isValidAdressL3($adressL3) {
+        if($adressL3 == "")
+            return false;
+        return true;
+    }
+
+    function isValidZipCode($zipCode) {
+        if($zipCode == "")
+            return false;
+        return true;
+    }
+
+    function isValidTown($town) {
+        if($town == "")
+            return false;
+        return true;
+    }
+
+    function isValidCountry($country) {
+        if($country == "")
+            return false;
+        return true;
+    }
+
+    function isValidEmail($email) {
+        if($email == "")
+            return false;
+        return true;
+    }
+
+    function isValidBirthDate($birthDate) {
+        if($birthDate == "")
+            return false;
+        return true;
+    }
+ 
     function addUser(   $login,
                         $password,
                         $firstName,
