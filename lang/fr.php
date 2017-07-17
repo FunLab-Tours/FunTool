@@ -41,6 +41,15 @@
     $lang["labDescription"] = "Description du Lab";
     $lang["addLab"] = "Ajouter un Lab";
 
+    $lang["shortSumEvent"] = "Intitulé de l'événement";
+    $lang["longSumEvent"] = "Description de l'événement";
+    $lang["statutOk"] = "Confirmé";
+    $lang["statutMaybe"] = "Incertains";
+    $lang["statutCancel"] = "Annulé";
+    $lang["startdateEvent"] = "Date de début de l'événement";
+    $lang["endDatEvent"] = "Date de fin de l'événement";
+    
+
 
     $error = [];
     $error[-1] = "Erreur Inconnue";

@@ -93,6 +93,7 @@ CREATE TABLE User(
         inscriptionNews       Bool ,
         login                 Varchar (25) ,
         password              Varchar (25) ,
+        salt                  Varchar (255) ,
         idPicture             Int ,
         PRIMARY KEY (idUser )
 )ENGINE=InnoDB;
