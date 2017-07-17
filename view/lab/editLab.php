@@ -2,7 +2,6 @@
     if(isset($_POST['submit']) && !empty($_POST['submit'])){
        updateLab($_GET['idEdit'],$_POST['labName'],$_POST['labDescription']);
        header('Location: index.php?page=lab');
-       header('Location: index.php?page=lab');
     }
 ?>
 
