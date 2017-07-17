@@ -1,6 +1,7 @@
 <?php
     // TODO : encode password.
     // TODO : add profile picture.
+    // TODO : use private key from config.php.
 
     function isValidUser($login, $password) {
         global $DB_DB;
@@ -39,7 +40,7 @@
 
         $result = $request->fetch();
 
-        $privateKey = "thisisaprivatekey"; // TODO : use key from config.php.
+        $privateKey = "thisisaprivatekey";
 
         setcookie("id", $result['idUser'], time() + 30000, "/");
         setcookie("token", sha1($result['idUser'] . $privateKey), time() + 30000, "/");
@@ -75,14 +76,42 @@
         $inscriptionActiveList = ($_POST['inscriptionActiveList'] == "true") ? 1 : 0;
         $inscriptionNews = ($_POST['inscriptionNews'] == "true") ? 1 : 0;
 
-        $request = $DB_DB->prepare('INSERT INTO User(login, password, firstName, name,
-                                      telephone, adressL1, adressL2, adressL3, zipCode,
-                                      town, country, email, emailBis, birthDate, nbFunnies,
-                                      inscriptionActiveList, inscriptionNews, idPicture)
-                                    VALUES(:login, :password, :firstName, :name,
-                                      :telephone, :adressL1, :adressL2, :adressL3, :zipCode,
-                                      :town, :country, :email, :emailBis, :birthDate, :nbFunnies,
-                                      :inscriptionActiveList, :inscriptionNews, :idPicture)');
+        $request = $DB_DB->prepare('INSERT INTO User( login,
+                                                      password,
+                                                      firstName,
+                                                      name,
+                                                      telephone,
+                                                      adressL1,
+                                                      adressL2,
+                                                      adressL3,
+                                                      zipCode,
+                                                      town,
+                                                      country,
+                                                      email,
+                                                      emailBis,
+                                                      birthDate,
+                                                      nbFunnies,
+                                                      inscriptionActiveList,
+                                                      inscriptionNews,
+                                                      idPicture)
+                                    VALUES( :login,
+                                            :password,
+                                            :firstName,
+                                            :name,
+                                            :telephone,
+                                            :adressL1,
+                                            :adressL2,
+                                            :adressL3,
+                                            :zipCode,
+                                            :town,
+                                            :country,
+                                            :email,
+                                            :emailBis,
+                                            :birthDate,
+                                            :nbFunnies,
+                                            :inscriptionActiveList,
+                                            :inscriptionNews,
+                                            :idPicture)');
 
         try {
             $request->execute(array(

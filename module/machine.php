@@ -47,7 +47,20 @@ function getMachineList() {
 function editMachine() {
     global $DB_DB;
 
-    $request = $DB_DB->prepare('UPDATE Machine SET codeMachine = :codeMachine, shortLabel = :shortLabel, longLabel = :longLabel, machineUsePrice = :machineUsePrice, serialNumber = :serialNumber, manufacturer = :manufacturer, comment = :comment, docLink1 = :docLink1, docLink2 = :docLink2, idFamily = :idFamily, idPicture = :idPicture, idCostUnit = :idCostUnit, idLab = :idLab WHERE idMachine = :idMachine');
+    $request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
+                                                    shortLabel = :shortLabel,
+                                                    longLabel = :longLabel,
+                                                    machineUsePrice = :machineUsePrice,
+                                                    serialNumber = :serialNumber,
+                                                    manufacturer = :manufacturer,
+                                                    comment = :comment,
+                                                    docLink1 = :docLink1,
+                                                    docLink2 = :docLink2,
+                                                    idFamily = :idFamily,
+                                                    idPicture = :idPicture,
+                                                    idCostUnit = :idCostUnit,
+                                                    idLab = :idLab
+                                WHERE idMachine = :idMachine');
 
     try {
         $request->execute(array(
@@ -66,30 +79,23 @@ function editMachine() {
             'idCostUnit' => NULL,
             'idLab' => NULL
         ));
-
-        echo "Ok !";
     }
     catch(Exception $e) {
         echo $e;
-        exit;
     }
 }
 
 function deleteMachine() {
     global $DB_DB;
-
     $request = $DB_DB->prepare('DELETE FROM Machine WHERE idMachine = :idMachine');
 
     try {
         $request->execute(array(
             'idMachine' => $_POST['machineList']
         ));
-
-        echo "Ok !";
     }
     catch(Exception $e) {
         echo $e;
-        exit;
     }
 }
 
