@@ -1,8 +1,12 @@
 <?php
-    // TODO : use parameters.
-    // TODO : encode password.
-    // TODO : add profile picture.
+    include('include/config.php');
+
+    // TODO : check all forms format.
+    // TODO : encode and salt passwords.
+
     // TODO : use private key from config.php.
+    // TODO : use default funnies from config.php.
+    // TODO : add profile picture.
 
     function isValidUser($login, $password) {
         global $DB_DB;
@@ -69,13 +73,30 @@
         return false;
     }
 
-    function addUser() {
+    function addUser(   $login,
+                        $password,
+                        $firstName,
+                        $name,
+                        $telephone,
+                        $adressL1,
+                        $adressL2,
+                        $adressL3,
+                        $zipCode,
+                        $town,
+                        $country,
+                        $email,
+                        $emailBis,
+                        $birthDate,
+                        $nbFunnies,
+                        $inscriptionActiveList,
+                        $inscriptionNews,
+                        $idPicture) {
         global $DB_DB;
 
-        $DEFAULT_FUNNIES = 5; // TODO : use default funnies from config.php.
+        $DEFAULT_FUNNIES = 5;
 
-        $inscriptionActiveList = ($_POST['inscriptionActiveList'] == "true") ? 1 : 0;
-        $inscriptionNews = ($_POST['inscriptionNews'] == "true") ? 1 : 0;
+        $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
+        $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
 
         $request = $DB_DB->prepare('INSERT INTO User( login,
                                                       password,
@@ -116,23 +137,23 @@
 
         try {
             $request->execute(array(
-                'login' => $_POST['login'],
-                'password' => $_POST['password'],
-                'firstName' => $_POST['firstName'],
-                'name' => $_POST['name'],
-                'telephone' => $_POST['telephone'],
-                'adressL1' => $_POST['adressL1'],
-                'adressL2' => $_POST['adressL2'],
-                'adressL3' => $_POST['adressL3'],
-                'zipCode' => $_POST['zipCode'],
-                'town' => $_POST['town'],
-                'country' => $_POST['country'],
-                'email' => $_POST['email'],
-                'emailBis' => $_POST['emailBis'],
-                'birthDate' => $_POST['birthDate'],
+                'login' => $login,
+                'password' => $password,
+                'firstName' => $firstName,
+                'name' => $name,
+                'telephone' => $telephone,
+                'adressL1' => $adressL1,
+                'adressL2' => $adressL2,
+                'adressL3' => $adressL3,
+                'zipCode' => $zipCode,
+                'town' => $town,
+                'country' => $country,
+                'email' => $email,
+                'emailBis' => $emailBis,
+                'birthDate' => $birthDate,
                 'nbFunnies' => $DEFAULT_FUNNIES,
-                'inscriptionActiveList' => $inscriptionActiveList,
-                'inscriptionNews' => $inscriptionNews,
+                'inscriptionActiveList' => $inscriptionActiveListBoolean,
+                'inscriptionNews' => $inscriptionNewsBoolean,
                 'idPicture' => NULL
             ));
         }
