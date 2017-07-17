@@ -26,12 +26,14 @@
                         <td><input type="submit" value="submit" name="submit"></td>
                         <a href="index.php?page=lab">Cancel</a>
                     </form>
+                </tr>
                 <?php
                 }
                 else { ?>
                     <tr>
                         <td><?=$row['labName']?></td>
                         <td><?=$row['labDescription']?></td>
+                    </tr>
                 <?php
                 }
             }
