@@ -1,5 +1,6 @@
 <?php
     loadModules("user");
+
     if(isValidSignOn()) {
         addUser();
         connectUser($_POST['login'], $_POST['password']);
@@ -10,8 +11,8 @@
 
 <form method="POST" action="">
     <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
-    <input type="text" placeholder="<?=$lang["password"]?>" name="password" />
-    <input type="text" placeholder="<?=$lang["password"]?>" name="passwordChecker" />
+    <input type="password" placeholder="<?=$lang["password"]?>" name="password" />
+    <input type="password" placeholder="<?=$lang["password"]?>" name="passwordChecker" />
     <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
     <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
     <input type="text" placeholder="<?=$lang["telephone"]?>" name="telephone" />
@@ -23,7 +24,7 @@
     <input type="text" placeholder="<?=$lang["country"]?>" name="country" />
     <input type="text" placeholder="<?=$lang["email"]?>" name="email" />
     <input type="text" placeholder="<?=$lang["emailBis"]?>" name="emailBis" />
-    <input type="date" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
+    <input type="datetime" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
     <!-- inscriptionActiveList -->
     <?=$lang["inscriptionActiveList"]?>
     <input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>

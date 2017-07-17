@@ -1,4 +1,5 @@
 <?php
+// TODO : finish it.
 
 function isValidPicture() {
     $maxwidth = 60000;

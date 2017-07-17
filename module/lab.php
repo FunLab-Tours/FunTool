@@ -1,90 +1,79 @@
 <?php
 
-function addLab ($labName, $labDescription)
-    {
-        global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO Lab (labName, labDescription) VALUES (?, ?)");
-        $stmt->bindParam(1, $labName);
-        $stmt->bindParam(2, $labDescription);
-            try
-                {
-                    $stmt->execute();
-                    echo "Lab added";
-                }
+function addLab ($labName, $labDescription) {
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("INSERT INTO Lab(labName, labDescription) VALUES (:labName, :labDescription)");
 
-            catch(Exception $e)
-                {
-                    echo $e;
-                    exit;
-                }
+    try {
+        $stmt->execute(array(
+            'labName' => $labName,
+            'labDescription' => $labDescription
+        ));
     }
-
-
-function deleteLab($idLab)
-    {
-        global $DB_DB;
-        $stmt = $DB_DB->prepare("DELETE FROM Lab WHERE idLab=?");
-        $stmt->bindParam(1, $idLab);
-            try
-                {
-                    $stmt->execute();
-                    echo "Lab deleted";
-                }
-        
-            catch(Exception $e)
-                {
-                    echo $e;
-                    exit;
-                }
+    catch(Exception $e) {
+        echo $e;
     }
+}
 
-function updateLab($idLab, $labName, $labDescription)
-    {
-        global $DB_DB;
-        $sql = "UPDATE Lab SET labName =?, labDescription =? WHERE idLab=?";
-        $stmt = $DB_DB->prepare($sql);
+function deleteLab($idLab) {
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM Lab WHERE idLab = :idLab");
 
-            try
-                {
-                    $stmt->execute(array($labName,$labDescription,$idLab));
-                    echo "Lab Updated";
-                }
-        
-            catch(Exception $e)
-                {
-                    echo $e;
-                    exit;
-                }
+    try {
+        $stmt->execute(array(
+            'idLab' => $idLab
+        ));
     }
-
-function listAllLab()
-    {
-        global $DB_DB;
-        $sql = "SELECT * FROM Lab";
-        $result = $DB_DB->query($sql);
-        return $result;
+    catch(Exception $e) {
+        echo $e;
     }
-function isValideLab($labName)
-    {
-        if ($labName==""){
-            return false;
-        }
-        else { 
-            global $DB_DB;
-            $request = $DB_DB->prepare('SELECT COUNT(labName) as nb_entry FROM lab WHERE labName = :labName');
-            try {
-                $request->execute(array(
-                    'labName' => $labName,
+}
+
+function updateLab($idLab, $labName, $labDescription) {
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("UPDATE Lab SET labName = :labName, labDescription = :labDescription WHERE idLab = :idLab");
+
+    try {
+        $stmt->execute(array(
+            'labName' => $labName,
+            'labDescription' => $labDescription,
+            'idLab' => $idLab
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function listAllLab() {
+    global $DB_DB;
+    $result = $DB_DB->query("SELECT * FROM Lab");
+
+    return $result;
+}
+
+function isValideLab($labName) {
+    if($labName == "") {
+        return false;
+    }
+    else {
+        global $DB_DB;
+        $request = $DB_DB->prepare("SELECT COUNT(labName) as nb_entry FROM lab WHERE labName = :labName");
+
+        try {
+            $request->execute(array(
+                'labName' => $labName,
                 ));
-            }
-            catch(Exception $e) {
-                    echo $e;
-            }
-
-            if($request->fetch()['nb_entry'] == 0)
-              return true;
-            return false;
         }
+        catch(Exception $e) {
+            echo $e;
+        }
+
+        if($request->fetch()['nb_entry'] == 0)
+            return true;
+        return false;
+    }
 
 }
+
 ?>
