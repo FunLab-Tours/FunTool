@@ -2,11 +2,27 @@
     loadModules("user");
 
     if(isValidSignOn()) {
-        addUser();
+        addUser(    $_POST['login'],
+                    $_POST['password'],
+                    $_POST['firstName'],
+                    $_POST['name'],
+                    $_POST['telephone'],
+                    $_POST['adressL1'],
+                    $_POST['adressL2'],
+                    $_POST['adressL3'],
+                    $_POST['zipCode'],
+                    $_POST['town'],
+                    $_POST['country'],
+                    $_POST['email'],
+                    $_POST['emailBis'],
+                    $_POST['birthDate'],
+                    $_POST['nbFunnies'],
+                    $_POST['inscriptionActiveList'],
+                    $_POST['inscriptionNews'],
+                    $_POST['idPicture']);
         connectUser($_POST['login'], $_POST['password']);
         header('Location: index.php');
     }
-
 ?>
 
 <form method="POST" action="">
