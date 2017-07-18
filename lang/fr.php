@@ -48,6 +48,8 @@
     $lang["statutCancel"] = "Annulé";
     $lang["startdateEvent"] = "Date de début de l'événement";
     $lang["endDatEvent"] = "Date de fin de l'événement";
+    $lang["nbPlaces"] = "Nombre de places";
+    $lang["pricePlace"] = "Prix de la place";
     
 
 
