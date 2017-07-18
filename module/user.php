@@ -10,33 +10,31 @@
 
     function isValidUser($login, $password) {
         global $DB_DB;
-
-        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry FROM User WHERE login = :login && password = :password');
+        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry, password FROM User WHERE login = :login');
 
         try {
             $request->execute(array(
-                'login' => $login,
-                'password' => $password
+                'login' => $login
             ));
         }
         catch(Exception $e) {
             echo $e;
         }
 
-        if($request->fetch()['nb_entry'] == 1)
+        $result = $request->fetch();
+        if(password_verify($password, $result['password']) && $result['nb_entry'] == 1)
             return true;
         return false;
     }
 
-    function connectUser($login, $password) {
+    function connectUser($login) {
         global $DB_DB;
 
-        $request = $DB_DB->prepare('SELECT idUser FROM User WHERE login = :login && password = :password');
+        $request = $DB_DB->prepare('SELECT idUser FROM User WHERE login = :login');
 
         try {
             $request->execute(array(
                 'login' => $login,
-                'password' => $password
             ));
         }
         catch(Exception $e) {
@@ -140,14 +138,10 @@
     }
 
     function isValidAdressL2($adressL2) {
-        if($adressL2 == "")
-            return false;
         return true;
     }
 
     function isValidAdressL3($adressL3) {
-        if($adressL3 == "")
-            return false;
         return true;
     }
 
@@ -246,7 +240,7 @@
         try {
             $request->execute(array(
                 'login' => $login,
-                'password' => $password,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
                 'firstName' => $firstName,
                 'name' => $name,
                 'telephone' => $telephone,

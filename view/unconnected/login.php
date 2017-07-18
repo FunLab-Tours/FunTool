@@ -1,5 +1,6 @@
 <?php
-loadModules("user");
+    loadModules("user");
+
     if(isset($_POST['submit'])) {
         if(isValidUser($_POST['login'], $_POST['password'])) {
             connectUser($_POST['login'], $_POST['password']);

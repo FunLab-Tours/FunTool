@@ -23,7 +23,6 @@
         connectUser($_POST['login'], $_POST['password']);
         header('Location: index.php');
     }
-
 ?>
 
 <form method="POST" action="">
