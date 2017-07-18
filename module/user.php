@@ -1,9 +1,6 @@
 <?php
     include('include/config.php');
 
-    // TODO : check all forms format.
-    // TODO : encode and salt passwords.
-
     // TODO : use private key from config.php.
     // TODO : use default funnies from config.php.
     // TODO : add profile picture.
@@ -57,10 +54,10 @@
             && isset($_POST['town']) && isset($_POST['country'])
             && isset($_POST['email']) && isset($_POST['birthDate'])) {
 
-            if(!isValidLogin($_POST['login']))
+            if(!isValidNewLogin($_POST['login']))
                 return false;
 
-            if(!isValidPassword($_POST['password']))
+            if(!isValidPassword($_POST['password'], $_POST['passwordChecker']))
                 return false;
 
             if(!isValidFirstName($_POST['firstName']))
@@ -73,12 +70,6 @@
                 return false;
 
             if(!isValidAdressL1($_POST['adressL1']))
-                return false;
-
-            if(!isValidAdressL2($_POST['adressL2']))
-                return false;
-
-            if(!isValidAdressL3($_POST['adressL3']))
                 return false;
 
             if(!isValidZipCode($_POST['zipCode']))
@@ -101,33 +92,69 @@
         return false;
     }
 
-    function isValidLogin($login) {
+    function isValidNewLogin($login) {
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry FROM User WHERE login = :login');
+
         if($login == "")
             return false;
+
+        if(!preg_match("#^[a-zA-Z0-9]{3,}$#", $login))
+            return false;
+
+        try {
+            $request->execute(array(
+                'login' => $login
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+        }
+
+        $result = $request->fetch();
+        if($result['nb_entry'] == 1)
+            return false;
+
         return true;
     }
 
-    function isValidPassword($password) {
+    function isValidPassword($password, $passwordConfirmation) {
         if($password == "")
             return false;
+
+        if(strlen($password) < 8 || strcmp($password, $passwordConfirmation) != 0)
+            return false;
+
         return true;
     }
 
     function isValidFirstName($firstName) {
         if($firstName == "")
             return false;
+
+        if(!preg_match("#^([a-zA-Z]|[- ]){3,}$#", $firstName))
+            return false;
+
         return true;
     }
 
     function isValidName($name) {
         if($name == "")
             return false;
+
+        if(!preg_match("#^([a-zA-Z]|[- ]){3,}$#", $name))
+            return false;
+
         return true;
     }
 
     function isValidTelephone($telephone) {
         if($telephone == "")
             return false;
+
+        if(!preg_match("#^0[1-9]([-. ]?[0-9]{2}){4}$#", $telephone))
+            return false;
+
         return true;
     }
 
@@ -137,35 +164,43 @@
         return true;
     }
 
-    function isValidAdressL2($adressL2) {
-        return true;
-    }
-
-    function isValidAdressL3($adressL3) {
-        return true;
-    }
-
     function isValidZipCode($zipCode) {
         if($zipCode == "")
             return false;
+
+        if(!preg_match("#^[0-9]{5}$#", $zipCode))
+            return false;
+
         return true;
     }
 
     function isValidTown($town) {
         if($town == "")
             return false;
+
+        if(!preg_match("#^[a-zA-Z]{3,}$#", $town))
+            return false;
+
         return true;
     }
 
     function isValidCountry($country) {
         if($country == "")
             return false;
+
+        if(!preg_match("#^[a-zA-Z]{3,}$#", $country))
+            return false;
+
         return true;
     }
 
     function isValidEmail($email) {
         if($email == "")
             return false;
+
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            return false;
+
         return true;
     }
 
