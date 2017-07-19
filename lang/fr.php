@@ -46,6 +46,7 @@
     $lang["statutOk"] = "Confirmé";
     $lang["statutMaybe"] = "Incertains";
     $lang["statutCancel"] = "Annulé";
+    $lang["statutEvent"] = "Statut de l'événement";    
     $lang["startdateEvent"] = "Date de début de l'événement";
     $lang["endDatEvent"] = "Date de fin de l'événement";
     $lang["nbPlaces"] = "Nombre de places";

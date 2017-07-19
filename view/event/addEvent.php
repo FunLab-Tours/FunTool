@@ -10,7 +10,7 @@
  <form action="" method="POST">
     <input type="text" placeholder="<?=$lang["shortSumEvent"]?>" name="shortSumEvent" />
      <br><br>
-    <textarea rows="5" cols="50" name="longSumEvent"><?=$lang["longSumEvent"]?></textarea>
+    <textarea rows="5" cols="50" placeholder="<?=$lang["longSumEvent"]?>" name="longSumEvent"></textarea>
     <br><br> 
     <input type="datetime-local" placeholder="<?=$lang["startdateEvent"]?>" name="startdateEvent" />
      : <?=$lang["startdateEvent"]?>
