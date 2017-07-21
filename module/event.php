@@ -3,7 +3,7 @@
 function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$statutEvent,$nbPlaces,$pricePlace){
     
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO eventz(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, statutEvent, nbPlaces, pricePlace) VALUES (:shortSumEvent, :longSumEvent, :startdateEvent, :endDatEvent, :statutEvent, :nbPlaces, :pricePlace)");
+        $stmt = $DB_DB->prepare("INSERT INTO events(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, statutEvent, nbPlaces, pricePlace) VALUES (:shortSumEvent, :longSumEvent, :startdateEvent, :endDatEvent, :statutEvent, :nbPlaces, :pricePlace)");
 
 
         try {
@@ -47,7 +47,7 @@ function deleteEvent($idEvent) {
 
 function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$statutEvent,$nbPlaces,$pricePlace) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE Event SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startdateEvent = :startdateEvent, endDatEvent = :endDatEvent, statutEvent = :statutEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
+    $stmt = $DB_DB->prepare("UPDATE events SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startdateEvent = :startdateEvent, endDatEvent = :endDatEvent, statutEvent = :statutEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
@@ -68,14 +68,14 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
 
 function listAllEvent() {
     global $DB_DB;
-    $result = $DB_DB->query("SELECT * FROM eventz");
+    $result = $DB_DB->query("SELECT * FROM events");
 
     return $result;
 }
 
 function selectEvent($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT * FROM eventz WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT * FROM events WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(
@@ -88,6 +88,30 @@ function selectEvent($idEvent){
         echo $e;
         return "";
     }
+}
+
+function labelSelectBox($selected){
+    global $lang;
+
+    switch ($selected) {
+        case 'ok': return $lang["statutOk"];
+        case 'maybe': return $lang["statutMaybe"];
+        case 'cancel': return $lang["statutCancel"];
+        default: return '';
+    }
+}
+
+function editLabelSelectBox($selected){
+    global $lang;
+    
+    switch ($selected) {
+    
+        case 'ok' : return "<option value=\"maybe\">".$lang["statutMaybe"]."</option><option value=\"cancel\">".$lang["statutCancel"]."</option>";
+        case 'maybe': return "<option value=\"ok\">".$lang["statutOk"]."</option><option value=\"cancel\">".$lang["statutCancel"]."</option>";
+        case 'cancel': return "<option value=\"ok\">".$lang["statutOk"]."</option><option value=\"maybe\">".$lang["statutMaybe"]."</option>";
+        default: return '';
+    }
 
 }
+
 ?>

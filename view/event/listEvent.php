@@ -11,12 +11,13 @@
     </tr>
 
     <?php
+        
         foreach(listAllEvent() as $row){
             echo "<tr>";
             echo "<td><a href=\"index.php?page=event&idInfo=$row[idEvent]\">".$row['shortSumEvent']."</a></td>";
             echo "<td>".$row['startdateEvent']."</td>";
             echo "<td>".$row['endDatEvent']."</td>";
-            echo "<td>".$row['statutEvent']."</td>";
+            echo "<td>".labelSelectBox($row['statutEvent'])."</td>";
             echo "<td>".$row['nbPlaces']."</td>";
             echo "<td>".$row['pricePlace']."</td>";
             

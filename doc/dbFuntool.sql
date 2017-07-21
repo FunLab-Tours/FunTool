@@ -310,10 +310,10 @@ CREATE TABLE SoftwareSubcategory(
 
 
 #------------------------------------------------------------
-# Table: Eventz
+# Table: Events
 #------------------------------------------------------------
 
-CREATE TABLE Eventz(
+CREATE TABLE Events(
         idEvent        int (11) Auto_increment  NOT NULL ,
         shortSumEvent  Varchar (25) ,
         longSumEvent   Varchar (255) ,
@@ -322,7 +322,6 @@ CREATE TABLE Eventz(
         statutEvent    Varchar (25) ,
         nbPlaces       Int ,
         pricePlace     DECIMAL (15,3)  ,
-        idCorporation  Int ,
         idLab          Int ,
         PRIMARY KEY (idEvent )
 )ENGINE=InnoDB;
@@ -727,8 +726,7 @@ ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idUser FOREIGN KEY (idUser) 
 ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES Skilltype(idSkillType);
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
-ALTER TABLE Eventz ADD CONSTRAINT FK_Eventz_idCorporation FOREIGN KEY (idCorporation) REFERENCES Corporation(idCorporation);
-ALTER TABLE Eventz ADD CONSTRAINT FK_Eventz_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
+ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE MachineReservation ADD CONSTRAINT FK_MachineReservation_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineReservation ADD CONSTRAINT FK_MachineReservation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Project ADD CONSTRAINT FK_Project_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
@@ -751,7 +749,7 @@ ALTER TABLE SoftwareInCategory ADD CONSTRAINT FK_SoftwareInCategory_idSoftCat FO
 ALTER TABLE know ADD CONSTRAINT FK_know_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE know ADD CONSTRAINT FK_know_idSoftware FOREIGN KEY (idSoftware) REFERENCES Software(idSoftware);
 ALTER TABLE register ADD CONSTRAINT FK_register_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE register ADD CONSTRAINT FK_register_idEvent FOREIGN KEY (idEvent) REFERENCES Eventz(idEvent);
+ALTER TABLE register ADD CONSTRAINT FK_register_idEvent FOREIGN KEY (idEvent) REFERENCES Events(idEvent);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProCat FOREIGN KEY (idProCat) REFERENCES ProjectCategory(idProCat);
 ALTER TABLE lead ADD CONSTRAINT FK_lead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);

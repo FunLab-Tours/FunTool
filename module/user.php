@@ -7,7 +7,7 @@
 
     function isValidUser($login, $password) {
         global $DB_DB;
-        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry, password FROM User WHERE login = :login');
+        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry, password FROM user WHERE login = :login');
 
         try {
             $request->execute(array(
@@ -19,6 +19,7 @@
         }
 
         $result = $request->fetch();
+        var_dump($result);
         if(password_verify($password, $result['password']) && $result['nb_entry'] == 1)
             return true;
         return false;
