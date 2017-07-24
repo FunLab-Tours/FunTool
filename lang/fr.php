@@ -51,6 +51,10 @@
     $lang["endDatEvent"] = "Date de fin de l'événement";
     $lang["nbPlaces"] = "Nombre de places";
     $lang["pricePlace"] = "Prix de la place";
+    $lang["subscription"] = "Inscription";
+    $lang["ticketsLeft"] = "Place(s) disponible";
+    $lang["full"] = "COMPLET";
+    $lang["subscription"] = "S'inscrire";
     
 
 

@@ -11,6 +11,9 @@
     else if (isset($_GET['idInfo'])){
         include("infoEvent.php");
     }
+    else if (isset($_GET['idSubscribe'])){
+        include("subscribeEvent.php");
+    }
     else {
         include("addEvent.php");
         include("listEvent.php");

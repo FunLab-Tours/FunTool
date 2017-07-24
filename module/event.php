@@ -109,4 +109,39 @@ function editLabelSelectBox($selected){
 
 }
 
+function ticketsLeft($allTickets,$idEvent){
+    global $DB_DB;
+    global $lang;
+    $request = $DB_DB->prepare("SELECT COUNT(idUser) as ticketsSold FROM register WHERE idEvent = :idEvent");
+
+        try {
+            $request->execute(array(
+            'idEvent' => $idEvent
+            ));
+        }
+        catch(Exception $e) {
+                echo $e;
+        }
+
+    $ticketsSold = $request->fetch()['ticketsSold'];
+    $ticketsLeft = $allTickets-$ticketsSold;
+    
+    if($ticketsLeft==0){
+        return $lang["full"];
+    }
+    else{
+        return $ticketsLeft;
+    } 
+}
+
+function showSubButton($ticketsLeft,$idEvent){
+    global $lang;
+
+    if($ticketsLeft!==0){
+        return "<a href=\"index.php?page=event&idSubscribe=$idEvent\" class=\"button\">".$lang["subscription"]."</a>";
+        //return "<form action=\"\" method=\"POST\"> <input type=\"submit\" value=".$lang["subscription"]."></form>";
+    
+    }
+}
+
 ?>
