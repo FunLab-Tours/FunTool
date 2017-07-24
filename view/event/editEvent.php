@@ -27,16 +27,12 @@
                         <td><input type="datetime-local" value="<?= str_replace(" ","T",$row['startdateEvent']);?>"  name="startdateEvent" /></td>
                         <td><input type="datetime-local" value="<?=str_replace(" ","T",$row['endDatEvent']);?>" name="endDatEvent" /></td>
                         <td><select name="statutEvent">
-                            <option selected=<?=$row['statutEvent']?>>
-                            <?=labelSelectBox($row['statutEvent'])?></option>
                             <?=editLabelSelectBox($row['statutEvent'])?>
-                            <!-- <option value="ok"><?=$lang["statutOk"]?></option>
-                            <option value="maybe"><?=$lang["statutMaybe"]?></option>
-                            <option value="cancel"><?=$lang["statutCancel"]?></option> -->
+                            <option value="<?=$row['statutEvent']?>" selected><?=labelSelectBox($row['statutEvent'])?></option>
                         </select></td>
                         <td><input type="number" value="<?=$row['nbPlaces']?>" name="nbPlaces" /></td>
                         <td><input type="number" value="<?=$row['pricePlace']?>" name="pricePlace" /></td>
-                        <td><input type="submit" value="submit" name="submit"><a href="index.php?page=lab">Cancel</a></td>
+                        <td><input type="submit" value="submit" name="submit"><a href="index.php?page=event">Cancel</a></td>
                     </form>
                 </tr>
                 <?php

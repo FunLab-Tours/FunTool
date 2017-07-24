@@ -16,13 +16,7 @@ function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$st
             'nbPlaces' => $nbPlaces,
             'pricePlace' => $pricePlace
             ));
-            echo $shortSumEvent;
-            echo $longSumEvent;
-            echo $startdateEvent;
-            echo $endDatEvent;
             echo $statutEvent;
-            echo $nbPlaces;
-            echo $pricePlace;
         }
         
         catch(Exception $e){
@@ -33,7 +27,7 @@ function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$st
 
 function deleteEvent($idEvent) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("DELETE FROM 'event' WHERE idEvent = :idEvent");
+    $stmt = $DB_DB->prepare("DELETE FROM events WHERE idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
@@ -51,13 +45,14 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
 
     try {
         $stmt->execute(array(
+            'idEvent' => $idEvent,
             'shortSumEvent' => $shortSumEvent,
-            'shortSumEvent' => $shortSumEvent,
+            'longSumEvent' => $longSumEvent,
             'startdateEvent' => $startdateEvent,
             'endDatEvent' => $endDatEvent,
             'statutEvent' => $statutEvent,
             'nbPlaces' => $nbPlaces,
-            'pricePlace' => $pricePlace,
+            'pricePlace' => $pricePlace
 
         ));
     }
