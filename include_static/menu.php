@@ -12,7 +12,7 @@
         <a href="?page=funnies"><?=$lang["funnies"]?></a>
         <a href="?page=lab"><?=$lang["lab_management"]?></a>
         <a href="?page=event"><?=$lang["event_management"]?></a>
-        <!-- Gestion machines. -->
+        <a href="?page=machine"><?=$lang["machine"]?></a>
         <!-- Gestion materiaux. -->
         <form action="" method="post">
             <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">

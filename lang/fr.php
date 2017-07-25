@@ -6,9 +6,12 @@
     $lang["funnies"] = "Gérer ses funnies";
     $lang["lab_management"] = "Gérer les labs";
     $lang["event_management"] = "Gérer les événements";
+    $lang["machine"] = "Gérer les machines";
 
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";
+    $lang["edit"] = "Editer";
+    $lang["delete"] = "Supprimer";
     $lang["disconnect"] = "Se déconnecter";
 
     $lang["submit"] = "Confirmer";
@@ -51,8 +54,29 @@
     $lang["endDatEvent"] = "Date de fin de l'événement";
     $lang["nbPlaces"] = "Nombre de places";
     $lang["pricePlace"] = "Prix de la place";
-    
 
+    $lang["machineName"] = "Nom de la machine";
+    $lang["machineShortLabel"] = "Label";
+    $lang["machineLongLabel"] = "Description";
+    $lang["machineUsePrice"] = "Prix d'utilisation";
+    $lang["machineSerialNumber"] = "Numéro de série";
+    $lang["machineManufacturer"] = "Fabriquant";
+    $lang["machineComment"] = "Commentaire";
+    $lang["machineDocLink1"] = "Documentation";
+    $lang["machineDocLink2"] = "Documentation";
+    $lang['codeMachineInput'] = "Code de la machine";
+    $lang['shortLabelInput'] = "Label";
+    $lang['longLabelInput'] = "Description";
+    $lang['machineUsePriceInput'] = "Prix d'utilisation TODO";
+    $lang['serialNumberInput'] = "Numéro de série";
+    $lang['manufacturerInput'] = "Fabriquant";
+    $lang['commentInput'] = "Commentaire";
+    $lang['docLink1Input'] = "Lien de documentation";
+    $lang['docLink2Input'] = "Lien de documentation";
+    $lang['idMachineFamilyInput'] = "Id machine family TODO";
+    $lang['idPictureInput'] = "Id picture TODO";
+    $lang['idCostUnitInput'] = "Id cost unit TODO";
+    $lang['idLabInput'] = "Id lab TODO";
 
     $error = [];
     $error[-1] = "Erreur Inconnue";
