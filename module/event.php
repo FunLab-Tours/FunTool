@@ -248,4 +248,23 @@ function userUnregistrationToEvent($idUser,$idEvent){
 
 }
 
+function selectAllUsersInEvent($idEvent){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT idUser FROM register WHERE idEvent=:idEvent");
+
+    try {
+        $stmt->execute(array(
+            'idEvent' => $idEvent,
+        ));
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
+}
+
+
+
 ?>

@@ -321,7 +321,7 @@ CREATE TABLE Events(
         endDatEvent    Datetime ,
         statutEvent    Varchar (25) ,
         nbPlaces       Int ,
-        pricePlace     DECIMAL (15,3)  ,
+        pricePlace     Int ,
         idLab          Int ,
         PRIMARY KEY (idEvent )
 )ENGINE=InnoDB;
