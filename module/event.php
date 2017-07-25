@@ -16,7 +16,6 @@ function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$st
             'nbPlaces' => $nbPlaces,
             'pricePlace' => $pricePlace
             ));
-            echo $statutEvent;
         }
         
         catch(Exception $e){
@@ -130,18 +129,123 @@ function ticketsLeft($allTickets,$idEvent){
         return $lang["full"];
     }
     else{
-        return $ticketsLeft;
+        return $ticketsLeft."/".$allTickets;
     } 
 }
+function alreadyRegistered($idEvent,$idUser){
+    global $DB_DB;
+    $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM register WHERE idEvent = :idEvent");
 
-function showSubButton($ticketsLeft,$idEvent){
-    global $lang;
-
-    if($ticketsLeft!==0){
-        return "<a href=\"index.php?page=event&idSubscribe=$idEvent\" class=\"button\">".$lang["subscription"]."</a>";
-        //return "<form action=\"\" method=\"POST\"> <input type=\"submit\" value=".$lang["subscription"]."></form>";
-    
+    try {
+        $request->execute(array(
+        'idEvent' => $idEvent,
+        ));
+        }
+    catch(Exception $e) {
+         echo $e;
     }
+
+    if($request->fetch()['nb_entry'] == 0)
+        return false;
+        return true;
+
+}
+
+function showRegisterButton($ticketsLeft,$idEvent,$alreadyRegistered){
+    global $lang;
+    if ($alreadyRegistered){
+        return "<a href=\"index.php?page=event&idUnregister=$idEvent\" class=\"button\">".$lang["unregister"]."</a>";
+    }
+    else if($ticketsLeft>0){
+        return "<a href=\"index.php?page=event&idRegister=$idEvent\" class=\"button\">".$lang["register"]."</a>";
+       
+    }
+}
+
+
+function currentUserFunnies($idUser){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT nbFunnies FROM user WHERE idUser=:idUser");
+
+    try {
+        $stmt->execute(array(
+            'idUser' => $idUser
+        ));
+        $result = $stmt->fetch();
+        return $result['nbFunnies'];
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
+}
+
+function ticketPrice($idEvent){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT pricePlace FROM events WHERE idEvent=:idEvent");
+
+    try {
+        $stmt->execute(array(
+            'idEvent' => $idEvent
+        ));
+
+        $result = $stmt->fetch();
+        return $result['pricePlace'];
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
+}
+
+function userRegistrationToEvent($idUser,$idEvent){
+    global $DB_DB;
+
+    $stmt = $DB_DB->prepare("INSERT INTO register(idUser, idEvent) VALUES (:idUser, :idEvent)");
+    try {
+        $stmt->execute(array(
+        'idUser' => $idUser,
+        'idEvent' => $idEvent
+        ));
+        }
+        
+        catch(Exception $e){
+                            echo $e;
+                            exit;
+        }   
+}
+
+function updateUserFunnies($idUser,$userFunniesLeft){
+    global $DB_DB;
+
+    $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
+
+    try {
+        $stmt->execute(array(
+            'idUser' => $idUser,
+            'nbFunnies' => $userFunniesLeft
+
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function userUnregistrationToEvent($idUser,$idEvent){
+    global $DB_DB;
+
+    $stmt = $DB_DB->prepare("DELETE FROM register WHERE idUser = :idUser");
+
+    try {
+        $stmt->execute(array(
+            'idUser' => $idUser
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+
 }
 
 ?>

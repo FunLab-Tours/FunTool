@@ -23,8 +23,8 @@
                     <form action="" method="post">
                         <td><input type="text" name="labName" value ="<?=$row['labName']?>" /></td>
                         <td><input type="text" name="labDescription" value ="<?=$row['labDescription']?>" /></td>
-                        <td><input type="submit" value="submit" name="submit"></td>
-                        <a href="index.php?page=lab">Cancel</a>
+                        <td><input type="submit" value="<?=$lang["submit"]?>" name="submit"></td>
+                        <a href="index.php?page=lab"><?=$lang["cancel"]?></a>
                     </form>
                 </tr>
                 <?php

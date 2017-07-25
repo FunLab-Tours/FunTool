@@ -32,7 +32,7 @@
                         </select></td>
                         <td><input type="number" value="<?=$row['nbPlaces']?>" name="nbPlaces" /></td>
                         <td><input type="number" value="<?=$row['pricePlace']?>" name="pricePlace" /></td>
-                        <td><input type="submit" value="submit" name="submit"><a href="index.php?page=event">Cancel</a></td>
+                        <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=event"><?=$lang["cancel"]?></a></td>
                     </form>
                 </tr>
                 <?php
