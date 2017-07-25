@@ -55,6 +55,11 @@
     $lang["nbPlaces"] = "Nombre de places";
     $lang["pricePlace"] = "Prix de la place";
 
+    $lang["subscription"] = "Inscription";
+    $lang["ticketsLeft"] = "Place(s) disponible";
+    $lang["full"] = "COMPLET";
+    $lang["subscription"] = "S'inscrire";
+    
     $lang["machineName"] = "Nom de la machine";
     $lang["machineShortLabel"] = "Label";
     $lang["machineLongLabel"] = "Description";
