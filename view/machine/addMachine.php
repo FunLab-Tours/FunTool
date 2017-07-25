@@ -1,5 +1,5 @@
 <?php
-    if(isset($_POST['submit']) && !empty($_POST['submit'])) {
+    if(isset($_POST['submit'])) {
         if(isValidMachineSubmit()) {
             addMachine( $_POST['codeMachine'],
                         $_POST['shortLabel'],

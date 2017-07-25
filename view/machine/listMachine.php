@@ -2,7 +2,7 @@
     <table width='80%' border=0>
 
         <tr bgcolor='#CCCCCC'>
-            <td><?=$lang["machineName"]?></td>
+            <td><?=$lang["codeMachineInput"]?></td>
             <td><?=$lang["machineShortLabel"]?></td>
             <td><?=$lang["machineLongLabel"]?></td>
             <td><?=$lang["machineUsePrice"]?></td>

@@ -10,14 +10,11 @@
 
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";
-    $lang["edit"] = "Editer";
     $lang["delete"] = "Supprimer";
     $lang["disconnect"] = "Se déconnecter";
-
     $lang["submit"] = "Confirmer";
     $lang["cancel"] = "Annuler";
     $lang["edit"] = "Modifier";
-    $lang["delete"] = "Supprimmer";
     $lang["editMachine"] = "Modifier une machine";
 
     $lang["login"] = "Pseudo";
