@@ -132,13 +132,15 @@ function ticketsLeft($allTickets,$idEvent){
         return $ticketsLeft."/".$allTickets;
     } 
 }
+
 function alreadyRegistered($idEvent,$idUser){
     global $DB_DB;
-    $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM register WHERE idEvent = :idEvent");
+    $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM register WHERE idEvent = :idEvent AND idUser= :idUser");
 
     try {
         $request->execute(array(
         'idEvent' => $idEvent,
+        'idUser' => $idUser
         ));
         }
     catch(Exception $e) {
@@ -207,6 +209,8 @@ function userRegistrationToEvent($idUser,$idEvent){
         'idUser' => $idUser,
         'idEvent' => $idEvent
         ));
+        $userFunniesLeft = currentUserFunnies($idUser)-ticketPrice($idEvent);
+        updateUserFunnies($idUser,$userFunniesLeft);        
         }
         
         catch(Exception $e){
@@ -241,6 +245,8 @@ function userUnregistrationToEvent($idUser,$idEvent){
         $stmt->execute(array(
             'idUser' => $idUser
         ));
+        $userFunniesLeft = currentUserFunnies($idUser)+ticketPrice($idEvent);
+        updateUserFunnies($idUser,$userFunniesLeft);
     }
     catch(Exception $e) {
         echo $e;

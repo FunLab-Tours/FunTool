@@ -84,6 +84,8 @@
     $lang['idCostUnitInput'] = "Id cost unit TODO";
     $lang['idLabInput'] = "Id lab TODO";
 
+    $lang['project_management'] = "Gérer les projets";
+
     $error = [];
     $error[-1] = "Erreur Inconnue";
 
