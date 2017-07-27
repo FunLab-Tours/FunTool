@@ -85,6 +85,10 @@
     $lang['idLabInput'] = "Id lab TODO";
 
     $lang['project_management'] = "Gérer les projets";
+    $lang['projectTitle'] = "Titre du projet";
+    $lang['projectWiki'] = "Wiki du projet";
+    $lang['dateProject'] = "Date du projet";
+
 
     $error = [];
     $error[-1] = "Erreur Inconnue";

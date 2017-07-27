@@ -23,7 +23,7 @@
             echo "<td>".$ticketsLeft."</td>";
             echo "<td>".$row['pricePlace']."</td>";
             echo "<td>".showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))."</td>";
-            //echo $_COOKIE["id"];
+            
         }
     ?>
     </table>
