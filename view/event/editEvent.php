@@ -4,7 +4,6 @@
        header('Location: index.php?page=event');
     }
 ?>
-
 <body>
     <table width='80%' border=0>
  
