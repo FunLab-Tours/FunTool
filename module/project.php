@@ -73,4 +73,12 @@ function deleteProject($idProject) {
         echo $e;
     }
 }
+
+function selectAllProjectCategory(){
+        global $DB_DB;
+        $result = $DB_DB->query("SELECT title FROM projectcategory");
+
+        return $result;
+
+}
 ?>

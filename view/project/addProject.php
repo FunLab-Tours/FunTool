@@ -14,5 +14,16 @@
     <input type="date" placeholder="<?=$lang["dateProject"]?>" name="dateProject" />
      : <?=$lang["dateProject"]?>
      <br><br>
+    <select name="projectCategory">
+    <option value=""><?=$lang["None"]?></option>
+    <?php
+    foreach(selectAllProjectCategory() as $row){
+        echo "<option value='".$row['idProCat']."'>".$row['title']."</option>";
+    }
+
+    ?> 
+    </select>
+    : Catégorie Projet
+    <br><br>
     <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
 </form> 

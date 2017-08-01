@@ -88,6 +88,7 @@
     $lang['projectTitle'] = "Titre du projet";
     $lang['projectWiki'] = "Wiki du projet";
     $lang['dateProject'] = "Date du projet";
+    $lang['None'] = "Aucun";
 
 
     $error = [];
