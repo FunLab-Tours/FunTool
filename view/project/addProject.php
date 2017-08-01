@@ -25,5 +25,13 @@
     </select>
     : Catégorie Projet
     <br><br>
+    <?php
+        foreach(selectAllMachine() as $row){
+        echo "<option value='".$row['idMachine']."'>".$row['title']."</option>";
+    }
+
+    ?> 
+    </select>
+    : Liste Machine
     <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
 </form> 
