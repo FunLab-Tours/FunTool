@@ -89,6 +89,10 @@
     $lang['projectWiki'] = "Wiki du projet";
     $lang['dateProject'] = "Date du projet";
     $lang['None'] = "Aucun";
+	
+	$lang['machine_management'] = "Gestion des machines";
+	$lang['machine_add'] = "Ajouter une machine";
+	$lang['machine_family_management'] = "Gestion des familles de machine";
 
 
     $error = [];
