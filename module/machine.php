@@ -163,7 +163,7 @@
         try {
             $request->execute(array(
                 'idMachine' => $idDelete
-            ));
+				));
         }
         catch(Exception $e) {
             echo $e;

@@ -91,6 +91,15 @@
     $lang['None'] = "Aucune";
     $lang['pictureUrl'] = "Lien URL de l'image";
     $lang['pictureProject'] = "Image du projet";
+	
+	$lang['machine_management'] = "Gestion des machines";
+	$lang['machine_add'] = "Ajouter une machine";
+	$lang['machine_family_management'] = "Gestion des familles de machine";
+	$lang['family_label'] = "Nom de la famille";
+	$lang['family_code'] = "Code de la famille";
+	$lang['family_nbr_sub'] = "Nombre de sous-famille";
+	$lang['add_family'] = "Ajouter une famille";
+
 
     $error = [];
     $error[-1] = "Erreur Inconnue";
