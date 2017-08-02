@@ -70,6 +70,8 @@
     $lang["machineComment"] = "Commentaire";
     $lang["machineDocLink1"] = "Documentation";
     $lang["machineDocLink2"] = "Documentation";
+	$lang["machineFamily"] = "Famille de la machine";
+    $lang["machineSubFamily"] = "Sous-famille de la machine";
     $lang['codeMachineInput'] = "Code de la machine";
     $lang['shortLabelInput'] = "Label";
     $lang['longLabelInput'] = "Description";
@@ -79,7 +81,6 @@
     $lang['commentInput'] = "Commentaire";
     $lang['docLink1Input'] = "Lien de documentation";
     $lang['docLink2Input'] = "Lien de documentation";
-    $lang['idMachineFamilyInput'] = "Id machine family TODO";
     $lang['idPictureInput'] = "Id picture TODO";
     $lang['idCostUnitInput'] = "Id cost unit TODO";
     $lang['idLabInput'] = "Id lab TODO";
@@ -99,6 +100,9 @@
 	$lang['family_code'] = "Code de la famille";
 	$lang['family_nbr_sub'] = "Nombre de sous-famille";
 	$lang['add_family'] = "Ajouter une famille";
+    $lang['subFamily_label'] = "Nom de la sous-famille";
+    $lang['subFamily_code'] = "Code de la sous-famille";
+    $lang['add_subFamily'] = "Ajouter une sous-famille";
 
 
     $error = [];

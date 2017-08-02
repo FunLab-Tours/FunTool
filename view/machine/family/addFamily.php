@@ -1,7 +1,7 @@
 <?php
     if(isset($_POST['submit'])) {
-		addFamily( $_POST['labelFamily'],
-					$_POST['codeFamily']
+		addFamily( $_POST['codeFamily'],
+					$_POST['labelFamily']
             );
         header('Location: index.php?page=machine&familyManagement=0');
     }

@@ -24,9 +24,24 @@
         return $DB_DB->query('SELECT * FROM family');
 	}
 	
-	function delFamily($idDelete)
+	function deleteFamily($idDelete)
 	{
 		global $DB_DB;
+		
+		//On remplace par null les familles de machines des machines qui utilisaient cette famille
+		$request = $DB_DB->prepare('UPDATE Machine SET idFamily = null
+                                    WHERE idFamily = :idFamily');
+
+        try {
+            $request->execute(array(
+                'idFamily' => $idDelete
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+        }
+		
+		//Puis on supprime la famille
 		$request = $DB_DB->prepare('DELETE FROM family WHERE idFamily = :idDelete');
 		
 		try{
@@ -41,14 +56,16 @@
 	
 	function editFamily($idFamily, $familyCode, $familyLabel)
 	{
+		global $DB_DB;
 		$request = $DB_DB->prepare('UPDATE Family SET  familyCode = :familyCode,
-                                                       familyLabel = :familyLabel,
+                                                       familyLabel = :familyLabel
                                     WHERE idFamily = :idFamily');
 
         try {
             $request->execute(array(
                 'familyCode' => $familyCode,
-                'familyLabel' => $familyLabel
+                'familyLabel' => $familyLabel,
+                'idFamily' => $idFamily
             ));
         }
         catch(Exception $e) {
@@ -58,16 +75,8 @@
 	
 	function countNbrSubFamily($idFamily)
 	{
-		$request = $DB_DB->prepare('SELECT COUNT(*) FROM SubFamily
-									WHERE idFamily = :idFamily');
-
-        try {
-            $request->execute(array(
-                'idFamily' => $idFamily,
-            ));
-        }
-        catch(Exception $e) {
-            echo $e;
-        }
+		global $DB_DB;
+		return $DB_DB->query('SELECT COUNT(*) FROM SubFamily
+									WHERE idFamily ='.$idFamily)->fetch()[0];
 	}
 ?>

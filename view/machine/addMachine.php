@@ -11,6 +11,7 @@
                         $_POST['docLink1'],
                         $_POST['docLink2'],
                         $_POST['idFamily'],
+                        $_POST['idSubFamily'],
                         $_POST['idPicture'],
                         $_POST['idCostUnit'],
                         $_POST['idLab']
@@ -19,6 +20,27 @@
         }
     }
 ?>
+
+<head>
+    <script>
+        function updateSubList(str) {
+            if(str == "")
+                document.getElementById("txtHint").innerHTML = "";
+                return;
+            else
+            {
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("idSubFamily").innerHTML = this.responseText;
+                    }
+                };
+                xmlhttp.open("POST", "subfamily/update.php?q="+str,true);
+                xmlhttp.send();
+            }
+        }
+    </script>
+</head>
 
 <body>
 	<form action="" method="post">
@@ -31,7 +53,14 @@
 		<input type="text" placeholder="<?=$lang['commentInput']?>" name="comment" />
 		<input type="text" placeholder="<?=$lang['docLink1Input']?>" name="docLink1" />
 		<input type="text" placeholder="<?=$lang['docLink2Input']?>" name="docLink2" />
-		<input type="text" placeholder="<?=$lang['idMachineFamilyInput']?>" name="idFamily" />
+		<select name ="idFamily" onchange="updateSubList(this.value)">
+			<option value="" selected="selected"><?=$lang['machineFamily']?></option>
+		    <?php
+            foreach(getFamilyList() as $row){?>
+                <option value="<?=$row['idFamily']?>"><?=$row['familyLabel']?></option>
+			<?php ;} ?>
+		</select>
+        <div id = "idSubFamily""></>
 		<input type="text" placeholder="<?=$lang['idPictureInput']?>" name="idPicture" />
 		<input type="text" placeholder="<?=$lang['idCostUnitInput']?>" name="idCostUnit" />
 		<input type="text" placeholder="<?=$lang['idLabInput']?>" name="idLab" />

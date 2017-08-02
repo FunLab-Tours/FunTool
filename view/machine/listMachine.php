@@ -11,6 +11,7 @@
             <td><?=$lang["machineComment"]?></td>
             <td><?=$lang["machineDocLink1"]?></td>
             <td><?=$lang["machineDocLink2"]?></td>
+            <td><?=$lang["machineFamily"]?></td>
         </tr>
 
         <?php
@@ -26,6 +27,12 @@
                     <td><?=$row['comment']?></td>
                     <td><?=$row['docLink1']?></td>
                     <td><?=$row['docLink2']?></td>
+					<td>
+					<?php
+						foreach(getFamilyName($row['idFamily']) as $id){?>
+							<?=$id['familyLabel']?>
+						<?php ;} ?>
+					</td>
                     <td><a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
         <?php
             }

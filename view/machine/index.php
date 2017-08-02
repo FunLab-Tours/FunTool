@@ -1,29 +1,42 @@
 <?php
     loadModules("machine");
 	loadModules("machineFamily");
+	loadModules("machineSubFamily");
 	include("static/machineMenu.php");
-	
-    if(isset($_GET['idEdit'])){
-        include("editMachine.php");
-	}
-    else if(isset($_GET['idDelete'])){
-        include("deleteMachine.php");
-	}
-    else if(isset($_GET['addMachine'])){
-		include("addMachine.php");
-	}
-	else if(isset($_GET['familyManagement'])){
-		include("listFamily.php");
+
+	//Family Management
+	if(isset($_GET['familyManagement'])){
+		include("family/listFamily.php");
 	}
 	else if(isset($_GET['add_family'])){
-		include("addFamily.php");
+		include("family/addFamily.php");
 	}
-	else if(isset($GET['idEditFamily'])){
-		include("editFamily.php");
+	else if(isset($_GET['idEditFamily'])){
+		include("family/editFamily.php");
 	}
-	else if(isset($GET['idDeleteFamily'])){
-		include("deleteFamily.php");
+	else if(isset($_GET['idDeleteFamily'])){
+		include("family/deleteFamily.php");
 	}
-	else 
+	//SubFamily Management
+	else if(isset($_GET['add_subFamily'])) {
+        include("subfamily/addSubFamily.php");
+    }
+    else if(isset($_GET['idEditSubFamily'])){
+        include("subFamily/editSubFamily.php");
+    }
+    else if(isset($_GET['idDeleteSubFamily'])){
+        include("subFamily/deleteSubFamily.php");
+    }
+	//Machine management
+	else if(isset($_GET['idEdit'])){
+		include("editMachine.php");
+	}
+	else if(isset($_GET['idDelete'])){
+		include("deleteMachine.php");
+	}
+	else if(isset($_GET['addMachine'])){
+		include("addMachine.php");
+	}
+	else
         include("listMachine.php");
 ?>

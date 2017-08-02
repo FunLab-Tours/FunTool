@@ -29,6 +29,9 @@
         if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']))
             return false;
 
+		if(!isset($_POST['idFamily']) || $_POST['idFamily'] == $lang['machineFamily'])
+			return false;
+
         return true;
     }
 
@@ -97,7 +100,7 @@
                 'comment' => $comment,
                 'docLink1' => $docLink1,
                 'docLink2' => $docLink2,
-                'idFamily' => NULL, //$idFamily,
+                'idFamily' => $idFamily,
                 'idPicture' => NULL, //$idPicture,
                 'idCostUnit' => NULL, //$idCostUnit,
                 'idLab' => NULL //$idLab
@@ -145,7 +148,7 @@
                 'comment' => $comment,
                 'docLink1' => $docLink1,
                 'docLink2' => $docLink2,
-                'idFamily' => NULL, //$idFamily,
+                'idFamily' => $idFamily,
                 'idPicture' => NULL, //$idPicture,
                 'idCostUnit' => NULL, //$idCostUnit,
                 'idLab' => NULL //$idLab
@@ -169,5 +172,21 @@
             echo $e;
         }
     }
+	
+	function getFamilyName($idFamily)
+	{
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT * FROM family WHERE idFamily = :idFamily');
 
+        try {
+            $request->execute(array(
+                'idFamily' => $idFamily
+				));
+        }
+        catch(Exception $e) {
+            echo $e;
+        }
+        return $request->fetchAll();
+	}
+	
 ?>
