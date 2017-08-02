@@ -18,7 +18,8 @@
     </tr>
 
         <?php
-            foreach(selectEvent($_GET['idEdit']) as $row) { ?>
+
+            foreach(selectEvent($_GET['idEdit']) as $row){  ?>
                 <tr>
                     <form action="" method="post">
                         <td><input type="text" name="shortSumEvent" value ="<?=$row['shortSumEvent']?>" /></td>
@@ -34,7 +35,7 @@
                         <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=event"><?=$lang["cancel"]?></a></td>
                     </form>
                 </tr>
-                <?php
+                <?php 
             }
         ?>
 

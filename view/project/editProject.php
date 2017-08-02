@@ -12,6 +12,7 @@
         <td><?=$lang["projectTitle"]?></td>
         <td><?=$lang["projectWiki"]?></td>
         <td><?=$lang["dateProject"]?></td>
+        <td><?=$lang["pictureProject"]?></td>
     </tr>
 
         <?php
@@ -22,6 +23,7 @@
                         <td><input type="text" name="projectTitle" value ="<?=$row['title']?>" /></td>
                         <td><input type="text" name="projectWiki" value ="<?=$row['wiki']?>" /></td>
                         <td><input type="date" name="dateProject" value ="<?=date("Y-m-d", strtotime($row['dateProject']))?>"/></td>
+                        <td><input type="url" name="pictureUrl" value ="<?=selectProjectPicture($_GET['idEdit'])?>" /></td>
                         <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=project"><?=$lang["cancel"]?></a></td>
                     </form>
                 </tr>

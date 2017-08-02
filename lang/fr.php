@@ -88,8 +88,9 @@
     $lang['projectTitle'] = "Titre du projet";
     $lang['projectWiki'] = "Wiki du projet";
     $lang['dateProject'] = "Date du projet";
-    $lang['None'] = "Aucun";
-
+    $lang['None'] = "Aucune";
+    $lang['pictureUrl'] = "Lien URL de l'image";
+    $lang['pictureProject'] = "Image du projet";
 
     $error = [];
     $error[-1] = "Erreur Inconnue";
