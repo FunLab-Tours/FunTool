@@ -3,9 +3,8 @@
             addProject($_POST['projectTitle'], $_POST['projectWiki'], $_POST['dateProject']);
             if ($_POST['pictureUrl']!==""){
             addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
-            pictureUpdateProject(lastInsertPicturetId(),lastInsertProjectId());
             }
-            header('Location: index.php?page=project');
+            //header('Location: index.php?page=project');
         }
 
 ?>

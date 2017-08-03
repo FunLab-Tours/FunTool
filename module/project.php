@@ -6,18 +6,17 @@ function listAllProject(){
     return $result;
 }
 
-function addProject ($projectTitle,$projectWiki,$dateProject,$idPictureProject=null){
+function addProject ($projectTitle,$projectWiki,$dateProject){
     
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO project(title, wiki, dateProject,idPicture) VALUES (:title, :wiki, :dateProject, :idPicture)");
+        $stmt = $DB_DB->prepare("INSERT INTO project(title, wiki, dateProject) VALUES (:title, :wiki, :dateProject)");
 
 
         try {
             $stmt->execute(array(
             'title' => $projectTitle,
             'wiki' => $projectWiki,
-            'dateProject' => $dateProject,
-            'idPicture' => $idPictureProject,
+            'dateProject' => $dateProject
             ));
         }
         
@@ -44,17 +43,16 @@ function selectProject($idProject){
     }
 }
 
-function updateProject($idProject,$projectTitle,$projectWiki,$dateProject,$idPictureProject) {
+function updateProject($idProject,$projectTitle,$projectWiki,$dateProject) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE project SET title = :title, wiki = :wiki, dateProject = :dateProject, idPicture = :idPicture WHERE idProject = :idProject");
+    $stmt = $DB_DB->prepare("UPDATE project SET title = :title, wiki = :wiki, dateProject = :dateProject WHERE idProject = :idProject");
 
     try {
         $stmt->execute(array(
             'idProject' => $idProject,
             'title' => $projectTitle,
             'wiki' => $projectWiki,
-            'dateProject' => $dateProject,
-            'idPicture' => $idPicture
+            'dateProject' => $dateProject
         ));
     }
     catch(Exception $e) {
@@ -70,6 +68,22 @@ function deleteProject($idProject) {
         $stmt->execute(array(
             'idProject' => $idProject
         ));
+    
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function deletePictureLinkToProject($idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM picture WHERE idProject = :idProject");
+
+    try {
+        $stmt->execute(array(
+            'idProject' => $idProject
+        ));
+    
     }
     catch(Exception $e) {
         echo $e;
@@ -114,28 +128,6 @@ function lastInsertProjectId(){
         global $DB_DB;
         $stmt = $DB_DB->query("SELECT max(idProject) FROM Project");
         $result = $stmt->fetch()['max(idProject)'];
-        return $result;
-}
-
-function pictureUpdateProject($idPicture,$idProject){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE project SET idPicture = :idPicture WHERE idProject = :idProject");
-
-    try {
-        $stmt->execute(array(
-            'idPicture' => $idPicture,
-            'idProject' => $idProject
-        ));
-    }
-    catch(Exception $e) {
-        echo $e;
-    }
-}
-
-function lastInsertPicturetId(){
-        global $DB_DB;
-        $stmt = $DB_DB->query("SELECT max(idPicture) FROM Picture");
-        $result = $stmt->fetch()['max(idPicture)'];
         return $result;
 }
 
