@@ -9,6 +9,7 @@
         <td><?=$lang["ticketsLeft"]?></td>
         <td><?=$lang["pricePlace"]?></td>
         <td><?=$lang["register"]?></td>
+        <td><?=$lang["participants"]?></td>
     </tr>
 
     <?php
@@ -23,6 +24,13 @@
             echo "<td>".$ticketsLeft."</td>";
             echo "<td>".$row['pricePlace']."</td>";
             echo "<td>".showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))."</td>";
+            echo "<td>";
+            foreach(nameOfUsersInEvent($row['idEvent']) as $row){
+                echo $row['firstName']." ".$row['telephone']."<br><br>";
+                
+            }
+            echo "</td>";
+            echo "<td>".selectAllUsersInEvent($row['idEvent'])."</td>";
             echo "<td><a href=\"index.php?page=event&idEdit=$row[idEvent]\">".$lang["edit"]."</a> | <a href=\"index.php?page=event&idDelete=$row[idEvent]\" onClick=\"return confirm('Are you sure you want to delete?')\">".$lang["delete"]."</a></td>";
         }
     ?>

@@ -96,6 +96,7 @@
     $lang['pictureUrl'] = "Lien URL de l'image";
     $lang['pictureProject'] = "Image du projet";
     $lang['participate'] = "Participer";
+    $lang['participants'] = "Participants";
 	
 	$lang['machine_management'] = "Gestion des machines";
 	$lang['machine_add'] = "Ajouter une machine";
