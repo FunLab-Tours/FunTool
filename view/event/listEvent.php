@@ -23,7 +23,7 @@
             echo "<td>".$ticketsLeft."</td>";
             echo "<td>".$row['pricePlace']."</td>";
             echo "<td>".showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))."</td>";
-            
+            echo "<td><a href=\"index.php?page=event&idEdit=$row[idEvent]\">".$lang["edit"]."</a> | <a href=\"index.php?page=event&idDelete=$row[idEvent]\" onClick=\"return confirm('Are you sure you want to delete?')\">".$lang["delete"]."</a></td>";
         }
     ?>
     </table>

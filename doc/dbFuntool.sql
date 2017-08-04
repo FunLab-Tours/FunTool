@@ -328,21 +328,6 @@ CREATE TABLE Events(
 
 
 #------------------------------------------------------------
-# Table: MachineReservation
-#------------------------------------------------------------
-
-CREATE TABLE MachineReservation(
-        idReservation       int (11) Auto_increment  NOT NULL ,
-        startReservation    Datetime ,
-        durationReservation Time ,
-        idMachine           Int ,
-        idUser              Int ,
-        PRIMARY KEY (idReservation ) ,
-        INDEX (startReservation )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: Project
 #------------------------------------------------------------
 
@@ -690,6 +675,19 @@ CREATE TABLE consume(
         PRIMARY KEY (idMachine ,idMat )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: reserve
+#------------------------------------------------------------
+
+CREATE TABLE reserve(
+        startReservation    Date ,
+        durationReservation Time ,
+        idUser              Int NOT NULL ,
+        idMachine           Int NOT NULL ,
+        PRIMARY KEY (idUser ,idMachine )
+)ENGINE=InnoDB;
+
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
@@ -715,8 +713,6 @@ ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idPaymentMethod FOREIGN KEY 
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES Skilltype(idSkillType);
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE MachineReservation ADD CONSTRAINT FK_MachineReservation_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE MachineReservation ADD CONSTRAINT FK_MachineReservation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
@@ -761,3 +757,5 @@ ALTER TABLE repair ADD CONSTRAINT FK_repair_idMaintenance FOREIGN KEY (idMainten
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
+ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
