@@ -210,7 +210,6 @@ CREATE TABLE Picture(
         idMat              Int ,
         idUser             Int ,
         idLab              Int ,
-        idProject          Int ,
         PRIMARY KEY (idPicture )
 )ENGINE=InnoDB;
 
@@ -336,7 +335,6 @@ CREATE TABLE Project(
         title       Varchar (255) ,
         wiki        Varchar (255) ,
         dateProject Datetime ,
-        idPicture   Int ,
         PRIMARY KEY (idProject )
 )ENGINE=InnoDB;
 
@@ -667,6 +665,17 @@ CREATE TABLE repair(
 
 
 #------------------------------------------------------------
+# Table: ownPhotoProject
+#------------------------------------------------------------
+
+CREATE TABLE ownPhotoProject(
+        idPicture Int NOT NULL ,
+        idProject Int NOT NULL ,
+        PRIMARY KEY (idPicture ,idProject )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
 # Table: consume
 #------------------------------------------------------------
 
@@ -708,13 +717,11 @@ ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPictu
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES Skilltype(idSkillType);
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE Project ADD CONSTRAINT FK_Project_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
@@ -757,6 +764,8 @@ ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idLab FOREIGN KEY (idLab) 
 ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
+ALTER TABLE ownPhotoProject ADD CONSTRAINT FK_ownPhotoProject_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
+ALTER TABLE ownPhotoProject ADD CONSTRAINT FK_ownPhotoProject_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
