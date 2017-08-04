@@ -147,5 +147,30 @@ function selectProjectPicture($idProject){
     }
 }
 
+function showRegisterButton($idProject,$alreadyRegistered){
+    global $lang;
+    if ($alreadyRegistered){
+        return "<a href=\"index.php?page=project&idUnregister=$idProject\" class=\"button\">".$lang["unregister"]."</a>";
+    }
+    else {
+        return "<a href=\"index.php?page=project&idRegister=$idProject\" class=\"button\">".$lang["register"]."</a>";
+       
+    }
+}
+
+function alreadyRegistered($idProject,$idUser){
+    global $DB_DB;
+    $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM participate WHERE idProject = :idProject AND idUser= :idUser");
+
+    try {
+        $request->execute(array(
+        'idProject' => $idProject,
+        'idUser' => $idUser
+        ));
+        }
+    catch(Exception $e) {
+         echo $e;
+    }
+}
 
 ?>

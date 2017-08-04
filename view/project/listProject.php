@@ -5,6 +5,7 @@
         <td><?=$lang["projectTitle"]?></td>
         <td><?=$lang["projectWiki"]?></td>
         <td><?=$lang["dateProject"]?></td>
+        <td><?=$lang["participate"]?></td>
     </tr>
 
     <?php

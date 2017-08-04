@@ -552,21 +552,11 @@ CREATE TABLE isIncludeIn(
 
 
 #------------------------------------------------------------
-# Table: lead
-#------------------------------------------------------------
-
-CREATE TABLE lead(
-        idUser    Int NOT NULL ,
-        idProject Int NOT NULL ,
-        PRIMARY KEY (idUser ,idProject )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: participate
 #------------------------------------------------------------
 
 CREATE TABLE participate(
+        status    Varchar (50) ,
         idUser    Int NOT NULL ,
         idProject Int NOT NULL ,
         PRIMARY KEY (idUser ,idProject )
@@ -744,8 +734,6 @@ ALTER TABLE register ADD CONSTRAINT FK_register_idUser FOREIGN KEY (idUser) REFE
 ALTER TABLE register ADD CONSTRAINT FK_register_idEvent FOREIGN KEY (idEvent) REFERENCES Events(idEvent);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProCat FOREIGN KEY (idProCat) REFERENCES ProjectCategory(idProCat);
-ALTER TABLE lead ADD CONSTRAINT FK_lead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE lead ADD CONSTRAINT FK_lead_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE participate ADD CONSTRAINT FK_participate_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE participate ADD CONSTRAINT FK_participate_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE employ ADD CONSTRAINT FK_employ_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);

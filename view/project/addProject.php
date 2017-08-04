@@ -12,7 +12,7 @@
  <form action="" method="POST">
     <input type="text" placeholder="<?=$lang["projectTitle"]?>" name="projectTitle" />
      <br><br>
-    <input type="text" placeholder="<?=$lang["projectWiki"]?>" name="projectWiki" />
+    <input type="url" placeholder="<?=$lang["projectWiki"]?>" name="projectWiki" />
      <br><br>
     <input type="date" placeholder="<?=$lang["dateProject"]?>" name="dateProject" />
      : <?=$lang["dateProject"]?>
