@@ -659,8 +659,9 @@ CREATE TABLE repair(
 #------------------------------------------------------------
 
 CREATE TABLE ownPhotoProject(
-        idPicture Int NOT NULL ,
-        idProject Int NOT NULL ,
+        logoProject Bool ,
+        idPicture   Int NOT NULL ,
+        idProject   Int NOT NULL ,
         PRIMARY KEY (idPicture ,idProject )
 )ENGINE=InnoDB;
 
