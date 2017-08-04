@@ -68,8 +68,8 @@
     $lang["machineSerialNumber"] = "Numéro de série";
     $lang["machineManufacturer"] = "Fabriquant";
     $lang["machineComment"] = "Commentaire";
-    $lang["machineDocLink1"] = "Documentation";
-    $lang["machineDocLink2"] = "Documentation";
+    $lang["machineDocLink1"] = "Documentation 1";
+    $lang["machineDocLink2"] = "Documentation 2";
 	$lang["machineFamily"] = "Famille de la machine";
     $lang["machineSubFamily"] = "Sous-famille de la machine";
     $lang['codeMachineInput'] = "Code de la machine";
@@ -82,8 +82,11 @@
     $lang['docLink1Input'] = "Lien de documentation";
     $lang['docLink2Input'] = "Lien de documentation";
     $lang['idPictureInput'] = "Id picture TODO";
-    $lang['idCostUnitInput'] = "Id cost unit TODO";
-    $lang['idLabInput'] = "Id lab TODO";
+    $lang['cost'] = "Coût (en funnies)";
+    $lang['costCoeff'] = "Coefficient (en heure)";
+    $lang['fullcost'] = "Coût (funnies / unité de temps (heures))";
+    $lang['idLabInput'] = "Id lab input TODO";
+
 
     $lang['project_management'] = "Gérer les projets";
     $lang['projectTitle'] = "Titre du projet";

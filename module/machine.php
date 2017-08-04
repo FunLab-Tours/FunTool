@@ -2,35 +2,60 @@
     // TODO : use parameters.
 
     function isValidMachineSubmit() {
-        if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']))
+        if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "") {
+            echo 'Erreur code machine';
             return false;
+        }
 
-        if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']))
+        if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "") {
+            echo 'Erreur shortLabel';
             return false;
+        }
 
-        if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']))
+        if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']) || $_POST['longLabel'] == "") {
+            echo 'Erreur longLabel';
             return false;
+        }
 
-        if(!isset($_POST['machineUsePrice']) || !isValidMachineUsePrice($_POST['machineUsePrice']))
+        if(!isset($_POST['serialNumber']) || !isValidSerialNumber($_POST['serialNumber']) || $_POST['serialNumber'] == "") {
+            echo 'Erreur serialNumber';
             return false;
+        }
 
-        if(!isset($_POST['serialNumber']) || !isValidSerialNumber($_POST['serialNumber']))
+        if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']) || $_POST['manufacturer'] == "") {
+            echo 'Erreur manufacturer';
             return false;
+        }
 
-        if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']))
+        if(!isset($_POST['comment']) || !isValidComment($_POST['comment']) || $_POST['comment'] == ""){
+            echo 'Erreur comment';
             return false;
+        }
 
-        if(!isset($_POST['comment']) || !isValidComment($_POST['comment']))
+        if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']) || $_POST['docLink1'] == ""){
+            echo 'Erreur link1';
             return false;
+        }
 
-        if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']))
+        if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']) || $_POST['docLink2'] == ""){
+            echo 'Erreur link2';
             return false;
+        }
 
-        if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']))
+		if(!isset($_POST['idFamily']) || $_POST['idFamily'] == ""){
+            echo 'Erreur family';
             return false;
+        }
 
-		if(!isset($_POST['idFamily']) || $_POST['idFamily'] == $lang['machineFamily'])
-			return false;
+		if(!isset($_POST['cost']) || $_POST['cost'] == ""){
+            echo 'Erreur cost';
+            return false;
+        }
+
+        if(!isset($_POST['costCoeff']) || $_POST['costCoeff'] == ""){
+            echo 'Erreur cost coeff';
+            return false;
+        }
 
         return true;
     }
@@ -83,18 +108,73 @@
 
         return true;
     }
+    function getCostUnit($idCost)
+    {
+        global $DB_DB;
+        global $DB_DB;
+        //On vérifie si le tarif existe (si oui on récupère son id, sinon on le créé et on récupère son id
+        $request = $DB_DB->prepare('SELECT timePackage, coeffTime FROM costunit WHERE idCostUnit = :idCostUnit');
+        try {
+            $request->execute(array(
+                'idCostUnit' => $idCost,
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit;
+        }
+        return $request->fetch();
+    }
 
-    function addMachine($codeMachine, $shortLabel, $longLabel, $machineUsePrice, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idPicture, $idCostUnit, $idLab) {
+    function getIdCostUnit($CostUnit, $CostCoeff)
+    {
+        global $DB_DB;
+        //On vérifie si le tarif existe (si oui on récupère son id, sinon on le créé et on récupère son id
+        $request = $DB_DB->prepare('SELECT idCostUnit FROM costunit WHERE timePackage LIKE :timePackage AND coeffTime LIKE :coeffTime');
+        try {
+            $request->execute(array(
+                'timePackage' => $CostUnit,
+                'coeffTime' => $CostCoeff
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit;
+        }
+        if($request->rowCount() == 0)
+        {
+            $request = $DB_DB->prepare('INSERT INTO costunit(timePackage, coeffTime) VALUES (:timePackage, :coeffTime)');
+            try {
+                $request->execute(array(
+                    'timePackage' => $CostUnit,
+                    'coeffTime' => $CostCoeff
+                ));
+            }
+            catch(Exception $e) {
+                echo $e;
+                exit;
+            }
+            return $DB_DB->lastInsertId();
+        }
+        else
+            return $request->fetch()[0];
+
+    }
+
+    function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer,
+                        $comment, $docLink1, $docLink2, $idFamily, $idPicture, $CostUnit, $CostCoeff, $idLab) {
+
+        $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
+
         global $DB_DB;
 
-        $request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, machineUsePrice, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture, idCostUnit, idLab) VALUES(:codeMachine, :shortLabel, :longLabel, :machineUsePrice, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture, :idCostUnit, :idLab)');
+        $request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture, idCostUnit, idLab) VALUES(:codeMachine, :shortLabel, :longLabel, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture, :idCostUnit, :idLab)');
 
         try {
             $request->execute(array(
                 'codeMachine' => $codeMachine,
                 'shortLabel' => $shortLabel,
                 'longLabel' => $longLabel,
-                'machineUsePrice' => $machineUsePrice,
                 'serialNumber' => $serialNumber,
                 'manufacturer' => $manufacturer,
                 'comment' => $comment,
@@ -102,7 +182,7 @@
                 'docLink2' => $docLink2,
                 'idFamily' => $idFamily,
                 'idPicture' => NULL, //$idPicture,
-                'idCostUnit' => NULL, //$idCostUnit,
+                'idCostUnit' => $idCostUnit,
                 'idLab' => NULL //$idLab
             ));
         }
@@ -118,13 +198,14 @@
 
     }
 
-    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $machineUsePrice, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idPicture, $idCostUnit, $idLab) {
+    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idPicture, $CostUnit, $CostCoeff, $idLab) {
+
+        $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
         global $DB_DB;
 
         $request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
                                                         shortLabel = :shortLabel,
                                                         longLabel = :longLabel,
-                                                        machineUsePrice = :machineUsePrice,
                                                         serialNumber = :serialNumber,
                                                         manufacturer = :manufacturer,
                                                         comment = :comment,
@@ -142,7 +223,6 @@
                 'codeMachine' => $codeMachine,
                 'shortLabel' => $shortLabel,
                 'longLabel' => $longLabel,
-                'machineUsePrice' => $machineUsePrice,
                 'serialNumber' => $serialNumber,
                 'manufacturer' => $manufacturer,
                 'comment' => $comment,
@@ -150,7 +230,7 @@
                 'docLink2' => $docLink2,
                 'idFamily' => $idFamily,
                 'idPicture' => NULL, //$idPicture,
-                'idCostUnit' => NULL, //$idCostUnit,
+                'idCostUnit' => $idCostUnit,
                 'idLab' => NULL //$idLab
             ));
         }
@@ -176,7 +256,7 @@
 	function getFamilyName($idFamily)
 	{
         global $DB_DB;
-        $request = $DB_DB->prepare('SELECT * FROM family WHERE idFamily = :idFamily');
+        $request = $DB_DB->prepare('SELECT familyLabel FROM family WHERE idFamily = :idFamily');
 
         try {
             $request->execute(array(
@@ -186,7 +266,7 @@
         catch(Exception $e) {
             echo $e;
         }
-        return $request->fetchAll();
+        return $request->fetch()[0];
 	}
 	
 ?>
