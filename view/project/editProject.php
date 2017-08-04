@@ -1,9 +1,7 @@
 <?php
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
        updateProject($_GET['idEdit'], $_POST['title'], $_POST['wiki'], $_POST['dateProject']);
-       //header('Location: index.php?page=project');
-       echo $_GET['idEdit'];
-       echo $_POST['title'];
+       header('Location: index.php?page=project');
     }
 ?>
 
@@ -27,7 +25,7 @@
                         <td><input type="date" name="dateProject" value ="<?=date("Y-m-d", strtotime($row['dateProject']))?>"/></td>
                         <td><img src="<?=selectProjectPicture($_GET['idEdit'])?>" alt="<?=$row['title']?>">
                         <br><br>
-                        <a href="index.php?page=project&idDelete=<?=$row[idProject]?>" onClick=\"return confirm('Are you sure you want to delete?')"><?=$lang["delete"]?></a></td>
+                        <a href="index.php?page=project&idDeletePicture=<?=$row['idProject']?>" onClick=\"return confirm('Are you sure you want to delete?')"><?=$lang["delete"]?></a></td>
                         <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=project"><?=$lang["cancel"]?></a></td>
                     </form>
                 </tr>

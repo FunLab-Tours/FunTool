@@ -25,9 +25,9 @@
     </select>
     : Statut
      <br><br>
-    <input type="number" placeholder="<?=$lang["nbPlaces"]?>" name="nbPlaces" />
+    <input type="number" min="0" placeholder="<?=$lang["nbPlaces"]?>" name="nbPlaces" />
     <br><br>
-    <input type="number" placeholder="<?=$lang["pricePlace"]?>" name="pricePlace" />
+    <input type="number" min="0" placeholder="<?=$lang["pricePlace"]?>" name="pricePlace" />
     <br><br> 
     <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
 </form> 

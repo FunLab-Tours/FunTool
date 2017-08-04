@@ -336,6 +336,7 @@ CREATE TABLE Project(
         title       Varchar (255) ,
         wiki        Varchar (255) ,
         dateProject Datetime ,
+        idPicture   Int ,
         PRIMARY KEY (idProject )
 )ENGINE=InnoDB;
 
@@ -713,6 +714,7 @@ ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idPaymentMethod FOREIGN KEY 
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES Skilltype(idSkillType);
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
+ALTER TABLE Project ADD CONSTRAINT FK_Project_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
