@@ -2,6 +2,10 @@
     loadModules("machine");
 	loadModules("machineFamily");
 	loadModules("machineSubFamily");
+	loadModules("picture");
+	loadModules("lab");
+	loadModules("costUnit");
+
 	include("static/machineMenu.php");
 
 	//Family Management
@@ -36,6 +40,9 @@
 	}
 	else if(isset($_GET['addMachine'])){
 		include("addMachine.php");
+	}
+	else if(isset($_GET['chooseImage'])){
+		include("picture/imageGestion.php");
 	}
 	else
         include("listMachine.php");

@@ -76,4 +76,22 @@
 
     }
 
+
+    function getLabName($idLab)
+    {
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT labName FROM lab WHERE idLab = :idLab');
+
+        try {
+            $request->execute(array(
+                'idLab' => $idLab
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit();
+        }
+        return $request->fetch()[0];
+    }
+
 ?>

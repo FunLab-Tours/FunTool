@@ -2,7 +2,7 @@
 <?php
     if(isset($_POST['submit'])) {
         if(isValidMachineSubmit()) {
-            addMachine( $_POST['codeMachine'],
+            $id = addMachine( $_POST['codeMachine'],
                         $_POST['shortLabel'],
                         $_POST['longLabel'],
                         $_POST['serialNumber'],
@@ -11,12 +11,12 @@
                         $_POST['docLink1'],
                         $_POST['docLink2'],
                         $_POST['idFamily'],
-                        $_POST['idPicture'],
+                        null,
                         $_POST['cost'],
                         $_POST['costCoeff'],
                         $_POST['idLab']
             );
-            header('Location: index.php?page=machine');
+            header('Location: index.php?page=machine&chooseImage='.$id);
         }
     }
 ?>
@@ -60,11 +60,16 @@
                 <option value="<?=$row['idFamily']?>"><?=$row['familyLabel']?></option>
             <?php } ?>
 		</select>
-		<input type="text" placeholder="<?=$lang['idPictureInput']?>" name="idPicture" />
 		<input type="number" min="0" placeholder="<?=$lang['cost']?>" name="cost" />
         x
         <input type="number" min="0" step="0.1" placeholder="<?=$lang['costCoeff']?>" name="costCoeff" />
-		<input type="text" placeholder="<?=$lang['idLabInput']?>" name="idLab" />
+        <select name ="idLab"">
+            <option value="" selected="selected"><?=$lang['funLab']?></option>
+            <?php
+            foreach(listAllLab() as $row){?>
+                <option value="<?=$row['idLab']?>"><?=$row['labName']?></option>
+            <?php } ?>
+        </select>
 		<input type="submit" value="<?=$lang["submit"]?>" name="submit">
 	</form>
     <br>

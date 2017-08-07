@@ -57,24 +57,60 @@
             return false;
         }
 
+        if(!isset($_POST['idLab']) || $_POST['idLab'] == ""){
+            echo 'Erreur lab';
+            return false;
+        }
+
         return true;
     }
 
     function isValidCodeMachine($codeMachine) {
+        return true;
+        /*
         global $DB_DB;
 
-        $request = $DB_DB->prepare('SELECT machineLabel FROM Machine');
-        $request->execute();
+        $request = $DB_DB->prepare('SELECT machineCode FROM Machine WHERE idMachine <> :idMachine');
+
+        try {
+            $request->execute(array(
+                'idMachine' => $idMachine
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            return false;
+        }
 
         foreach($request->fetchAll() as $row)
-            if($row['machineLabel'] == $codeMachine)
+            if($row['machineCode'] == $codeMachine)
                 return false;
 
-        return true;
+        return true;*/
     }
 
     function isValidShortLabel($shortLabel) {
         return true;
+        /*
+        global $DB_DB;
+
+        $request = $DB_DB->prepare('SELECT shortLabel FROM Machine WHERE idMachine <> :idMachine');
+
+        try {
+            $request->execute(array(
+                'idMachine' => $idMachine
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            return false;
+        }
+
+        foreach($request->fetchAll() as $row)
+            if($row['shortLabel'] == $shortLabel)
+                return false;
+
+        return true;*/
     }
 
     function isValidLongLabel($longLabel) {
@@ -126,40 +162,7 @@
         return $request->fetch();
     }
 
-    function getIdCostUnit($CostUnit, $CostCoeff)
-    {
-        global $DB_DB;
-        //On vérifie si le tarif existe (si oui on récupère son id, sinon on le créé et on récupère son id
-        $request = $DB_DB->prepare('SELECT idCostUnit FROM costunit WHERE timePackage LIKE :timePackage AND coeffTime LIKE :coeffTime');
-        try {
-            $request->execute(array(
-                'timePackage' => $CostUnit,
-                'coeffTime' => $CostCoeff
-            ));
-        }
-        catch(Exception $e) {
-            echo $e;
-            exit;
-        }
-        if($request->rowCount() == 0)
-        {
-            $request = $DB_DB->prepare('INSERT INTO costunit(timePackage, coeffTime) VALUES (:timePackage, :coeffTime)');
-            try {
-                $request->execute(array(
-                    'timePackage' => $CostUnit,
-                    'coeffTime' => $CostCoeff
-                ));
-            }
-            catch(Exception $e) {
-                echo $e;
-                exit;
-            }
-            return $DB_DB->lastInsertId();
-        }
-        else
-            return $request->fetch()[0];
 
-    }
 
     function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer,
                         $comment, $docLink1, $docLink2, $idFamily, $idPicture, $CostUnit, $CostCoeff, $idLab) {
@@ -183,13 +186,15 @@
                 'idFamily' => $idFamily,
                 'idPicture' => NULL, //$idPicture,
                 'idCostUnit' => $idCostUnit,
-                'idLab' => NULL //$idLab
+                'idLab' => $idLab
             ));
         }
         catch(Exception $e) {
             echo $e;
-            exit;
+            return null;
         }
+
+        return $DB_DB->lastInsertId();
     }
 
     function getMachineList() {
@@ -198,11 +203,11 @@
 
     }
 
-    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idPicture, $CostUnit, $CostCoeff, $idLab) {
+    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $CostUnit, $CostCoeff, $idLab) {
 
         $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
         global $DB_DB;
-
+        echo $idMachine." ".$codeMachine." ".$shortLabel." ".$longLabel." ".$serialNumber." ".$manufacturer." ".$comment." ".$docLink1." ".$docLink2." ".$idFamily." ".$CostUnit." ".$CostCoeff." ".$idLab;
         $request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
                                                         shortLabel = :shortLabel,
                                                         longLabel = :longLabel,
@@ -212,7 +217,6 @@
                                                         docLink1 = :docLink1,
                                                         docLink2 = :docLink2,
                                                         idFamily = :idFamily,
-                                                        idPicture = :idPicture,
                                                         idCostUnit = :idCostUnit,
                                                         idLab = :idLab
                                     WHERE idMachine = :idMachine');
@@ -229,9 +233,8 @@
                 'docLink1' => $docLink1,
                 'docLink2' => $docLink2,
                 'idFamily' => $idFamily,
-                'idPicture' => NULL, //$idPicture,
                 'idCostUnit' => $idCostUnit,
-                'idLab' => NULL //$idLab
+                'idLab' => $idLab
             ));
         }
         catch(Exception $e) {
@@ -265,8 +268,53 @@
         }
         catch(Exception $e) {
             echo $e;
+            exit();
         }
         return $request->fetch()[0];
 	}
-	
+
+	function getListPictureMachine(){
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT * FROM picture WHERE idPicture IN (SELECT idPicture FROM machine)');
+        try{
+            $request->execute();
+        }
+        catch(Exception $e){
+            echo $e;
+            exit();
+        }
+        return $request->fetchAll();
+    }
+
+    function assignPicture($idMachine, $idPicture){
+	    global $DB_DB;
+	    $request = $DB_DB->prepare('UPDATE Machine SET idPicture = :idPicture WHERE idMachine = :idMachine');
+        try {
+            $request->execute(array(
+                'idMachine' => $idMachine,
+                'idPicture' => $idPicture
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit();
+        }
+    }
+
+    function addPictureAndAssign($idMachine, $urlPicture, $descriptionPicture){
+        global $DB_DB;
+        $request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription) VALUES(:picture, :pictureDescription)');
+
+        try {
+            $request->execute(array(
+                'picture' => $urlPicture,
+                'pictureDescription' => $descriptionPicture,
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            return null;
+        }
+        assignPicture($idMachine, $DB_DB->lastInsertId());
+    }
 ?>

@@ -74,4 +74,22 @@
         }
     }
 
+    function getPicture($idPicture)
+    {
+        global $DB_DB;
+
+        $request = $DB_DB->prepare('SELECT picture, pictureDescription FROM Picture WHERE idPicture = :idPicture');
+
+        try {
+            $request->execute(array(
+                'idPicture' => $idPicture
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit;
+        }
+        return $request->fetchAll();
+    }
+
 ?>

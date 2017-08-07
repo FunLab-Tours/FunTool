@@ -81,11 +81,11 @@
     $lang['commentInput'] = "Commentaire";
     $lang['docLink1Input'] = "Lien de documentation";
     $lang['docLink2Input'] = "Lien de documentation";
-    $lang['idPictureInput'] = "Id picture TODO";
+    $lang['idPictureInput'] = "Image";
     $lang['cost'] = "Coût (en funnies)";
     $lang['costCoeff'] = "Coefficient (en heure)";
     $lang['fullcost'] = "Coût (funnies / unité de temps (heures))";
-    $lang['idLabInput'] = "Id lab input TODO";
+    $lang['funLab'] = "Choisir un FunLab";
 
 
     $lang['project_management'] = "Gérer les projets";
@@ -109,6 +109,10 @@
     $lang['subFamily_code'] = "Code de la sous-famille";
     $lang['add_subFamily'] = "Ajouter une sous-famille";
 
+    $lang['choose_image'] = "Choisir une image :";
+    $lang['new_image'] = "Nouvelle image";
+    $lang['url_image'] = "Lien de l'image";
+    $lang['description_image'] = "Description de l'image";
 
     $error = [];
     $error[-1] = "Erreur Inconnue";

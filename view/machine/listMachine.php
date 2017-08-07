@@ -12,6 +12,8 @@
             <td><?=$lang["machineDocLink2"]?></td>
             <td><?=$lang["machineFamily"]?></td>
             <td><?=$lang["fullcost"]?></td>
+            <td><?=$lang["idPictureInput"]?></td>
+            <td><?=$lang["funLab"]?></td>
         </tr>
 
         <?php
@@ -28,6 +30,10 @@
                     <td><?=$row['docLink2']?></td>
 					<td><?=getFamilyName($row['idFamily'])?></td>
                     <td><?=getCostUnit($row['idCostUnit'])[0]." / ".getCostUnit($row['idCostUnit'])[1]?></td>
+                    <?php if(getPicture($row['idPicture']) != null){ ?>
+                        <td><img src = "<?=getPicture($row['idPicture'])[0]['picture']?>" alt = "<?=getPicture($row['idPicture'])[0]['pictureDescription']?>"</td>
+                    <?php } else { ?> <td></td><?php } ?>
+                    <td><?=getLabName($row['idLab'])?></td>
                     <td><a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
         <?php
             }
