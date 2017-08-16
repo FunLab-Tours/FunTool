@@ -11,6 +11,7 @@
             <td><?=$lang["machineDocLink1"]?></td>
             <td><?=$lang["machineDocLink2"]?></td>
             <td><?=$lang["machineFamily"]?></td>
+            <td><?=$lang["machineSubFamily"]?></td>
             <td><?=$lang["fullcost"]?></td>
             <td><?=$lang["idPictureInput"]?></td>
             <td><?=$lang["funLab"]?></td>
@@ -29,6 +30,11 @@
                     <td><?=$row['docLink1']?></td>
                     <td><?=$row['docLink2']?></td>
 					<td><?=getFamilyName($row['idFamily'])?></td>
+                    <td><?php
+                        foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
+                            echo $subRow['labelSubFamily']." ; ";
+                        ?>
+                    </td>
                     <td><?=getCostUnit($row['idCostUnit'])[0]." / ".getCostUnit($row['idCostUnit'])[1]?></td>
                     <?php if(getPicture($row['idPicture']) != null){ ?>
                         <td><img src = "<?=getPicture($row['idPicture'])[0]['picture']?>" alt = "<?=getPicture($row['idPicture'])[0]['pictureDescription']?>"</td>

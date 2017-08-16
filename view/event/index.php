@@ -2,6 +2,8 @@
     // TODO : delete HTML in subpages.
     loadModules("event");
 
+    include("static/eventMenu.php");
+
     if(isset($_GET['idEdit'])) {
         include("editEvent.php");
     }
@@ -17,8 +19,10 @@
     else if (isset($_GET['idUnregister'])){
         include("unregisterEvent.php");
     }
-    else {
+    else if (isset($_GET["addEvent"])){
         include("addEvent.php");
+    }
+    else {
         include("listEvent.php");
     }
 

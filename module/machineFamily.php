@@ -23,6 +23,23 @@
 		global $DB_DB;
         return $DB_DB->query('SELECT * FROM family');
 	}
+
+    function getFamilyName($idFamily)
+    {
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT familyLabel FROM family WHERE idFamily = :idFamily');
+
+        try {
+            $request->execute(array(
+                'idFamily' => $idFamily
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit();
+        }
+        return $request->fetch()[0];
+    }
 	
 	function deleteFamily($idDelete)
 	{

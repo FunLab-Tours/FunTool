@@ -24,9 +24,10 @@
     $lang["firstName"] = "Prénom";
     $lang["name"] = "Nom";
     $lang["telephone"] = "Numéro de téléphone";
-    $lang["adressL1"] = "Adresse 1";
-    $lang["adressL2"] = "Adresse 2";
-    $lang["adressL3"] = "Adresse 3";
+    $lang["adressL1"] = "Adresse Ligne 1";
+    $lang["adressL2"] = "Adresse Ligne 2";
+    $lang["adressL3"] = "Adresse Ligne 3";
+    $lang["adress"] = "Adresse";
     $lang["zipCode"] = "Code postal";
     $lang["town"] = "Ville";
     $lang["country"] = "Pays";
@@ -35,7 +36,14 @@
     $lang["birthDate"] = "Date de naissance";
     $lang["inscriptionActiveList"] = "S'inscrire sur la liste des membres actifs";
     $lang["inscriptionNews"] = "S'inscrire à la newsletter";
+    $lang["haveSubscribeActiveList"] = "Inscrit sur la liste des membres actifs";
+    $lang["haveSubscribeNews"] = "Inscrit à la newsletter";
     $lang["idPicture"] = "Photo de profil";
+    $lang["editPassword"] = "Modifier le mot de passe";
+    $lang["editUser"] = "Modifier les informations";
+    $lang["passDontMatch"] = "le mot de passe ne correspond pas";
+    $lang["newPassword"] = "Nouveau mot de passe";
+    $lang["passwordChecker"] = "Recopier le mot de passe";
 
     $lang["labNameAddLab"] = "Entrez le nom du lab";
     $lang["labDescriptionAddLab"] = "Entrez la description du lab";
@@ -44,6 +52,8 @@
     $lang["labDescription"] = "Description du Lab";
     $lang["addLab"] = "Ajouter un Lab";
 
+    $lang["events"] = "Tout les événements";
+    $lang["event_add"] = "Créer un événement";
     $lang["shortSumEvent"] = "Intitulé de l'événement";
     $lang["longSumEvent"] = "Description de l'événement";
     $lang["statutOk"] = "Confirmé";

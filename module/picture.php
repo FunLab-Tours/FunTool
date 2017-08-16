@@ -89,7 +89,7 @@
             echo $e;
             exit;
         }
-        return $request->fetchAll();
+        return $request->fetch();
     }
 
 ?>

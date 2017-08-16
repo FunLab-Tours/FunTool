@@ -165,7 +165,7 @@
 
 
     function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer,
-                        $comment, $docLink1, $docLink2, $idFamily, $idPicture, $CostUnit, $CostCoeff, $idLab) {
+                        $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $CostUnit, $CostCoeff, $idLab) {
 
         $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
 
@@ -184,30 +184,44 @@
                 'docLink1' => $docLink1,
                 'docLink2' => $docLink2,
                 'idFamily' => $idFamily,
-                'idPicture' => NULL, //$idPicture,
+                'idPicture' => NULL,
                 'idCostUnit' => $idCostUnit,
                 'idLab' => $idLab
             ));
+
+            $idMachine = $DB_DB->lastInsertId();
+
+            foreach($idsSubFamily as $idSubFamily){
+                $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
+                $request->execute(array(
+                    'idMachine' => $idMachine,
+                    'idSubFamily' => $idSubFamily
+                ));
+            }
+
         }
         catch(Exception $e) {
             echo $e;
             return null;
         }
 
-        return $DB_DB->lastInsertId();
+        return $idMachine;
     }
 
     function getMachineList() {
         global $DB_DB;
         return $DB_DB->query('SELECT * FROM Machine');
-
+    }
+    function getMachine($id){
+        global  $DB_DB;
+        return $DB_DB->query('SELECT * FROM Machine WHERE idMachine = '.$id)->fetch();
     }
 
-    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $CostUnit, $CostCoeff, $idLab) {
+    function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $CostUnit, $CostCoeff, $idLab) {
 
         $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
         global $DB_DB;
-        echo $idMachine." ".$codeMachine." ".$shortLabel." ".$longLabel." ".$serialNumber." ".$manufacturer." ".$comment." ".$docLink1." ".$docLink2." ".$idFamily." ".$CostUnit." ".$CostCoeff." ".$idLab;
+        var_dump($idsSubFamily);
         $request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
                                                         shortLabel = :shortLabel,
                                                         longLabel = :longLabel,
@@ -236,6 +250,20 @@
                 'idCostUnit' => $idCostUnit,
                 'idLab' => $idLab
             ));
+
+
+            foreach($idsSubFamily as $idSubFamily){
+                $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMAchine');
+                $request->execute(array(
+                    'idMachine' => $idMachine
+                ));
+                $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
+                $request->execute(array(
+                    'idMachine' => $idMachine,
+                    'idSubFamily' => $idSubFamily
+                ));
+            }
+
         }
         catch(Exception $e) {
             echo $e;
@@ -255,27 +283,10 @@
             echo $e;
         }
     }
-	
-	function getFamilyName($idFamily)
-	{
-        global $DB_DB;
-        $request = $DB_DB->prepare('SELECT familyLabel FROM family WHERE idFamily = :idFamily');
-
-        try {
-            $request->execute(array(
-                'idFamily' => $idFamily
-				));
-        }
-        catch(Exception $e) {
-            echo $e;
-            exit();
-        }
-        return $request->fetch()[0];
-	}
 
 	function getListPictureMachine(){
         global $DB_DB;
-        $request = $DB_DB->prepare('SELECT * FROM picture WHERE idPicture IN (SELECT idPicture FROM machine)');
+        $request = $DB_DB->prepare('SELECT * FROM picture WHERE categoryPicture LIKE \'machine\'');
         try{
             $request->execute();
         }

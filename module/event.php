@@ -1,17 +1,20 @@
 <?php
 
-function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$statutEvent,$nbPlaces,$pricePlace){
+function addEvent ($shortSumEvent,$longSumEvent,$startDateEvent,$endDateEvent,$statutEvent,$nbPlaces,$pricePlace){
     
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO events(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, statutEvent, nbPlaces, pricePlace) VALUES (:shortSumEvent, :longSumEvent, :startdateEvent, :endDatEvent, :statutEvent, :nbPlaces, :pricePlace)");
+        $stmt = $DB_DB->prepare("INSERT INTO events(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, 
+                                                    statutEvent, nbPlaces, pricePlace) 
+                                    VALUES (:shortSumEvent, :longSumEvent, :startDateEvent, :endDateEvent, :statutEvent,
+                                            :nbPlaces, :pricePlace)");
 
 
         try {
             $stmt->execute(array(
             'shortSumEvent' => $shortSumEvent,
             'longSumEvent' => $longSumEvent,
-            'startdateEvent' => $startdateEvent,
-            'endDatEvent' => $endDatEvent,
+            'startDateEvent' => $startDateEvent,
+            'endDateEvent' => $endDateEvent,
             'statutEvent' => $statutEvent,
             'nbPlaces' => $nbPlaces,
             'pricePlace' => $pricePlace
@@ -19,8 +22,8 @@ function addEvent ($shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$st
         }
         
         catch(Exception $e){
-                            echo $e;
-                            exit;
+            echo $e;
+            exit;
         }   
 }
 
@@ -160,8 +163,8 @@ function showRegisterButton($ticketsLeft,$idEvent,$alreadyRegistered){
     }
     else if($ticketsLeft>0){
         return "<a href=\"index.php?page=event&idRegister=$idEvent\" class=\"button\">".$lang["register"]."</a>";
-       
     }
+    else return $lang["full"];
 }
 
 
@@ -262,7 +265,7 @@ function selectAllUsersInEvent($idEvent){
         $stmt->execute(array(
             'idEvent' => $idEvent,
         ));
-        $result = $stmt->fetchAll();
+        $result = $stmt->fetch();
         return $result;
     }
     catch(Exception $e) {
@@ -273,7 +276,7 @@ function selectAllUsersInEvent($idEvent){
 
 function nameOfUsersInEvent($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT firstName,telephone FROM user INNER JOIN register ON user.idUser WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT firstName,telephone FROM user u INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(

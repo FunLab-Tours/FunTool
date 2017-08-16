@@ -30,6 +30,12 @@
         global $DB_DB;
         return $DB_DB->query('SELECT * FROM SubFamily WHERE idFamily ='.$idFamily);
     }
+
+    function getSubFamilyListMachine($idMachine)
+    {
+        global $DB_DB;
+        return $DB_DB->query('SELECT * FROM SubFamily sf INNER JOIN machineinsubfamily j ON sf.idSubFamily = j.idSubFamily WHERE idMachine ='.$idMachine);
+    }
 	
 	function deleteSubFamily($idDelete)
 	{

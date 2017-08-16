@@ -1,7 +1,8 @@
 <?php
 
     function loadModules($module_name){
-        include("module/" . $module_name . ".php");
+        global $base_uri;
+        include( $base_uri ."module/" . $module_name . ".php");
         return "";
     }
 

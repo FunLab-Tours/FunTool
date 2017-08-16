@@ -1,8 +1,13 @@
 <?php
     if(isset($_POST['submit'])){
-            addEvent($_POST['shortSumEvent'], $_POST['longSumEvent'], $_POST['startdateEvent'], $_POST['endDatEvent'], $_POST['statutEvent'], $_POST['nbPlaces'], $_POST['pricePlace']);
+            addEvent($_POST['shortSumEvent'],
+                $_POST['longSumEvent'],
+                $_POST['startdateEvent'],
+                $_POST['endDatEvent'],
+                $_POST['statutEvent'],
+                $_POST['nbPlaces'],
+                $_POST['pricePlace']);
             header('Location: index.php?page=event');
-
         }
 
 ?>

@@ -43,7 +43,7 @@
 
         $privateKey = "thisisaprivatekey";
 
-        setcookie("id", $result['idUser'], time() + 30000, "/");
+        setcookie("id", $result['idUser'], time() + 300000, "/");
         setcookie("token", sha1($result['idUser'] . $privateKey), time() + 30000, "/");
     }
 
@@ -228,7 +228,7 @@
                         $nbFunnies,
                         $inscriptionActiveList,
                         $inscriptionNews,
-                        $idPicture) {
+                        $picture) {
         global $DB_DB;
 
         $DEFAULT_FUNNIES = 5;
@@ -236,6 +236,22 @@
         $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
         $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
 
+        //Tout d'abord on ajoute la photo de profil
+        $request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription, categoryPicture)
+                                           VALUE (:picture, :pictureDescription, :categoryPicture)');
+        try{
+            $request->execute(array(
+                'picture' => $picture,
+                'pictureDescription' => "Avatar for user ".$login,
+                'categoryPicture' => "ProfilUser"
+            ));
+            $idPicture = $DB_DB->lastInsertedId();
+        }catch(Exception $e)
+        {
+            $idPicture = NULL;
+        }
+
+        //Puis on ajoute l'utilisateur
         $request = $DB_DB->prepare('INSERT INTO User( login,
                                                       password,
                                                       firstName,
@@ -292,7 +308,7 @@
                 'nbFunnies' => $DEFAULT_FUNNIES,
                 'inscriptionActiveList' => $inscriptionActiveListBoolean,
                 'inscriptionNews' => $inscriptionNewsBoolean,
-                'idPicture' => NULL
+                'idPicture' => $idPicture
             ));
         }
         catch(Exception $e) {
@@ -308,4 +324,105 @@
         setcookie("token", null, -1, '/');
     }
 
-?>
+    function getUser($id){
+        global  $DB_DB;
+        return $DB_DB->query('SELECT * FROM User WHERE idUser = '.$id)->fetch();
+    }
+
+function editUser(  $firstName,
+                    $name,
+                    $telephone,
+                    $adressL1,
+                    $adressL2,
+                    $adressL3,
+                    $zipCode,
+                    $town,
+                    $country,
+                    $email,
+                    $emailBis,
+                    $birthDate,
+                    $inscriptionActiveList,
+                    $inscriptionNews,
+                    $picture) {
+    global $DB_DB;
+
+    $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
+    $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
+
+    $login = $DB_DB->query('SELECT login FROM User WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
+
+    //Tout d'abord on ajoute la photo de profil si il elle a été changé
+    $idPicture = $DB_DB->query('SELECT idPicture FROM Picture WHERE picture LIKE '.$picture.' AND pictureDescription LIKE \"Avatar for user '.$login.'\"');
+    if($idPicture == null) {
+        $request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription, categoryPicture)
+                                               VALUE (:picture, :pictureDescription, :categoryPicture)');
+        try {
+            $request->execute(array(
+                'picture' => $picture,
+                'pictureDescription' => "Avatar for user " . $login,
+                'categoryPicture' => "ProfilUser"
+            ));
+            $idPicture = $DB_DB->lastInsertId();
+        } catch (Exception $e) {
+            $idPicture = NULL;
+        }
+    }
+
+    //Puis on ajoute l'utilisateur
+    $request = $DB_DB->prepare('UPDATE User SET firstName = :firstName,
+                                                  name = :name,
+                                                  telephone = :telephone,
+                                                  adressL1 = :adressL1,
+                                                  adressL2 = :adressL2,
+                                                  adressL3 = :adressL3,
+                                                  zipCode = :zipCode,
+                                                  town = :town,
+                                                  country = :country,
+                                                  email = :email,
+                                                  emailBis = :emailBis,
+                                                  birthDate = :birthDate,
+                                                  inscriptionActiveList = :inscriptionActiveList,
+                                                  inscriptionNews = :inscriptionNews,
+                                                  idPicture = :idPicture
+                                   WHERE idUser = '.$_COOKIE['id']);
+
+    try {
+        $request->execute(array(
+            'firstName' => $firstName,
+            'name' => $name,
+            'telephone' => $telephone,
+            'adressL1' => $adressL1,
+            'adressL2' => $adressL2,
+            'adressL3' => $adressL3,
+            'zipCode' => $zipCode,
+            'town' => $town,
+            'country' => $country,
+            'email' => $email,
+            'emailBis' => $emailBis,
+            'birthDate' => $birthDate,
+            'inscriptionActiveList' => $inscriptionActiveListBoolean,
+            'inscriptionNews' => $inscriptionNewsBoolean,
+            'idPicture' => $idPicture
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function editPassword($old, $new)
+{
+    global $DB_DB;
+    $password = $DB_DB->query('SELECT password FROM user WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
+    var_dump($password);var_dump(password_hash($old, PASSWORD_DEFAULT));var_dump(strcmp($old, $password));
+    if(password_verify($old, $password))
+    {
+        $request = $DB_DB->prepare('UPDATE user SET user.password = :new WHERE idUser = :id');
+        $request->execute(array(
+            'new' => password_hash($new, PASSWORD_DEFAULT),
+            'id' => $_COOKIE['id']
+        ));
+        return true;
+    }
+    return false;
+}
