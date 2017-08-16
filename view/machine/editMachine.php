@@ -77,8 +77,8 @@
                         <?php if (getPicture($row['idPicture']) != null) { ?>
                             <td>
                                 <a href="index.php?page=machine&chooseImage=<?= $row['idMachine'] ?>">
-                                    <img src="<?= getPicture($row['idPicture'])[0]['picture'] ?>"
-                                         alt="<?= getPicture($row['idPicture'])[0]['pictureDescription'] ?>"
+                                    <img src="<?= getPicture($row['idPicture'])['picture'] ?>"
+                                         alt="<?= getPicture($row['idPicture'])['pictureDescription'] ?>"
                                 </a>
                             </td>
                         <?php } else { ?>
@@ -124,7 +124,7 @@
                     <td><?=getCostUnit($row['idCostUnit'])[0]?></td>
                     <td><?=getCostUnit($row['idCostUnit'])[1]?></td>
                     <?php if(getPicture($row['idPicture']) != null){ ?>
-                        <td><img src = "<?=getPicture($row['idPicture'])[0]['picture']?>" alt = "<?=getPicture($row['idPicture'])[0]['pictureDescription']?>"
+                        <td><img src = "<?=getPicture($row['idPicture'])['picture']?>" alt = "<?=getPicture($row['idPicture'])['pictureDescription']?>"
                     <?php } else { ?> <td><?php } ?> </td>
                     <td><?=getLabName($row['idLab'])?></td>
                     <td><a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
