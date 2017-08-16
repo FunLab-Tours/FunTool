@@ -14,27 +14,27 @@
     </tr>
 
     <?php
-        
-        foreach(listAllEvent() as $row){
-            $ticketsLeft = ticketsLeft($row['nbPlaces'],$row['idEvent']);
-            echo "<tr>";
-            //echo "<td><a href=\"index.php?page=event&idInfo=$row[idEvent]\">".$row['shortSumEvent']."</a></td>";
-            echo "<td>".$row['shortSumEvent']."</td>";
-            echo "<td>".$row['longSumEvent']."</td>";
-            echo "<td>".$row['startdateEvent']."</td>";
-            echo "<td>".$row['endDatEvent']."</td>";
-            echo "<td>".labelSelectBox($row['statutEvent'])."</td>";
-            echo "<td>".$ticketsLeft."</td>";
-            echo "<td>".$row['pricePlace']."</td>";
-            echo "<td>".showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))."</td>";
-            echo "<td>";
-            foreach(nameOfUsersInEvent($row['idEvent']) as $subrow){
-                echo $subrow['firstName']." ".$subrow['telephone']."<br><br>";
-                
-            }
-            echo "</td>";
-            //echo "<td>".selectAllUsersInEvent($row['idEvent'])."</td>";
-            echo "<td><a href=\"index.php?page=event&idEdit=".$row['idEvent']."\">".$lang["edit"]."</a> | <a href=\"index.php?page=event&idDelete=".$row['idEvent']."\" onClick=\"return confirm('Are you sure you want to delete?')\">".$lang['delete']."</a></td>";
+        foreach(listAllEvent() as $row) {
+            $ticketsLeft = ticketsLeft($row['nbPlaces'], $row['idEvent']);
+    ?>
+            <tr>
+                <!--<td><a href="index.php?page=event&idInfo=$row[idEvent]"><?//=$row['shortSumEvent']?></a></td>-->
+                <td><?=$row['shortSumEvent']?></td>
+                <td><?=$row['longSumEvent']?></td>
+                <td><?=$row['startdateEvent']?></td>
+                <td><?=$row['endDatEvent']?></td>
+                <td><?=labelSelectBox($row['statutEvent'])?></td>
+                <td><?=$ticketsLeft?></td>
+                <td><?=$row['pricePlace']?></td>
+                <td><?=showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))?></td>
+                <td>
+                    <?php foreach(nameOfUsersInEvent($row['idEvent']) as $subrow) {
+                        ?><?=$subrow['firstName']?> <?=$subrow['telephone']?><br><br><?php
+                    }?>
+                </td>
+                <!--<td><?//=selectAllUsersInEvent($row['idEvent'])?></td>-->
+                <td><a href="index.php?page=event&idEdit=<?=$row['idEvent']?>" \><?=$lang["edit"]?></a> | <a href="index.php?page=event&idDelete=<?=$row['idEvent']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
+    <?php
         }
     ?>
     </table>

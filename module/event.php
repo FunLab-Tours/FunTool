@@ -1,23 +1,21 @@
 <?php
 
-function addEvent ($shortSumEvent,$longSumEvent,$startDateEvent,$endDateEvent,$statutEvent,$nbPlaces,$pricePlace){
-    
+function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent, $statutEvent, $nbPlaces, $pricePlace) {
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO events(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, 
+        $stmt = $DB_DB->prepare('INSERT INTO Events(shortSumEvent, longSumEvent, startdateEvent, endDatEvent, 
                                                     statutEvent, nbPlaces, pricePlace) 
                                     VALUES (:shortSumEvent, :longSumEvent, :startDateEvent, :endDateEvent, :statutEvent,
-                                            :nbPlaces, :pricePlace)");
-
+                                            :nbPlaces, :pricePlace)');
 
         try {
             $stmt->execute(array(
-            'shortSumEvent' => $shortSumEvent,
-            'longSumEvent' => $longSumEvent,
-            'startDateEvent' => $startDateEvent,
-            'endDateEvent' => $endDateEvent,
-            'statutEvent' => $statutEvent,
-            'nbPlaces' => $nbPlaces,
-            'pricePlace' => $pricePlace
+                'shortSumEvent' => $shortSumEvent,
+                'longSumEvent' => $longSumEvent,
+                'startDateEvent' => $startDateEvent,
+                'endDateEvent' => $endDateEvent,
+                'statutEvent' => $statutEvent,
+                'nbPlaces' => $nbPlaces,
+                'pricePlace' => $pricePlace
             ));
         }
         
@@ -29,7 +27,7 @@ function addEvent ($shortSumEvent,$longSumEvent,$startDateEvent,$endDateEvent,$s
 
 function deleteEvent($idEvent) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("DELETE FROM events WHERE idEvent = :idEvent");
+    $stmt = $DB_DB->prepare("DELETE FROM Events WHERE idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
@@ -43,7 +41,7 @@ function deleteEvent($idEvent) {
 
 function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$statutEvent,$nbPlaces,$pricePlace) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE events SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startdateEvent = :startdateEvent, endDatEvent = :endDatEvent, statutEvent = :statutEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
+    $stmt = $DB_DB->prepare("UPDATE Events SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startdateEvent = :startdateEvent, endDatEvent = :endDatEvent, statutEvent = :statutEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
@@ -65,14 +63,14 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
 
 function listAllEvent() {
     global $DB_DB;
-    $result = $DB_DB->query("SELECT * FROM events");
+    $result = $DB_DB->query("SELECT * FROM Events");
 
     return $result;
 }
 
 function selectEvent($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT * FROM events WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT * FROM Events WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(
@@ -187,7 +185,7 @@ function currentUserFunnies($idUser){
 
 function ticketPrice($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT pricePlace FROM events WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT pricePlace FROM Events WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(

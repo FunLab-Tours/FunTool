@@ -18,16 +18,15 @@
         }
 	}
 	
-	function getFamilyList()
-	{
+	function getFamilyList() {
 		global $DB_DB;
-        return $DB_DB->query('SELECT * FROM family');
+        return $DB_DB->query('SELECT * FROM Family');
 	}
 
     function getFamilyName($idFamily)
     {
         global $DB_DB;
-        $request = $DB_DB->prepare('SELECT familyLabel FROM family WHERE idFamily = :idFamily');
+        $request = $DB_DB->prepare('SELECT familyLabel FROM Family WHERE idFamily = :idFamily');
 
         try {
             $request->execute(array(
@@ -59,7 +58,7 @@
         }
 		
 		//Puis on supprime la famille
-		$request = $DB_DB->prepare('DELETE FROM family WHERE idFamily = :idDelete');
+		$request = $DB_DB->prepare('DELETE FROM Family WHERE idFamily = :idDelete');
 		
 		try{
 			$request->execute(array(

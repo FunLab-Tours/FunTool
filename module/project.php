@@ -1,7 +1,7 @@
 <?php
 function listAllProject(){
     global $DB_DB;
-    $result = $DB_DB->query("SELECT * FROM project");
+    $result = $DB_DB->query("SELECT * FROM Project");
 
     return $result;
 }
@@ -9,7 +9,7 @@ function listAllProject(){
 function addProject ($projectTitle,$projectWiki,$dateProject){
     
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO project(title, wiki, dateProject) VALUES (:title, :wiki, :dateProject)");
+        $stmt = $DB_DB->prepare("INSERT INTO Project(title, wiki, dateProject) VALUES (:title, :wiki, :dateProject)");
 
 
         try {
@@ -28,7 +28,7 @@ function addProject ($projectTitle,$projectWiki,$dateProject){
 
 function selectProject($idProject){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT * FROM project WHERE idProject=:idProject");
+    $stmt = $DB_DB->prepare("SELECT * FROM Project WHERE idProject=:idProject");
 
     try {
         $stmt->execute(array(
@@ -45,7 +45,7 @@ function selectProject($idProject){
 
 function updateProject($idProject,$projectTitle,$projectWiki,$dateProject) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE project SET title = :title, wiki = :wiki, dateProject = :dateProject WHERE idProject = :idProject");
+    $stmt = $DB_DB->prepare("UPDATE Project SET title = :title, wiki = :wiki, dateProject = :dateProject WHERE idProject = :idProject");
 
     try {
         $stmt->execute(array(
@@ -62,7 +62,7 @@ function updateProject($idProject,$projectTitle,$projectWiki,$dateProject) {
 
 function deleteProject($idProject) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("DELETE FROM project WHERE idProject = :idProject");
+    $stmt = $DB_DB->prepare("DELETE FROM Project WHERE idProject = :idProject");
 
     try {
         $stmt->execute(array(

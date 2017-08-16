@@ -17,7 +17,7 @@
                 $_POST['email'],
                 $_POST['emailBis'],
                 $_POST['birthDate'],
-                $_POST['nbFunnies'],
+                5, // $_POST['nbFunnies'], TODO : use global parameter.
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
                 $_POST['idPicture']);

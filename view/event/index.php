@@ -1,7 +1,7 @@
 <?php
     // TODO : delete HTML in subpages.
-    loadModules("event");
 
+    loadModules("event");
     include("static/eventMenu.php");
 
     if(isset($_GET['idEdit'])) {
