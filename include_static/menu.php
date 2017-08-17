@@ -14,6 +14,7 @@
         <a href="?page=event"><?=$lang["event_management"]?></a>
         <a href="?page=machine"><?=$lang["machine"]?></a>
         <a href="?page=project"><?=$lang["project_management"]?></a>
+        <a href="?page=administration"><?=$lang["administration"]?></a>
         <!-- Gestion materiaux. -->
         <form action="" method="post">
             <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">

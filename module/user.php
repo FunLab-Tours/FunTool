@@ -327,6 +327,11 @@
         return $DB_DB->query('SELECT * FROM User WHERE idUser = '.$id)->fetch();
     }
 
+    function getUserList(){
+        global $DB_DB;
+        return $DB_DB->query('SELECT * FROM User')->fetchAll();
+    }
+
     function editUser(  $firstName,
                         $name,
                         $telephone,
@@ -408,6 +413,36 @@
                 'inscriptionActiveList' => $inscriptionActiveListBoolean,
                 'inscriptionNews' => $inscriptionNewsBoolean,
                 'idPicture' => $idPicture
+/*function editUser(  $firstName,
+                    $name,
+                    $telephone,
+                    $adressL1,
+                    $adressL2,
+                    $adressL3,
+                    $zipCode,
+                    $town,
+                    $country,
+                    $email,
+                    $emailBis,
+                    $birthDate,
+                    $inscriptionActiveList,
+                    $inscriptionNews,
+                    $picture) {
+    global $DB_DB;
+
+    $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
+    $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
+
+    //Tout d'abord on ajoute la photo de profil si il elle a été changé
+    $idPicture = $DB_DB->query('SELECT idPicture FROM Picture WHERE picture LIKE '.$picture)->fetch()[0];
+    if($idPicture == null) {
+        $request = $DB_DB->prepare('INSERT INTO Picture (picture, categoryPicture)
+                                               VALUE (:picture, :categoryPicture)');
+        try {
+            $request->execute(array(
+                'picture' => $picture,
+                'categoryPicture' => "ProfilUser"
+>>>>>>> End og rights and roles managment*/
             ));
         }
         catch(Exception $e) {

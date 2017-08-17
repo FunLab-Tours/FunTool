@@ -56,6 +56,10 @@
         catch(Exception $e) {
             echo $e;
         }
+
+        //On supprime les sous-familles
+        foreach(getSubFamilyList($idDelete) as $subFamily)
+            deleteSubFamily($subFamily['idSubFamily']);
 		
 		//Puis on supprime la famille
 		$request = $DB_DB->prepare('DELETE FROM Family WHERE idFamily = :idDelete');

@@ -221,7 +221,6 @@
 
         $idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
         global $DB_DB;
-        var_dump($idsSubFamily);
         $request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
                                                         shortLabel = :shortLabel,
                                                         longLabel = :longLabel,
@@ -251,18 +250,18 @@
                 'idLab' => $idLab
             ));
 
-
-            foreach($idsSubFamily as $idSubFamily){
-                $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMAchine');
-                $request->execute(array(
-                    'idMachine' => $idMachine
-                ));
-                $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
-                $request->execute(array(
-                    'idMachine' => $idMachine,
-                    'idSubFamily' => $idSubFamily
-                ));
-            }
+            if($idsSubFamily != null)
+                foreach($idsSubFamily as $idSubFamily){
+                    $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMAchine');
+                    $request->execute(array(
+                        'idMachine' => $idMachine
+                    ));
+                    $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
+                    $request->execute(array(
+                        'idMachine' => $idMachine,
+                        'idSubFamily' => $idSubFamily
+                    ));
+                }
 
         }
         catch(Exception $e) {

@@ -124,6 +124,26 @@
     $lang['url_image'] = "Lien de l'image";
     $lang['description_image'] = "Description de l'image";
 
+    $lang["administration"] = "Administration";
+    $lang["listUser"] = "Listes des utilisateurs";
+    $lang["roleManagment"] = "Gestion des rôles";
+    $lang["rightManagment"] = "Gestion des droits";
+    $lang["roles"] = "Rôles";
+    $lang["rights"] = "Droits";
+    $lang["addRight"] = "Ajouter un droit";
+    $lang["addRole"] = "Ajouter un role";
+    $lang["rightsTitle"] = "Nom du droit";
+    $lang["rightsDescription"] = "Description du droit";
+    $lang["rightsPath"] = "Page concernée";
+    $lang["addRight"] = "Ajouter un droit";
+    $lang["roleName"] = "Nom du rôle";
+    $lang["roleDescription"] = "Description du rôle";
+    $lang["rightsList"] = "Liste des droits";
+    $lang["editRight"] = "Modifier le droit";
+    $lang["deleteConfirmation"] = "Are you sure you want to delete?";
+
+    $lang["rightsAndRoles"] = "Gestion des droits et des rôles utilisateurs";
+
     $error = [];
     $error[-1] = "Erreur Inconnue";
 

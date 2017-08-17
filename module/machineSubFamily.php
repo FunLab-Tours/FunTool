@@ -34,12 +34,26 @@
     function getSubFamilyListMachine($idMachine)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SubFamily sf INNER JOIN machineinsubfamily j ON sf.idSubFamily = j.idSubFamily WHERE idMachine ='.$idMachine);
+        return $DB_DB->query('SELECT * FROM SubFamily WHERE idSubFamily IN (SELECT idSubFamily FROM machineInSubFamily WHERE idMachine ='.$idMachine.')');
     }
 	
 	function deleteSubFamily($idDelete)
 	{
 		global $DB_DB;
+
+		//On supprime tout les liens
+        $request = $DB_DB->prepare('DELETE FROM machineInSubFamily WHERE idSubFamily = :idDelete');
+
+        try{
+            $request->execute(array(
+                'idDelete' => $idDelete
+            ));
+        }
+        catch(Exception $e){
+            echo $e;
+        }
+
+        //Puis on supprime la sous-famille
 		$request = $DB_DB->prepare('DELETE FROM SubFamily WHERE idSubFamily = :idDelete');
 		
 		try{

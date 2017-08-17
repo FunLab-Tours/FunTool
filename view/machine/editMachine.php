@@ -1,23 +1,39 @@
 <?php
     if(isset($_POST['submit'])) {
         if(isValidMachineSubmit()) {
-            echo $_POST['idsSubFamily'];
-            editMachine($_GET['idEdit'],
-                $_POST['codeMachine'],
-                $_POST['shortLabel'],
-                $_POST['longLabel'],
-                $_POST['serialNumber'],
-                $_POST['manufacturer'],
-                $_POST['comment'],
-                $_POST['docLink1'],
-                $_POST['docLink2'],
-                $_POST['idFamily'],
-                $_POST['idsSubFamily'],
-                $_POST['cost'],
-                $_POST['costCoeff'],
-                $_POST['idLab']
-            );
-            header('Location: index.php?page=machine');
+            var_dump($_POST['idSubFamily']);
+            if(isset($_POST['idSubFamily']))
+                editMachine($_GET['idEdit'],
+                    $_POST['codeMachine'],
+                    $_POST['shortLabel'],
+                    $_POST['longLabel'],
+                    $_POST['serialNumber'],
+                    $_POST['manufacturer'],
+                    $_POST['comment'],
+                    $_POST['docLink1'],
+                    $_POST['docLink2'],
+                    $_POST['idFamily'],
+                    $_POST['idsSubFamily'],
+                    $_POST['cost'],
+                    $_POST['costCoeff'],
+                    $_POST['idLab']
+                );
+            else editMachine($_GET['idEdit'],
+                    $_POST['codeMachine'],
+                    $_POST['shortLabel'],
+                    $_POST['longLabel'],
+                    $_POST['serialNumber'],
+                    $_POST['manufacturer'],
+                    $_POST['comment'],
+                    $_POST['docLink1'],
+                    $_POST['docLink2'],
+                    $_POST['idFamily'],
+                    null,
+                    $_POST['cost'],
+                    $_POST['costCoeff'],
+                    $_POST['idLab']
+                );
+            //header('Location: index.php?page=machine');
         }
     }
 ?>
@@ -69,7 +85,7 @@
                                 } ?>
                             </select>
                         </td>
-                        <td id = "idSubFamily" name="idsSubFamily"> <div ></div></td>
+                        <td><div id="idSubFamily"></div></td>
                         <td><input type="number" min="0" name="cost"
                                    value="<?= getCostUnit($row['idCostUnit'])[0] ?>"/></td>
                         <td><input type="number" min="0" step="0.1" name="costCoeff"
