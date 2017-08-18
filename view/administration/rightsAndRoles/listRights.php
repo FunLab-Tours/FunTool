@@ -9,7 +9,7 @@ if(isset($_POST['submit']) && $_POST['rightsTitle'] != "" && $_POST['rightsPath'
     if(addRight( $_POST['rightsTitle'],
         $_POST['rightsDescription'],
         $_POST['rightsPath']
-    ));
+    ))
         header('Location: index.php?page=administration&rightsAndRoles&listRights=1');
 }
 ?>

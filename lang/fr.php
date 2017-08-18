@@ -7,6 +7,8 @@
     $lang["lab_management"] = "Gérer les labs";
     $lang["event_management"] = "Gérer les événements";
     $lang["machine"] = "Gérer les machines";
+    $lang["userList"] = "Liste des utilisateurs";
+    $lang["mailBox"] = "Messagerie";
 
     $lang["yes"] = "Oui";
     $lang["no"] = "Non";
@@ -135,14 +137,27 @@
     $lang["rightsTitle"] = "Nom du droit";
     $lang["rightsDescription"] = "Description du droit";
     $lang["rightsPath"] = "Page concernée";
-    $lang["addRight"] = "Ajouter un droit";
     $lang["roleName"] = "Nom du rôle";
     $lang["roleDescription"] = "Description du rôle";
     $lang["rightsList"] = "Liste des droits";
     $lang["editRight"] = "Modifier le droit";
     $lang["deleteConfirmation"] = "Are you sure you want to delete?";
-
     $lang["rightsAndRoles"] = "Gestion des droits et des rôles utilisateurs";
+
+    $lang["user"] = "Profil";
+    $lang["skills"] = "Gestion des compétences";
+    $lang["knowledge"] = "Gestion des connaissances";
+    $lang["skillName"] = "Nom de la compétence";
+    $lang["skillDescription"] = "Description";
+    $lang["skillType"] = "Type";
+    $lang["addSkill"] = "Ajouter une compétence";
+    $lang["addSkillType"] = "Ajouter un type de compétence";
+    $lang["skillTypeName"] = "Nom du type";
+    $lang["usersSkills"] = "Mes compétences";
+    $lang["assignSkill"] = "Ajouter une compétence";
+    $lang['skillLevel'] = "Niveau de compétence";
+    $lang['comment'] = "Commentaire";
+
 
     $error = [];
     $error[-1] = "Erreur Inconnue";

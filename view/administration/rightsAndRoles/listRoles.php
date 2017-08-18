@@ -7,15 +7,17 @@
  */
 if(isset($_POST['submit'])) {
     if(isset($_POST['rightsList']))
-        addRole( $_POST['roleName'],
+        if(addRole( $_POST['roleName'],
             $_POST['roleDescription'],
             $_POST['rightsList']
-        );
-    else addRole( $_POST['roleName'],
+        ))
+            header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+    else if(addRole( $_POST['roleName'],
         $_POST['roleDescription'],
         null
-         );
-    header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+         ))
+            header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+
 }
 ?>
 

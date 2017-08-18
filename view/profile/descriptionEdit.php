@@ -16,7 +16,7 @@
             $_POST['inscriptionActiveList'],
             $_POST['inscriptionNews'],
             $_POST['idPicture']);
-       //header('Location: index.php?page=profile');
+       header('Location: index.php?page=profile');
     }
 
     $user = getUser($_COOKIE['id']);
