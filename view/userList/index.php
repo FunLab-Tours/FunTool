@@ -6,6 +6,19 @@
  * Time: 14:50
  */
 
-?>
+loadModules("picture");
+loadModules("user");
+loadModules("searchUser");
+loadModules("rightsAndRoles");
+loadModules("skills");
+loadModules("knowledges/knowledges");
 
-TODO
+if(isset($_GET["details"]))
+    include("userCard.php");
+else{
+    include("searchMenu.php");
+    if(isset($_GET["search"]))
+        include("result.php");
+    else
+        include("listUser.php");
+}

@@ -1,10 +1,10 @@
 <?php
-    loadModules("machine");
-	loadModules("machineFamily");
-	loadModules("machineSubFamily");
+    loadModules("machine/machine");
+	loadModules("machine/machineFamily");
+	loadModules("machine/machineSubFamily");
 	loadModules("picture");
 	loadModules("lab");
-	loadModules("costUnit");
+	loadModules("machine/costUnit");
 
 	include("static/machineMenu.php");
 
