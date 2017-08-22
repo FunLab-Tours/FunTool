@@ -54,7 +54,7 @@
     $lang["labDescription"] = "Description du Lab";
     $lang["addLab"] = "Ajouter un Lab";
 
-    $lang["events"] = "Tout les événements";
+    $lang["events"] = "Tous les événements";
     $lang["event_add"] = "Créer un événement";
     $lang["shortSumEvent"] = "Intitulé de l'événement";
     $lang["longSumEvent"] = "Description de l'événement";

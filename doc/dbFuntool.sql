@@ -118,16 +118,12 @@ CREATE TABLE Empowerment(
 #------------------------------------------------------------
 
 CREATE TABLE FunniesPurchase(
-        idPurchase      int (11) Auto_increment  NOT NULL ,
-        purchaseAmount  Integer ,
-        comment         Text ,
-        purchaseDate    Datetime ,
-        entryDate       Datetime ,
-        purchaseStatus  Varchar (255) ,
-        idUser          Int ,
-        idUser_1        Int ,
-        currency        Varchar (25) ,
-        idPaymentMethod Int ,
+        idPurchase     int (11) Auto_increment  NOT NULL ,
+        purchaseAmount Integer ,
+        comment        Text ,
+        purchaseDate   Datetime ,
+        entryDate      Datetime ,
+        purchaseStatus Varchar (255) ,
         PRIMARY KEY (idPurchase )
 )ENGINE=InnoDB;
 
@@ -143,6 +139,7 @@ CREATE TABLE FunniesTransfert(
         comment         Text ,
         entryDate       Datetime ,
         idUser          Int ,
+        idUser_1        Int ,
         PRIMARY KEY (idTransfert )
 )ENGINE=InnoDB;
 
@@ -210,6 +207,7 @@ CREATE TABLE Picture(
         idMat              Int ,
         idUser             Int ,
         idLab              Int ,
+        idProject          Int ,
         PRIMARY KEY (idPicture )
 )ENGINE=InnoDB;
 
@@ -236,23 +234,16 @@ CREATE TABLE Corporation(
 
 
 #------------------------------------------------------------
-# Table: Membership
+# Table: MembershipFrame
 #------------------------------------------------------------
 
-CREATE TABLE Membership(
-        idMembership      int (11) Auto_increment  NOT NULL ,
-        priceMembershipNP DECIMAL (15,3)  ,
-        priceMembershipLP DECIMAL (15,3)  ,
-        priceMembershipLE DECIMAL (15,3)  ,
+CREATE TABLE MembershipFrame(
+        idMembershipFrame int (11) Auto_increment  NOT NULL ,
         bonusMembership   Integer ,
-        effectiveDate     Date ,
         entryDate         Datetime ,
-        membershipDate    Date ,
-        membershipCost    DECIMAL (15,3)  ,
-        idUser            Int ,
-        idPaymentMethod   Int ,
-        PRIMARY KEY (idMembership ) ,
-        INDEX (effectiveDate )
+        frameNamePrice    Varchar (255) ,
+        coeffFramePrice   Int ,
+        PRIMARY KEY (idMembershipFrame )
 )ENGINE=InnoDB;
 
 
@@ -264,7 +255,6 @@ CREATE TABLE VariousSkills(
         idSkill          int (11) Auto_increment  NOT NULL ,
         skillName        Varchar (255) ,
         skillDescription Text ,
-        skillType        Varchar (25) ,
         idSkillType      Int ,
         PRIMARY KEY (idSkill )
 )ENGINE=InnoDB;
@@ -372,15 +362,18 @@ CREATE TABLE CostUnit(
 CREATE TABLE PaymentMethod(
         idPaymentMethod int (11) Auto_increment  NOT NULL ,
         paymentType     Varchar (25) ,
+        webPayment      Bool ,
+        commentary      Varchar (255) ,
+        idUser          Int ,
         PRIMARY KEY (idPaymentMethod )
 )ENGINE=InnoDB;
 
 
 #------------------------------------------------------------
-# Table: Skilltype
+# Table: SkillType
 #------------------------------------------------------------
 
-CREATE TABLE Skilltype(
+CREATE TABLE SkillType(
         idSkillType   int (11) Auto_increment  NOT NULL ,
         skillTypeName Varchar (25) ,
         PRIMARY KEY (idSkillType )
@@ -392,10 +385,10 @@ CREATE TABLE Skilltype(
 #------------------------------------------------------------
 
 CREATE TABLE Rights(
-        idRights         int (11) Auto_increment  NOT NULL ,
-        rightsTitle      Varchar (25) ,
-        rightsDecription Text ,
-        rigthsPath       Varchar (25) ,
+        idRights          int (11) Auto_increment  NOT NULL ,
+        rightsTitle       Varchar (25) ,
+        rightsDescription Text ,
+        rigthsPath        Varchar (25) ,
         PRIMARY KEY (idRights )
 )ENGINE=InnoDB;
 
@@ -433,6 +426,29 @@ CREATE TABLE Historical(
         messageRepair Text ,
         idMaintenance Int ,
         PRIMARY KEY (idHistorical )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: FunniesPurchaseFrame
+#------------------------------------------------------------
+
+CREATE TABLE FunniesPurchaseFrame(
+        idFunniesPurchaseFrame int (11) Auto_increment  NOT NULL ,
+        frameNamePrice         Varchar (255) ,
+        coeffFramePrice        Int ,
+        PRIMARY KEY (idFunniesPurchaseFrame )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: Membership
+#------------------------------------------------------------
+
+CREATE TABLE Membership(
+        idMembership int (11) Auto_increment  NOT NULL ,
+        registerDate Date ,
+        PRIMARY KEY (idMembership )
 )ENGINE=InnoDB;
 
 
@@ -552,11 +568,21 @@ CREATE TABLE isIncludeIn(
 
 
 #------------------------------------------------------------
+# Table: lead
+#------------------------------------------------------------
+
+CREATE TABLE lead(
+        idUser    Int NOT NULL ,
+        idProject Int NOT NULL ,
+        PRIMARY KEY (idUser ,idProject )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
 # Table: participate
 #------------------------------------------------------------
 
 CREATE TABLE participate(
-        status    Varchar (50) ,
         idUser    Int NOT NULL ,
         idProject Int NOT NULL ,
         PRIMARY KEY (idUser ,idProject )
@@ -655,18 +681,6 @@ CREATE TABLE repair(
 
 
 #------------------------------------------------------------
-# Table: ownPhotoProject
-#------------------------------------------------------------
-
-CREATE TABLE ownPhotoProject(
-        logoProject Bool ,
-        idPicture   Int NOT NULL ,
-        idProject   Int NOT NULL ,
-        PRIMARY KEY (idPicture ,idProject )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: consume
 #------------------------------------------------------------
 
@@ -689,6 +703,32 @@ CREATE TABLE reserve(
         PRIMARY KEY (idUser ,idMachine )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: funniesPurchaseTransaction
+#------------------------------------------------------------
+
+CREATE TABLE funniesPurchaseTransaction(
+        idUser                 Int NOT NULL ,
+        idFunniesPurchaseFrame Int NOT NULL ,
+        idPaymentMethod        Int NOT NULL ,
+        idPurchase             Int NOT NULL ,
+        PRIMARY KEY (idUser ,idFunniesPurchaseFrame ,idPaymentMethod ,idPurchase )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: membershipTransaction
+#------------------------------------------------------------
+
+CREATE TABLE membershipTransaction(
+        idMembership      Int NOT NULL ,
+        idMembershipFrame Int NOT NULL ,
+        idPaymentMethod   Int NOT NULL ,
+        idUser            Int NOT NULL ,
+        PRIMARY KEY (idMembership ,idMembershipFrame ,idPaymentMethod ,idUser )
+)ENGINE=InnoDB;
+
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
@@ -696,10 +736,8 @@ ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idLab FOREIGN KEY (idLab) REFERENC
 ALTER TABLE SubFamily ADD CONSTRAINT FK_SubFamily_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE User ADD CONSTRAINT FK_User_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Empowerment ADD CONSTRAINT FK_Empowerment_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE FunniesPurchase ADD CONSTRAINT FK_FunniesPurchase_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE FunniesPurchase ADD CONSTRAINT FK_FunniesPurchase_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
-ALTER TABLE FunniesPurchase ADD CONSTRAINT FK_FunniesPurchase_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE FunniesTransfert ADD CONSTRAINT FK_FunniesTransfert_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE FunniesTransfert ADD CONSTRAINT FK_FunniesTransfert_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
@@ -708,12 +746,12 @@ ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPictu
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE Membership ADD CONSTRAINT FK_Membership_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
-ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES Skilltype(idSkillType);
+ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
+ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES SkillType(idSkillType);
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
+ALTER TABLE PaymentMethod ADD CONSTRAINT FK_PaymentMethod_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -735,6 +773,8 @@ ALTER TABLE register ADD CONSTRAINT FK_register_idUser FOREIGN KEY (idUser) REFE
 ALTER TABLE register ADD CONSTRAINT FK_register_idEvent FOREIGN KEY (idEvent) REFERENCES Events(idEvent);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE isIncludeIn ADD CONSTRAINT FK_isIncludeIn_idProCat FOREIGN KEY (idProCat) REFERENCES ProjectCategory(idProCat);
+ALTER TABLE lead ADD CONSTRAINT FK_lead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE lead ADD CONSTRAINT FK_lead_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE participate ADD CONSTRAINT FK_participate_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE participate ADD CONSTRAINT FK_participate_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE employ ADD CONSTRAINT FK_employ_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
@@ -753,9 +793,15 @@ ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idLab FOREIGN KEY (idLab) 
 ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE ownPhotoProject ADD CONSTRAINT FK_ownPhotoProject_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
-ALTER TABLE ownPhotoProject ADD CONSTRAINT FK_ownPhotoProject_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
+ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idFunniesPurchaseFrame FOREIGN KEY (idFunniesPurchaseFrame) REFERENCES FunniesPurchaseFrame(idFunniesPurchaseFrame);
+ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
+ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idPurchase FOREIGN KEY (idPurchase) REFERENCES FunniesPurchase(idPurchase);
+ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembership FOREIGN KEY (idMembership) REFERENCES Membership(idMembership);
+ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
+ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
+ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
