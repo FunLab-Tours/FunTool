@@ -3,8 +3,8 @@ include("../include/config.php");
 include("../include/lang.php");
 include("../include/module.php");
 include("../include/db.php");
-loadModules("machineSubFamily");
-loadModules("machine");
+loadModules("machine/machineSubFamily");
+loadModules("machine/machine");
 
 if(isset($_GET['machine']) && $_GET["machine"] && isset($_GET['family']) && $_GET["family"]){
 
@@ -16,7 +16,7 @@ if(isset($_GET['machine']) && $_GET["machine"] && isset($_GET['family']) && $_GE
     if(count($result) != 0)
     {
         $ids = array();
-        echo "<td><select multiple name =\"idSubFamily[]\"> <option value=\"\" disabled >".$lang['machineSubFamily']."</option>";
+        echo "<select multiple name =\"idSubFamily[]\"> <option value=\"\" disabled >".$lang['machineSubFamily']."</option>";
         //Affichage des sous-familles de la machine
         foreach ($result as $row) {
             array_push($ids, $row['idSubFamily']);
@@ -33,16 +33,16 @@ if(isset($_GET['machine']) && $_GET["machine"] && isset($_GET['family']) && $_GE
                     echo "<option value=\"" . $row['idSubFamily'] . "\">" . $row['labelSubFamily'] . "</option>";
             }
         }
-        echo "</select></td>";
+        echo "</select>";
     }
     else {
         $result = getSubFamilyList($idFamily/*getMachine($idMachine)['idFamily']*/);
         //Affichage de tout les sous-familles de la machine
-        echo "<td><select multiple name =\"idSubFamily[]\"> <option value=\"\" selected=\"selected\">".$lang['machineSubFamily']."</option>";
+        echo "<select multiple name =\"idSubFamily[]\"> <option value=\"\" selected=\"selected\">".$lang['machineSubFamily']."</option>";
         foreach($result as $row) {
             echo "<option value=\"" . $row['idSubFamily'] . "\">". $row['labelSubFamily'] . "</option>";
         }
-        echo "</select></td>";
+        echo "</select>";
     }
 }else{
     echo "Can't get parameters !";

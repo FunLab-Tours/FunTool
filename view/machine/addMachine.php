@@ -36,8 +36,7 @@
     <input type="text" placeholder="<?=$lang['docLink2Input']?>" name="docLink2" />
     <select name ="idFamily" onchange="updateSubList(this.value)">
         <option value="" selected="selected"><?=$lang['machineFamily']?></option>
-        <?php
-        foreach(getFamilyList() as $row){?>
+        <?php foreach(getFamilyList() as $row){?>
             <option value="<?=$row['idFamily']?>"><?=$row['familyLabel']?></option>
         <?php } ?>
     </select>
@@ -54,7 +53,6 @@
     </select>
     <input type="submit" value="<?=$lang["submit"]?>" name="submit">
 </form>
-<br>
 
 <script>
     function updateSubList(str) {

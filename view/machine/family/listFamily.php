@@ -1,5 +1,6 @@
 <body>
 
+
     <table width='80%' border=0>
 
         <tr bgcolor='#CCCCCC'>
@@ -8,7 +9,6 @@
             <td><?=$lang["family_nbr_sub"]?></td>
         </tr>
 
-        <a href="?page=machine&add_family=0"><?=$lang["add_family"]?></a>
         <?php
             foreach(getFamilyList() as $row) {
         ?>
@@ -23,6 +23,7 @@
                     </td>
 
                 </tr>
+                <!--Affichage des sous-familles de la famille sous celle-ci-->
                 <?php
                 foreach(getSubFamilyList($row['idFamily']) as $subrow) {
                     ?>
@@ -36,4 +37,6 @@
             }
         ?>
     </table>
+
+    <a href="?page=machine&add_family=0"><?=$lang["add_family"]?></a>
 </body>

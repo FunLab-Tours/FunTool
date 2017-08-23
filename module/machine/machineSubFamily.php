@@ -70,7 +70,7 @@
 	{
         global $DB_DB;
 		$request = $DB_DB->prepare('UPDATE SubFamily SET  codeSubFamily = :codeSubFamily,
-                                                       labelSubFamily = :labelSubFamily,
+                                                       labelSubFamily = :labelSubFamily
                                     WHERE idSubFamily = :idSubFamily');
 
         try {
