@@ -1,0 +1,24 @@
+<?php
+//$membershipEndingDate = date('Y-m-d', strtotime('+1 year'));
+$entryDate = date('Ymd');
+    if(isset($_POST['submit'])){
+        addMembershipFrame($_POST['bonusMembership'],
+            $entryDate,
+            $_POST['frameName'],
+            $_POST['framePrice']);
+            header('Location: index.php?page=membership');
+    }
+
+?>
+
+
+<form action="" method="POST">
+    <input type="text" placeholder="<?=$lang["frameName"]?>" name="frameName" />
+    <br><br> 
+    <input type="number" min="0" placeholder="<?=$lang["framePrice"]?>" name="framePrice" />
+    <br><br> 
+    <input type="number" min="0" placeholder="<?=$lang["bonusMembership"]?>" name="bonusMembership" />
+    <br><br> 
+    <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
+    
+</form> 

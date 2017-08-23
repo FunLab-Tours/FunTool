@@ -114,21 +114,6 @@ CREATE TABLE Empowerment(
 
 
 #------------------------------------------------------------
-# Table: FunniesPurchase
-#------------------------------------------------------------
-
-CREATE TABLE FunniesPurchase(
-        idPurchase     int (11) Auto_increment  NOT NULL ,
-        purchaseAmount Integer ,
-        comment        Text ,
-        purchaseDate   Datetime ,
-        entryDate      Datetime ,
-        purchaseStatus Varchar (255) ,
-        PRIMARY KEY (idPurchase )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: FunniesTransfert
 #------------------------------------------------------------
 
@@ -242,7 +227,7 @@ CREATE TABLE MembershipFrame(
         bonusMembership   Integer ,
         entryDate         Datetime ,
         frameNamePrice    Varchar (255) ,
-        coeffFramePrice   Int ,
+        framePrice        Int ,
         PRIMARY KEY (idMembershipFrame )
 )ENGINE=InnoDB;
 
@@ -426,29 +411,6 @@ CREATE TABLE Historical(
         messageRepair Text ,
         idMaintenance Int ,
         PRIMARY KEY (idHistorical )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: FunniesPurchaseFrame
-#------------------------------------------------------------
-
-CREATE TABLE FunniesPurchaseFrame(
-        idFunniesPurchaseFrame int (11) Auto_increment  NOT NULL ,
-        frameNamePrice         Varchar (255) ,
-        coeffFramePrice        Int ,
-        PRIMARY KEY (idFunniesPurchaseFrame )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Membership
-#------------------------------------------------------------
-
-CREATE TABLE Membership(
-        idMembership int (11) Auto_increment  NOT NULL ,
-        registerDate Date ,
-        PRIMARY KEY (idMembership )
 )ENGINE=InnoDB;
 
 
@@ -709,11 +671,13 @@ CREATE TABLE reserve(
 #------------------------------------------------------------
 
 CREATE TABLE funniesPurchaseTransaction(
-        idUser                 Int NOT NULL ,
-        idFunniesPurchaseFrame Int NOT NULL ,
-        idPaymentMethod        Int NOT NULL ,
-        idPurchase             Int NOT NULL ,
-        PRIMARY KEY (idUser ,idFunniesPurchaseFrame ,idPaymentMethod ,idPurchase )
+        purchaseAmount  Int ,
+        comments        Text ,
+        purchaseDate    Datetime ,
+        purchaseStatus  Varchar (255) ,
+        idUser          Int NOT NULL ,
+        idPaymentMethod Int NOT NULL ,
+        PRIMARY KEY (idUser ,idPaymentMethod )
 )ENGINE=InnoDB;
 
 
@@ -722,11 +686,11 @@ CREATE TABLE funniesPurchaseTransaction(
 #------------------------------------------------------------
 
 CREATE TABLE membershipTransaction(
-        idMembership      Int NOT NULL ,
+        registerDate      Date ,
         idMembershipFrame Int NOT NULL ,
         idPaymentMethod   Int NOT NULL ,
         idUser            Int NOT NULL ,
-        PRIMARY KEY (idMembership ,idMembershipFrame ,idPaymentMethod ,idUser )
+        PRIMARY KEY (idMembershipFrame ,idPaymentMethod ,idUser )
 )ENGINE=InnoDB;
 
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
@@ -798,10 +762,7 @@ ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENC
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idFunniesPurchaseFrame FOREIGN KEY (idFunniesPurchaseFrame) REFERENCES FunniesPurchaseFrame(idFunniesPurchaseFrame);
 ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
-ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idPurchase FOREIGN KEY (idPurchase) REFERENCES FunniesPurchase(idPurchase);
-ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembership FOREIGN KEY (idMembership) REFERENCES Membership(idMembership);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);

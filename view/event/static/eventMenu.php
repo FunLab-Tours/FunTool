@@ -6,5 +6,5 @@
  * Time: 11:41
  */
  -->
-<a href="?page=event&listEvent=0"><?=$lang["events"]?></a>
+<a href="?page=event"><?=$lang["events"]?></a>
 <a href="?page=event&addEvent=0"><?=$lang["event_add"]?></a>

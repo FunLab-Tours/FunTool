@@ -158,6 +158,12 @@
     $lang['skillLevel'] = "Niveau de compétence";
     $lang['comment'] = "Commentaire";
 
+    $lang["bonusMembership"] = "Bonus de Funnies";
+    $lang["frameName"] = "Nom de la formule d'adhésion";
+    $lang["framePrice"] = "Coût de l'adhésion";
+    $lang["addMembershipFrame"] = "Ajouter une formule d'adhésion";
+    $lang["listMembershipFrame"] = "Liste des formules d'adhésion";
+    $lang["entryDate"] = "Mise à jour le";
 
     $error = [];
     $error[-1] = "Erreur Inconnue";
