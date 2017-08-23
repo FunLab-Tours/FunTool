@@ -17,27 +17,27 @@
         <td><?=$lang["pricePlace"]?></td>
     </tr>
 
-        <?php
+<?php
 
-            foreach(selectEvent($_GET['idEdit']) as $row){  ?>
-                <tr>
-                    <form action="" method="post">
-                        <td><input type="text" name="shortSumEvent" value ="<?=$row['shortSumEvent']?>" /></td>
-                        <td><textarea rows="5" cols="50" name="longSumEvent"><?=$row['longSumEvent']?></textarea></td>
-                        <td><input type="datetime-local" value="<?= str_replace(" ","T",$row['startdateEvent']);?>"  name="startdateEvent" /></td>
-                        <td><input type="datetime-local" value="<?=str_replace(" ","T",$row['endDatEvent']);?>" name="endDatEvent" /></td>
-                        <td><select name="statutEvent">
-                            <?=editLabelSelectBox($row['statutEvent'])?>
-                            <option value="<?=$row['statutEvent']?>" selected><?=labelSelectBox($row['statutEvent'])?></option>
-                        </select></td>
-                        <td><input type="number" value="<?=$row['nbPlaces']?>" name="nbPlaces" /></td>
-                        <td><input type="number" value="<?=$row['pricePlace']?>" name="pricePlace" /></td>
-                        <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=event"><?=$lang["cancel"]?></a></td>
-                    </form>
-                </tr>
-                <?php 
-            }
-        ?>
+    foreach(selectEvent($_GET['idEdit']) as $row){  ?>
+        <tr>
+            <form action="" method="post">
+                <td><input type="text" placeholder="<?=$lang["shortSumEvent"]?>" name="shortSumEvent" value ="<?=$row['shortSumEvent']?>" /></td>
+                <td><textarea rows="5" cols="50" placeholder="<?=$lang["longSumEvent"]?>" name="longSumEvent"><?=$row['longSumEvent']?></textarea></td>
+                <td><input type="datetime-local" value="<?= str_replace(" ","T",$row['startdateEvent']);?>"  name="startdateEvent" /></td>
+                <td><input type="datetime-local" value="<?=str_replace(" ","T",$row['endDatEvent']);?>" name="endDatEvent" /></td>
+                <td><select name="statutEvent">
+                        <?=editLabelSelectBox($row['statutEvent'])?>
+                        <option value="<?=$row['statutEvent']?>" selected><?=labelSelectBox($row['statutEvent'])?></option>
+                    </select></td>
+                <td><input type="number" placeholder="<?=$lang["nbPlaces"]?>" value="<?=$row['nbPlaces']?>" name="nbPlaces" /></td>
+                <td><input type="number" placeholder="<?=$lang["pricePlace"]?>" value="<?=$row['pricePlace']?>" name="pricePlace" /></td>
+                <td><input type="submit" value=<?=$lang["submit"]?> name="submit"><a href="index.php?page=event"><?=$lang["cancel"]?></a></td>
+            </form>
+        </tr>
+<?php 
+    }
+?>
 
     </table>
 </body>

@@ -1,3 +1,11 @@
+<?php
+    $entryDate = date('Ymd');
+    if(isset($_POST['submit']) && !empty($_POST['submit'])) {
+        updateMembershipFrame($_GET['idFrameEdit'], $_POST['bonusMembership'], $entryDate, $_POST['frameName'], $_POST['framePrice']);
+        header('Location: index.php?page=membership&listMembershipFrame=0');
+        }
+?>
+
 <table width='80%' border=0>
  
     <tr bgcolor='#CCCCCC'>
@@ -11,15 +19,16 @@
         foreach(listAllMembershipFrame() as $row){
             if($row['idMembershipFrame'] == $_GET['idFrameEdit']){?>
                 <tr>
-                    <form action="" method="POST">
-                        <td><input type="text" placeholder="<?=$lang["frameName"]?>" name="frameName" value = <?=$row['frameName']?> /></td>
+                    <form action="" method="post">
+                        <td><input type="text" placeholder="<?=$lang["frameName"]?>" name="frameName" value ="<?=$row['frameName']?>" /></td>
                         <td><input type="number" min="0" placeholder="<?=$lang["framePrice"]?>" name="framePrice" value = <?=$row['framePrice']?> /></td>
-                        <td><input type="number" min="0" placeholder="<?=$lang["bonusMembership"]?>" name="bonusMembership" value = <?=$row['bonusMembership']?>/></td>
+                        <td><input type="number" min="0" placeholder="<?=$lang["bonusMembership"]?>" name="bonusMembership" value = <?=$row['bonusMembership']?> /></td>
                         <td><input type="submit" value="<?=$lang["submit"]?>" name="submit"></td>
-                        <td><a href="index.php?page=lab"><?=$lang["cancel"]?></a></td>
+                        <td><a href="index.php?page=membership&listMembershipFrame=0"><?=$lang["cancel"]?></a></td>
                 </tr>
                     </form> 
     <?php
+    echo $row['bonusMembership'];
             }
             else {?>
            <tr>

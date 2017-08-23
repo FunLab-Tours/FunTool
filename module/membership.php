@@ -24,7 +24,7 @@ function listAllMembershipFrame(){
     return $result;
 }
 
-function updateMembershipFrame($bonusMembership,$entryDate,$frameName,$framePrice){
+function updateMembershipFrame($idMembershipFrame,$bonusMembership,$entryDate,$frameName,$framePrice){
     global $DB_DB;
     $stmt = $DB_DB->prepare("UPDATE MembershipFrame SET bonusMembership = :bonusMembership, entryDate = :entryDate, 
                                                         frameName = :frameName, framePrice = :framePrice

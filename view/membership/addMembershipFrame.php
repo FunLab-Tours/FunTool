@@ -6,7 +6,7 @@ $entryDate = date('Ymd');
             $entryDate,
             $_POST['frameName'],
             $_POST['framePrice']);
-            header('Location: index.php?page=membership');
+            header('Location: index.php?page=membership&listMembershipFrame=0');
     }
 
 ?>
