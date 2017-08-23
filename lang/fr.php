@@ -148,6 +148,7 @@ $lang["rightsAndRoles"] = "Gestion des droits et des rôles utilisateurs";
 $lang["user"] = "Profil";
 $lang["skills"] = "Gestion des compétences";
 $lang["knowledge"] = "Gestion des connaissances";
+$lang["knowledges"] = "Connaissances";
 $lang["skillName"] = "Nom de la compétence";
 $lang["skillDescription"] = "Description";
 $lang["skillType"] = "Type";
@@ -158,6 +159,27 @@ $lang["usersSkills"] = "Mes compétences";
 $lang["assignSkill"] = "Ajouter une compétence";
 $lang['skillLevel'] = "Niveau de compétence";
 $lang['comment'] = "Commentaire";
+
+$lang["knowledgeList"] = "Liste des connaisances logicielles";
+$lang["softwaresList"] = "Liste des logicielles";
+$lang["knowledgeCategoryNSubCategory"] = "Gestion des catégories et sous catégories";
+$lang["softwareName"] = "Nom du logiciel";
+$lang["softwareDescription"] = "Description du logiciel";
+$lang["addSoftware"] = "Ajouter un logiciel";
+$lang["assignSkill"] = "Ajouter une compétence";
+$lang['subCatCode'] = "Code de la sous-catégorie";
+$lang['subCatLabel'] = "Nom de la sous-catégorie";
+$lang["addSubCar"] = "Ajouter une sous-catégorie";
+$lang["catCode"] = "Code de la catégorie";
+$lang["catLabel"] = "Nom de la catégorie";
+$lang["addCat"] = "Ajouter une Catégorie";
+$lang["addSubCat"] = "Ajouter une sous-catégorie";
+$lang["categories"] = "Catégories du logiciel";
+$lang["subCategories"] = "Sous-catégories du logiciel";
+
+$lang["contact"] = "Contacter";
+$lang["moreDetails"] = "Plus de détails";
+$lang["picture"] = "Photo";
 
 $lang["bonusMembership"] = "Bonus de Funnies";
 $lang["frameName"] = "Nom de la formule d'adhésion";
