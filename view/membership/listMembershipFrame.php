@@ -2,6 +2,7 @@
  
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang["frameName"]?></td>
+        <td><?=$lang["frameComment"]?></td>
         <td><?=$lang["framePrice"]?></td>
         <td><?=$lang["bonusMembership"]?></td>
         <td><?=$lang["entryDate"]?></td>
@@ -11,6 +12,7 @@
         foreach(listAllMembershipFrame() as $row){
             echo "<tr>";
             echo "<td>".$row['frameName']."</td>";
+            echo "<td>".$row['frameComment']."</td>";
             echo "<td>".$row['framePrice']."</td>";
             echo "<td>".$row['bonusMembership']."</td>";
             echo "<td>".$row['entryDate']."</td>";

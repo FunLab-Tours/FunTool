@@ -186,6 +186,7 @@ $lang["framePrice"] = "Coût de l'adhésion";
 $lang["addMembershipFrame"] = "Ajouter une formule d'adhésion";
 $lang["listMembershipFrame"] = "Liste des formules d'adhésion";
 $lang["entryDate"] = "Mise à jour le";
+$lang["frameComment"] = "Description de la formule d'adhésion";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";

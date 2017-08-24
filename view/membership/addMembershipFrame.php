@@ -5,7 +5,9 @@ $entryDate = date('Ymd');
         addMembershipFrame($_POST['bonusMembership'],
             $entryDate,
             $_POST['frameName'],
-            $_POST['framePrice']);
+            $_POST['framePrice'],
+            $_POST['frameComment']);
+
             header('Location: index.php?page=membership&listMembershipFrame=0');
     }
 
@@ -15,6 +17,8 @@ $entryDate = date('Ymd');
 <form action="" method="POST">
     <input type="text" placeholder="<?=$lang["frameName"]?>" name="frameName" />
     <br><br> 
+    <input type="text" placeholder="<?=$lang["frameComment"]?>" name="frameComment" value = "" />
+    <br><br>
     <input type="number" min="0" placeholder="<?=$lang["framePrice"]?>" name="framePrice" />
     <br><br> 
     <input type="number" min="0" placeholder="<?=$lang["bonusMembership"]?>" name="bonusMembership" />
