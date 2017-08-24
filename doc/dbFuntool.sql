@@ -114,22 +114,6 @@ CREATE TABLE Empowerment(
 
 
 #------------------------------------------------------------
-# Table: FunniesTransfert
-#------------------------------------------------------------
-
-CREATE TABLE FunniesTransfert(
-        idTransfert     int (11) Auto_increment  NOT NULL ,
-        dateTransfert   Datetime ,
-        transfertAmount Integer ,
-        comment         Text ,
-        entryDate       Datetime ,
-        idUser          Int ,
-        idUser_1        Int ,
-        PRIMARY KEY (idTransfert )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: MachineUseForm
 #------------------------------------------------------------
 
@@ -151,12 +135,10 @@ CREATE TABLE MachineUseForm(
 #------------------------------------------------------------
 
 CREATE TABLE Message(
-        idMessage        int (11) Auto_increment  NOT NULL ,
-        textMessage      Text ,
-        startDateMessage Date ,
-        dateFinMessage   Date ,
-        recipient        Varchar (25) ,
-        idUser           Int ,
+        idMessage      int (11) Auto_increment  NOT NULL ,
+        textMessage    Text ,
+        sentDateTime   Datetime ,
+        idConversation Int NOT NULL ,
         PRIMARY KEY (idMessage )
 )ENGINE=InnoDB;
 
@@ -225,9 +207,10 @@ CREATE TABLE Corporation(
 CREATE TABLE MembershipFrame(
         idMembershipFrame int (11) Auto_increment  NOT NULL ,
         bonusMembership   Integer ,
-        entryDate         Datetime ,
-        frameNamePrice    Varchar (255) ,
+        entryDate         Date ,
+        frameName         Varchar (255) ,
         framePrice        Int ,
+        frameComment      Varchar (255) ,
         PRIMARY KEY (idMembershipFrame )
 )ENGINE=InnoDB;
 
@@ -289,7 +272,7 @@ CREATE TABLE SoftwareSubcategory(
 
 CREATE TABLE Events(
         idEvent        int (11) Auto_increment  NOT NULL ,
-        shortSumEvent  Varchar (25) ,
+        shortSumEvent  Varchar (255) ,
         longSumEvent   Varchar (255) ,
         startdateEvent Datetime ,
         endDatEvent    Datetime ,
@@ -415,6 +398,17 @@ CREATE TABLE Historical(
 
 
 #------------------------------------------------------------
+# Table: Conversation
+#------------------------------------------------------------
+
+CREATE TABLE Conversation(
+        idConversation int (11) Auto_increment  NOT NULL ,
+        startDateTime  Datetime ,
+        PRIMARY KEY (idConversation )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
 # Table: userRole
 #------------------------------------------------------------
 
@@ -445,17 +439,6 @@ CREATE TABLE need(
         idUseForm Int NOT NULL ,
         idMat     Int NOT NULL ,
         PRIMARY KEY (idUseForm ,idMat )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: sendTo
-#------------------------------------------------------------
-
-CREATE TABLE sendTo(
-        idUser    Int NOT NULL ,
-        idMessage Int NOT NULL ,
-        PRIMARY KEY (idUser ,idMessage )
 )ENGINE=InnoDB;
 
 
@@ -693,6 +676,31 @@ CREATE TABLE membershipTransaction(
         PRIMARY KEY (idMembershipFrame ,idPaymentMethod ,idUser )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: funniesTransfer
+#------------------------------------------------------------
+
+CREATE TABLE funniesTransfer(
+        dateTransfer    Date ,
+        transferAmount  Int ,
+        transferComment Varchar (255) ,
+        idUser          Int NOT NULL ,
+        idUser_1        Int NOT NULL ,
+        PRIMARY KEY (idUser ,idUser_1 )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: userInConversation
+#------------------------------------------------------------
+
+CREATE TABLE userInConversation(
+        idConversation Int NOT NULL ,
+        idUser         Int NOT NULL ,
+        PRIMARY KEY (idConversation ,idUser )
+)ENGINE=InnoDB;
+
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
@@ -700,12 +708,10 @@ ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idLab FOREIGN KEY (idLab) REFERENC
 ALTER TABLE SubFamily ADD CONSTRAINT FK_SubFamily_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE User ADD CONSTRAINT FK_User_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Empowerment ADD CONSTRAINT FK_Empowerment_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE FunniesTransfert ADD CONSTRAINT FK_FunniesTransfert_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE FunniesTransfert ADD CONSTRAINT FK_FunniesTransfert_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
-ALTER TABLE Message ADD CONSTRAINT FK_Message_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE Message ADD CONSTRAINT FK_Message_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -723,8 +729,6 @@ ALTER TABLE capacitationUser ADD CONSTRAINT FK_capacitationUser_idUser FOREIGN K
 ALTER TABLE capacitationUser ADD CONSTRAINT FK_capacitationUser_idEmpowerment FOREIGN KEY (idEmpowerment) REFERENCES Empowerment(idEmpowerment);
 ALTER TABLE need ADD CONSTRAINT FK_need_idUseForm FOREIGN KEY (idUseForm) REFERENCES MachineUseForm(idUseForm);
 ALTER TABLE need ADD CONSTRAINT FK_need_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
-ALTER TABLE sendTo ADD CONSTRAINT FK_sendTo_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE sendTo ADD CONSTRAINT FK_sendTo_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
 ALTER TABLE boundto ADD CONSTRAINT FK_boundto_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE boundto ADD CONSTRAINT FK_boundto_idCorporation FOREIGN KEY (idCorporation) REFERENCES Corporation(idCorporation);
 ALTER TABLE has ADD CONSTRAINT FK_has_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -766,3 +770,7 @@ ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransact
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
+ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
+ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
