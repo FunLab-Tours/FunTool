@@ -23,7 +23,6 @@ if(isset($_POST['submitSkillType']) && $_POST['skillTypeName'] != "")
 <!-- ################################# -->
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
-        <td></td>
         <td><?=$lang["skillName"]?></td>
         <td><?=$lang["skillDescription"]?></td>
         <td><?=$lang["skillType"]?></td>

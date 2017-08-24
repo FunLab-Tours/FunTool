@@ -66,51 +66,21 @@
     }
 
     function isValidCodeMachine($codeMachine) {
-        return true;
-        /*
         global $DB_DB;
 
-        $request = $DB_DB->prepare('SELECT machineCode FROM Machine WHERE idMachine <> :idMachine');
-
-        try {
-            $request->execute(array(
-                'idMachine' => $idMachine
-            ));
-        }
-        catch(Exception $e) {
-            echo $e;
+        $result = $DB_DB->query("SELECT * FROM Machine WHERE codeMachine LIKE '".$codeMachine."'")->fetchAll();
+        if(sizeof($result) != 0)
             return false;
-        }
-
-        foreach($request->fetchAll() as $row)
-            if($row['machineCode'] == $codeMachine)
-                return false;
-
-        return true;*/
+        return true;
     }
 
     function isValidShortLabel($shortLabel) {
-        return true;
-        /*
         global $DB_DB;
 
-        $request = $DB_DB->prepare('SELECT shortLabel FROM Machine WHERE idMachine <> :idMachine');
-
-        try {
-            $request->execute(array(
-                'idMachine' => $idMachine
-            ));
-        }
-        catch(Exception $e) {
-            echo $e;
+        $result = $DB_DB->query("SELECT * FROM Machine WHERE shortLabel LIKE '".$shortLabel."'")->fetchAll();
+        if(sizeof($result) != 0)
             return false;
-        }
-
-        foreach($request->fetchAll() as $row)
-            if($row['shortLabel'] == $shortLabel)
-                return false;
-
-        return true;*/
+        return true;
     }
 
     function isValidLongLabel($longLabel) {
@@ -271,6 +241,17 @@
 
     function deleteMachine($idDelete) {
         global $DB_DB;
+
+        $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMachine');
+        try {
+            $request->execute(array(
+                'idMachine' => $idDelete,
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+        }
+
         $request = $DB_DB->prepare('DELETE FROM Machine WHERE idMachine = :idMachine');
 
         try {

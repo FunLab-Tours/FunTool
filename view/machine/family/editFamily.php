@@ -1,11 +1,10 @@
 <?php
     if(isset($_POST['submit'])) {
-        echo "Ok";
-        editFamily($_GET['idEditFamily'],
+        if(editFamily($_GET['idEditFamily'],
                     $_POST['codeFamily'],
                     $_POST['labelFamily']
-        );
-        header('Location: index.php?page=machine&familyManagement=0');
+        ))
+            header('Location: index.php?page=machine&familyManagement=0');
     }
 ?>
 

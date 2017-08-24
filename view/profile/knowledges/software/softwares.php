@@ -7,6 +7,10 @@
  */
 ?>
 
+<div>
+    <a href="?page=profile&knowledge=1&addSoftware=1"><?=$lang["addSoftware"]?></a>
+</div>
+
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang['softwareName']?></td>
@@ -15,54 +19,23 @@
         <td><?=$lang['subCategories']?></td>
     </tr>
     <?php foreach(listSoftware() as $software){ ?>
-        <td><?=$software['softwareName']?></td>
-        <td><?=$software['softwareDescription']?></td>
-        <td>
-            <?php foreach(getSoftwareCategories($software['idSoftware']) as $category){
-                echo $category['categoryLabel'];
-            }?>
-        </td>
-        <td>
-            <?php foreach(getSoftwareSubCategories($software['idSoftware']) as $subCategory){
-                echo $subCategory['SubcatLabel'];
-            }?>
-        </td>
-    <?php } ?>
-    <tr>
-        <form method = "POST" action = "">
-            <td><input type = "text" placeholder="<?=$lang['softwareName']?>" name="name"/></td>
-            <td><input type = "text" placeholder="<?=$lang['softwareDescription']?>" name=description"/></td>
+        <tr>
+            <td><?=$software['softwareName']?></td>
+            <td><?=$software['softwareDescription']?></td>
             <td>
-                <select name ="categories" multiple onchange="updateSubList(this.value)">
-                    <option value="" selected="selected"><?=$lang['categories']?></option>
-                    <?php foreach(listCategories() as $category){?>
-                        <option value="<?=$category['idSoftCat']?>"><?=$category['categoryLabel']?></option>
-                    <?php } ?>
-                </select>
+                <?php foreach(getSoftwareCategories($software['idSoftware']) as $category){
+                    echo $category['categoryLabel'] . " ; ";
+                }?>
             </td>
-            <td id="idSubCategories" name ="idSubCategories[]"></td>
-            <td><input type="submit" value="<?=$lang["addSoftware"]?>" name="submit"></td>
-        </form>
-    </tr>
+            <td>
+                <?php foreach(getSoftwareSubCategories($software['idSoftware']) as $subCategory){
+                    echo $subCategory['SubcatLabel'] . " ; ";
+                }?>
+            </td>
+            <td>
+                <a href="?page=profile&knowledge=1&editSoftware=<?=$software['idSoftware']?>"><?=$lang['edit']?></a>
+                | <a href="?page=profile&knowledge=1&deleteSoftware=<?=$software['idSoftware']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a>
+            </td>
+        </tr>
+    <?php } ?>
 </table>
-
-
-<script>
-    function updateSubList(str) {
-        if(str == "") {
-            document.getElementById("idSubFamily").innerHTML = "";
-            return;
-        }
-        else
-        {
-            xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("idSubCategories").innerHTML = this.responseText;
-                }
-            };
-            xmlhttp.open("GET", "requests/subCategories.php?categories="+str,false);
-            xmlhttp.send(null);
-        }
-    }
-</script>

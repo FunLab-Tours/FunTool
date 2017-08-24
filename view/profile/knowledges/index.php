@@ -29,9 +29,16 @@ else if(isset($_GET['deleteSubCategory']))
 /*SOFTWARES*/
 else if(isset($_GET['softwares']))
     include("software/softwares.php");
-else if(isset($_GET['editSoftwares']))
+else if(isset($_GET['addSoftware']))
+    include("software/addSoftware.php");
+else if(isset($_GET['editSoftware']))
     include("software/editSoftware.php");
 else if(isset($_GET['deleteSoftware']))
     include("software/deleteSoftware.php");
+/*KNOWLEDGES*/
+else if(isset($_GET['editKnowledge']))
+    include("editKnowledge.php");
+else if(isset($_GET['deleteKnowledge']))
+    include("deleteKnowledge.php");
 else
     include("knowledgeList.php");

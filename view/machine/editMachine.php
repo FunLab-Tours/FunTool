@@ -1,7 +1,6 @@
 <?php
     if(isset($_POST['submit'])) {
         if(isValidMachineSubmit()) {
-            var_dump($_POST['idSubFamily']);
             if(isset($_POST['idSubFamily']))
                 editMachine($_GET['idEdit'],
                     $_POST['codeMachine'],
@@ -36,7 +35,65 @@
             //header('Location: index.php?page=machine');
         }
     }
+
+    $edit = getMachine($_GET['idEdit']);
+    $machine = $edit['idMachine'];
+    $family = $edit['idFamily'];
 ?>
+
+<form method="POST" action="">
+    <td><input type="text" name="codeMachine" value="<?= $edit['codeMachine'] ?>"/></td>
+    <td><input type="text" name="shortLabel" value="<?= $edit['shortLabel'] ?>"/></td>
+    <td><input type="text" name="longLabel" value="<?= $edit['longLabel'] ?>"/></td>
+    <td><input type="text" name="serialNumber" value="<?= $edit['serialNumber'] ?>"/></td>
+    <td><input type="text" name="manufacturer" value="<?= $edit['manufacturer'] ?>"/></td>
+    <td><input type="text" name="comment" value="<?= $edit['comment'] ?>"/></td>
+    <td><input type="text" name="docLink1" value="<?= $edit['docLink1'] ?>"/></td>
+    <td><input type="text" name="docLink2" value="<?= $edit['docLink2'] ?>"/></td>
+    <td>
+        <select name="idFamily" onchange="updateSubList(<?php echo $edit['idMachine']?>, this.value)">
+            <option value="<?= $edit['idFamily'] ?>" selected="selected"><?= getFamilyName($edit['idFamily']) ?></option>
+            <?php
+            foreach (getFamilyList() as $subRow) {
+                if ($edit['idFamily'] != $subRow['idFamily']) {
+                    ?>
+                    <option value="<?= $subRow['idFamily'] ?>"><?= $subRow['familyLabel'] ?></option>
+                <?php }
+            } ?>
+        </select>
+    </td>
+    <td><div id="idSubFamily"></div></td>
+    <td><input type="number" min="0" name="cost"
+               value="<?= getCostUnit($edit['idCostUnit'])[0] ?>"/></td>
+    <td><input type="number" min="0" step="0.1" name="costCoeff"
+               value="<?= getCostUnit($edit['idCostUnit'])[1] ?>"/></td>
+    <?php if (getPicture($edit['idPicture']) != null) { ?>
+        <td>
+            <a href="index.php?page=machine&chooseImage=<?= $edit['idMachine'] ?>">
+                <img src="<?= getPicture($edit['idPicture'])['picture'] ?>"
+                     alt="<?= getPicture($edit['idPicture'])['pictureDescription'] ?>"
+            </a>
+        </td>
+    <?php } else { ?>
+        <td>
+            <a href="index.php?page=machine&chooseImage=<?= $edit['idMachine'] ?>"><?= $lang['edit'] ?></a>
+        </td>
+    <?php } ?>
+    <td>
+        <select name="idLab">
+            <option value="<?= $edit['idLab'] ?>"
+                    selected="selected"><?= getLabName($edit['idLab']) ?></option>
+            <?php
+            foreach (listAllLab() as $subRow) {
+                if ($edit['idLab'] != $subRow['idLab']) {
+                    ?>
+                    <option value="<?= $subRow['idLab'] ?>"><?= $subRow['labName'] ?></option>
+                <?php }
+            } ?>
+        </select>
+    </td>
+    <td><input type="submit" value="<?= $lang["submit"] ?>" name="submit"/></td>
+</form>
 
 <table width='80%' border=0>
 
@@ -58,98 +115,35 @@
     </tr>
 
     <?php
-        foreach(getMachineList() as $row) {
-            if($row['idMachine'] == $_GET['idEdit']) {
-                $machine = $row['idMachine'];
-                $family = $row['idFamily'];
-                ?>
-                <tr>
-                    <form method="POST" action="">
-                        <td><input type="text" name="codeMachine" value="<?= $row['codeMachine'] ?>"/></td>
-                        <td><input type="text" name="shortLabel" value="<?= $row['shortLabel'] ?>"/></td>
-                        <td><input type="text" name="longLabel" value="<?= $row['longLabel'] ?>"/></td>
-                        <td><input type="text" name="serialNumber" value="<?= $row['serialNumber'] ?>"/></td>
-                        <td><input type="text" name="manufacturer" value="<?= $row['manufacturer'] ?>"/></td>
-                        <td><input type="text" name="comment" value="<?= $row['comment'] ?>"/></td>
-                        <td><input type="text" name="docLink1" value="<?= $row['docLink1'] ?>"/></td>
-                        <td><input type="text" name="docLink2" value="<?= $row['docLink2'] ?>"/></td>
-                        <td>
-                            <select name="idFamily" onchange="updateSubList(<?php echo $row['idMachine']?>, this.value)">
-                                <option value="<?= $row['idFamily'] ?>" selected="selected"><?= getFamilyName($row['idFamily']) ?></option>
-                                <?php
-                                foreach (getFamilyList() as $subRow) {
-                                    if ($row['idFamily'] != $subRow['idFamily']) {
-                                        ?>
-                                        <option value="<?= $subRow['idFamily'] ?>"><?= $subRow['familyLabel'] ?></option>
-                                    <?php }
-                                } ?>
-                            </select>
-                        </td>
-                        <td><div id="idSubFamily"></div></td>
-                        <td><input type="number" min="0" name="cost"
-                                   value="<?= getCostUnit($row['idCostUnit'])[0] ?>"/></td>
-                        <td><input type="number" min="0" step="0.1" name="costCoeff"
-                                   value="<?= getCostUnit($row['idCostUnit'])[1] ?>"/></td>
-                        <?php if (getPicture($row['idPicture']) != null) { ?>
-                            <td>
-                                <a href="index.php?page=machine&chooseImage=<?= $row['idMachine'] ?>">
-                                    <img src="<?= getPicture($row['idPicture'])['picture'] ?>"
-                                         alt="<?= getPicture($row['idPicture'])['pictureDescription'] ?>"
-                                </a>
-                            </td>
-                        <?php } else { ?>
-                            <td>
-                                <a href="index.php?page=machine&chooseImage=<?= $row['idMachine'] ?>"><?= $lang['edit'] ?></a>
-                            </td>
-                        <?php } ?>
-                        <td>
-                            <select name="idLab">
-                                <option value="<?= $row['idLab'] ?>"
-                                        selected="selected"><?= getLabName($row['idLab']) ?></option>
-                                <?php
-                                foreach (listAllLab() as $subRow) {
-                                    if ($row['idLab'] != $subRow['idLab']) {
-                                        ?>
-                                        <option value="<?= $subRow['idLab'] ?>"><?= $subRow['labName'] ?></option>
-                                    <?php }
-                                } ?>
-                            </select>
-                        </td>
-                        <td><input type="submit" value="<?= $lang["submit"] ?>" name="submit"/></td>
-                    </form>
-                </tr>
-                <?php
-            }
-            else {
-    ?>
-                <tr>
-                    <td><?=$row['codeMachine']?></td>
-                    <td><?=$row['shortLabel']?></td>
-                    <td><?=$row['longLabel']?></td>
-                    <td><?=$row['serialNumber']?></td>
-                    <td><?=$row['manufacturer']?></td>
-                    <td><?=$row['comment']?></td>
-                    <td><?=$row['docLink1']?></td>
-                    <td><?=$row['docLink2']?></td>
-                    <td><?=getFamilyName($row['idFamily'])?></td>
-                    <td><?php
-                        foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
-                            echo $subRow['labelSubFamily']." ; ";
-                        ?>
-                    </td>
-                    <td><?=getCostUnit($row['idCostUnit'])[0]?></td>
-                    <td><?=getCostUnit($row['idCostUnit'])[1]?></td>
-                    <?php if(getPicture($row['idPicture']) != null){ ?>
-                        <td><img src = "<?=getPicture($row['idPicture'])['picture']?>" alt = "<?=getPicture($row['idPicture'])['pictureDescription']?>"
-                    <?php } else { ?> <td><?php } ?> </td>
-                    <td><?=getLabName($row['idLab'])?></td>
-                    <td><a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
-                </tr>
-    <?php
-            }
-        }
-    ?>
+        foreach(getMachineList() as $row) { ?>
+            <tr>
+                <td><?=$row['codeMachine']?></td>
+                <td><?=$row['shortLabel']?></td>
+                <td><?=$row['longLabel']?></td>
+                <td><?=$row['serialNumber']?></td>
+                <td><?=$row['manufacturer']?></td>
+                <td><?=$row['comment']?></td>
+                <td><?=$row['docLink1']?></td>
+                <td><?=$row['docLink2']?></td>
+                <td><?=getFamilyName($row['idFamily'])?></td>
+                <td><?php
+                    foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
+                        echo $subRow['labelSubFamily']." ; ";
+                    ?>
+                </td>
+                <td><?=getCostUnit($row['idCostUnit'])[0]?></td>
+                <td><?=getCostUnit($row['idCostUnit'])[1]?></td>
+                <?php if(getPicture($row['idPicture']) != null){ ?>
+                    <td><img src = "<?=getPicture($row['idPicture'])['picture']?>" alt = "<?=getPicture($row['idPicture'])['pictureDescription']?>"
+                <?php } else { ?> <td><?php } ?> </td>
+                <td><?=getLabName($row['idLab'])?></td>
 
+                <td>
+                    <a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> |
+                    <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a>
+                </td>
+            </tr>
+    <?php } ?>
 </table>
 
 <script>

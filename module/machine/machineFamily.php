@@ -1,8 +1,26 @@
 <?php
 
+    function testFamily($id, $familyCode, $familyLabel)
+    {
+        global $DB_DB;
+        if($id == null){
+            $result = $DB_DB->query("SELECT * FROM Family WHERE familyCode LIKE '".$familyCode."' OR familyLabel LIKE '".$familyLabel."'")->fetchAll();
+            if(sizeof($result) != 0)
+                return false;
+        }
+        else{
+            $result = $DB_DB->prepare("SELECT * FROM Family WHERE idFamily <> '".$id."' AND (familyCode LIKE '".$familyCode."' OR familyLabel LIKE '".$familyLabel."')")->fetchAll();
+            if(sizeof($result) != 0)
+                return false;
+        }
+        return true;
+    }
+
 	function addFamily($familyCode, $familyLabel)
 	{
 		global $DB_DB;
+		if(!testFamily(null,$familyCode, $familyLabel ))
+		    return false;
 
         $request = $DB_DB->prepare('INSERT INTO Family(familyCode, familyLabel) VALUES(:familyCode, :familyLabel)');
 
@@ -16,6 +34,7 @@
             echo $e;
             exit;
         }
+        return true;
 	}
 	
 	function getFamilyList() {
@@ -76,6 +95,9 @@
 	
 	function editFamily($idFamily, $familyCode, $familyLabel)
 	{
+        if(!testFamily(null,$familyCode, $familyLabel ))
+            return false;
+
 		global $DB_DB;
 		$request = $DB_DB->prepare('UPDATE Family SET  familyCode = :familyCode,
                                                        familyLabel = :familyLabel
@@ -91,6 +113,7 @@
         catch(Exception $e) {
             echo $e;
         }
+        return true;
 	}
 	
 	function countNbrSubFamily($idFamily)

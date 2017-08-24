@@ -161,6 +161,7 @@ $lang['comment'] = "Commentaire";
 
 $lang["knowledgeList"] = "Liste des connaisances logicielles";
 $lang["softwaresList"] = "Liste des logicielles";
+$lang["softwares"] = "Logiciels";
 $lang["knowledgeCategoryNSubCategory"] = "Gestion des catégories et sous catégories";
 $lang["softwareName"] = "Nom du logiciel";
 $lang["softwareDescription"] = "Description du logiciel";
@@ -179,6 +180,7 @@ $lang["subCategories"] = "Sous-catégories du logiciel";
 $lang["contact"] = "Contacter";
 $lang["moreDetails"] = "Plus de détails";
 $lang["picture"] = "Photo";
+$lang["search"] = "Rechercher";
 
 $lang["bonusMembership"] = "Bonus de Funnies";
 $lang["frameName"] = "Nom de la formule d'adhésion";

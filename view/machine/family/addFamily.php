@@ -1,9 +1,9 @@
 <?php
     if(isset($_POST['submit'])) {
-		addFamily( $_POST['codeFamily'],
+		if(addFamily( $_POST['codeFamily'],
 					$_POST['labelFamily']
-            );
-        header('Location: index.php?page=machine&familyManagement=0');
+            ))
+            header('Location: index.php?page=machine&familyManagement=0');
     }
 ?>
 

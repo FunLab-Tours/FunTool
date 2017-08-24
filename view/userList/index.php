@@ -12,6 +12,9 @@ loadModules("searchUser");
 loadModules("rightsAndRoles");
 loadModules("skills");
 loadModules("knowledges/knowledges");
+loadModules("knowledges/softwares");
+
+include("static/menu.php");
 
 if(isset($_GET["details"]))
     include("userCard.php");

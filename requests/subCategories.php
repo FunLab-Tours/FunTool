@@ -10,20 +10,17 @@ include("../include/config.php");
 include("../include/lang.php");
 include("../include/module.php");
 include("../include/db.php");
-loadModules("softwareCategories");
+loadModules("knowledges/softwareCategories");
 
 if(isset($_GET['categories']))
 {
-    //RECUPERATION DE LA LISTE DES CATEGORIES
-    /*...*/
-    //95;214;568;456
-    $split =explode(";" , $_GET['categories'] );
-    var_dump($split);
-    echo "<select multiple name =\"idSubCategories[]\"> <option value=\"\" disabled selected=\"selected\">".$lang['subCategories']."</option>";
+    $categories = mb_split(";", $_GET['categories']);
+    echo "<select  multiple name =\"idSubCategories[]\" > <option value=\"\" disabled selected=\"selected\">".$lang['subCategories']."</option>";
     foreach ($categories as $category){
-        foreach (listSubCategories($category['idSoftCat']) as $subCat){
-            echo "<option value=\"" . $subCat['idSoftSubcat'] . "\">". $row['SubcatLabel'] . "</option>";
-        }
+        if($category != "")
+            foreach (listSubCategories($category) as $subCat){
+                echo "<option value=\"" . $subCat['idSoftSubcat'] . "\">". $subCat['SubcatLabel'] . "</option>";
+            }
     }
     echo "</select>";
 }

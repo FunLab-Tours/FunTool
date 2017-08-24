@@ -1,8 +1,30 @@
 <?php
 
+    function testSubFamily($id, $sfamilyCode, $sfamilyLabel)
+    {
+        global $DB_DB;
+        if($id == null){
+            $result = $DB_DB->query("SELECT * FROM SubFamily WHERE codeSubFamily LIKE '".$sfamilyCode."' OR labelSubFamily LIKE '".$sfamilyLabel."'")->fetchAll();
+            if(sizeof($result) != 0) {
+                echo "truca";
+                return false;
+            }
+        }
+        else{
+            $result = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> '".$id."' AND (codeSubFamily LIKE '".$sfamilyCode."' OR labelSubFamily LIKE '".$sfamilyLabel."')")->fetchAll();
+            if(sizeof($result) != 0) {
+                echo "truc";
+                return false;
+            }
+        }
+        return true;
+}
+
 	function addSubFamily($SubFamilyCode, $SubFamilyLabel, $idFamily)
 	{
 		global $DB_DB;
+		if(!testSubFamily(null, $SubFamilyCode, $SubFamilyLabel))
+            return false;
 
         $request = $DB_DB->prepare('INSERT INTO SubFamily(codeSubFamily, labelSubFamily, idFamily) VALUES(:codeSubFamily, :labelSubFamily, :idFamily)');
 
@@ -17,6 +39,7 @@
             echo $e;
             exit;
         }
+        return true;
 	}
 	
 	function getAllSubFamilyList()
@@ -68,6 +91,9 @@
 	
 	function editSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel)
 	{
+        if(!testSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel))
+            return false;
+
         global $DB_DB;
 		$request = $DB_DB->prepare('UPDATE SubFamily SET  codeSubFamily = :codeSubFamily,
                                                        labelSubFamily = :labelSubFamily
@@ -83,6 +109,8 @@
         catch(Exception $e) {
             echo $e;
         }
+
+        return true;
 	}
 
 	function linkSubFamilyWithMachine($idSubFamily, $idMachine)

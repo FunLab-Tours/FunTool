@@ -42,8 +42,9 @@
                 } ?>
             </td>
             <td>
-                <?php foreach (listKnowledges($user['idUser']) as $knowledge) {
-                    echo $knowledge['softwareName']." ; ";
+                <?php
+                foreach (listKnowledges($user['idUser']) as $knowledge) {
+                    echo getSoftWare($knowledge['idSoftware'])['softwareName']." ; ";
                 } ?>
             </td>
             <td>

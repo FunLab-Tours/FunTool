@@ -15,34 +15,17 @@ function testSoftware($id, $name)
     global $DB_DB;
     if($id == null)
     {
-        $request = $DB_DB->prepare("SELECT * FROM Software WHERE softwareName = :name");
-        try{
-            $result = $request->execute(array(
-                'softwareName' => $name
-            ))->fetchAll();
-            if(sizeof($result) != 0)
-                return false;
-            return true;
-        }
-        catch(Exception $e){
+        $result = $DB_DB->query('SELECT * FROM Software WHERE softwareName LIKE \''.$name.'\'')->fetchAll();
+        if(sizeof($result) != 0)
             return false;
-        }
+        return true;
     }
     else
     {
-        $request = $DB_DB->prepare("SELECT * FROM SoftwareSubCategory WHERE idSoftCat <> :id AND softwareName = :name");
-        try{
-            $result = $request->execute(array(
-                'id' => $id,
-                'softwareName' => $name
-            ))->fetchAll();
-            if(sizeof($result) != 0)
-                return false;
-            return true;
-        }
-        catch(Exception $e){
+        $result = $DB_DB->query('SELECT * FROM Software WHERE idSoftware <> \''.$id.'\' AND softwareName LIKE \''.$name.'\'')->fetchAll();
+        if(sizeof($result) != 0)
             return false;
-        }
+        return true;
     }
 }
 
@@ -60,7 +43,7 @@ function getSoftWare($id)
 
 function addSoftware($name, $description, $categories, $subCategories)
 {
-    if(!testKnowledge(null, $name))
+    if(!testSoftware(null, $name))
         return false;
 
     global $DB_DB;
@@ -77,21 +60,22 @@ function addSoftware($name, $description, $categories, $subCategories)
         return false;
     }
 
-    assignCategoriesToSoftWare($DB_DB->lastInsertId(), $categories);
-    assignSubCategoriesToSoftWare($DB_DB->lastInsertId(), $subCategories);
+    $id = $DB_DB->lastInsertId();
+    assignCategoriesToSoftWare($id, $categories);
+    assignSubCategoriesToSoftWare($id, $subCategories);
 
     return true;
 }
 
 function editSoftware($id, $name, $description, $categories, $subCategories)
 {
-    if(!testKnowledge($id, $name))
+    if(!testSoftware($id, $name))
         return false;
 
     global $DB_DB;
 
-    $request = $DB_DB->prepare("UPDATE SoftwareCategory
-                                        SET (SoftwareName = :name, softwareDescription = :description)
+    $request = $DB_DB->prepare("UPDATE Software
+                                        SET SoftwareName = :name, softwareDescription = :description
                                         WHERE idSoftware = :id");
     try{
         $request->execute(array(
@@ -144,7 +128,7 @@ function assignCategoriesToSoftWare($idSoftware, $categories)
         try{
             $request->execute(array(
                 'idSoftware' => $idSoftware,
-                'idSoftCat' => $category['idSoftCat']
+                'idSoftCat' => $category
             ));
         }
         catch(Exception $e){
@@ -174,8 +158,8 @@ function unassignCategoriesFromSoftWare($idSoftware)
 function getSoftwareSubCategories($id)
 {
     global $DB_DB;
-    return $DB_DB->query('SELECT * FROM SoftwareCategory WHERE idSoftCat IN (
-                    SELECT idSoftCat FROM SoftwareInCategory WHERE idSoftWare = '.$id.')')->fetchAll();
+    return $DB_DB->query('SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat IN (
+                    SELECT idSoftSubcat FROM SoftwareInSubCategory WHERE idSoftWare = '.$id.')')->fetchAll();
 }
 
 function assignSubCategoriesToSoftWare($idSoftware, $subCategories)
@@ -192,7 +176,7 @@ function assignSubCategoriesToSoftWare($idSoftware, $subCategories)
         try{
             $request->execute(array(
                 'idSoftware' => $idSoftware,
-                'idSoftSubcat' => $subCategory['idSoftSubcat']
+                'idSoftSubcat' => $subCategory
             ));
         }
         catch(Exception $e){

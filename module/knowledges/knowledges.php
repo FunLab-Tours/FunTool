@@ -10,7 +10,13 @@
 function listKnowledges($idUser)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM know WHERE $idUser = ".$idUser)->fetchAll();
+    return $DB_DB->query("SELECT * FROM know WHERE idUser = ".$idUser)->fetchAll();
+}
+
+function listIdSoftwareFromKnowledge($idUser)
+{
+    global $DB_DB;
+    return $DB_DB->query("SELECT idSoftware FROM know WHERE $idUser = ".$idUser)->fetch();
 }
 
 function assignKnowledges($idUser, $idSoftware, $level, $com)
@@ -25,7 +31,7 @@ function assignKnowledges($idUser, $idSoftware, $level, $com)
             'idSoftware' => $idSoftware,
             'level' => $level,
             'com' => $com
-        ))->fetchAll();
+        ));
     }
     catch(Exception $e){
         return false;
@@ -34,16 +40,16 @@ function assignKnowledges($idUser, $idSoftware, $level, $com)
     return true;
 }
 
-function knowledge($id, $level, $com)
+function editKnowledge($idUser, $idSoft, $level, $com)
 {
     global $DB_DB;
 
-    $request = $DB_DB->prepare("UPDATE know
-                                        SET (knowledgeLevel = :level, comment = :com)
-                                        WHERE idUser = :id");
+    $request = $DB_DB->prepare("UPDATE know SET knowledgeLevel = :level, comment = :com
+                                        WHERE idSoftware = :idSoft AND idUser = :idUser");
     try{
         $request->execute(array(
-            'id' => $id,
+            'idSoft' => $idSoft,
+            'idUser' => $idUser,
             'level' => $level,
             'com' => $com
         ));
@@ -55,8 +61,8 @@ function knowledge($id, $level, $com)
     return true;
 }
 
-function unassignKnowledge($idUser)
+function unassignKnowledge($idSoftware)
 {
     global $DB_DB;
-    $DB_DB->query('DELETE FROM know WHERE idUser = '.$idUser);
+    $DB_DB->query('DELETE FROM know WHERE idSoftware = '.$idSoftware);
 }
