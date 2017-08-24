@@ -1,5 +1,6 @@
 .idea/*
 include/config.php
-include_static/header.php
+
 .vscode/launch.json
 
+include_static/header.php
