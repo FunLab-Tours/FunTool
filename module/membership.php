@@ -62,17 +62,8 @@ function deleteMembershipFrame($idMembershipFrame){
 }
 
 function isValidMembership($idUser){
-    global $DB_DB;
-    global $lang;
-    $request = $DB_DB->prepare("SELECT COUNT(idUser) as ticketsSold FROM register WHERE idEvent = :idEvent");
 
-        try {
-            $request->execute(array(
-            'idEvent' => $idEvent
-            ));
-        }
-        catch(Exception $e) {
-                echo $e;
-        }
 }
+
+
 ?>

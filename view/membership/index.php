@@ -16,4 +16,10 @@ else if(isset($_GET['idFrameEdit'])){
 else if(isset($_GET['idFrameDelete'])){
     include("deleteMembershipFrame.php");
 }
+else if(isset($_POST['submitMembership'])){
+    include("membershipInfoCheck.php");
+}
+else{
+    include("addMembership.php");
+}
 ?>

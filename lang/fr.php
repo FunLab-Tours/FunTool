@@ -189,6 +189,11 @@ $lang["addMembershipFrame"] = "Ajouter une formule d'adhésion";
 $lang["listMembershipFrame"] = "Liste des formules d'adhésion";
 $lang["entryDate"] = "Mise à jour le";
 $lang["frameComment"] = "Description de la formule d'adhésion";
+$lang["donationRequest"] = "Souhaitez-vous ajouter un don pour La Fabrique d'Usages Numériques à votre adhésion ?";
+$lang["noDonation"] = "Pas de donation";
+$lang["freeDonation"] = "Donation libre";
+$lang["valueFreeDonation"] = "Inscrivez le montant";
+$lang["selectedFrame"] = "Vous avez choisi la formule";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";
