@@ -19,14 +19,14 @@
     <?=$lang["donationRequest"]?>
     <br></br>
 
-    <input type ="radio" name ="donation" value=0 checked><?=$lang["noDonation"]?>
-    <input type ="radio" name ="donation" value=20>20€
-    <input type ="radio" name ="donation" value=50>50€
-    <input type ="radio" name ="donation" value=150>150€
+    <input type ="radio" name ="donationRadio" value="0" checked><?=$lang["noDonation"]?>
+    <input type ="radio" name ="donationRadio" value="20">20€
+    <input type ="radio" name ="donationRadio" value="50">50€
+    <input type ="radio" name ="donationRadio" value="150">150€
     <br></br>
-    <input type ="radio" name ="donation" value=0><?=$lang["freeDonation"]?>
+    <input type ="radio" name ="donationRadio" value="0"><?=$lang["freeDonation"]?>
     <input type="number" min="0" placeholder="<?=$lang["valueFreeDonation"]?>" name="donation" />
     <br></br>
     <input type="submit" value="<?=$lang["submit"]?>" name="submitMembership"> 
-    </form>
+</form>
 

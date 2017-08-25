@@ -61,9 +61,21 @@ function deleteMembershipFrame($idMembershipFrame){
     }   
 }
 
-function isValidMembership($idUser){
+function selectMembershipFrame($idMembershipFrame){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM MembershipFrame WHERE idMembershipFrame=:idMembershipFrame");
 
+    try {
+        $stmt->execute(array(
+            'idMembershipFrame' => $idMembershipFrame,
+        ));
+        $result = $stmt->fetchAll();
+        return $result;
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
 }
-
 
 ?>
