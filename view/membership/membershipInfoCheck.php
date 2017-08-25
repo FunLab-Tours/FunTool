@@ -1,6 +1,7 @@
 <?php
     $membershipPrice = $_POST['framePrice'];
     $donation = $_POST['donation'];
+    test
 ?>
 
 <?php
