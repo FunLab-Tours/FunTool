@@ -54,38 +54,60 @@
             && isset($_POST['town']) && isset($_POST['country'])
             && isset($_POST['email']) && isset($_POST['birthDate'])) {
 
-            if(!isValidNewLogin($_POST['login']))
+            if(!isValidNewLogin($_POST['login'])) {
+                echo "login";
                 return false;
+            }
 
-            if(!isValidPassword($_POST['password'], $_POST['passwordChecker']))
+            if(!isValidPassword($_POST['password'], $_POST['passwordChecker'])) {
+                echo "password";
                 return false;
+            }
 
-            if(!isValidFirstName($_POST['firstName']))
+            if(!isValidFirstName($_POST['firstName'])) {
+                echo "firstName";
                 return false;
+            }
 
-            if(!isValidName($_POST['name']))
+            if(!isValidName($_POST['name'])) {
+                echo "name";
                 return false;
+            }
 
-            if(!isValidTelephone($_POST['telephone']))
+            if(!isValidTelephone($_POST['telephone'])) {
+                echo "phone";
                 return false;
+            }
 
-            if(!isValidAdressL1($_POST['adressL1']))
+            if(!isValidAdressL1($_POST['adressL1'])) {
+                echo "adresse1";
                 return false;
+            }
 
-            if(!isValidZipCode($_POST['zipCode']))
+            if(!isValidZipCode($_POST['zipCode'])) {
+                echo "CP";
                 return false;
+            }
 
-            if(!isValidTown($_POST['town']))
+            if(!isValidTown($_POST['town'])) {
+                echo "town";
                 return false;
+            }
 
-            if(!isValidCountry($_POST['country']))
+            if(!isValidCountry($_POST['country'])) {
+                echo "country";
                 return false;
+            }
 
-            if(!isValidEmail($_POST['email']))
+            if(!isValidEmail($_POST['email'])) {
+                echo "mail";
                 return false;
+            }
 
-            if(!isValidBirthDate($_POST['birthDate']))
+            if(!isValidBirthDate($_POST['birthDate'])) {
+                echo "datebirth";
                 return false;
+            }
 
             return true;
         }
@@ -471,4 +493,8 @@
         return false;
     }
 
-?>
+    function allUser()
+    {
+        global $DB_DB;
+        return $DB_DB->query('SELECT * FROM User')->fetchAll();
+    }

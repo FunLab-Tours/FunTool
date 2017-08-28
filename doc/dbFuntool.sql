@@ -138,7 +138,8 @@ CREATE TABLE Message(
         idMessage      int (11) Auto_increment  NOT NULL ,
         textMessage    Text ,
         sentDateTime   Datetime ,
-        idConversation Int NOT NULL ,
+        idConversation Int ,
+        idUser         Int ,
         PRIMARY KEY (idMessage )
 )ENGINE=InnoDB;
 
@@ -403,6 +404,7 @@ CREATE TABLE Historical(
 
 CREATE TABLE Conversation(
         idConversation int (11) Auto_increment  NOT NULL ,
+        name           Varchar (25) ,
         startDateTime  Datetime ,
         PRIMARY KEY (idConversation )
 )ENGINE=InnoDB;
@@ -701,6 +703,18 @@ CREATE TABLE userInConversation(
         PRIMARY KEY (idConversation ,idUser )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: read
+#------------------------------------------------------------
+
+CREATE TABLE read(
+        seen      Bool ,
+        idMessage Int NOT NULL ,
+        idUser    Int NOT NULL ,
+        PRIMARY KEY (idMessage ,idUser )
+)ENGINE=InnoDB;
+
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
@@ -712,6 +726,7 @@ ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KE
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE Message ADD CONSTRAINT FK_Message_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
+ALTER TABLE Message ADD CONSTRAINT FK_Message_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -774,3 +789,5 @@ ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE read ADD CONSTRAINT FK_read_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
+ALTER TABLE read ADD CONSTRAINT FK_read_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);

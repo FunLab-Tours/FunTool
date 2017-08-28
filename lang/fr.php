@@ -181,6 +181,13 @@ $lang["contact"] = "Contacter";
 $lang["moreDetails"] = "Plus de détails";
 $lang["picture"] = "Photo";
 $lang["search"] = "Rechercher";
+$lang["conversations"] = "Liste des conversations";
+$lang["newConversation"] = "Nouvelle conversation";
+$lang['object'] = "Objet";
+$lang['recipient'] = "Destinataire(s)";
+$lang['message'] = "Message";
+$lang['send'] = "Envoyer";
+$lang['response'] = "Répondre";
 
 $lang["bonusMembership"] = "Bonus de Funnies";
 $lang["frameName"] = "Nom de la formule d'adhésion";
@@ -199,5 +206,3 @@ $lang["donationGiven"] = "Vous avez fait un don de";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";
-
-?>
