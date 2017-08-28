@@ -325,20 +325,6 @@ CREATE TABLE CostUnit(
 
 
 #------------------------------------------------------------
-# Table: PaymentMethod
-#------------------------------------------------------------
-
-CREATE TABLE PaymentMethod(
-        idPaymentMethod int (11) Auto_increment  NOT NULL ,
-        paymentType     Varchar (25) ,
-        webPayment      Bool ,
-        commentary      Varchar (255) ,
-        idUser          Int ,
-        PRIMARY KEY (idPaymentMethod )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: SkillType
 #------------------------------------------------------------
 
@@ -407,6 +393,22 @@ CREATE TABLE Conversation(
         name           Varchar (25) ,
         startDateTime  Datetime ,
         PRIMARY KEY (idConversation )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
+# Table: funniesTransaction
+#------------------------------------------------------------
+
+CREATE TABLE funniesTransaction(
+        idFunniesTransaction int (11) Auto_increment  NOT NULL ,
+        purchaseAmount       Int ,
+        purchaseDate         Date ,
+        purchaseStatus       Varchar (255) ,
+        paymentMethod        Varchar (255) ,
+        adminCommentary      Varchar (255) ,
+        idUser               Int ,
+        PRIMARY KEY (idFunniesTransaction )
 )ENGINE=InnoDB;
 
 
@@ -652,30 +654,16 @@ CREATE TABLE reserve(
 
 
 #------------------------------------------------------------
-# Table: funniesPurchaseTransaction
-#------------------------------------------------------------
-
-CREATE TABLE funniesPurchaseTransaction(
-        purchaseAmount  Int ,
-        comments        Text ,
-        purchaseDate    Datetime ,
-        purchaseStatus  Varchar (255) ,
-        idUser          Int NOT NULL ,
-        idPaymentMethod Int NOT NULL ,
-        PRIMARY KEY (idUser ,idPaymentMethod )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: membershipTransaction
 #------------------------------------------------------------
 
 CREATE TABLE membershipTransaction(
         registerDate      Date ,
+        paymentMethod     Varchar (255) ,
+        adminCommentary   Varchar (255) ,
         idMembershipFrame Int NOT NULL ,
-        idPaymentMethod   Int NOT NULL ,
         idUser            Int NOT NULL ,
-        PRIMARY KEY (idMembershipFrame ,idPaymentMethod ,idUser )
+        PRIMARY KEY (idMembershipFrame ,idUser )
 )ENGINE=InnoDB;
 
 
@@ -736,8 +724,8 @@ ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KE
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
-ALTER TABLE PaymentMethod ADD CONSTRAINT FK_PaymentMethod_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
+ALTER TABLE funniesTransaction ADD CONSTRAINT FK_funniesTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE capacitationUser ADD CONSTRAINT FK_capacitationUser_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -780,10 +768,7 @@ ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) 
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE funniesPurchaseTransaction ADD CONSTRAINT FK_funniesPurchaseTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
-ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idPaymentMethod FOREIGN KEY (idPaymentMethod) REFERENCES PaymentMethod(idPaymentMethod);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
