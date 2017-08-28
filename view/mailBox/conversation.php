@@ -8,6 +8,8 @@
 
 $conversation = getConversation($_GET['conversation']);
 
+
+
 if(isset($_POST['submit']) && $_POST['text'] != "")
 {
     createMessage($conversation['idConversation'], $_COOKIE['id'], $_POST['text']);
@@ -22,7 +24,10 @@ if(isset($_POST['submit']) && $_POST['text'] != "")
         <?= $user['login'] ?> ;
     <?php }
 }?>
-<a href="index.php?page=mailBox&conversationOptions=<?=$conversation['idConversation']?>"><?=$lang['options']?></a>
+
+<?php if(countUserInConversation($conversation['idConversation']) != 2) { ?>
+    <a href="index.php?page=mailBox&conversationOptions=<?=$conversation['idConversation']?>"><?=$lang['options']?></a>
+<?php } ?>
 
 <div></div>
 
