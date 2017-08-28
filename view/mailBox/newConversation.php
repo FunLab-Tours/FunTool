@@ -6,17 +6,24 @@
  * Time: 16:59
  */
 
-if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['text'] != "")
-{
-    $id = createConversation($_POST['recipient'], $_POST['name']);
-    createMessage($id, $_COOKIE['id'], $_POST['text']);
-    header('Location: index.php?page=mailBox&conversation='.$id);
+if(isset($_POST['submit']) && $_POST['text'] != "") {
+    var_dump($_POST['recipient']);
+    if (sizeof($_POST['recipient']) == 1) {
+        $id = searchForConversation($_COOKIE['id'], $_POST['recipient'][0]);
+        createMessage($id, $_COOKIE['id'], $_POST['text']);
+        header('Location: index.php?page=mailBox&conversation=' . $id);
+    }
+    else if ($_POST['name'] != "") {
+        $id = createConversation($_POST['recipient'], $_POST['name']);
+        createMessage($id, $_COOKIE['id'], $_POST['text']);
+        header('Location: index.php?page=mailBox&conversation=' . $id);
+    }
 }
 ?>
 
 <form action="" method="POST">
     <select multiple name ="recipient[]">
-        <option value="" selected="selected"><?=$lang['recipient']?></option>
+        <option value="" disabled><?=$lang['recipient']?></option>
         <?php foreach(allUser() as $user) {
             if ($user['idUser'] != $_COOKIE['id']) { ?>
                 <option value="<?= $user['idUser'] ?>"><?= $user['login'] ?></option>

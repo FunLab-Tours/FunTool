@@ -22,6 +22,7 @@ if(isset($_POST['submit']) && $_POST['text'] != "")
         <?= $user['login'] ?> ;
     <?php }
 }?>
+<a href="index.php?page=mailBox&conversationOptions=<?=$conversation['idConversation']?>"><?=$lang['options']?></a>
 
 <div></div>
 

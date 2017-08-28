@@ -183,11 +183,16 @@ $lang["picture"] = "Photo";
 $lang["search"] = "Rechercher";
 $lang["conversations"] = "Liste des conversations";
 $lang["newConversation"] = "Nouvelle conversation";
-$lang['object'] = "Objet";
+$lang['object'] = "Objet (inutile pour un seul destinataire";
 $lang['recipient'] = "Destinataire(s)";
 $lang['message'] = "Message";
 $lang['send'] = "Envoyer";
 $lang['response'] = "Répondre";
+$lang['options'] = "Options";
+$lang['deleteSelected'] = "Supprimer la sélection";
+$lang['changeName'] = "Modifier le nom";
+$lang['backToConversation'] = "Retourner à la conversation";
+$lang['addToConversation'] = "Ajouter à la conversation";
 
 $lang["bonusMembership"] = "Bonus de Funnies";
 $lang["frameName"] = "Nom de la formule d'adhésion";

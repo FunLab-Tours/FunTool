@@ -16,6 +16,8 @@ if(isset($_GET['newConversation']))
     include("newConversation.php");
 else if(isset($_GET['conversation']))
     include("conversation.php");
+else if(isset($_GET['conversationOptions']))
+    include("conversationOptions.php");
 else if(isset($_GET['send']))
 {
     $idConversation = searchForConversation($_COOKIE['id'], $_GET['send']);

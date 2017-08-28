@@ -86,27 +86,64 @@ function getUsersInConversation($idConversation)
 function searchForConversation($idUser, $idRecipient)
 {
     global $DB_DB;
-    $idConversations = $DB_DB->query("SELECT idConversation FROM userInConversation WHERE idUser = ".$idUser)->fetch();
-    $bad_ids = [];
-    foreach ($idConversations as $idConversation)
-    {
-        $userNumber = $DB_DB->query("SELECT COUNT(idUser) FROM userInConversation WHERE idConversation = ".$idConversation);
-        if($userNumber > 2)
-            $bad_ids = array_push($bad_ids, $idConversation);
-    }
-    $idConversations = array_diff($idConversations, $bad_ids);
+    $idConversations = $DB_DB->query("SELECT idConversation FROM userInConversation WHERE idUser = ".$idUser)->fetchAll();
 
     foreach ($idConversations as $idConversation)
     {
-        $conv = $DB_DB->query("SELECT * FROM userInConversation WHERE idUser = ".$idRecipient." AND idConversation = ".$idConversation)->fetchAll()[0];
-        if(!empty($conv))
-            return $idConversation;
+        if(countUserInConversation($idConversation['idConversation']) == 2){
+            $conv = $DB_DB->query("SELECT * FROM userInConversation WHERE idUser = ".$idRecipient." AND idConversation = ".$idConversation['idConversation'])->fetchAll();
+            if(!empty($conv))
+                return $idConversation['idConversation'];
+        }
     }
 
     return createConversation(array($idRecipient), null);
 }
 
-function countUserInConversation($idUser)
+function countUserInConversation($idConversation)
 {
-    global 
+    global $DB_DB;
+    return $DB_DB->query("SELECT COUNT(idUser) FROM userInConversation WHERE idConversation = ".$idConversation)->fetch()['COUNT(idUser)'];
+}
+
+function changeConversationName($idConversation, $name)
+{
+    global $DB_DB;
+    $DB_DB->query("UPDATE Conversation SET name = '".$name."' WHERE idConversation = ".$idConversation);
+}
+
+function addUsersToConversation($idConversation, $idUsers)
+{
+    global $DB_DB;
+    foreach ($idUsers as $idUser)
+    {
+        $request = $DB_DB->prepare("INSERT INTO userInConversation (idUser, idConversation) VALUES (:idUser, :idConversation)");
+        try{
+            $request->execute(array(
+                'idUser' => $idUser,
+                'idConversation' => $idConversation
+            ));
+        }
+        catch(Exception $e){
+            return false;
+        }
+    }
+}
+
+function removeUsersFromConversation($idConversation, $idUsers)
+{
+    global $DB_DB;
+    foreach($idUsers as $idUser)
+    {
+        $request = $DB_DB->prepare("DELETE FROM userInConversation WHERE idUser = :idUser AND idConversation = :idConversation");
+        try{
+            $request->execute(array(
+                'idUser' => $idUser,
+                'idConversation' => $idConversation
+            ));
+        }
+        catch(Exception $e){
+            return false;
+        }
+    }
 }
