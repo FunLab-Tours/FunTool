@@ -693,10 +693,10 @@ CREATE TABLE userInConversation(
 
 
 #------------------------------------------------------------
-# Table: read
+# Table: asRead
 #------------------------------------------------------------
 
-CREATE TABLE read(
+CREATE TABLE asRead(
         seen      Bool ,
         idMessage Int NOT NULL ,
         idUser    Int NOT NULL ,
@@ -774,5 +774,5 @@ ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE read ADD CONSTRAINT FK_read_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
-ALTER TABLE read ADD CONSTRAINT FK_read_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE asRead ADD CONSTRAINT FK_asRead_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
+ALTER TABLE asRead ADD CONSTRAINT FK_asRead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
