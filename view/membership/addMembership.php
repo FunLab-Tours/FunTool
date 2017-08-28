@@ -1,3 +1,15 @@
+<?php
+    // $currentDate = date_create(date('Y-m-d'));
+    // $selectEndMembershipDate = date_create(date((selectEndMembershipDate($_COOKIE["id"])[0]['endMembershipDate'])));
+    // $diffDate = date_diff($currentDate,$selectEndMembershipDate);
+    // $valueDiffDate = $diffDate->format("%R%a");
+    $valueDiffDate = compareTwoDates(date('Y-m-d'),date((selectEndMembershipDate($_COOKIE["id"])[0]['endMembershipDate'])));
+    echo $valueDiffDate;
+    if ($valueDiffDate<32){
+        if($valueDiffDate>0){
+            $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+        }
+?>
 <form action="" method="POST">
     <table>
 
@@ -30,3 +42,9 @@
     <input type="submit" value="<?=$lang["submit"]?>" name="submitMembership"> 
 </form>
 
+<?php
+    }
+    else{
+        $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+    }
+?>

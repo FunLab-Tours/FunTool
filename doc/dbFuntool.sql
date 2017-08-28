@@ -658,7 +658,8 @@ CREATE TABLE reserve(
 #------------------------------------------------------------
 
 CREATE TABLE membershipTransaction(
-        registerDate      Date ,
+        membershipingDate Date ,
+        endMembershipDate Date ,
         paymentMethod     Varchar (255) ,
         adminCommentary   Varchar (255) ,
         idMembershipFrame Int NOT NULL ,
@@ -693,10 +694,10 @@ CREATE TABLE userInConversation(
 
 
 #------------------------------------------------------------
-# Table: asRead
+# Table: hasRead
 #------------------------------------------------------------
 
-CREATE TABLE asRead(
+CREATE TABLE hasRead(
         seen      Bool ,
         idMessage Int NOT NULL ,
         idUser    Int NOT NULL ,
@@ -774,5 +775,5 @@ ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE asRead ADD CONSTRAINT FK_asRead_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
-ALTER TABLE asRead ADD CONSTRAINT FK_asRead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
+ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
