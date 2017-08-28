@@ -47,8 +47,12 @@
                 } ?>
             </td>
             <td>
-                <a href="index.php?page=mailBox&send=<?=$user['idUser']?>"><?=$lang['contact']?></a> |
-                <a href="index.php?page=userList&details=<?=$user['idUser']?>"><?=$lang['moreDetails']?></a>
+                <?php if($user['idUser'] != $_COOKIE['id']) { ?>
+                    <a href="index.php?page=mailBox&send=<?=$user['idUser']?>"><?=$lang['contact']?></a> |
+                    <a href="index.php?page=userList&details=<?=$user['idUser']?>"><?=$lang['moreDetails']?></a>
+                <?php } else { ?>
+                    <a href="index.php?page=profile"><?=$lang['moreDetails']?></a>
+                <?php } ?>
             </td>
         </tr>
     <?php } ?>
