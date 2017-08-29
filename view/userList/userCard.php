@@ -42,8 +42,8 @@ if(getPicture($user['idPicture']) != null && getPicture($user['idPicture'])['pic
             <td><?=$skill['skillName']?></td>
             <td><?=$skill['skillDescription']?></td>
             <td><?=getSkillType($skill['idSkillType'])['skillTypeName']?></td>
-            <td><?=getSkillUserInformation($_COOKIE['id'], $skill['idSkill'])['skillLevel']?></td>
-            <td><?=getSkillUserInformation($_COOKIE['id'], $skill['idSkill'])['comment']?></td>
+            <td><?=getSkillUserInformation($user['idUser'], $skill['idSkill'])['skillLevel']?></td>
+            <td><?=getSkillUserInformation($user['idUser'], $skill['idSkill'])['comment']?></td>
         </tr>
     <?php } ?>
 </table>

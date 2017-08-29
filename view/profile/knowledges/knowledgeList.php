@@ -37,7 +37,7 @@ if(isset($_POST['submit']) && $_POST['skillLevel'] != 0 && isset($_POST['softwar
 
 <form action = "" method = "POST">
     <select name ="software">
-        <option value="" selected="selected" ><?= $lang['softwares'] ?></option>
+        <option value="" disabled ><?= $lang['softwares'] ?></option>
         <?php
         foreach(ListSoftWare() as $row) {
             if (!in_array($row['idSoftware'], listIdSoftwareFromKnowledge($_COOKIE['id']))) { ?>
