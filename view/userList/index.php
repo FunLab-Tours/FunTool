@@ -18,10 +18,11 @@ include("static/menu.php");
 
 if(isset($_GET["details"]))
     include("userCard.php");
-else{
+else if(isset($_GET["search"]))
     include("searchMenu.php");
-    if(isset($_GET["search"]))
-        include("result.php");
-    else
-        include("listUser.php");
+else if(isset($_GET["result"])) {
+    include("searchMenu.php");
+    include("result.php");
 }
+else
+    include("listUser.php");

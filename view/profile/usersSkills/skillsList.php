@@ -6,7 +6,7 @@
  * Time: 14:58
  */
 
-if(isset($_POST['submit']) && $_POST['skills'] != "" && $_POST['skillLevel'] != 0) {
+if(isset($_POST['submit']) && $_POST['skills'] != "" && $_POST['skillLevel'] > 0) {
     assignSkills($_COOKIE['id'], $_POST['skills'], $_POST['skillLevel'], $_POST['comment']);
     header('Location: index.php?page=profile&usersSkills=1');
 }

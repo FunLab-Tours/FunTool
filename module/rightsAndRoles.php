@@ -201,7 +201,7 @@ function testValuesRights($id, $title, $path)
         $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsTitle LIKE \''.$title.'\'')->fetchAll();
         if(sizeof($result) != 0)
             return false;
-        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsPath LIKE  \''.$path.'\'')->fetchAll();
+        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsPath LIKE \''.$path.'\'')->fetchAll();
         if(sizeof($result) != 0)
             return false;
     }
