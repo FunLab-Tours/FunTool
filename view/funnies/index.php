@@ -1,1 +1,4 @@
-Funnies to do.
+<?php
+loadModules("funnies");
+include("addFunnies.php")
+?>

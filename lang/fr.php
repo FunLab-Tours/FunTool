@@ -211,5 +211,7 @@ $lang["donationGiven"] = "Vous avez fait un don de";
 $lang["rest"] = "Il vous reste";
 $lang["daysOfMembership"] = "jour(s) d'adhésion";
 
+$lang["nbFunnies"] = "Nombre de funnies";
+
 $error = [];
 $error[-1] = "Erreur Inconnue";
