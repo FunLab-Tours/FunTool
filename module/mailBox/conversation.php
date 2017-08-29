@@ -26,30 +26,8 @@ function createConversation($idUsers, $name)
 
     $idConversation = $DB_DB->lastInsertId();
 
-    foreach ($idUsers as $idUser)
-    {
-        $request = $DB_DB->prepare("INSERT INTO userInConversation (idUser, idConversation) VALUES (:idUser, :idConversation)");
-        try{
-            $request->execute(array(
-                'idUser' => $idUser,
-                'idConversation' => $idConversation
-            ));
-        }
-        catch(Exception $e){
-            return false;
-        }
-    }
-
-    $request = $DB_DB->prepare("INSERT INTO userInConversation (idUser, idConversation) VALUES (:idUser, :idConversation)");
-    try{
-        $request->execute(array(
-            'idUser' => $_COOKIE['id'],
-            'idConversation' => $idConversation
-        ));
-    }
-    catch(Exception $e){
-        return false;
-    }
+    array_push($idUsers, $_COOKIE['id']);
+    addUsersToConversation($idConversation, $idUsers);
 
     return $idConversation;
 }
@@ -146,4 +124,57 @@ function removeUsersFromConversation($idConversation, $idUsers)
             return false;
         }
     }
+}
+
+function setUnreadMessage($idMessage, $idConversation)
+{
+    global $DB_DB;
+    foreach (getUsersInConversation($idConversation) as $user)
+    {
+        if($user['idUser'] != $_COOKIE['id']){
+            $request = $DB_DB->prepare("INSERT INTO unread (idMessage, idUser) VALUES (:idMessage, :idUser)");
+            try {
+                $request->execute(array(
+                    'idUser' => $user['idUser'],
+                    'idMessage' => $idMessage
+                ));
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function setReadMessage($idConversation, $idUser)
+{
+    global $DB_DB;
+    $request = $DB_DB->prepare("DELETE FROM unread WHERE idUser = :idUser AND idMessage IN (SELECT idMessage FROM Message WHERE idConversation = :idConversation)");
+    try {
+        $request->execute(array(
+            'idUser' => $idUser,
+            'idConversation' => $idConversation
+        ));
+    } catch (Exception $e) {
+        return false;
+    }
+    return true;
+}
+
+function haveUnreadMessage($idConversation, $idUser)
+{
+    global $DB_DB;
+    return $DB_DB->query("SELECT COUNT(*) FROM unread WHERE idUser = ".$idUser." AND idMessage IN (SELECT idMessage FROM Message WHERE idConversation = ".$idConversation.")")->fetch()[0];
+}
+
+function allUnreadMessages($idUser)
+{
+    global $DB_DB;
+    $conversations = listConversations($idUser);
+    $count = 0;
+
+    foreach($conversations as $conversation)
+        $count += haveUnreadMessage($conversation['idConversation'], $idUser);
+
+    return $count;
 }

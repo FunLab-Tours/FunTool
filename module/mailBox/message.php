@@ -23,7 +23,12 @@ function createMessage($idConversation, $idUser, $textMessage)
         return false;
     }
 
-    return $DB_DB->lastInsertId();
+    $idMessage = $DB_DB->lastInsertId();
+    var_dump("r=trux");
+    setUnreadMessage($idMessage, $idConversation);
+    var_dump("mp");
+
+    return $idMessage;
 }
 
 function getMessage($id)

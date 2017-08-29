@@ -1,4 +1,5 @@
 <?php
+    loadModules("mailBox/conversation");
     if(isset($_POST["disconnect"])) {
         loadModules("user");
         disconnectUser();
@@ -16,7 +17,13 @@
         <a href="?page=project"><?=$lang["project_management"]?></a>
         <a href="?page=administration"><?=$lang["administration"]?></a>
         <a href="?page=userList"><?=$lang["userList"]?></a>
-        <a href="?page=mailbox"><?=$lang["mailBox"]?></a>
+        <a href="?page=mailbox">
+            <?=$lang["mailBox"]?>
+            <?php $count = allUnreadMessages($_COOKIE['id']);
+            if($count != 0) { ?>
+                (<?=$count?>)
+            <?php } ?>
+        </a>
         <!-- Gestion materiaux. -->
         <form action="" method="post">
             <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">

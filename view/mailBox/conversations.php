@@ -22,6 +22,10 @@ foreach (listConversations($_COOKIE['id']) as $conversation){ ?>
                 <?php }
             }?>
             (<?=$conversation['startDateTime']?>)
+            <?php $count = haveUnreadMessage($conversation['idConversation'], $_COOKIE['id']);
+                if($count != 0) { ?>
+                    (<?=$count?>)
+            <?php } ?>
         </div>
     </a>
 <?php } ?>
