@@ -118,12 +118,67 @@
         }
 
     }
+// Renvoie la date de fin d'adhésion si User dans la base sinon renvoi une péremption de 1 jour
+    function returnValidDateForMembership($idUser){
+        if(isset(selectEndMembershipDate($idUser)[0]['endMembershipDate'])){
+            return selectEndMembershipDate($idUser)[0]['endMembershipDate'];
+        }
+        else{
+            return -1;
+        }
+    }
 
     function compareTwoDates($date1,$date2){
-        $date1ToCompare = date_create($date1);
-        $date2ToCompare = date_create($date2);
-        $diffDate = date_diff($date1ToCompare,$date2ToCompare);
-        $valueDiffDate = $diffDate->format("%R%a");
-        return $valueDiffDate;
+        if($date2){
+            $date1ToCompare = date_create($date1);
+            $date2ToCompare = date_create($date2);
+            $diffDate = date_diff($date1ToCompare,$date2ToCompare);
+            $valueDiffDate = $diffDate->format("%R%a");
+            return $valueDiffDate;
+        }
+        else{
+            return -1;
+        }
+    }
+
+    function updateMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,
+                              $idMembershipFrame,$idUser){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("UPDATE membershiptransaction SET membershipingDate = :membershipingDate, 
+                                 endMembershipDate = :endMembershipDate, paymentMethod = :paymentMethod,
+                                 adminCommentary = :adminCommentary, idMembershipFrame = :idMembershipFrame
+                                 WHERE idUser = :idUser");
+    
+        try {
+            $stmt->execute(array(
+                'membershipingDate' => $membershipingDate,
+                'endMembershipDate' => $endMembershipDate,
+                'paymentMethod' => $paymentMethod,
+                'adminCommentary' => $adminCommentary,
+                'idMembershipFrame' => $idMembershipFrame,
+                'idUser' => $idUser
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+        }
+    }
+
+    function selectPaymentMethodInMembership($idUser){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("SELECT paymentMethod FROM MembershipTransaction WHERE idUser=:idUser");
+
+        try {
+            $stmt->execute(array(
+                'idUser' => $idUser
+            ));
+            $result = $stmt->fetch()[0];
+            return $result;
+        }
+        catch(Exception $e) {
+            echo $e;
+            return "";
+        }
+
     }
 ?>

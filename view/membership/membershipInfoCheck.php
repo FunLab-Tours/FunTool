@@ -1,6 +1,11 @@
 <?php
     $membershipingDate = date('Ymd');
-    $endMembershipDate = date('Ymd', strtotime('+1 year'));
+    if($_POST['valueDiffDate']>0 && $_POST['valueDiffDate']<32){
+        $endMembershipDate = date('ymd', strtotime('+1 year', strtotime(returnValidDateForMembership($_COOKIE["id"]))));
+    }
+    else{
+        $endMembershipDate = date('Ymd', strtotime('+1 year'));
+    }
     $membershipPrice = selectMembershipFrame($_POST['framePrice'])[0]['framePrice'];
     $frameName = selectMembershipFrame($_POST['framePrice'])[0]['frameName'];
     $idMembershipFrame = selectMembershipFrame($_POST['framePrice'])[0]['idMembershipFrame'];

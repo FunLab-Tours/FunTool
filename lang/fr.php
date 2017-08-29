@@ -209,7 +209,7 @@ $lang["selectedFrame"] = "Vous avez choisi la formule";
 $lang["for"] = "pour";
 $lang["donationGiven"] = "Vous avez fait un don de";
 $lang["rest"] = "Il vous reste";
-$lang["daysOfMembership"] = "jours d'adhésion";
+$lang["daysOfMembership"] = "jour(s) d'adhésion";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";

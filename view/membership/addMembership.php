@@ -1,13 +1,14 @@
 <?php
-    // $currentDate = date_create(date('Y-m-d'));
-    // $selectEndMembershipDate = date_create(date((selectEndMembershipDate($_COOKIE["id"])[0]['endMembershipDate'])));
-    // $diffDate = date_diff($currentDate,$selectEndMembershipDate);
-    // $valueDiffDate = $diffDate->format("%R%a");
-    $valueDiffDate = compareTwoDates(date('Y-m-d'),date((selectEndMembershipDate($_COOKIE["id"])[0]['endMembershipDate'])));
-    echo $valueDiffDate;
+    $valueDiffDate = compareTwoDates(date('Y-m-d'),date((returnValidDateForMembership($_COOKIE["id"]))));
     if ($valueDiffDate<32){
         if($valueDiffDate>0){
-            $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+?>
+<br></br>
+<?php
+            echo $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+?>
+<br></br>
+<?php
         }
 ?>
 <form action="" method="POST">
@@ -39,12 +40,16 @@
     <input type ="radio" name ="donationRadio" value="0"><?=$lang["freeDonation"]?>
     <input type="number" min="0" placeholder="<?=$lang["valueFreeDonation"]?>" name="donation" />
     <br></br>
+    <input type="hidden" value="<?=$valueDiffDate?>" name="valueDiffDate">
     <input type="submit" value="<?=$lang["submit"]?>" name="submitMembership"> 
 </form>
 
 <?php
     }
     else{
-        $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+?>
+<br></br>
+<?php       
+        echo $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
     }
 ?>
