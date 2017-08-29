@@ -1,4 +1,4 @@
 <?php
 loadModules("funnies");
-include("addFunnies.php")
+include("addFunnies.php");
 ?>
