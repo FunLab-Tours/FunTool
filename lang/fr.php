@@ -212,6 +212,8 @@ $lang["rest"] = "Il vous reste";
 $lang["daysOfMembership"] = "jour(s) d'adhésion";
 
 $lang["nbFunnies"] = "Nombre de funnies";
-
+$lang["youHave"] = "Vous avez";
+$lang["goingToBuy"] = "Vous êtes sur le point d'acheter";
+$lang["newBalance"] = "Votre nouveau solde sera de";
 $error = [];
 $error[-1] = "Erreur Inconnue";
