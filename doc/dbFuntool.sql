@@ -123,9 +123,9 @@ CREATE TABLE MachineUseForm(
         comment           Varchar (255) ,
         entryDate         Datetime ,
         TransactionStatut Varchar (255) ,
+        duration          Time ,
         idMachine         Int ,
         idUser            Int ,
-        idUser_1          Int ,
         PRIMARY KEY (idUseForm )
 )ENGINE=InnoDB;
 
@@ -149,15 +149,15 @@ CREATE TABLE Message(
 #------------------------------------------------------------
 
 CREATE TABLE Materials(
-        idMat     int (11) Auto_increment  NOT NULL ,
-        labelMat  Varchar (255) ,
-        codeMat   Varchar (10) ,
-        priceMat  Integer ,
-        datePrice Datetime ,
-        docLink   Varchar (255) ,
-        comment   Text ,
-        dateEntry Datetime ,
-        idPicture Int ,
+        idMat              int (11) Auto_increment  NOT NULL ,
+        labelMat           Varchar (255) ,
+        codeMat            Varchar (10) ,
+        priceMat           Integer ,
+        docLink            Varchar (255) ,
+        comment            Text ,
+        dateEntry          Datetime ,
+        idPicture          Int ,
+        idCostUnitMaterial Int ,
         PRIMARY KEY (idMat ) ,
         UNIQUE (codeMat )
 )ENGINE=InnoDB;
@@ -343,7 +343,7 @@ CREATE TABLE Rights(
         idRights          int (11) Auto_increment  NOT NULL ,
         rightsTitle       Varchar (25) ,
         rightsDescription Text ,
-        rigthsPath        Varchar (25) ,
+        rightsPath        Varchar (25) ,
         PRIMARY KEY (idRights )
 )ENGINE=InnoDB;
 
@@ -365,8 +365,9 @@ CREATE TABLE Lab(
 #------------------------------------------------------------
 
 CREATE TABLE Maintenance(
-        idMaintenance   int (11) Auto_increment  NOT NULL ,
-        nameMaintenance Varchar (25) ,
+        idMaintenance           int (11) Auto_increment  NOT NULL ,
+        nameMaintenance         Varchar (25) ,
+        timeBetweenMaintenances Time ,
         PRIMARY KEY (idMaintenance )
 )ENGINE=InnoDB;
 
@@ -376,10 +377,11 @@ CREATE TABLE Maintenance(
 #------------------------------------------------------------
 
 CREATE TABLE Historical(
-        idHistorical  int (11) Auto_increment  NOT NULL ,
-        nameRepairer  Varchar (25) ,
-        messageRepair Text ,
-        idMaintenance Int ,
+        idHistorical    int (11) Auto_increment  NOT NULL ,
+        nameRepairer    Varchar (25) ,
+        messageRepair   Text ,
+        dateMaintenance Datetime ,
+        idMaintenance   Int ,
         PRIMARY KEY (idHistorical )
 )ENGINE=InnoDB;
 
@@ -413,6 +415,18 @@ CREATE TABLE funniesTransaction(
 
 
 #------------------------------------------------------------
+# Table: CostUnitMaterial
+#------------------------------------------------------------
+
+CREATE TABLE CostUnitMaterial(
+        idCostUnitMaterial int (11) Auto_increment  NOT NULL ,
+        unit               Varchar (25) ,
+        costUnit           Int ,
+        PRIMARY KEY (idCostUnitMaterial )
+)ENGINE=InnoDB;
+
+
+#------------------------------------------------------------
 # Table: userRole
 #------------------------------------------------------------
 
@@ -431,18 +445,6 @@ CREATE TABLE capacitationUser(
         idUser        Int NOT NULL ,
         idEmpowerment Int NOT NULL ,
         PRIMARY KEY (idUser ,idEmpowerment )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: need
-#------------------------------------------------------------
-
-CREATE TABLE need(
-        quantity  Integer ,
-        idUseForm Int NOT NULL ,
-        idMat     Int NOT NULL ,
-        PRIMARY KEY (idUseForm ,idMat )
 )ENGINE=InnoDB;
 
 
@@ -612,6 +614,7 @@ CREATE TABLE labTeam(
 
 CREATE TABLE labSupplies(
         quantityInStock Int ,
+        lastRestock     Datetime ,
         idLab           Int NOT NULL ,
         idMat           Int NOT NULL ,
         PRIMARY KEY (idLab ,idMat )
@@ -630,26 +633,14 @@ CREATE TABLE repair(
 
 
 #------------------------------------------------------------
-# Table: consume
+# Table: used
 #------------------------------------------------------------
 
-CREATE TABLE consume(
-        idMachine Int NOT NULL ,
+CREATE TABLE used(
+        quantity  Int ,
         idMat     Int NOT NULL ,
-        PRIMARY KEY (idMachine ,idMat )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: reserve
-#------------------------------------------------------------
-
-CREATE TABLE reserve(
-        startReservation    Date ,
-        durationReservation Time ,
-        idUser              Int NOT NULL ,
-        idMachine           Int NOT NULL ,
-        PRIMARY KEY (idUser ,idMachine )
+        idUseForm Int NOT NULL ,
+        PRIMARY KEY (idMat ,idUseForm )
 )ENGINE=InnoDB;
 
 
@@ -704,6 +695,17 @@ CREATE TABLE hasRead(
         PRIMARY KEY (idMessage ,idUser )
 )ENGINE=InnoDB;
 
+
+#------------------------------------------------------------
+# Table: consume
+#------------------------------------------------------------
+
+CREATE TABLE consume(
+        idMachine Int NOT NULL ,
+        idMat     Int NOT NULL ,
+        PRIMARY KEY (idMachine ,idMat )
+)ENGINE=InnoDB;
+
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
@@ -713,10 +715,10 @@ ALTER TABLE User ADD CONSTRAINT FK_User_idPicture FOREIGN KEY (idPicture) REFERE
 ALTER TABLE Empowerment ADD CONSTRAINT FK_Empowerment_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE Message ADD CONSTRAINT FK_Message_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE Message ADD CONSTRAINT FK_Message_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
+ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idCostUnitMaterial FOREIGN KEY (idCostUnitMaterial) REFERENCES CostUnitMaterial(idCostUnitMaterial);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
@@ -731,8 +733,6 @@ ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFE
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE capacitationUser ADD CONSTRAINT FK_capacitationUser_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE capacitationUser ADD CONSTRAINT FK_capacitationUser_idEmpowerment FOREIGN KEY (idEmpowerment) REFERENCES Empowerment(idEmpowerment);
-ALTER TABLE need ADD CONSTRAINT FK_need_idUseForm FOREIGN KEY (idUseForm) REFERENCES MachineUseForm(idUseForm);
-ALTER TABLE need ADD CONSTRAINT FK_need_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE boundto ADD CONSTRAINT FK_boundto_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE boundto ADD CONSTRAINT FK_boundto_idCorporation FOREIGN KEY (idCorporation) REFERENCES Corporation(idCorporation);
 ALTER TABLE has ADD CONSTRAINT FK_has_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -765,10 +765,8 @@ ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idLab FOREIGN KEY (idLab) 
 ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
 ALTER TABLE repair ADD CONSTRAINT FK_repair_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
-ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE reserve ADD CONSTRAINT FK_reserve_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
+ALTER TABLE used ADD CONSTRAINT FK_used_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
+ALTER TABLE used ADD CONSTRAINT FK_used_idUseForm FOREIGN KEY (idUseForm) REFERENCES MachineUseForm(idUseForm);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -777,3 +775,5 @@ ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversati
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
 ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
+ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
