@@ -4,18 +4,31 @@
         <td><?=$lang["firstName"]?></td>
         <td><?=$lang["name"]?></td>
         <td><?=$lang["email"]?></td>
+        <td><?=$lang["membershipingDate"]?></td>
         <td><?=$lang["endDateMembershipDate"]?></td>
         <td><?=$lang["paymentMethod"]?></td>
         <td><?=$lang["adminCommentary"]?></td>
         <td><?=$lang["frameName"]?></td>
 
     </tr>
-</table>
+
 <?php
     foreach(listAllMembership()as$row){
 ?>
-<td><?=getUser($row['idUser'])['login']?></td>
+    <tr>
+        <td><?=getUser($row['idUser'])['login']?></td>
+        <td><?=getUser($row['idUser'])['firstName']?></td>
+        <td><?=getUser($row['idUser'])['name']?></td>
+        <td><?=getUser($row['idUser'])['email']?></td>
+        <td><?=$row['membershipingDate']?></td>
+        <td><?=$row['endMembershipDate']?></td>
+        <td><?=$row['paymentMethod']?></td>
+        <td><?=$row['adminCommentary']?></td>
+        <td><?=selectMembershipFrame($row['idMembershipFrame'])['frameName']?></td>
+        <td><a href="index.php?page=event&idEdit=<?=$row['idEvent']?>" \><?=$lang["edit"]?></a> | <a href="index.php?page=event&idDelete=<?=$row['idEvent']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
+    </tr>
 
 <?php
     }
 ?>
+</table>

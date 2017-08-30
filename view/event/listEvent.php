@@ -34,6 +34,7 @@
                 </td>
                 <!--<td><?//=selectAllUsersInEvent($row['idEvent'])?></td>-->
                 <td><a href="index.php?page=event&idEdit=<?=$row['idEvent']?>" \><?=$lang["edit"]?></a> | <a href="index.php?page=event&idDelete=<?=$row['idEvent']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
+            <tr>
     <?php
         }
     ?>

@@ -69,7 +69,7 @@
             $stmt->execute(array(
                 'idMembershipFrame' => $idMembershipFrame,
             ));
-            $result = $stmt->fetchAll();
+            $result = $stmt->fetch();
             return $result;
         }
         catch(Exception $e) {

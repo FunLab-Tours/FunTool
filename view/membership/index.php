@@ -1,5 +1,6 @@
 <?php
 loadModules("membership");
+loadModules("user");
 include("static/membershipMenu.php");
 if(isset($_GET['listMembershipFrame'])) {
     include("listMembershipFrame.php");
