@@ -685,11 +685,10 @@ CREATE TABLE userInConversation(
 
 
 #------------------------------------------------------------
-# Table: hasRead
+# Table: unread
 #------------------------------------------------------------
 
-CREATE TABLE hasRead(
-        seen      Bool ,
+CREATE TABLE unread(
         idMessage Int NOT NULL ,
         idUser    Int NOT NULL ,
         PRIMARY KEY (idMessage ,idUser )
@@ -773,7 +772,7 @@ ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser FOREIGN KEY
 ALTER TABLE funniesTransfer ADD CONSTRAINT FK_funniesTransfer_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE userInConversation ADD CONSTRAINT FK_userInConversation_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
-ALTER TABLE hasRead ADD CONSTRAINT FK_hasRead_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
+ALTER TABLE unread ADD CONSTRAINT FK_unread_idMessage FOREIGN KEY (idMessage) REFERENCES Message(idMessage);
+ALTER TABLE unread ADD CONSTRAINT FK_unread_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);

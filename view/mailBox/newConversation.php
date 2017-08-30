@@ -6,8 +6,7 @@
  * Time: 16:59
  */
 
-if(isset($_POST['submit']) && $_POST['text'] != "") {
-    var_dump($_POST['recipient']);
+if(isset($_POST['submit']) && isset($_POST['recipient']) && $_POST['text'] != "") {
     if (sizeof($_POST['recipient']) == 1) {
         $id = searchForConversation($_COOKIE['id'], $_POST['recipient'][0]);
         createMessage($id, $_COOKIE['id'], $_POST['text']);
