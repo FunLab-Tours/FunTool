@@ -217,6 +217,15 @@ $lang['searchSkills'] = "Recherche par compétence";
 $lang['searchSoftwares'] = "Recherche par connaissance";
 $lang['userPseudoFirstLastName'] = "Recherche par nom";
 
+$lang["materials"] = "Gérer les matériaux";
+$lang["costUnit"] = "Gérer les tarifs des matériaux";
+$lang['labelMat'] = "Nom du matériaux";
+$lang['codeMat'] = "Code du matériaux";
+$lang['priceMat'] = "prix d'achat du matériau";
+$lang['docLink'] = "Lien de documentation";
+$lang['comment'] = "Commentaire";
+$lang['dateEntry'] = "Date de création du matériau";
+
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";
 $lang["goingToBuy"] = "Vous êtes sur le point d'acheter";

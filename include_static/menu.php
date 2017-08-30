@@ -15,6 +15,7 @@
         <a href="?page=lab"><?=$lang["lab_management"]?></a>
         <a href="?page=event"><?=$lang["event_management"]?></a>
         <a href="?page=machine"><?=$lang["machine"]?></a>
+        <a href="?page=materials"><?=$lang["materials"]?></a>
         <a href="?page=project"><?=$lang["project_management"]?></a>
         <a href="?page=administration"><?=$lang["administration"]?></a>
         <a href="?page=userList"><?=$lang["userList"]?></a>
@@ -25,7 +26,6 @@
                 (<?=$count?>)
             <?php } ?>
         </a>
-        <!-- Gestion materiaux. -->
         <form action="" method="post">
             <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">
         </form>
