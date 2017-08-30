@@ -166,9 +166,9 @@ function showRegisterButton($ticketsLeft,$idEvent,$alreadyRegistered){
 }
 
 
-function currentUserFunnies($idUser){
+function currentUserFunnies($idUser) {
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT nbFunnies FROM user WHERE idUser=:idUser");
+    $stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser=:idUser");
 
     try {
         $stmt->execute(array(
@@ -185,7 +185,7 @@ function currentUserFunnies($idUser){
 
 function ticketPrice($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT pricePlace FROM Events WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT pricePlace FROM Events WHERE idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
@@ -203,27 +203,27 @@ function ticketPrice($idEvent){
 
 function userRegistrationToEvent($idUser,$idEvent){
     global $DB_DB;
+    $stmt = $DB_DB->prepare("INSERT INTO register(idUser, idEvent) VALUES(:idUser, :idEvent)");
 
-    $stmt = $DB_DB->prepare("INSERT INTO register(idUser, idEvent) VALUES (:idUser, :idEvent)");
     try {
         $stmt->execute(array(
-        'idUser' => $idUser,
-        'idEvent' => $idEvent
+            'idUser' => $idUser,
+            'idEvent' => $idEvent
         ));
-        $userFunniesLeft = currentUserFunnies($idUser)-ticketPrice($idEvent);
-        updateUserFunnies($idUser,$userFunniesLeft);        
-        }
-        
-        catch(Exception $e){
-                            echo $e;
-                            exit;
-        }   
+
+        $userFunniesLeft = currentUserFunnies($idUser) - ticketPrice($idEvent);
+        updateUserFunnies($idUser, $userFunniesLeft);
+    }
+    catch(Exception $e){
+        echo $e;
+        exit;
+    }
 }
 
 function updateUserFunnies($idUser,$userFunniesLeft){
     global $DB_DB;
 
-    $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
+    $stmt = $DB_DB->prepare("UPDATE User SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
 
     try {
         $stmt->execute(array(
@@ -274,7 +274,7 @@ function selectAllUsersInEvent($idEvent){
 
 function nameOfUsersInEvent($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT firstName,telephone FROM user u INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT firstName,telephone FROM User INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(
