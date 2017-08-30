@@ -1,7 +1,7 @@
 <?php
 function currentUserFunnies($idUser){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT nbFunnies FROM user WHERE idUser=:idUser");
+    $stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser=:idUser");
 
     try {
         $stmt->execute(array(
@@ -19,7 +19,7 @@ function currentUserFunnies($idUser){
 function updateUserFunnies($idUser,$newFunniesBalance){
     global $DB_DB;
 
-    $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
+    $stmt = $DB_DB->prepare("UPDATE User SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
 
     try {
         $stmt->execute(array(
