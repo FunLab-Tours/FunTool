@@ -5,8 +5,17 @@
         <td><?=$lang["name"]?></td>
         <td><?=$lang["email"]?></td>
         <td><?=$lang["endDateMembershipDate"]?></td>
+        <td><?=$lang["paymentMethod"]?></td>
+        <td><?=$lang["adminCommentary"]?></td>
+        <td><?=$lang["frameName"]?></td>
+
     </tr>
 </table>
 <?php
+    foreach(listAllMembership()as$row){
+?>
+<td><?=getUser($row['idUser'])?></td>
 
+<?php
+    }
 ?>

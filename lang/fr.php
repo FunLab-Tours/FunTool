@@ -216,6 +216,7 @@ $lang["listMembership"] = "Liste des adhérents";
 $lang["membershipingDate"] = "Date d'adhésion";
 $lang["endDateMembershipDate"] = "Date de fin d'adhésion";
 $lang["paymentMethod"] = "Moyen de paiement";
+$lang["adminCommentary"] = "Commentaire de l'admin";
 
 
 $lang['searchRoles'] = "Recherche par rôle";
