@@ -250,7 +250,7 @@
                         $inscriptionActiveList,
                         $inscriptionNews,
                         $picture) {
-        global $DB_DB;
+        global $DB_DB, $privateKey, $max_upload_size, $base_url;
 
         $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
         $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
@@ -259,8 +259,23 @@
         $request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription, categoryPicture)
                                            VALUE (:picture, :pictureDescription, :categoryPicture)');
         try {
+            $folder = 'assets/user_images/';
+            $size = filesize($_FILES['idPicture']['tmp_name']);
+            if(!getimagesize($_FILES['idPicture']['tmp_name'])) {
+                echo 'Ce fichier n\'est pas une image!';
+                return ;
+            }
+            if($size>$max_upload_size){
+                echo 'Taille maximale dépassée!';
+                return ;
+            }
+            $image_link = $folder . sha1( $login. $privateKey) . '.' . pathinfo($_FILES['idPicture']['name'],PATHINFO_EXTENSION);
+            if(!move_uploaded_file($_FILES['idPicture']['tmp_name'], $image_link)){
+                echo 'Echec de l\'upload !';
+                return ;
+            }
             $request->execute(array(
-                'picture' => $picture,
+                'picture' => $base_url . $image_link,
                 'pictureDescription' => $login,
                 'categoryPicture' => "ProfilUser"
             ));
