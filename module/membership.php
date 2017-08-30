@@ -20,7 +20,7 @@
 
     function listAllMembershipFrame(){
         global $DB_DB;
-        $result = $DB_DB->query("SELECT * FROM membershipFrame");
+        $result = $DB_DB->query("SELECT * FROM MembershipFrame");
 
         return $result;
     }
@@ -80,7 +80,7 @@
 
     function addMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,$idMembershipFrame,$idUser){
         global $DB_DB;
-        $stmt = $DB_DB->prepare("INSERT INTO membershiptransaction(membershipingDate, endMembershipDate, paymentMethod,
+        $stmt = $DB_DB->prepare("INSERT INTO membershipTransaction(membershipingDate, endMembershipDate, paymentMethod,
                                              adminCommentary, idMembershipFrame, idUser)                                                 
                                 VALUES (:membershipingDate, :endMembershipDate, :paymentMethod, 
                                         :adminCommentary, :idMembershipFrame, :idUser)");
@@ -103,7 +103,7 @@
 
     function selectEndMembershipDate($idUser){
         global $DB_DB;
-        $stmt = $DB_DB->prepare("SELECT endMembershipDate FROM MembershipTransaction WHERE idUser=:idUser");
+        $stmt = $DB_DB->prepare("SELECT endMembershipDate FROM membershipTransaction WHERE idUser=:idUser");
 
         try {
             $stmt->execute(array(
@@ -144,7 +144,7 @@
     function updateMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,
                               $idMembershipFrame,$idUser){
         global $DB_DB;
-        $stmt = $DB_DB->prepare("UPDATE membershiptransaction SET membershipingDate = :membershipingDate, 
+        $stmt = $DB_DB->prepare("UPDATE membershipTransaction SET membershipingDate = :membershipingDate, 
                                  endMembershipDate = :endMembershipDate, paymentMethod = :paymentMethod,
                                  adminCommentary = :adminCommentary, idMembershipFrame = :idMembershipFrame
                                  WHERE idUser = :idUser");
@@ -166,7 +166,7 @@
 
     function selectPaymentMethodInMembership($idUser){
         global $DB_DB;
-        $stmt = $DB_DB->prepare("SELECT paymentMethod FROM MembershipTransaction WHERE idUser=:idUser");
+        $stmt = $DB_DB->prepare("SELECT paymentMethod FROM membershipTransaction WHERE idUser=:idUser");
 
         try {
             $stmt->execute(array(

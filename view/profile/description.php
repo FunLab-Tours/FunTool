@@ -17,6 +17,7 @@
 
 <div><?=$lang["firstName"]?> : <?=$user['firstName']?></div>
 <div><?=$lang["name"]?> : <?=$user['name']?></div>
+<div><?=$lang["nbFunnies"]?> : <?=$user['nbFunnies']?></div>
 <div><?=$lang["telephone"]?> : <?=$user['telephone']?></div>
 <div><?=$lang["adress"]?> : <?=$user['adressL1']." ".$user['adressL2']." ".$user['adressL3']?></div>
 <div><?=$lang["zipCode"]?> : <?=$user['zipCode']?></div>

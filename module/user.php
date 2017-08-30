@@ -7,7 +7,7 @@
 
     function isValidUser($login, $password) {
         global $DB_DB;
-        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry, password FROM user WHERE login = :login');
+        $request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry, password FROM User WHERE login = :login');
 
         try {
             $request->execute(array(
@@ -55,57 +55,57 @@
             && isset($_POST['email']) && isset($_POST['birthDate'])) {
 
             if(!isValidNewLogin($_POST['login'])) {
-                echo "login";
+                echo "Error on login.";
                 return false;
             }
 
             if(!isValidPassword($_POST['password'], $_POST['passwordChecker'])) {
-                echo "password";
+                echo "Error on password.";
                 return false;
             }
 
             if(!isValidFirstName($_POST['firstName'])) {
-                echo "firstName";
+                echo "Error on first name.";
                 return false;
             }
 
             if(!isValidName($_POST['name'])) {
-                echo "name";
+                echo "Error on name.";
                 return false;
             }
 
             if(!isValidTelephone($_POST['telephone'])) {
-                echo "phone";
+                echo "Error on phone number.";
                 return false;
             }
 
             if(!isValidAdressL1($_POST['adressL1'])) {
-                echo "adresse1";
+                echo "Error on first address.";
                 return false;
             }
 
             if(!isValidZipCode($_POST['zipCode'])) {
-                echo "CP";
+                echo "Error on zip code.";
                 return false;
             }
 
             if(!isValidTown($_POST['town'])) {
-                echo "town";
+                echo "Error on town.";
                 return false;
             }
 
             if(!isValidCountry($_POST['country'])) {
-                echo "country";
+                echo "Error on country.";
                 return false;
             }
 
             if(!isValidEmail($_POST['email'])) {
-                echo "mail";
+                echo "Error on email.";
                 return false;
             }
 
             if(!isValidBirthDate($_POST['birthDate'])) {
-                echo "datebirth";
+                echo "Error on birth date.";
                 return false;
             }
 
@@ -475,14 +475,14 @@
     function editPassword($old, $new)
     {
         global $DB_DB;
-        $password = $DB_DB->query('SELECT password FROM user WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
+        $password = $DB_DB->query('SELECT password FROM User WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
 
         var_dump($password);
         var_dump(password_hash($old, PASSWORD_DEFAULT));
         var_dump(strcmp($old, $password));
 
         if(password_verify($old, $password)) {
-            $request = $DB_DB->prepare('UPDATE user SET user.password = :new WHERE idUser = :id');
+            $request = $DB_DB->prepare('UPDATE User SET User.password = :new WHERE idUser = :id');
             $request->execute(array(
                 'new' => password_hash($new, PASSWORD_DEFAULT),
                 'id' => $_COOKIE['id']

@@ -2,7 +2,7 @@
     loadModules("user");
 
     if(isset($_POST['submit'])) {
-        if (isValidSignOn()) {
+        if(isValidSignOn()) {
             addUser($_POST['login'],
                 $_POST['password'],
                 $_POST['firstName'],

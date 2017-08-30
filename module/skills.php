@@ -71,12 +71,12 @@ function testSkill($idSkill, $skillName, $idSkillType)
 {
     global $DB_DB;
     if($idSkill == null) {
-        $result = $DB_DB->query('SELECT * FROM variousskills WHERE skillName LIKE \'' . $skillName . '\'')->fetchAll();
+        $result = $DB_DB->query('SELECT * FROM VariousSkills WHERE skillName LIKE \'' . $skillName . '\'')->fetchAll();
         if (sizeof($result) != 0)
             return false;
     }
     else{
-        $result = $DB_DB->query('SELECT * FROM variousskills WHERE skillName LIKE \'' . $skillName . '\'
+        $result = $DB_DB->query('SELECT * FROM VariousSkills WHERE skillName LIKE \'' . $skillName . '\'
                                  AND idSkill <> '.$idSkill)->fetchAll();
         if (sizeof($result) != 0)
             return false;
@@ -168,8 +168,8 @@ function deleteSkill($idSkill)
     }
     catch(Exception $e){}
 
-    //Delete in table 'variousSkills'
-    $request = $DB_DB->prepare("DELETE FROM variousskills WHERE idSkill = :idSkill");
+    //Delete in table 'VariousSkills'
+    $request = $DB_DB->prepare("DELETE FROM VariousSkills WHERE idSkill = :idSkill");
     try{
         $request->execute(array(
             'idSkill' => $idSkill,
@@ -258,7 +258,7 @@ function deleteSkillType($idSkillType)
     global $DB_DB;
 
     //The delete can be effective only if it is not use in a variousSkill
-    $request = $DB_DB->prepare("DELETE FROM skillType WHERE idSkillType = :idSkillType");
+    $request = $DB_DB->prepare("DELETE FROM SkillType WHERE idSkillType = :idSkillType");
     try{
         $request->execute(array(
             'idSkillType' => $idSkillType,
