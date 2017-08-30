@@ -513,3 +513,22 @@
         global $DB_DB;
         return $DB_DB->query('SELECT * FROM User')->fetchAll();
     }
+
+    function isMember($idUser) {
+        global $DB_DB;
+        $request = $DB_DB->prepare('SELECT COUNT(idUser) as isMember FROM membershipTransaction WHERE idUser = :idUser');
+
+        try {
+            $request->execute(array(
+                'idUser' => $idUser
+            ));
+        }
+        catch(Exception $e) {
+            echo $e;
+            exit;
+        }
+
+        if($request->fetch()['isMember'] == 1)
+            return true;
+        return false;
+    }

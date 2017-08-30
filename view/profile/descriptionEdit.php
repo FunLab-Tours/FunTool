@@ -33,6 +33,14 @@
 
     <div><?=$lang["firstName"]?> : <input type="text" name="firstName" value="<?=$user['firstName']?>"/></div>
     <div><?=$lang["name"]?> : <input type="text" name="name" value="<?=$user['name']?>"/></div>
+    <?php
+    if(isMember($user['idUser'])) {
+        ?> <div><?=$lang['isMember']?> : <?=$lang['yes']?></div> <?php
+    }
+    else {
+        ?> <div><?=$lang['isMember']?> : <?=$lang['no']?></div> <?php
+    }
+    ?>
     <div><?=$lang["nbFunnies"]?> : <?=$user['nbFunnies']?></div>
     <div><?=$lang["telephone"]?> : <input type="tel" name="telephone" value="<?=$user['telephone']?>"/></div>
     <div><?=$lang["adress"]?> :  <input type="text" name="adressL1" value="<?=$user['adressL1']?>"/>
