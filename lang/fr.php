@@ -215,7 +215,7 @@ $lang["listMembership"] = "Liste des adhérents";
 $lang['searchRoles'] = "Recherche par rôle";
 $lang['searchSkills'] = "Recherche par compétence";
 $lang['searchSoftwares'] = "Recherche par connaissance";
-$lang['userPseudoFirstLastName'] = "Recherche par nom"
+$lang['userPseudoFirstLastName'] = "Recherche par nom";
 
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";
