@@ -211,6 +211,10 @@ $lang["donationGiven"] = "Vous avez fait un don de";
 $lang["rest"] = "Il vous reste";
 $lang["daysOfMembership"] = "jour(s) d'adhésion";
 $lang["listMembership"] = "Liste des adhérents";
+$lang["membershipingDate"] = "Date d'adhésion";
+$lang["endDateMembershipDate"] = "Date de fin d'adhésion";
+$lang["paymentMethod"] = "Moyen de paiement";
+
 
 $lang['searchRoles'] = "Recherche par rôle";
 $lang['searchSkills'] = "Recherche par compétence";

@@ -181,4 +181,11 @@
         }
 
     }
+
+    function listAllMembership(){
+        global $DB_DB;
+        $result = $DB_DB->query("SELECT * FROM membershiptransaction");
+
+        return $result;
+    }
 ?>
