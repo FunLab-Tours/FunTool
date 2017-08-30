@@ -20,18 +20,18 @@
                 5, // $_POST['nbFunnies'], TODO : use global parameter.
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
-                $_POST['idPicture']);
-            connectUser($_POST['login'], $_POST['password']);
-            header('Location: index.php');
+                "");
+            //connectUser($_POST['login'], $_POST['password']);
+            //header('Location: index.php');
         }
     }
 ?>
 
-<form method="POST" action="">
+<form method="POST" action="" enctype="multipart/form-data">
     <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
     <input type="password" placeholder="<?=$lang["password"]?>" name="password" />
     <input type="password" placeholder="<?=$lang["passwordChecker"]?>" name="passwordChecker" />
-    <input type="url" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
+    <input type="file" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
     <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
     <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
     <input type="tel" placeholder="<?=$lang["telephone"]?>" name="telephone" />
