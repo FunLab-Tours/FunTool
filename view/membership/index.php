@@ -22,6 +22,9 @@ else if(isset($_POST['submitMembership'])){
 else if(isset($_POST['membershipPayed'])){
     include("paymentMembershipAccepted.php");
 }
+else if(isset($_GET['listMembership'])){
+    include("listMembership.php");
+}
 else{
     include("addMembership.php");
 }

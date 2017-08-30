@@ -1,4 +1,5 @@
 <?php
+//Vérification si l'utilisateur a encore une adhésion en cours et combien de temps il reste
     $membershipingDate = date('Ymd');
     if($_POST['valueDiffDate']>0 && $_POST['valueDiffDate']<32){
         $endMembershipDate = date('ymd', strtotime('+1 year', strtotime(returnValidDateForMembership($_COOKIE["id"]))));
