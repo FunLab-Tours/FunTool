@@ -212,6 +212,12 @@
     $lang["donationGiven"] = "Vous avez fait un don de";
     $lang["rest"] = "Il vous reste";
     $lang["daysOfMembership"] = "jour(s) d'adhésion";
+    $lang["listMembership"] = "Liste des adhérents";
+
+    $lang['searchRoles'] = "Recherche par rôle";
+    $lang['searchSkills'] = "Recherche par compétence";
+    $lang['searchSoftwares'] = "Recherche par connaissance";
+    $lang['userPseudoFirstLastName'] = "Recherche par nom";
 
     $lang["nbFunnies"] = "Nombre de funnies";
     $lang["youHave"] = "Vous avez";
@@ -220,4 +226,4 @@
     $error = [];
     $error[-1] = "Erreur Inconnue";
 
-    ?>
+?>
