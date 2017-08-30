@@ -15,14 +15,14 @@
         global $DB_DB;
         if($id == null)
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareSubCategory WHERE SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\'')->fetchAll();
+            $result = $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\'')->fetchAll();
             if(sizeof($result) != 0)
                 return false;
             return true;
         }
         else
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat <> '.$id.' AND (SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\')')->fetchAll();
+            $result = $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE idSoftSubcat <> '.$id.' AND (SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\')')->fetchAll();
             if(sizeof($result) != 0)
                 return false;
             return true;
@@ -32,13 +32,13 @@
     function listSubCategories($idCategory)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftWareSubCategory WHERE idSoftCat = '.$idCategory)->fetchAll();
+        return $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE idSoftCat = '.$idCategory)->fetchAll();
     }
 
     function getSubCategory($id)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftWareSubCategory WHERE idsoftsubcat = '.$id)->fetchAll()[0];
+        return $DB_DB->query('SELECT * FROM SoftWareSubcategory WHERE idsoftsubcat = '.$id)->fetchAll()[0];
     }
 
     function addSubCategory($idCat, $code, $label)
@@ -48,7 +48,7 @@
 
         global $DB_DB;
 
-        $request = $DB_DB->prepare('INSERT INTO SoftwareSubCategory  (idSoftCat, SubcatCode, SubcatLabel) 
+        $request = $DB_DB->prepare('INSERT INTO SoftwareSubcategory  (idSoftCat, SubcatCode, SubcatLabel) 
                                     VALUES (:idCat, :code, :label)');
         try{
             $request->execute(array(
@@ -71,7 +71,7 @@
 
         global $DB_DB;
 
-        $request = $DB_DB->prepare('UPDATE SoftwareSubCategory
+        $request = $DB_DB->prepare('UPDATE SoftwareSubcategory
                                     SET SubcatCode = :code, SubcatLabel = :label
                                     WHERE idSoftSubcat = :id');
         try{
@@ -92,7 +92,7 @@
     {
         global $DB_DB;
         $DB_DB->query('DELETE FROM softwareInSubCategory WHERE  idSoftSubcat = '.$id);
-        $DB_DB->query('DELETE FROM softwaresubcategory WHERE idSoftSubcat = '.$id);
+        $DB_DB->query('DELETE FROM SoftwareSubcategory WHERE idSoftSubcat = '.$id);
     }
 
     /*################################*/
@@ -121,13 +121,13 @@
     function listCategories()
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftWareCategory')->fetchAll();
+        return $DB_DB->query('SELECT * FROM SoftwareCategory')->fetchAll();
     }
 
     function getCategory($id)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftWareCategory WHERE idsoftcat = '.$id)->fetchAll()[0];
+        return $DB_DB->query('SELECT * FROM SoftwareCategory WHERE idsoftcat = '.$id)->fetchAll()[0];
     }
 
     function addCategory($code, $label)
@@ -178,6 +178,6 @@
     function deleteCategory($id)
     {
         global $DB_DB;
-        $DB_DB->query('DELETE FROM softwareInCategory WHERE  idSoftcat = '.$id);
-        $DB_DB->query('DELETE FROM softwareCategory WHERE idSoftcat = '.$id);
+        $DB_DB->query('DELETE FROM SoftwareInCategory WHERE  idSoftcat = '.$id);
+        $DB_DB->query('DELETE FROM SoftwareCategory WHERE idSoftcat = '.$id);
     }

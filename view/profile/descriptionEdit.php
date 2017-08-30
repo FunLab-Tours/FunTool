@@ -33,6 +33,7 @@
 
     <div><?=$lang["firstName"]?> : <input type="text" name="firstName" value="<?=$user['firstName']?>"/></div>
     <div><?=$lang["name"]?> : <input type="text" name="name" value="<?=$user['name']?>"/></div>
+    <div><?=$lang["nbFunnies"]?> : <?=$user['nbFunnies']?></div>
     <div><?=$lang["telephone"]?> : <input type="tel" name="telephone" value="<?=$user['telephone']?>"/></div>
     <div><?=$lang["adress"]?> :  <input type="text" name="adressL1" value="<?=$user['adressL1']?>"/>
                                 <input type="text" name="adressL2" value="<?=$user['adressL2']?>"/>

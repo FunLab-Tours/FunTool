@@ -19,6 +19,8 @@ $lang["cancel"] = "Annuler";
 $lang["edit"] = "Modifier";
 $lang["editMachine"] = "Modifier une machine";
 
+$lang['loginError'] = "Error on login.";
+
 $lang["login"] = "Pseudo";
 $lang["password"] = "Mot de passe";
 $lang["sign_on"] = "S'inscrire";
@@ -61,7 +63,7 @@ $lang["longSumEvent"] = "Description de l'événement";
 $lang["statutOk"] = "Confirmé";
 $lang["statutMaybe"] = "Incertains";
 $lang["statutCancel"] = "Annulé";
-$lang["statutEvent"] = "Statut de l'événement";    
+$lang["statutEvent"] = "Statut de l'événement";
 $lang["startdateEvent"] = "Date de début de l'événement";
 $lang["endDatEvent"] = "Date de fin de l'événement";
 $lang["nbPlaces"] = "Nombre de places";
@@ -159,8 +161,8 @@ $lang["assignSkill"] = "Ajouter une compétence";
 $lang['skillLevel'] = "Niveau de compétence";
 $lang['comment'] = "Commentaire";
 
-$lang["knowledgeList"] = "Liste des connaisances logicielles";
-$lang["softwaresList"] = "Liste des logicielles";
+$lang["knowledgeList"] = "Liste des connaisances logiciels";
+$lang["softwaresList"] = "Liste des logiciels";
 $lang["softwares"] = "Logiciels";
 $lang["knowledgeCategoryNSubCategory"] = "Gestion des catégories et sous catégories";
 $lang["softwareName"] = "Nom du logiciel";
@@ -221,9 +223,20 @@ $lang['searchSkills'] = "Recherche par compétence";
 $lang['searchSoftwares'] = "Recherche par connaissance";
 $lang['userPseudoFirstLastName'] = "Recherche par nom";
 
+$lang["materials"] = "Gérer les matériaux";
+$lang["costUnit"] = "Gérer les tarifs des matériaux";
+$lang['labelMat'] = "Nom du matériaux";
+$lang['codeMat'] = "Code du matériaux";
+$lang['priceMat'] = "prix d'achat du matériau";
+$lang['docLink'] = "Lien de documentation";
+$lang['comment'] = "Commentaire";
+$lang['dateEntry'] = "Date de création du matériau";
+
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";
 $lang["goingToBuy"] = "Vous êtes sur le point d'acheter";
 $lang["newBalance"] = "Votre nouveau solde sera de";
 $error = [];
 $error[-1] = "Erreur Inconnue";
+
+?>
