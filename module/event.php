@@ -274,12 +274,13 @@ function selectAllUsersInEvent($idEvent){
 
 function nameOfUsersInEvent($idEvent){
     global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT firstName,telephone FROM User INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
+    $stmt = $DB_DB->prepare("SELECT firstName, telephone FROM User u INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
 
     try {
         $stmt->execute(array(
             'idEvent' => $idEvent,
         ));
+
         $result = $stmt->fetchAll();
         return $result;
     }
