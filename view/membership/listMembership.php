@@ -14,7 +14,7 @@
 <?php
     foreach(listAllMembership()as$row){
 ?>
-<td><?=getUser($row['idUser'])?></td>
+<td><?=getUser($row['idUser'])['login']?></td>
 
 <?php
     }

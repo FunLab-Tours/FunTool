@@ -263,7 +263,7 @@ function selectAllUsersInEvent($idEvent){
         $stmt->execute(array(
             'idEvent' => $idEvent,
         ));
-        $result = $stmt->fetch();
+        $result = $stmt->fetchAll();
         return $result;
     }
     catch(Exception $e) {
