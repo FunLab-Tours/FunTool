@@ -1,6 +1,6 @@
 <?php
     loadModules("mailBox/conversation");
-    // loadModules("event");
+    loadModules("event");
     if(isset($_POST["disconnect"])) {
         loadModules("user");
         disconnectUser();
@@ -11,7 +11,7 @@
         ?>
         <a href="?page=profile"><?=$lang["profile"]?></a>
         <a href="?page=membership"><?=$lang["membership"]?></a>
-        <a href="?page=funnies"><?=$lang["funnies"]?></a>
+        <a href="?page=funnies"><?=$lang["funnies"]?> (<?=currentUserFunnies($_COOKIE['id'])?>)</a>
         <a href="?page=lab"><?=$lang["lab_management"]?></a>
         <a href="?page=event"><?=$lang["event_management"]?></a>
         <a href="?page=machine"><?=$lang["machine"]?></a>

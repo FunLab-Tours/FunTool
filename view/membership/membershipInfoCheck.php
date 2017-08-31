@@ -7,10 +7,11 @@
     else{
         $endMembershipDate = date('Ymd', strtotime('+1 year'));
     }
-    $membershipPrice = selectMembershipFrame($_POST['framePrice'])[0]['framePrice'];
-    $frameName = selectMembershipFrame($_POST['framePrice'])[0]['frameName'];
-    $idMembershipFrame = selectMembershipFrame($_POST['framePrice'])[0]['idMembershipFrame'];
+    $membershipPrice = selectMembershipFrame($_POST['framePrice'])['framePrice'];
+    $frameName = selectMembershipFrame($_POST['framePrice'])['frameName'];
+    $idMembershipFrame = selectMembershipFrame($_POST['framePrice'])['idMembershipFrame'];
     $idUser = $_COOKIE["id"];
+    $bonusMembership = selectMembershipFrame($_POST['framePrice'])['bonusMembership'];
 ?>
 <br></br>
 
@@ -33,5 +34,6 @@
     <input type="hidden" value="<?=$endMembershipDate ?>" name="endMembershipDate">
     <input type="hidden" value="<?=$idMembershipFrame?>" name="idMembershipFrame">
     <input type="hidden" value="<?=$idUser?>" name="idUser">
+    <input type="hidden" value="<?=$bonusMembership?>" name="bonusMembership">
     <input type="submit" value="<?=$lang["submit"]?>" name="membershipPayed">
 </form>

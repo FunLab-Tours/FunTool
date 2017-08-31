@@ -1,5 +1,6 @@
 <?php
 loadModules("membership");
+// loadModules("event");
 loadModules("user");
 include("static/membershipMenu.php");
 if(isset($_GET['listMembershipFrame'])) {
@@ -25,6 +26,15 @@ else if(isset($_POST['membershipPayed'])){
 }
 else if(isset($_GET['listMembership'])){
     include("listMembership.php");
+}
+else if(isset($_GET['idDeleteMembership'])){
+    include("deleteMembership.php");
+}
+else if(isset($_GET['idEditMembership'])){
+    include("editMembership.php");
+}
+else if(isset($_GET['adminAddMembership'])){
+    include("adminAddMembership.php");
 }
 else{
     include("addMembership.php");

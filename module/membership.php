@@ -101,27 +101,10 @@
         }       
     }
 
-    function selectEndMembershipDate($idUser){
-        global $DB_DB;
-        $stmt = $DB_DB->prepare("SELECT endMembershipDate FROM membershipTransaction WHERE idUser=:idUser");
-
-        try {
-            $stmt->execute(array(
-                'idUser' => $idUser
-            ));
-            $result = $stmt->fetchAll();
-            return $result;
-        }
-        catch(Exception $e) {
-            echo $e;
-            return "";
-        }
-
-    }
 // Renvoie la date de fin d'adhésion si User dans la base sinon renvoi une péremption de 1 jour
     function returnValidDateForMembership($idUser){
-        if(isset(selectEndMembershipDate($idUser)[0]['endMembershipDate'])){
-            return selectEndMembershipDate($idUser)[0]['endMembershipDate'];
+        if(isset(selectMembership($idUser)['endMembershipDate'])){
+            return selectMembership($idUser)['endMembershipDate'];
         }
         else{
             return -1;
@@ -188,4 +171,53 @@
 
         return $result;
     }
+
+function selectMembership($idUser){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM membershiptransaction WHERE idUser=:idUser");
+
+    try {
+        $stmt->execute(array(
+            'idUser' => $idUser,
+        ));
+        $result = $stmt->fetch();
+        return $result;
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
+}
+
+function deleteMembership($idUser){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM membershiptransaction WHERE idUser = :idUser");
+
+    try {
+        $stmt->execute(array(
+            'idUser' => $idUser
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }   
+}
+
+function addFunnies($idUser,$bonusMembership){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = nbFunnies + :bonusMembership 
+                             WHERE idUser = :idUser");
+            try {
+                $stmt->execute(array(
+                    'bonusMembership' => $bonusMembership,
+                    'idUser' => $idUser
+                ));
+            }
+
+            catch(Exception $e) {
+                echo $e;
+            }  
+
+}
+    
 ?>

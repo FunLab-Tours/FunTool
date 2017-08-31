@@ -1,10 +1,9 @@
 <?php
-    loadModules("user");
-
+$randomPassword = random_password(8);
     if(isset($_POST['submit'])) {
         if(isValidSignOn()) {
             addUser($_POST['login'],
-                $_POST['password'],
+                $randomPassword,
                 $_POST['firstName'],
                 $_POST['name'],
                 $_POST['telephone'],
@@ -21,16 +20,13 @@
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
                 "");
-            //connectUser($_POST['login'], $_POST['password']);
-            //header('Location: index.php');
+            }
+            echo $randomPassword;
         }
-    }
 ?>
 
-<form method="POST" action="" enctype="multipart/form-data">
+<form method="POST" action="">
     <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
-    <input type="password" placeholder="<?=$lang["password"]?>" name="password" />
-    <input type="password" placeholder="<?=$lang["passwordChecker"]?>" name="passwordChecker" />
     <input type="file" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
     <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
     <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
@@ -52,5 +48,5 @@
     <?=$lang["inscriptionNews"]?>
     <input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
     <input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
-    <input type="submit" value="<?=$lang["submit"]?>" name="submit" />
+    <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
 </form>

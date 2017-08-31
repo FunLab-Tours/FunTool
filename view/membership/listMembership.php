@@ -9,11 +9,11 @@
         <td><?=$lang["paymentMethod"]?></td>
         <td><?=$lang["adminCommentary"]?></td>
         <td><?=$lang["frameName"]?></td>
-
     </tr>
 
 <?php
     foreach(listAllMembership()as$row){
+        if(compareTwoDates(date('Y-m-d'),date(selectMembership($row['idUser'])['endMembershipDate']))>=0){
 ?>
     <tr>
         <td><?=getUser($row['idUser'])['login']?></td>
@@ -25,10 +25,11 @@
         <td><?=$row['paymentMethod']?></td>
         <td><?=$row['adminCommentary']?></td>
         <td><?=selectMembershipFrame($row['idMembershipFrame'])['frameName']?></td>
-        <td><a href="index.php?page=event&idEdit=<?=$row['idEvent']?>" \><?=$lang["edit"]?></a> | <a href="index.php?page=event&idDelete=<?=$row['idEvent']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
+        <td><a href="index.php?page=membership&idEditMembership=<?=$row['idUser']?>" \><?=$lang["edit"]?></a> | <a href="index.php?page=membership&idDeleteMembership=<?=$row['idUser']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
     </tr>
 
 <?php
+        }
     }
 ?>
 </table>

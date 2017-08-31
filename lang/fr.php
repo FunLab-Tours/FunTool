@@ -239,6 +239,7 @@ $lang["goingToBuy"] = "Vous êtes sur le point d'acheter";
 $lang["newBalance"] = "Votre nouveau solde sera de";
 
 $lang['isMember'] = "Est adhérent";
+$lang["adminAddMembership"] = "Ajouter un adhérent";
 $error = [];
 $error[-1] = "Erreur Inconnue";
 
