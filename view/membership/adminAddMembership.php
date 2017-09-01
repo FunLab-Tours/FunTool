@@ -1,9 +1,11 @@
+
 <?php
 $randomPassword = random_password(8);
+
     if(isset($_POST['submit'])) {
         if(isValidSignOn()) {
             addUser($_POST['login'],
-                $randomPassword,
+                $_POST['password'],
                 $_POST['firstName'],
                 $_POST['name'],
                 $_POST['telephone'],
@@ -20,33 +22,39 @@ $randomPassword = random_password(8);
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
                 "");
-            }
-            echo $randomPassword;
+            //connectUser($_POST['login'], $_POST['password']);
+            //header('Location: index.php');
         }
+        echo $randomPassword;
+    }
 ?>
 
-<form method="POST" action="">
-    <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
-    <input type="file" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
-    <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
-    <input type="text" placeholder="<?=$lang["name"]?>" name="name" />
-    <input type="tel" placeholder="<?=$lang["telephone"]?>" name="telephone" />
-    <input type="text" placeholder="<?=$lang["adressL1"]?>" name="adressL1" />
-    <input type="text" placeholder="<?=$lang["adressL2"]?>" name="adressL2" />
-    <input type="text" placeholder="<?=$lang["adressL3"]?>" name="adressL3" />
-    <input type="number" placeholder="<?=$lang["zipCode"]?>" name="zipCode" />
-    <input type="text" placeholder="<?=$lang["town"]?>" name="town" />
-    <input type="text" placeholder="<?=$lang["country"]?>" name="country" />
-    <input type="text" placeholder="<?=$lang["email"]?>" name="email" />
-    <input type="text" placeholder="<?=$lang["emailBis"]?>" name="emailBis" />
-    <input type="date" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
-    <!-- inscriptionActiveList -->
-    <?=$lang["inscriptionActiveList"]?>
-    <input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>
-    <input type="radio" name="inscriptionActiveList" value="false"> <?=$lang["no"]?>
-    <!-- inscriptionNews -->
-    <?=$lang["inscriptionNews"]?>
-    <input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
-    <input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
-    <input type="submit" value="<?=$lang["submit"]?>" name="submit"> 
+<form method="POST" action="" enctype="multipart/form-data">
+<input type="text" placeholder="<?=$lang["login"]?>" name="login" />
+<input type="hidden" value="<?=$randomPassword?>" name="password" />
+<input type="hidden" value="<?=$randomPassword?>" name="passwordChecker" />
+<input type="file" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
+<input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
+<input type="text" placeholder="<?=$lang["name"]?>" name="name" />
+<input type="tel" placeholder="<?=$lang["telephone"]?>" name="telephone" />
+<input type="text" placeholder="<?=$lang["adressL1"]?>" name="adressL1" />
+<input type="text" placeholder="<?=$lang["adressL2"]?>" name="adressL2" />
+<input type="text" placeholder="<?=$lang["adressL3"]?>" name="adressL3" />
+<input type="number" placeholder="<?=$lang["zipCode"]?>" name="zipCode" />
+<input type="text" placeholder="<?=$lang["town"]?>" name="town" />
+<input type="text" placeholder="<?=$lang["country"]?>" name="country" />
+<input type="text" placeholder="<?=$lang["email"]?>" name="email" />
+<input type="text" placeholder="<?=$lang["emailBis"]?>" name="emailBis" />
+<input type="date" placeholder="<?=$lang["birthDate"]?>" name="birthDate">
+<!-- inscriptionActiveList -->
+<?=$lang["inscriptionActiveList"]?>
+<input type="radio" name="inscriptionActiveList" value="true" checked> <?=$lang["yes"]?>
+<input type="radio" name="inscriptionActiveList" value="false"> <?=$lang["no"]?>
+<!-- inscriptionNews -->
+<?=$lang["inscriptionNews"]?>
+<input type="radio" name="inscriptionNews" value="true" checked> <?=$lang["yes"]?>
+<input type="radio" name="inscriptionNews" value="false"> <?=$lang["no"]?>
+<input type="submit" value="<?=$lang["submit"]?>" name="submit" />
 </form>
+
+

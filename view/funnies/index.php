@@ -1,5 +1,5 @@
 <?php
-    loadModules("funnies");
+    // loadModules("funnies");
     
     if(isset($_POST['buyFunnies'])){
         include("addFunniesInfoChecked.php");

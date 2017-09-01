@@ -50,6 +50,6 @@
 ?>
 <br></br>
 <?php       
-        echo $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
+        echo $lang["rest"]." ". $valueDiffDate ." ".$lang["daysOfMembership"];
     }
 ?>

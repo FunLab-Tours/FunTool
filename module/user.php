@@ -261,19 +261,19 @@
         try {
             $folder = 'assets/user_images/';
             $size = filesize($_FILES['idPicture']['tmp_name']);
-            if(!getimagesize($_FILES['idPicture']['tmp_name'])) {
-                echo 'Ce fichier n\'est pas une image!';
-                return ;
-            }
+            // if(!getimagesize($_FILES['idPicture']['tmp_name'])) {
+            //     echo 'Ce fichier n\'est pas une image!';
+            //     return ;
+            // }
             if($size>$max_upload_size){
                 echo 'Taille maximale dépassée!';
                 return ;
             }
             $image_link = $folder . sha1( $login. $privateKey) . '.' . pathinfo($_FILES['idPicture']['name'],PATHINFO_EXTENSION);
-            if(!move_uploaded_file($_FILES['idPicture']['tmp_name'], $image_link)){
-                echo 'Echec de l\'upload !';
-                return ;
-            }
+            // if(!move_uploaded_file($_FILES['idPicture']['tmp_name'], $image_link)){
+            //     echo 'Echec de l\'upload !';
+            //     return ;
+            // }
             $request->execute(array(
                 'picture' => $base_url . $image_link,
                 'pictureDescription' => $login,
@@ -345,6 +345,7 @@
                 'inscriptionNews' => $inscriptionNewsBoolean,
                 'idPicture' => $idPicture
             ));
+            
         }
         catch(Exception $e) {
             echo $e;

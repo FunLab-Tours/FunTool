@@ -219,5 +219,22 @@ function addFunnies($idUser,$bonusMembership){
             }  
 
 }
+
+function searchUser($login){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM user WHERE login=:login LIKE '%" .$login. "%'");
+
+    try {
+        $stmt->execute(array(
+            'login' => $login,
+        ));
+        $result = $stmt->fetch();
+        return $result;
+    }
+    catch(Exception $e) {
+        echo $e;
+        return "";
+    }
+}
     
 ?>

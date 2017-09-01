@@ -1,5 +1,5 @@
 <?php
-loadModules("project");
+    // loadModules("project");
 
     if(isset($_GET['idEdit'])) {
         include("editProject.php");
