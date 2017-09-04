@@ -5,6 +5,7 @@
 	loadModules("picture");
 	loadModules("lab");
 	loadModules("machine/costUnit");
+	loadModules("materials");
 
 	include("static/machineMenu.php");
 

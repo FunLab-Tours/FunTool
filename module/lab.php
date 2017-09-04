@@ -47,9 +47,14 @@
 
     function listAllLab() {
         global $DB_DB;
-        $result = $DB_DB->query("SELECT * FROM Lab");
 
-        return $result;
+        $request = $DB_DB->prepare("SELECT * FROM Lab");
+
+        try{
+            $request->execute(array());
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function isValideLab($labName) {

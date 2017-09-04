@@ -1,15 +1,17 @@
 <?php
     // TODO : use parameters.
 
-    function isValidMachineSubmit() {
-        if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "") {
-            echo 'Erreur code machine';
-            return false;
-        }
+    function isValidMachineSubmit($isEdit=false) {
+        if(!$isEdit) {
+            if (!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "") {
+                echo 'Erreur code machine';
+                return false;
+            }
 
-        if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "") {
-            echo 'Erreur shortLabel';
-            return false;
+            if (!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "") {
+                echo 'Erreur shortLabel';
+                return false;
+            }
         }
 
         if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']) || $_POST['longLabel'] == "") {
@@ -68,8 +70,14 @@
     function isValidCodeMachine($codeMachine) {
         global $DB_DB;
 
-        $result = $DB_DB->query("SELECT * FROM Machine WHERE codeMachine LIKE '".$codeMachine."'")->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Machine WHERE codeMachine LIKE :codeMachine");
+
+        try{
+            $request->execute(array(
+                'codeMachine' => $codeMachine
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
         return true;
     }
@@ -77,8 +85,14 @@
     function isValidShortLabel($shortLabel) {
         global $DB_DB;
 
-        $result = $DB_DB->query("SELECT * FROM Machine WHERE shortLabel LIKE '".$shortLabel."'")->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Machine WHERE shortLabel LIKE :shortLabel");
+
+        try{
+            $request->execute(array(
+                'shortLabel' => $shortLabel
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
         return true;
     }
@@ -141,7 +155,7 @@
 
         global $DB_DB;
 
-        $request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture, idCostUnit, idLab) VALUES(:codeMachine, :shortLabel, :longLabel, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture, :idCostUnit, :idLab)');
+        $request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture, idCostUnit, idLab) VALUES (:codeMachine, :shortLabel, :longLabel, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture, :idCostUnit, :idLab)');
 
         try {
             $request->execute(array(
@@ -161,14 +175,15 @@
 
             $idMachine = $DB_DB->lastInsertId();
 
-            foreach($idsSubFamily as $idSubFamily){
-                $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
-                $request->execute(array(
-                    'idMachine' => $idMachine,
-                    'idSubFamily' => $idSubFamily
-                ));
+            if($idsSubFamily != null) {
+                foreach ($idsSubFamily as $idSubFamily) {
+                    $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
+                    $request->execute(array(
+                        'idMachine' => $idMachine,
+                        'idSubFamily' => $idSubFamily
+                    ));
+                }
             }
-
         }
         catch(Exception $e) {
             echo $e;
@@ -180,11 +195,25 @@
 
     function getMachineList() {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM Machine');
+        $request = $DB_DB->prepare("SELECT * FROM Machine");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
     function getMachine($id){
         global  $DB_DB;
-        return $DB_DB->query('SELECT * FROM Machine WHERE idMachine = '.$id)->fetch();
+        $request = $DB_DB->prepare("SELECT * FROM Machine WHERE idMachine = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetch();
     }
 
     function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $CostUnit, $CostCoeff, $idLab) {
@@ -220,19 +249,19 @@
                 'idLab' => $idLab
             ));
 
-            if($idsSubFamily != null)
-                foreach($idsSubFamily as $idSubFamily){
-                    $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMAchine');
-                    $request->execute(array(
-                        'idMachine' => $idMachine
-                    ));
+            if($idsSubFamily != null) {
+                $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMachine');
+                $request->execute(array(
+                    'idMachine' => $idMachine
+                ));
+                foreach ($idsSubFamily as $idSubFamily) {
                     $request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
                     $request->execute(array(
                         'idMachine' => $idMachine,
                         'idSubFamily' => $idSubFamily
                     ));
                 }
-
+            }
         }
         catch(Exception $e) {
             echo $e;
@@ -241,6 +270,8 @@
 
     function deleteMachine($idDelete) {
         global $DB_DB;
+
+        unassignMaterialsFromMachine($idDelete);
 
         $request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMachine');
         try {

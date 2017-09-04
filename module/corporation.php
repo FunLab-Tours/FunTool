@@ -97,9 +97,13 @@
 
     function listAllCorporation() {
         global $DB_DB;
-        $result = $DB_DB->query("SELECT * FROM corporation");
+        $request = $DB_DB->prepare("SELECT * FROM corporation");
 
-        return $result;
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
 ?>

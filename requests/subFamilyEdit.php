@@ -10,12 +10,13 @@ if(isset($_GET['machine']) && $_GET["machine"] && isset($_GET['family']) && $_GE
 
     $idMachine = intval($_GET['machine']);
     $idFamily = intval($_GET['family']);
-    $result = getSubFamilyListMachine($idMachine)->fetchAll();
+    $result = getSubFamilyListMachine($idMachine);
 
     //Ajouter à la liste les sous-familles non sélectionnées
-    if(count($result) != 0)
+    if(count($result) != 0 && in_array($result[0], getSubFamilyList($idFamily)))
     {
         $ids = array();
+
         echo "<select multiple name =\"idSubFamily[]\"> <option value=\"\" disabled >".$lang['machineSubFamily']."</option>";
         //Affichage des sous-familles de la machine
         foreach ($result as $row) {
@@ -26,9 +27,7 @@ if(isset($_GET['machine']) && $_GET["machine"] && isset($_GET['family']) && $_GE
         $result = getSubFamilyList(getMachine($idMachine)['idFamily']);
 
         if($result != false) {
-            $result->fetchAll();
             foreach ($result as $row) {
-                var_dump($row['idSubFamily']);
                 if (!in_array($row['idSubFamily'], $ids))
                     echo "<option value=\"" . $row['idSubFamily'] . "\">" . $row['labelSubFamily'] . "</option>";
             }

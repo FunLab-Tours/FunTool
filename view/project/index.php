@@ -1,5 +1,6 @@
 <?php
     loadModules("project");
+    loadModules("machine/machine");
     include("static/projectMenu.php");
 
     if(isset($_GET['idEdit'])) {

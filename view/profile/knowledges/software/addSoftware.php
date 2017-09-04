@@ -5,14 +5,16 @@
  * Date: 21/08/2017
  * Time: 15:43
  */
-if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories']) && isset($_POST['idSubCategories'])) {
-    var_dump($_POST);
+if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories'])) {
+    if(!isset($_POST['idSubCategories']))
+        $subcat = array();
+    else $subcat = $_POST['idSubCategories'];
     addSoftware($_POST['name'],
         $_POST['description'],
         $_POST['categories'],
-        $_POST['idSubCategories']
+        $subcat
     );
-    header('Location: index.php?page=profile&knowledge=0&softwares=0');
+    //header('Location: index.php?page=profile&knowledge=0&softwares=0');
 }
 ?>
 

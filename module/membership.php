@@ -20,9 +20,13 @@
 
     function listAllMembershipFrame(){
         global $DB_DB;
-        $result = $DB_DB->query("SELECT * FROM MembershipFrame");
+        $request = $DB_DB->prepare("SELECT * FROM membershipFrame");
 
-        return $result;
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function updateMembershipFrame($idMembershipFrame,$bonusMembership,$entryDate,$frameName,$framePrice, $frameComment){

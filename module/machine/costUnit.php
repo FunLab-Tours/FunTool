@@ -4,7 +4,7 @@
 	{
 		global $DB_DB;
 
-        $request = $DB_DB->prepare('INSERT INTO CostUnit(timePackage, coeffTime) VALUES(:timePackage, :coeffTime');
+        $request = $DB_DB->prepare('INSERT INTO CostUnit(timePackage, coeffTime) VALUES(:timePackage, :coeffTime)');
 
         try {
             $request->execute(array(
@@ -21,7 +21,13 @@
 	function getCostUnitList()
 	{
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM costUnit');
+        $request = $DB_DB->prepare("SELECT * FROM costUnit");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 	
 	function delCostUnit($idDelete)
@@ -49,7 +55,8 @@
         try {
             $request->execute(array(
                 'timePackage' => $timePackage,
-                'coeffTime' => $coeffTime
+                'coeffTime' => $coeffTime,
+                'idCostUnit' => $idCostUnit
             ));
         }
         catch(Exception $e) {
@@ -72,6 +79,7 @@
             echo $e;
             exit;
         }
+
         if($request->rowCount() == 0)
         {
             addCostUnit($CostUnit, $CostCoeff);
@@ -79,6 +87,5 @@
         }
         else
             return $request->fetch()[0];
-
     }
 ?>

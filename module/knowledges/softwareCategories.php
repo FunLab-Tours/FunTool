@@ -15,15 +15,30 @@
         global $DB_DB;
         if($id == null)
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\'')->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM SoftwareSubCategory WHERE SubcatCode LIKE :code OR SubcatLabel LIKE :label");
+
+            try{
+                $request->execute(array(
+                    'code' => $code,
+                    'label' =>$label
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
             return true;
         }
         else
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE idSoftSubcat <> '.$id.' AND (SubcatCode LIKE \''.$code.'\' OR SubcatLabel LIKE \''.$label.'\')')->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat <> :id AND (SubcatCode LIKE :code OR SubcatLabel LIKE :label)");
+
+            try{
+                $request->execute(array(
+                    'code' => $code,
+                    'label' => $label,
+                    'id' => $id
+                ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
             return true;
         }
@@ -32,13 +47,28 @@
     function listSubCategories($idCategory)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftwareSubcategory WHERE idSoftCat = '.$idCategory)->fetchAll();
+        $request = $DB_DB->prepare("SELECT * FROM SoftWareSubCategory WHERE idSoftCat = :idCategory");
+
+        try{
+            $request->execute(array(
+                'idCategory' => $idCategory
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function getSubCategory($id)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftWareSubcategory WHERE idsoftsubcat = '.$id)->fetchAll()[0];
+        $request = $DB_DB->prepare("SELECT * FROM SoftWareSubCategory WHERE idsoftsubcat = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+        return $request->fetchAll()[0];
     }
 
     function addSubCategory($idCat, $code, $label)
@@ -91,8 +121,20 @@
     function deleteSubCategory($id)
     {
         global $DB_DB;
-        $DB_DB->query('DELETE FROM softwareInSubCategory WHERE  idSoftSubcat = '.$id);
-        $DB_DB->query('DELETE FROM SoftwareSubcategory WHERE idSoftSubcat = '.$id);
+        $request = $DB_DB->prepare("DELETE FROM softwareInSubCategory WHERE  idSoftSubcat = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+        $request = $DB_DB->prepare('DELETE FROM softwaresubcategory WHERE idSoftSubcat = :id');
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
     }
 
     /*################################*/
@@ -104,15 +146,30 @@
         global $DB_DB;
         if($id == null)
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareCategory WHERE categoryCode = \''.$code.'\' OR categoryLabel LIKE \''.$label.'\'')->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM SoftwareCategory WHERE categoryCode = :code OR categoryLabel LIKE :label");
+
+            try{
+                $request->execute(array(
+                    'code' => $code,
+                    'label' => $label
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
             return true;
         }
         else
         {
-            $result = $DB_DB->query('SELECT * FROM SoftwareCategory WHERE idSoftCat <> \''.$id.'\' AND (categoryCode LIKE \''.$code.'\' OR categoryLabel LIKE \''.$label.'\')')->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM SoftwareCategory WHERE idSoftCat <> :id AND (categoryCode LIKE :code OR categoryLabel LIKE :label)");
+
+            try{
+                $request->execute(array(
+                    'id' => $id,
+                    'code' => $code,
+                    'label' =>$label
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
             return true;
         }
@@ -121,13 +178,27 @@
     function listCategories()
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftwareCategory')->fetchAll();
+        $request = $DB_DB->prepare("SELECT * FROM SoftWareCategory");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function getCategory($id)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SoftwareCategory WHERE idsoftcat = '.$id)->fetchAll()[0];
+        $request = $DB_DB->prepare("SELECT * FROM SoftWareCategory WHERE idsoftcat = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetchAll()[0];
     }
 
     function addCategory($code, $label)
@@ -178,6 +249,19 @@
     function deleteCategory($id)
     {
         global $DB_DB;
-        $DB_DB->query('DELETE FROM SoftwareInCategory WHERE  idSoftcat = '.$id);
-        $DB_DB->query('DELETE FROM SoftwareCategory WHERE idSoftcat = '.$id);
+        $request = $DB_DB->prepare("DELETE FROM softwareInCategory WHERE  idSoftcat = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+
+        $request = $DB_DB->prepare("DELETE FROM softwareCategory WHERE idSoftcat = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
     }

@@ -51,8 +51,13 @@
 
     function getPictureList() {
         global $DB_DB;
-        return $DB_DB->query('SELECT picture, pictureDescription FROM Picture');
+        $request = $DB_DB->prepare("SELECT picture, pictureDescription FROM Picture");
 
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function deletePicture() {

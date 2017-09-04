@@ -1,9 +1,13 @@
 <?php
 function listAllProject(){
     global $DB_DB;
-    $result = $DB_DB->query("SELECT * FROM Project");
+    $request = $DB_DB->prepare("SELECT * FROM Project");
 
-    return $result;
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function addProject ($projectTitle,$projectWiki,$dateProject){
@@ -91,19 +95,14 @@ function deletePictureLinkToProject($idProject){
 }
 
 function selectAllProjectCategory(){
-        global $DB_DB;
-        $result = $DB_DB->query("SELECT * FROM projectcategory");
+    global $DB_DB;
+    $request = $DB_DB->prepare("SELECT title FROM projectcategory");
 
-        return $result;
+    try{
+        $request->execute();
+    }catch(Exception $e){}
 
-}
-
-function selectAllMachine(){
-        global $DB_DB;
-        $result = $DB_DB->query("SELECT shortLabel FROM Machine");
-
-        return $result;
-
+    return $request->fetch();
 }
 
 function addPictureProject($picture,$idProject){
@@ -126,8 +125,13 @@ function addPictureProject($picture,$idProject){
 
 function lastInsertProjectId(){
         global $DB_DB;
-        $stmt = $DB_DB->query("SELECT max(idProject) FROM Project");
-        $result = $stmt->fetch()['max(idProject)'];
+        $request = $DB_DB->prepare("SELECT max(idProject) FROM Project");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        $result = $request->fetch()['max(idProject)'];
         return $result;
 }
 

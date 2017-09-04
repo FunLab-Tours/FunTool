@@ -9,7 +9,7 @@
                     addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
                     
                 }
-            //header('Location: index.php?page=project');
+            header('Location: index.php?page=project');
             
     }
 
@@ -39,12 +39,9 @@
     <select name="machine">
     <option value=""><?=$lang["None"]?></option>
     <?php
-        foreach(selectAllMachine() as $row){
-    ?>
-        <option value="<?=$row['idMachine']?>"><?=$row['shortLabel']?></option>;
-    <?php
-        }
-
+        foreach(getMachineList() as $row){
+        echo "<option value='".$row['idMachine']."'>".$row['shortLabel']."</option>";
+    }
     ?> 
     </select>
     : Liste Machine

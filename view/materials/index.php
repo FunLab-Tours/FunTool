@@ -6,9 +6,13 @@
  * Time: 12:52
  */
 
+loadModules("materials");
 include("static/menu.php");
 
-if(isset($_GET['material']))
-    include("materials/index.php");
-else if(isset($_GET['costUnit']))
+
+if(isset($_GET['costUnit']))
     include("costUnit/index.php");
+else if(isset($_GET['stock']))
+    include("costUnit/index.php");
+else
+    include("materials/index.php");

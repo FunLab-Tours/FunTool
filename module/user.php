@@ -362,12 +362,26 @@
 
     function getUser($id){
         global  $DB_DB;
-        return $DB_DB->query('SELECT * FROM User WHERE idUser = '.$id)->fetch();
+        $request = $DB_DB->prepare("SELECT * FROM User WHERE idUser = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetch();
     }
 
     function getUserList(){
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM User')->fetchAll();
+        $request = $DB_DB->prepare("SELECT * FROM User");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function editUser(  $firstName,
@@ -390,14 +404,30 @@
         $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
         $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
 
-        $login = $DB_DB->query('SELECT login FROM User WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
+        $request = $DB_DB->prepare("SELECT login FROM User WHERE idUser = :id");
+
+        try{
+            $request->execute(array(
+                'id' =>$_COOKIE['id']
+            ));
+        }catch(Exception $e){}
+
+        $login = $request->fetch()[0];
 
         // First, we modify the profile picture if needed.
-        $idPicture = $DB_DB->query('SELECT idPicture
+        $request = $DB_DB->prepare("SELECT idPicture
                                     FROM Picture
                                     WHERE picture
-                                    LIKE '.$picture.' AND pictureDescription
-                                    LIKE \"Avatar for user '.$login.'\"');
+                                    LIKE :picture AND INSTR(pictureDescription, :login) <> 0");
+
+        try{
+            $request->execute(array(
+                'picture' => $picture,
+                'login' => $login
+            ));
+        }catch(Exception $e){}
+
+        $idPicture = $request->fetch()[0];
 
         if($idPicture == null) {
             $request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription, categoryPicture)
@@ -451,36 +481,6 @@
                 'inscriptionActiveList' => $inscriptionActiveListBoolean,
                 'inscriptionNews' => $inscriptionNewsBoolean,
                 'idPicture' => $idPicture
-/*function editUser(  $firstName,
-                    $name,
-                    $telephone,
-                    $adressL1,
-                    $adressL2,
-                    $adressL3,
-                    $zipCode,
-                    $town,
-                    $country,
-                    $email,
-                    $emailBis,
-                    $birthDate,
-                    $inscriptionActiveList,
-                    $inscriptionNews,
-                    $picture) {
-    global $DB_DB;
-
-    $inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
-    $inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
-
-    //Tout d'abord on ajoute la photo de profil si il elle a été changé
-    $idPicture = $DB_DB->query('SELECT idPicture FROM Picture WHERE picture LIKE '.$picture)->fetch()[0];
-    if($idPicture == null) {
-        $request = $DB_DB->prepare('INSERT INTO Picture (picture, categoryPicture)
-                                               VALUE (:picture, :categoryPicture)');
-        try {
-            $request->execute(array(
-                'picture' => $picture,
-                'categoryPicture' => "ProfilUser"
->>>>>>> End og rights and roles managment*/
             ));
         }
         catch(Exception $e) {
@@ -491,11 +491,15 @@
     function editPassword($old, $new)
     {
         global $DB_DB;
-        $password = $DB_DB->query('SELECT password FROM User WHERE idUser = '.$_COOKIE['id'])->fetch()[0];
+        $request = $DB_DB->prepare("SELECT password FROM user WHERE idUser = :id");
 
-        var_dump($password);
-        var_dump(password_hash($old, PASSWORD_DEFAULT));
-        var_dump(strcmp($old, $password));
+        try{
+            $request->execute(array(
+                'id' => $_COOKIE['id']
+            ));
+        }catch(Exception $e){}
+
+        $password = $request->fetch()[0];
 
         if(password_verify($old, $password)) {
             $request = $DB_DB->prepare('UPDATE User SET User.password = :new WHERE idUser = :id');
@@ -512,7 +516,14 @@
     function allUser()
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM User')->fetchAll();
+
+        $request = $DB_DB->prepare("SELECT * FROM User");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function isMember($idUser) {
@@ -539,4 +550,3 @@
         $password = substr( str_shuffle( $chars ), 0, $length );
         return $password;
     }
-    ?>

@@ -63,9 +63,13 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
 
 function listAllEvent() {
     global $DB_DB;
-    $result = $DB_DB->query("SELECT * FROM Events");
+    $request = $DB_DB->prepare("SELECT * FROM Events");
 
-    return $result;
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function selectEvent($idEvent){

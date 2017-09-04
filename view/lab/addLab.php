@@ -8,8 +8,10 @@
 
 ?>
 
+<!-- Un seul lab pour l'instant
 <form action="" method="post">
     <input type="text" placeholder="<?=$lang["labNameAddLab"]?>" name="labName" />
     <input type="text" placeholder="<?=$lang["labDescriptionAddLab"]?>" name="labDescription" />
     <input type="submit" value="<?=$lang["submit"]?>" name="submit">
 </form>
+-->

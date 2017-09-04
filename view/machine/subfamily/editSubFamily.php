@@ -32,9 +32,9 @@
                 else {
         ?>
 					<tr>
-						<td><?=$row['subFamilyLabel']?></td>
-						<td><?=$row['subFamilyCode']?></td>=
-						<td><a href="index.php?page=machine&idEditSubFamily=<?=$row['idsubFamily']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDeleteSubFamily=<?=$row['idSubFamily']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
+						<td><?=$row['labelSubFamily']?></td>
+						<td><?=$row['codeSubFamily']?></td>=
+						<td><a href="index.php?page=machine&idEditSubFamily=<?=$row['idSubFamily']?>"><?=$lang['edit']?></a> | <a href="index.php?page=machine&idDeleteSubFamily=<?=$row['idSubFamily']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a></td>
 					</tr>
         <?php
                 }
