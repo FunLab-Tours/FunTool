@@ -1,11 +1,17 @@
 <?php
+// linkToProjectCategory(1,1);
+// echo lastInsertProjectId();
+
     if(isset($_POST['submit'])){
             addProject($_POST['projectTitle'], $_POST['projectWiki'], $_POST['dateProject']);
-            if ($_POST['pictureUrl']!==""){
-            addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
-            }
+            linkToProjectCategory($_POST['projectCategory'],lastInsertProjectId());
+                if ($_POST['pictureUrl']!==""){
+                    addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
+                    
+                }
             //header('Location: index.php?page=project');
-        }
+            
+    }
 
 ?>
 
@@ -20,9 +26,11 @@
     <select name="projectCategory">
     <option value=""><?=$lang["None"]?></option>
     <?php
-    foreach(selectAllProjectCategory() as $row){
-        echo "<option value='".$row['idProCat']."'>".$row['title']."</option>";
-    }
+        foreach(selectAllProjectCategory() as $row){
+    ?>
+        <option value="<?=$row['idProCat']?>"><?=$row['title']?></option>;
+    <?php
+        }
 
     ?> 
     </select>
@@ -32,8 +40,10 @@
     <option value=""><?=$lang["None"]?></option>
     <?php
         foreach(selectAllMachine() as $row){
-        echo "<option value='".$row['idMachine']."'>".$row['shortLabel']."</option>";
-    }
+    ?>
+        <option value="<?=$row['idMachine']?>"><?=$row['shortLabel']?></option>;
+    <?php
+        }
 
     ?> 
     </select>

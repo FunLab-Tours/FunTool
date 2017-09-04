@@ -1,11 +1,12 @@
 
 <?php
 $randomPassword = random_password(8);
+$passwordChecked = $randomPassword;
 
     if(isset($_POST['submit'])) {
         if(isValidSignOn()) {
             addUser($_POST['login'],
-                $_POST['password'],
+                $passwordChecked,
                 $_POST['firstName'],
                 $_POST['name'],
                 $_POST['telephone'],
@@ -25,14 +26,12 @@ $randomPassword = random_password(8);
             //connectUser($_POST['login'], $_POST['password']);
             //header('Location: index.php');
         }
-        echo $randomPassword;
+        echo $passwordChecked;
     }
 ?>
 
 <form method="POST" action="" enctype="multipart/form-data">
 <input type="text" placeholder="<?=$lang["login"]?>" name="login" />
-<input type="hidden" value="<?=$randomPassword?>" name="password" />
-<input type="hidden" value="<?=$randomPassword?>" name="passwordChecker" />
 <input type="file" placeholder="<?=$lang["idPicture"]?>" name="idPicture" />
 <input type="text" placeholder="<?=$lang["firstName"]?>" name="firstName" />
 <input type="text" placeholder="<?=$lang["name"]?>" name="name" />

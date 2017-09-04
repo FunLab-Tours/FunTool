@@ -240,6 +240,15 @@ $lang["newBalance"] = "Votre nouveau solde sera de";
 
 $lang['isMember'] = "Est adhérent";
 $lang["adminAddMembership"] = "Ajouter un adhérent";
+
+$lang["listProject"] = "Liste des projets";
+$lang["addProject"] = "Ajouter un projet";
+$lang["listProjectCategory"] = "Liste des catégories de projet";
+$lang["addProjectCategory"] = "Ajouter une catégorie de projet";
+$lang["title"] = "Titre";
+$lang["longCategoryLabel"] = "Description de la catégorie de projet";
+$lang["projectCategory"] = "Catégorie de projet";
+
 $error = [];
 $error[-1] = "Erreur Inconnue";
 

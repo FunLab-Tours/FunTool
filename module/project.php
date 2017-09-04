@@ -92,7 +92,7 @@ function deletePictureLinkToProject($idProject){
 
 function selectAllProjectCategory(){
         global $DB_DB;
-        $result = $DB_DB->query("SELECT title FROM projectcategory");
+        $result = $DB_DB->query("SELECT * FROM projectcategory");
 
         return $result;
 
@@ -147,7 +147,7 @@ function selectProjectPicture($idProject){
     }
 }
 
-function showRegisterButton($idProject,$alreadyRegistered){
+function showRegisterButtonProject($idProject,$alreadyRegistered){
     global $lang;
     if ($alreadyRegistered){
         return "<a href=\"index.php?page=project&idUnregister=$idProject\" class=\"button\">".$lang["unregister"]."</a>";
@@ -158,7 +158,7 @@ function showRegisterButton($idProject,$alreadyRegistered){
     }
 }
 
-function alreadyRegistered($idProject,$idUser){
+function alreadyRegisteredProject($idProject,$idUser){
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM participate WHERE idProject = :idProject AND idUser= :idUser");
 
@@ -172,5 +172,82 @@ function alreadyRegistered($idProject,$idUser){
          echo $e;
     }
 }
+
+function addProjectCategory($title,$longCategoryLabel){
+    $shortCategoryLabel = "";
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("INSERT INTO projectCategory(title,shortCategoryLabel,longCategoryLabel) 
+                             VALUES (:title, :shortCategoryLabel, :longCategoryLabel)");
+    
+    try {
+        $stmt->execute(array(
+        'title' => $title,
+        'shortCategoryLabel' => $shortCategoryLabel,
+        'longCategoryLabel' => $longCategoryLabel
+        ));
+    }
+    
+    catch(Exception $e){
+                        echo $e;
+                        exit;
+    } 
+}
+
+function listAllProjectCategory(){
+    global $DB_DB;
+    $result = $DB_DB->query("SELECT * FROM projectCategory");
+
+    return $result;    
+}
+
+function linkToProjectCategory($idProCat,$idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("INSERT INTO isincludein(idProCat,idProject) 
+                             VALUES (:idProCat, :idProject)");
+    
+    try {
+        $stmt->execute(array(
+        'idProCat' => $idProCat,
+        'idProject' => $idProject
+        ));
+    }
+    
+    catch(Exception $e){
+                        echo $e;
+                        exit;
+    } 
+}
+
+function selectProjectCategory($idUser){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT idProCat FROM isincludein WHERE idUser = :idUser");
+try {
+    $stmt->execute(array(
+        'idUser' => $idUser,
+    ));
+    $result = $stmt->fetch();
+    return $result;
+}
+catch(Exception $e) {
+    echo $e;
+    return "";
+}
+}
+
+function deleteProjectIncludeIn($idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM isincludein WHERE idProject = :idProject");
+
+    try {
+        $stmt->execute(array(
+            'idProject' => $idProject
+        ));
+    
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
 
 ?>
