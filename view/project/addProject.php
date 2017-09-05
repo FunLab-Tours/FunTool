@@ -5,6 +5,7 @@
     if(isset($_POST['submit'])){
             addProject($_POST['projectTitle'], $_POST['projectWiki'], $_POST['dateProject']);
             linkToProjectCategory($_POST['projectCategory'],lastInsertProjectId());
+            addParticipantToProject($_COOKIE["id"],lastInsertProjectId());
                 if ($_POST['pictureUrl']!==""){
                     addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
                     

@@ -240,11 +240,12 @@ function updateUserFunnies($idUser,$userFunniesLeft){
 function userUnregistrationToEvent($idUser,$idEvent){
     global $DB_DB;
 
-    $stmt = $DB_DB->prepare("DELETE FROM register WHERE idUser = :idUser");
+    $stmt = $DB_DB->prepare("DELETE FROM register WHERE idUser = :idUser AND idEvent = :idEvent");
 
     try {
         $stmt->execute(array(
-            'idUser' => $idUser
+            'idUser' => $idUser,
+            'idEvent' => $idEvent
         ));
         $userFunniesLeft = currentUserFunnies($idUser)+ticketPrice($idEvent);
         updateUserFunnies($idUser,$userFunniesLeft);

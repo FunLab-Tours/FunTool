@@ -218,21 +218,6 @@ function linkToProjectCategory($idProCat,$idProject){
     } 
 }
 
-function selectProjectCategory($idUser){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT idProCat FROM isincludein WHERE idUser = :idUser");
-try {
-    $stmt->execute(array(
-        'idUser' => $idUser,
-    ));
-    $result = $stmt->fetch();
-    return $result;
-}
-catch(Exception $e) {
-    echo $e;
-    return "";
-}
-}
 
 function deleteProjectIncludeIn($idProject){
     global $DB_DB;
@@ -249,5 +234,135 @@ function deleteProjectIncludeIn($idProject){
     }
 }
 
+function selectProjectInIsIncludeIn($idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM isincludein WHERE idProject = :idProject");
+try {
+    $stmt->execute(array(
+        'idProject' => $idProject
+    ));
+    $result = $stmt->fetch();
+    return $result;
+}
+catch(Exception $e) {
+    echo $e->errorMessage();
+    return "";
+}  
+}
 
+function selectSpecificProjectCategory($idProCat){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM projectCategory WHERE idProCat = :idProCat");
+try {
+    $stmt->execute(array(
+        'idProCat' => $idProCat
+    ));
+    $result = $stmt->fetch();
+    return $result;
+}
+catch(Exception $e) {
+    echo $e->errorMessage();
+    return "";
+}  
+}
+
+function addParticipantToProject($idUser,$idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("INSERT INTO participate(idUser, idProject) 
+                             VALUES (:idUser, :idProject)");
+
+
+    try {
+        $stmt->execute(array(
+        'idUser' => $idUser,
+        'idProject' => $idProject
+        ));
+    }
+    
+    catch(Exception $e){
+                        echo $e;
+                        exit;
+    }   
+}
+
+function selectParticipantsToProject($idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM participate WHERE idProject = :idProject");
+try {
+    $stmt->execute(array(
+        'idProject' => $idProject
+    ));
+    $result = $stmt->fetch();
+    return $result;
+}
+catch(Exception $e) {
+    echo $e->errorMessage();
+    return "";
+}  
+}
+
+function selectUser($idUser){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM user WHERE idUser = :idUser");
+try {
+    $stmt->execute(array(
+        'idUser' => $idUser
+    ));
+    $result = $stmt->fetch();
+    return $result;
+}
+catch(Exception $e) {
+    echo $e->errorMessage();
+    return "";
+}    
+}
+
+
+//Gestion des erreurs
+
+// function testerror($idUser){
+//     global $DB_DB;
+//     $stmt = $DB_DB->prepare("SELECT * FROM user WHERE idUser = :idUser");
+// try {
+//     $stmt->execute(array(
+//         'idUser' => $idUser
+//     ));
+//     $result = $stmt->fetch() or throw_ex(mysql_error());
+//     return $result;
+// }
+// catch(Exception $e) {
+//     // echo $e;
+//     echo $e->errorMessage();
+//     return "";
+// }    
+// }
+
+
+//   function throw_ex($er){  
+//     throw new customException($er);  
+//   }
+
+//   class customException extends Exception {
+//     public function errorMessage() {
+//       //error message
+//       $errorMsg = 'Error in '.$this->getFile()
+//       .': <b>'.$this->getMessage().'</b> La requête n\'a pas pû aboutir';
+//       return $errorMsg;
+//     }
+//   }
+
+function deleteProjectParticipate($idProject){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM participate WHERE idProject = :idProject");
+
+    try {
+        $stmt->execute(array(
+            'idProject' => $idProject
+        ));
+    
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
 ?>
