@@ -12,8 +12,15 @@
 function isUserSkilled($idSkill, $idUser)
 {
     global $DB_DB;
-    $result = $DB_DB->query('SELECT * FROM has WHERE idUser = '.$idUser.' AND idSkill = '.$idSkill)->fetchAll();
-    if (sizeof($result) != 0)
+    $request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser,
+            'idSkill' => $idSkill
+            ));
+    }catch(Exception $e){}
+    if ($request->rowCount() != 0)
         return false;
     return true;
 }
@@ -39,13 +46,29 @@ function assignSkills($idUser, $idSkill, $skillLevel, $comment)
 function unassignSkill($idUser, $idSkill)
 {
     global $DB_DB;
-    $DB_DB->query('DELETE FROM has WHERE idUser = '.$idUser.' AND idSkill = '.$idSkill);
+    $request = $DB_DB->prepare("DELETE FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser,
+            'idSkill' => $idSkill
+            ));
+    }catch(Exception $e){}
 }
 
 function getSkillUserInformation($idUser, $idSkill)
 {
     global $DB_DB;
-    return $DB_DB->query('SELECT * FROM has WHERE idUser = '.$idUser.' AND idSkill = '.$idSkill)->fetchAll()[0];
+    $request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser,
+            'idSkill' => $idSkill
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll()[0];
 }
 
 function editAssignment($idUser, $idSkill, $skillLevel, $comment)
@@ -71,19 +94,38 @@ function testSkill($idSkill, $skillName, $idSkillType)
 {
     global $DB_DB;
     if($idSkill == null) {
-        $result = $DB_DB->query('SELECT * FROM VariousSkills WHERE skillName LIKE \'' . $skillName . '\'')->fetchAll();
-        if (sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName");
+
+        try{
+            $request->execute(array(
+                'skillName' => $skillName
+            ));
+        }catch(Exception $e){}
+        if ($request->rowCount() != 0)
             return false;
     }
     else{
-        $result = $DB_DB->query('SELECT * FROM VariousSkills WHERE skillName LIKE \'' . $skillName . '\'
-                                 AND idSkill <> '.$idSkill)->fetchAll();
-        if (sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName
+                                 AND idSkill <> :idSkill");
+
+        try{
+            $request->execute(array(
+                'skillName' => $skillName,
+                'idSkill' => $idSkill
+            ));
+        }catch(Exception $e){}
+        if ($request->rowCount() != 0)
             return false;
     }
 
-    $result = $DB_DB->query('SELECT * FROM SkillType WHERE idSkillType LIKE \'' . $idSkillType . '\'')->fetchAll();
-    if (sizeof($result) == 0)
+    $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType LIKE :idSkillType");
+
+    try{
+        $request->execute(array(
+            'idSkillType' => $idSkillType
+            ));
+    }catch(Exception $e){}
+    if ($request->rowCount() == 0)
         return false;
 
     return true;
@@ -91,21 +133,43 @@ function testSkill($idSkill, $skillName, $idSkillType)
 function getSkillsList()
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM VariousSkills")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM VariousSkills");
+
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getSkill($idSkill)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM VariousSkills WHERE idSkill = ".$idSkill)->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill = :idSkill");
+
+    try{
+        $request->execute(array(
+            'idSkill' => $idSkill
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getSkillsListUser($idUser)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM VariousSkills WHERE idSkill IN (
-                                        SELECT idSkill FROM has WHERE idUser = ".$idUser."
-                          )")->fetchAll();
+
+    $request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill IN (
+                                        SELECT idSkill FROM has WHERE idUser = :idUser)");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function addSkill($skillName, $skillDescription, $idSkillType)
@@ -186,15 +250,28 @@ function testSkillType($idSkillType, $skillTypeName)
     global $DB_DB;
 
     if($idSkillType == null) {
-        $result = $DB_DB->query('SELECT * FROM SkillType WHERE skillTypeName LIKE \'' . $skillTypeName . '\'')->fetchAll();
-        if (sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName");
+
+        try{
+            $request->execute(array(
+                'skillTypeName' => $skillTypeName
+            ));
+        }catch(Exception $e){}
+        if ($request->rowCount() != 0)
             return false;
     }
     else
     {
-        $result = $DB_DB->query('SELECT * FROM SkillType WHERE skillTypeName LIKE \'' . $skillTypeName . '\'
-                                 AND idSkillType <> '.$idSkillType)->fetchAll();
-        if (sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName
+                                 AND idSkillType <> :idSkillType");
+
+        try{
+            $request->execute(array(
+                'idSkillType' => $idSkillType,
+                'skillTypeName' => $skillTypeName
+            ));
+        }catch(Exception $e){}
+        if ($request->rowCount() != 0)
             return false;
     }
     return true;
@@ -203,12 +280,26 @@ function testSkillType($idSkillType, $skillTypeName)
 function getSkillType($idSkillType)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM SkillType WHERE idSkillType = ".$idSkillType)->fetchAll()[0];
+    $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType = :idSkillType");
+
+    try{
+        $request->execute(array(
+            'idSkillType' => $idSkillType
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll()[0];
 }
 function getSkillsTypeList()
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM SkillType")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM SkillType");
+
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function addSkillType($skillTypeName)

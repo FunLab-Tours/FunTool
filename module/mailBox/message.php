@@ -35,5 +35,13 @@ function getMessage($id)
 {
     global $DB_DB;
 
-    return $DB_DB->query("SELECT * FROM Message WHERE idMessage = ".$id)->fetchAll()[0];
+    $request = $DB_DB->prepare("SELECT * FROM Message WHERE idMessage = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll()[0];
 }

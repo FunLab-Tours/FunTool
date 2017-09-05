@@ -9,7 +9,7 @@
 if(isset($_POST['submit']) && $_POST['labelMat'] != "" && $_POST['codeMat'] != "" && isset($_POST['priceMat']) && $_POST['priceMat'] >= 0)
 {
     if(editMaterial( $_GET['editMaterial'], $_POST['labelMat'], $_POST['codeMat'], $_POST['priceMat'], $_POST['docLink'], $_POST['comment']))
-        header('Location: index.php?page=materials&material=0');
+        ;//header('Location: index.php?page=materials&material=0');
 }
 ?>
 

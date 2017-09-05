@@ -4,13 +4,28 @@
     {
         global $DB_DB;
         if($id == null){
-            $result = $DB_DB->query("SELECT * FROM Family WHERE familyCode LIKE '".$familyCode."' OR familyLabel LIKE '".$familyLabel."'")->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM Family WHERE familyCode LIKE :familyCode OR familyLabel LIKE :familyLabel");
+
+            try{
+                $request->execute(array(
+                    'familyCode' => $familyCode,
+                    'familyLabel' => $familyLabel
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
         }
         else{
-            $result = $DB_DB->prepare("SELECT * FROM Family WHERE idFamily <> '".$id."' AND (familyCode LIKE '".$familyCode."' OR familyLabel LIKE '".$familyLabel."')")->fetchAll();
-            if(sizeof($result) != 0)
+            $request = $DB_DB->prepare("SELECT * FROM Family WHERE idFamily <> :id AND (familyCode LIKE :familyCode OR familyLabel LIKE :familyLabel)");
+
+            try{
+                $request->execute(array(
+                    'id' => $id,
+                    'familyCode' => $familyCode,
+                    'familyLabel' => $familyLabel
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
         }
         return true;
@@ -39,7 +54,13 @@
 	
 	function getFamilyList() {
 		global $DB_DB;
-        return $DB_DB->query('SELECT * FROM Family');
+        $request = $DB_DB->prepare("SELECT * FROM Family");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
 	}
 
     function getFamilyName($idFamily)
@@ -95,7 +116,7 @@
 	
 	function editFamily($idFamily, $familyCode, $familyLabel)
 	{
-        if(!testFamily(null,$familyCode, $familyLabel ))
+        if(!testFamily($idFamily,$familyCode, $familyLabel ))
             return false;
 
 		global $DB_DB;
@@ -112,6 +133,7 @@
         }
         catch(Exception $e) {
             echo $e;
+            return false;
         }
         return true;
 	}
@@ -119,7 +141,15 @@
 	function countNbrSubFamily($idFamily)
 	{
 		global $DB_DB;
-		return $DB_DB->query('SELECT COUNT(*) FROM SubFamily
-									WHERE idFamily ='.$idFamily)->fetch()[0];
+        $request = $DB_DB->prepare("SELECT COUNT(*) FROM SubFamily
+									WHERE idFamily = :idFamily");
+
+        try{
+            $request->execute(array(
+                'idFamily' => $idFamily
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetch()[0];
 	}
 ?>

@@ -20,7 +20,8 @@
                         $_POST['costCoeff'],
                         $_POST['idLab']
             );
-           header('Location: index.php?page=machine&chooseImage='.$id);
+            assignMaterialsToMachine($id, $_POST['idMaterials']);
+            header('Location: index.php?page=machine&chooseImage='.$id);
         }
     }
 ?>
@@ -49,6 +50,12 @@
         <?php
         foreach(listAllLab() as $row){?>
             <option value="<?=$row['idLab']?>"><?=$row['labName']?></option>
+        <?php } ?>
+    </select>
+    <select multiple name ="idMaterials"">
+        <option value="" selected="selected"><?=$lang['machineMaterials']?></option>
+        <?php foreach(listMaterials() as $row){?>
+            <option value="<?=$row['idMat']?>"><?=$row['labelMat']?></option>
         <?php } ?>
     </select>
     <input type="submit" value="<?=$lang["submit"]?>" name="submit">

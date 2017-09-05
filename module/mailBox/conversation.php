@@ -36,40 +36,90 @@ function listConversations($idUser)
 {
     global $DB_DB;
 
-    return $DB_DB->query("SELECT * FROM Conversation WHERE idConversation IN (SELECT idConversation FROM userInConversation WHERE idUser = ".$idUser.")")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Conversation WHERE idConversation IN (SELECT idConversation FROM userInConversation WHERE idUser = :idUser)");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getConversation($idConversation)
 {
     global $DB_DB;
 
-    return $DB_DB->query("SELECT * FROM Conversation WHERE idConversation = ".$idConversation)->fetchAll()[0];
+    $request = $DB_DB->prepare("SELECT * FROM Conversation WHERE idConversation = :idConversation");
+
+    try{
+        $request->execute(array(
+            'idConversation' => $idConversation
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll()[0];
 }
 
 function getMessages($idConversation)
 {
     global $DB_DB;
 
-    return $DB_DB->query("SELECT * FROM Message WHERE idConversation = ".$idConversation." ORDER BY sentDateTime")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Message WHERE idConversation = :idConversation ORDER BY sentDateTime");
+
+    try{
+        $request->execute(array(
+            'idConversation' => $idConversation
+
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getUsersInConversation($idConversation)
 {
     global $DB_DB;
 
-    return $DB_DB->query("SELECT * FROM User WHERE idUser IN (SELECT idUser FROM userInConversation WHERE idConversation = ".$idConversation.")")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (SELECT idUser FROM userInConversation WHERE idConversation = :idConversation)");
+
+    try{
+        $request->execute(array(
+            'idConversation' => $idConversation
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 /*Create a new conversation if the conversation don't already exist*/
 function searchForConversation($idUser, $idRecipient)
 {
     global $DB_DB;
-    $idConversations = $DB_DB->query("SELECT idConversation FROM userInConversation WHERE idUser = ".$idUser)->fetchAll();
+    $request = $DB_DB->prepare("SELECT idConversation FROM userInConversation WHERE idUser = :idUser");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser
+            ));
+    }catch(Exception $e){}
+
+    $idConversations = $request->fetchAll();
 
     foreach ($idConversations as $idConversation)
     {
         if(countUserInConversation($idConversation['idConversation']) == 2){
-            $conv = $DB_DB->query("SELECT * FROM userInConversation WHERE idUser = ".$idRecipient." AND idConversation = ".$idConversation['idConversation'])->fetchAll();
+            $request = $DB_DB->prepare("SELECT * FROM userInConversation WHERE idUser = :idRecipient AND idConversation = :idConversation");
+
+            try{
+                $request->execute(array(
+                    'idConversation' => $idConversation['idConversation'],
+                    'idRecipient' => $idRecipient
+            ));
+            }catch(Exception $e){}
+            $conv = $request->fetchAll();
+
             if(!empty($conv))
                 return $idConversation['idConversation'];
         }
@@ -81,13 +131,28 @@ function searchForConversation($idUser, $idRecipient)
 function countUserInConversation($idConversation)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT COUNT(idUser) FROM userInConversation WHERE idConversation = ".$idConversation)->fetch()['COUNT(idUser)'];
+    $request = $DB_DB->prepare("SELECT COUNT(idUser) FROM userInConversation WHERE idConversation = :idConversation");
+
+    try{
+        $request->execute(array(
+            'idConversation' => $idConversation
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetch()['COUNT(idUser)'];
 }
 
 function changeConversationName($idConversation, $name)
 {
     global $DB_DB;
-    $DB_DB->query("UPDATE Conversation SET name = '".$name."' WHERE idConversation = ".$idConversation);
+    $request = $DB_DB->prepare("UPDATE Conversation SET name = :name WHERE idConversation = :idConversation");
+
+    try{
+        $request->execute(array(
+            'idConversation' => $idConversation,
+            'name' => $name
+            ));
+    }catch(Exception $e){}
 }
 
 function addUsersToConversation($idConversation, $idUsers)
@@ -164,7 +229,16 @@ function setReadMessage($idConversation, $idUser)
 function haveUnreadMessage($idConversation, $idUser)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT COUNT(*) FROM unread WHERE idUser = ".$idUser." AND idMessage IN (SELECT idMessage FROM Message WHERE idConversation = ".$idConversation.")")->fetch()[0];
+    $request = $DB_DB->prepare("SELECT COUNT(*) FROM unread WHERE idUser = :idUser AND idMessage IN (SELECT idMessage FROM Message WHERE idConversation = :idConversation)");
+
+    try{
+        $request->execute(array(
+            'idUser' => $idUser,
+            'idConversation' => $idConversation
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetch()[0];
 }
 
 function allUnreadMessages($idUser)

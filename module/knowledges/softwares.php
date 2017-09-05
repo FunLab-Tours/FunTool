@@ -15,15 +15,28 @@ function testSoftware($id, $name)
     global $DB_DB;
     if($id == null)
     {
-        $result = $DB_DB->query('SELECT * FROM Software WHERE softwareName LIKE \''.$name.'\'')->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Software WHERE softwareName LIKE :name");
+
+        try{
+            $request->execute(array(
+                'name' => $name
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
         return true;
     }
     else
     {
-        $result = $DB_DB->query('SELECT * FROM Software WHERE idSoftware <> \''.$id.'\' AND softwareName LIKE \''.$name.'\'')->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Software WHERE idSoftware <> :id AND softwareName LIKE :name");
+
+        try{
+            $request->execute(array(
+                'id' => $id,
+                'name' => $name
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
         return true;
     }
@@ -32,13 +45,27 @@ function testSoftware($id, $name)
 function listSoftware()
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM Software")->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Software");
+
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getSoftWare($id)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM Software WHERE idsoftware = ".$id)->fetchAll()[0];
+    $request = $DB_DB->prepare("SELECT * FROM Software WHERE idsoftware = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll()[0];
 }
 
 function addSoftware($name, $description, $categories, $subCategories)
@@ -97,10 +124,34 @@ function editSoftware($id, $name, $description, $categories, $subCategories)
 function deleteSoftware($id)
 {
     global $DB_DB;
-    $DB_DB->query('DELETE FROM know WHERE  idSoftware = '.$id);
-    $DB_DB->query('DELETE FROM SoftwareInCategory WHERE  idSoftware = '.$id);
-    $DB_DB->query('DELETE FROM SoftwareInSubCategory WHERE  idSoftware = '.$id);
-    $DB_DB->query('DELETE FROM software WHERE idSoftware = '.$id);
+    $request = $DB_DB->prepare("DELETE FROM know WHERE  idSoftware = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+    $request = $DB_DB->prepare("DELETE FROM SoftwareInCategory WHERE  idSoftware = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+        ));
+    }catch(Exception $e){}
+    $request = $DB_DB->prepare("DELETE FROM SoftwareInSubCategory WHERE  idSoftware = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+        ));
+    }catch(Exception $e){}
+    $request = $DB_DB->prepare("DELETE FROM software WHERE  idSoftware = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+        ));
+    }catch(Exception $e){}
 }
 
 /*########################################*/
@@ -110,8 +161,16 @@ function deleteSoftware($id)
 function getSoftwareCategories($id)
 {
     global $DB_DB;
-    return $DB_DB->query('SELECT * FROM SoftwareCategory WHERE idSoftCat IN (
-                    SELECT idSoftCat FROM SoftwareInCategory WHERE idSoftWare = '.$id.')')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM SoftwareCategory WHERE idSoftCat IN (
+                    SELECT idSoftCat FROM SoftwareInCategory WHERE idSoftWare = :id)");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function assignCategoriesToSoftWare($idSoftware, $categories)
@@ -158,8 +217,16 @@ function unassignCategoriesFromSoftWare($idSoftware)
 function getSoftwareSubCategories($id)
 {
     global $DB_DB;
-    return $DB_DB->query('SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat IN (
-                    SELECT idSoftSubcat FROM SoftwareInSubCategory WHERE idSoftWare = '.$id.')')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat IN (
+                    SELECT idSoftSubcat FROM SoftwareInSubCategory WHERE idSoftWare = :id)");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function assignSubCategoriesToSoftWare($idSoftware, $subCategories)

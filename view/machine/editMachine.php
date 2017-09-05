@@ -1,7 +1,11 @@
 <?php
+    $edit = getMachine($_GET['idEdit']);
+    $machine = $edit['idMachine'];
+    $family = $edit['idFamily'];
+
     if(isset($_POST['submit'])) {
-        if(isValidMachineSubmit()) {
-            if(isset($_POST['idSubFamily']))
+        if (isValidMachineSubmit(true)) {
+            if (isset($_POST['idSubFamily']))
                 editMachine($_GET['idEdit'],
                     $_POST['codeMachine'],
                     $_POST['shortLabel'],
@@ -12,33 +16,31 @@
                     $_POST['docLink1'],
                     $_POST['docLink2'],
                     $_POST['idFamily'],
-                    $_POST['idsSubFamily'],
+                    $_POST['idSubFamily'],
                     $_POST['cost'],
                     $_POST['costCoeff'],
                     $_POST['idLab']
                 );
             else editMachine($_GET['idEdit'],
-                    $_POST['codeMachine'],
-                    $_POST['shortLabel'],
-                    $_POST['longLabel'],
-                    $_POST['serialNumber'],
-                    $_POST['manufacturer'],
-                    $_POST['comment'],
-                    $_POST['docLink1'],
-                    $_POST['docLink2'],
-                    $_POST['idFamily'],
-                    null,
-                    $_POST['cost'],
-                    $_POST['costCoeff'],
-                    $_POST['idLab']
-                );
+                $_POST['codeMachine'],
+                $_POST['shortLabel'],
+                $_POST['longLabel'],
+                $_POST['serialNumber'],
+                $_POST['manufacturer'],
+                $_POST['comment'],
+                $_POST['docLink1'],
+                $_POST['docLink2'],
+                $_POST['idFamily'],
+                null,
+                $_POST['cost'],
+                $_POST['costCoeff'],
+                $_POST['idLab']
+            );
+            reassignMaterialsToMachine($machine, $_POST['idMaterials']);
             //header('Location: index.php?page=machine');
         }
     }
 
-    $edit = getMachine($_GET['idEdit']);
-    $machine = $edit['idMachine'];
-    $family = $edit['idFamily'];
 ?>
 
 <form method="POST" action="">
@@ -67,11 +69,21 @@
                value="<?= getCostUnit($edit['idCostUnit'])[0] ?>"/></td>
     <td><input type="number" min="0" step="0.1" name="costCoeff"
                value="<?= getCostUnit($edit['idCostUnit'])[1] ?>"/></td>
+    <select multiple name="idMaterials[]">
+        <option value="" disabled><?=$lang['machineMaterials']?></option>
+        <?php foreach(listMaterials() as $row) {
+            if (in_array($row, getMaterialsMachine($machine))) { ?>
+                <option selected value="<?= $row['idMat'] ?>"><?= $row['labelMat'] ?></option>
+            <?php } else { ?>
+                <option value="<?= $row['idMat'] ?>"><?= $row['labelMat'] ?></option>
+            <?php }
+        }?>
+    </select>
     <?php if (getPicture($edit['idPicture']) != null) { ?>
         <td>
             <a href="index.php?page=machine&chooseImage=<?= $edit['idMachine'] ?>">
                 <img src="<?= getPicture($edit['idPicture'])['picture'] ?>"
-                     alt="<?= getPicture($edit['idPicture'])['pictureDescription'] ?>"
+                     alt="<?= getPicture($edit['idPicture'])['pictureDescription'] ?>" />
             </a>
         </td>
     <?php } else { ?>
@@ -81,12 +93,9 @@
     <?php } ?>
     <td>
         <select name="idLab">
-            <option value="<?= $edit['idLab'] ?>"
-                    selected="selected"><?= getLabName($edit['idLab']) ?></option>
-            <?php
-            foreach (listAllLab() as $subRow) {
-                if ($edit['idLab'] != $subRow['idLab']) {
-                    ?>
+            <option value="<?= $edit['idLab'] ?>" selected="selected"><?= getLabName($edit['idLab']) ?></option>
+            <?php foreach (listAllLab() as $subRow) {
+                if ($edit['idLab'] != $subRow['idLab']) { ?>
                     <option value="<?= $subRow['idLab'] ?>"><?= $subRow['labName'] ?></option>
                 <?php }
             } ?>
@@ -112,6 +121,7 @@
         <td><?=$lang["costCoeff"]?></td>
         <td><?=$lang["idPictureInput"]?></td>
         <td><?=$lang["funLab"]?></td>
+        <td><?=$lang["machineMaterials"]?></td>
     </tr>
 
     <?php
@@ -126,8 +136,7 @@
                 <td><?=$row['docLink1']?></td>
                 <td><?=$row['docLink2']?></td>
                 <td><?=getFamilyName($row['idFamily'])?></td>
-                <td><?php
-                    foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
+                <td><?php foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
                         echo $subRow['labelSubFamily']." ; ";
                     ?>
                 </td>
@@ -137,11 +146,18 @@
                     <td><img src = "<?=getPicture($row['idPicture'])['picture']?>" alt = "<?=getPicture($row['idPicture'])['pictureDescription']?>"
                 <?php } else { ?> <td><?php } ?> </td>
                 <td><?=getLabName($row['idLab'])?></td>
-
-                <td>
-                    <a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> |
-                    <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a>
+                <td><?php
+                    foreach(getMaterialsMachine($row['idMachine']) as $material)
+                        echo $material['labelMat']." ; ";
+                    ?>
                 </td>
+
+                <?php if($row['idMachine'] != $_GET['idEdit']) { ?>
+                    <td>
+                        <a href="index.php?page=machine&idEdit=<?=$row['idMachine']?>"><?=$lang['edit']?></a> |
+                        <a href="index.php?page=machine&idDelete=<?=$row['idMachine']?>" onClick="return confirm('Are you sure you want to delete?')"><?=$lang['delete']?></a>
+                    </td>
+                <?php } ?>
             </tr>
     <?php } ?>
 </table>

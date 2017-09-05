@@ -6,8 +6,6 @@
  * Time: 11:34
  */
 
-loadModules("materials");
-
 if(isset($_GET['editMaterial']))
     include("editMaterial.php");
 else if(isset($_GET['deleteMaterial']))

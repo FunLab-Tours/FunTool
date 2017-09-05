@@ -43,15 +43,28 @@ function testValuesRole($id, $name)
     global $DB_DB;
     if($id == null)
     {
-        $result = $DB_DB->query('SELECT * FROM Role WHERE roleName LIKE \''.$name.'\'')->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name");
+
+        try{
+            $request->execute(array(
+                'name' => $name
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
     }
     else
     {
-        $result = $DB_DB->query('SELECT * FROM Role WHERE roleName LIKE \''.$name.'\' 
-                                 AND idRole <> '.$id)->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name
+                                 AND idRole <> :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id,
+                'name' => $name
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
     }
     return true;
@@ -61,14 +74,28 @@ function getUserRoles($id)
 {
     global $DB_DB;
 
-    return $DB_DB->query('SELECT * FROM Role WHERE idRole IN (SELECT idRole FROM userRole WHERE idUser = '.$id.')')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Role WHERE idRole IN (SELECT idRole FROM userRole WHERE idUser = :id)");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getRolesList()
 {
     global $DB_DB;
 
-    return $DB_DB->query('SELECT * FROM Role')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Role");
+
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function addRole($name, $description, $rights)
@@ -198,22 +225,50 @@ function testValuesRights($id, $title, $path)
     global $DB_DB;
     if($id == null)
     {
-        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsTitle LIKE \''.$title.'\'')->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title");
+
+        try{
+            $request->execute(array(
+                'title' => $title
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
-        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsPath LIKE \''.$path.'\'')->fetchAll();
-        if(sizeof($result) != 0)
+
+        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path");
+
+        try{
+            $request->execute(array(
+                'path' => $path
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
     }
     else
     {
-        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsTitle LIKE \''.$title.'\' 
-                                 AND idRights <> '.$id)->fetchAll();
-        if(sizeof($result) != 0)
+        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title
+                                 AND idRights <> :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id,
+                'title' => $title
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
-        $result = $DB_DB->query('SELECT * FROM Rights WHERE rightsPath LIKE \''.$path.'\' 
-                                    AND idRights <> '.$id)->fetchAll();
-        if(sizeof($result) != 0)
+
+        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path
+                                    AND idRights <> :id");
+
+        try{
+            $request->execute(array(
+                'id' => $id,
+                'path' => $path
+            ));
+        }catch(Exception $e){}
+        if($request->rowCount() != 0)
             return false;
     }
     return true;
@@ -223,21 +278,43 @@ function getRights($id)
 {
     global $DB_DB;
 
-    return $DB_DB->query('SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = '.$id.')')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :id");
+
+    try{
+        $request->execute(array(
+            'id' => $id
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getRightsList()
 {
     global $DB_DB;
 
-    return $DB_DB->query('SELECT * FROM Rights')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Rights");
+
+    try{
+        $request->execute();
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getRightsRoleList($idRole)
 {
     global $DB_DB;
 
-    return $DB_DB->query('SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = '.$idRole.')')->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :idRole)");
+
+    try{
+        $request->execute(array(
+            'idRole' => $idRole
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function getRightsListWithRoles($roles)

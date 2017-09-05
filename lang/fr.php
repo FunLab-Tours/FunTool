@@ -232,6 +232,9 @@ $lang['priceMat'] = "prix d'achat du matériau";
 $lang['docLink'] = "Lien de documentation";
 $lang['comment'] = "Commentaire";
 $lang['dateEntry'] = "Date de création du matériau";
+$lang['priceUnit'] = "Prix par unité";
+$lang['unit'] = "Unité";
+$lang['machineMaterials'] = "Matériaux utilisés par la machine";
 
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";

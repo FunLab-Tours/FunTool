@@ -4,18 +4,29 @@
     {
         global $DB_DB;
         if($id == null){
-            $result = $DB_DB->query("SELECT * FROM SubFamily WHERE codeSubFamily LIKE '".$sfamilyCode."' OR labelSubFamily LIKE '".$sfamilyLabel."'")->fetchAll();
-            if(sizeof($result) != 0) {
-                echo "truca";
+            $request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE codeSubFamily LIKE :sfamilyCode OR labelSubFamily LIKE :sfamilyLabel");
+
+            try{
+                $request->execute(array(
+                    'sfamilyCode' => $sfamilyCode,
+                    'sfamilyLabel' => $sfamilyLabel
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
-            }
         }
         else{
-            $result = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> '".$id."' AND (codeSubFamily LIKE '".$sfamilyCode."' OR labelSubFamily LIKE '".$sfamilyLabel."')")->fetchAll();
-            if(sizeof($result) != 0) {
-                echo "truc";
+            $request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> :id AND (codeSubFamily LIKE :sfamilyCode OR labelSubFamily LIKE :sfamilyLabel)");
+
+            try{
+                $request->execute(array(
+                    'sfamilyCode' => $sfamilyCode,
+                    'sfamilyLabel' => $sfamilyLabel,
+                    'id' => $id
+            ));
+            }catch(Exception $e){}
+            if($request->rowCount() != 0)
                 return false;
-            }
         }
         return true;
 }
@@ -45,19 +56,41 @@
 	function getAllSubFamilyList()
 	{
 		global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SubFamily');
+        $request = $DB_DB->prepare("SELECT * FROM SubFamily");
+
+        try{
+            $request->execute();
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
 	}
 
 	function getSubFamilyList($idFamily)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SubFamily WHERE idFamily ='.$idFamily);
+        $request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idFamily = :id");
+
+        try{
+            $request->execute(array(
+                'id' => $idFamily
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 
     function getSubFamilyListMachine($idMachine)
     {
         global $DB_DB;
-        return $DB_DB->query('SELECT * FROM SubFamily WHERE idSubFamily IN (SELECT idSubFamily FROM machineInSubFamily WHERE idMachine ='.$idMachine.')');
+        $request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily IN (SELECT idSubFamily FROM machineInSubFamily WHERE idMachine = :idMachine)");
+
+        try{
+            $request->execute(array(
+                'idMachine' => $idMachine
+            ));
+        }catch(Exception $e){}
+
+        return $request->fetchAll();
     }
 	
 	function deleteSubFamily($idDelete)

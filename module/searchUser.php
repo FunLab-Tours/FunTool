@@ -9,8 +9,17 @@
 function searchForUser($pattern)
 {
     global $DB_DB;
-    return $DB_DB->query("SELECT * FROM User WHERE (firstName LIKE '".$pattern."' OR name LIKE '".$pattern."'
-                            OR login LIKE '".$pattern."') AND idUser <> ".$_COOKIE['id'])->fetchAll();
+    $request = $DB_DB->prepare("SELECT * FROM User WHERE (firstName LIKE :pattern OR name LIKE :pattern
+                            OR login LIKE :pattern) AND idUser <> :id");
+
+    try{
+        $request->execute(array(
+            'id' => $_COOKIE['id'],
+            'pattern' => $pattern
+            ));
+    }catch(Exception $e){}
+
+    return $request->fetchAll();
 }
 
 function searchForRoles($roles)
@@ -18,22 +27,39 @@ function searchForRoles($roles)
     global $DB_DB;
     $result = array();
     foreach ($roles as $role) {
-        if($role != "")
-            array_push($result, $DB_DB->query("SELECT * FROM User WHERE idUser IN (
-                          SELECT idUser FROM userRole WHERE idRole = ".$role.") ORDER BY login")->fetchAll());
+        if($role != "") {
+            $request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (
+                          SELECT idUser FROM userRole WHERE idRole = :role) ORDER BY login");
+
+            try {
+                $request->execute(array(
+                    'role' => $role
+                ));
+            } catch (Exception $e) {}
+
+            array_push($result, $request->fetchAll());
+        }
     }
     return $result[0];
 }
 
 function searchForSkills($skills)
 {
-    var_dump($skills);
     global $DB_DB;
     $result = array();
     foreach ($skills as $skill) {
-        if($skill != "")
-            array_push($result, $DB_DB->query("SELECT * FROM User WHERE idUser IN (
-                          SELECT idUser FROM has WHERE idSkill = ".$skill." ORDER BY skillLevel)")->fetchAll());
+        if($skill != "") {
+            $request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (
+                          SELECT idUser FROM has WHERE idSkill = :skill ORDER BY skillLevel)");
+
+            try{
+                $request->execute(array(
+                    'skill' => $skill
+            ));
+            }catch(Exception $e){}
+
+            array_push($result, $request->fetchAll());
+        }
     }
     return $result[0];
 }
@@ -43,9 +69,18 @@ function searchForKnowledges($knowledges)
     global $DB_DB;
     $result = array();
     foreach ($knowledges as $knowledge) {
-        if($knowledge != "")
-            array_push($result, $DB_DB->query("SELECT * FROM User WHERE idUser IN (
-                          SELECT idUser FROM know WHERE idsoftware = " . $knowledge . " ORDER BY knowledgeLevel)")->fetchAll());
+        if($knowledge != "") {
+            $request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (
+                          SELECT idUser FROM know WHERE idsoftware = :knowledge ORDER BY knowledgeLevel)");
+
+            try{
+                $request->execute(array(
+                    'knowledge' => $knowledge
+            ));
+            }catch(Exception $e){}
+
+            array_push($result, $request->fetchAll());
+        }
     }
     return $result[0];
 }

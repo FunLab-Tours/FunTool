@@ -1,9 +1,9 @@
 <?php
     if(isset($_POST['submit'])) {
-        if(strlen($_POST['newPassword']) >= 8 && strcmp($_POST['newPassword'], $_POST['passwordChecker']) == 0) {
+        if(strlen($_POST['newPassword']) >= 8 && (strcmp($_POST['newPassword'], $_POST['passwordChecker']) == 0)) {
             if(editPassword($_POST['password'], $_POST['newPassword']) == true) {
                 header('Location: index.php?page=profile');
-                connectUser(getUser($_COOKIE['id'])['login'], $_POST['newPassword']);
+                connectUser(getUser($_COOKIE['id'])['login']);
             }
             else echo $lang["passDontMatch"] . "1";
         }
