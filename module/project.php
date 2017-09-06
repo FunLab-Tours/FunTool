@@ -1,4 +1,5 @@
 <?php
+//Liste de tous les projets
 function listAllProject(){
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT * FROM Project");
@@ -9,7 +10,7 @@ function listAllProject(){
 
     return $request->fetchAll();
 }
-
+//Ajoute un projet
 function addProject ($projectTitle,$projectWiki,$dateProject){
     
         global $DB_DB;
@@ -29,7 +30,7 @@ function addProject ($projectTitle,$projectWiki,$dateProject){
                             exit;
         }   
 }
-
+//Séléctionne un projet
 function selectProject($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM Project WHERE idProject=:idProject");
@@ -46,7 +47,7 @@ function selectProject($idProject){
         return "";
     }
 }
-
+//Mettre à jour un projet
 function updateProject($idProject,$projectTitle,$projectWiki,$dateProject) {
     global $DB_DB;
     $stmt = $DB_DB->prepare("UPDATE Project SET title = :title, wiki = :wiki, dateProject = :dateProject WHERE idProject = :idProject");
@@ -63,7 +64,7 @@ function updateProject($idProject,$projectTitle,$projectWiki,$dateProject) {
         echo $e;
     }
 }
-
+//Supprimer un projet
 function deleteProject($idProject) {
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM Project WHERE idProject = :idProject");
@@ -78,7 +79,7 @@ function deleteProject($idProject) {
         echo $e;
     }
 }
-
+//Supprimer l'image d'un projet
 function deletePictureLinkToProject($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM picture WHERE idProject = :idProject");
@@ -93,7 +94,7 @@ function deletePictureLinkToProject($idProject){
         echo $e;
     }
 }
-
+//Liste de toutes les catégories de projets
 function selectAllProjectCategory(){
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT * FROM projectcategory");
@@ -104,7 +105,7 @@ function selectAllProjectCategory(){
 
     return $request->fetchAll();
 }
-
+//Ajoute l'image d'un projet
 function addPictureProject($picture,$idProject){
         global $DB_DB;
         $stmt = $DB_DB->prepare("INSERT INTO picture(picture, idProject) VALUES (:picture, :idProject)");
@@ -122,7 +123,7 @@ function addPictureProject($picture,$idProject){
                             exit;
         }       
 }
-
+//Dernier projet inséré
 function lastInsertProjectId(){
         global $DB_DB;
         $request = $DB_DB->prepare("SELECT max(idProject) FROM Project");
@@ -134,7 +135,7 @@ function lastInsertProjectId(){
         $result = $request->fetch()['max(idProject)'];
         return $result;
 }
-
+//Séléctionne l'image d'un projet
 function selectProjectPicture($idProject){
         global $DB_DB;
         $stmt = $DB_DB->prepare("SELECT picture FROM picture WHERE idProject = :idProject");
@@ -150,7 +151,7 @@ function selectProjectPicture($idProject){
         return "";
     }
 }
-
+//Mettre le bouton d'inscription d'un projet
 function showRegisterButtonProject($idProject,$alreadyRegistered){
     global $lang;
     if ($alreadyRegistered){
@@ -161,7 +162,7 @@ function showRegisterButtonProject($idProject,$alreadyRegistered){
        
     }
 }
-
+//Vérifis que l'utilisateur est déjà inscrit au projet
 function alreadyRegisteredProject($idProject,$idUser){
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM participate WHERE idProject = :idProject AND idUser= :idUser");
@@ -176,7 +177,7 @@ function alreadyRegisteredProject($idProject,$idUser){
          echo $e;
     }
 }
-
+//Ajouter une catégorie de projet
 function addProjectCategory($title,$longCategoryLabel){
     $shortCategoryLabel = "";
     global $DB_DB;
@@ -196,14 +197,14 @@ function addProjectCategory($title,$longCategoryLabel){
                         exit;
     } 
 }
-
+//Liste des catégories de Projet
 function listAllProjectCategory(){
     global $DB_DB;
     $result = $DB_DB->query("SELECT * FROM projectCategory");
 
     return $result;    
 }
-
+//Relie un projet à une catégorie de projet
 function linkToProjectCategory($idProCat,$idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("INSERT INTO isincludein(idProCat,idProject) 
@@ -222,7 +223,7 @@ function linkToProjectCategory($idProCat,$idProject){
     } 
 }
 
-
+//Supprime un projet d'une catégorie de projet
 function deleteProjectIncludeIn($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM isincludein WHERE idProject = :idProject");
@@ -237,7 +238,7 @@ function deleteProjectIncludeIn($idProject){
         echo $e;
     }
 }
-
+//Séléctionne un projet dans une catégorie de projet
 function selectProjectInIsIncludeIn($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM isincludein WHERE idProject = :idProject");
@@ -253,7 +254,7 @@ catch(Exception $e) {
     return "";
 }  
 }
-
+//Séléctionne une catégorie de projet
 function selectSpecificProjectCategory($idProCat){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM projectCategory WHERE idProCat = :idProCat");
@@ -269,7 +270,7 @@ catch(Exception $e) {
     return "";
 }  
 }
-
+//Ajoute un participant au projet
 function addParticipantToProject($idUser,$idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("INSERT INTO participate(idUser, idProject) 
@@ -288,7 +289,7 @@ function addParticipantToProject($idUser,$idProject){
                         exit;
     }   
 }
-
+//Séléctionne un participant au projet
 function selectParticipantsToProject($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM participate WHERE idProject = :idProject");
@@ -304,7 +305,7 @@ catch(Exception $e) {
     return "";
 }  
 }
-
+//Séléctionne un utilisateur
 function selectUser($idUser){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM user WHERE idUser = :idUser");
@@ -355,6 +356,7 @@ catch(Exception $e) {
 //     }
 //   }
 
+//Supprime un projet de toutes les participations au projet
 function deleteProjectParticipate($idProject){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM participate WHERE idProject = :idProject");
@@ -369,7 +371,7 @@ function deleteProjectParticipate($idProject){
         echo $e;
     }
 }
-
+//Supprime une catégorie de projet d'un projet
 function deleteProjectCategoryIncludeIn($idProCat){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM isincludein WHERE idProCat = :idProCat");
@@ -384,7 +386,7 @@ function deleteProjectCategoryIncludeIn($idProCat){
         echo $e;
     }
 }
-
+//Supprime une catégorie de projet
 function deleteProjectCategory($idProCat){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM projectCategory WHERE idProCat = :idProCat");
@@ -399,7 +401,7 @@ function deleteProjectCategory($idProCat){
         echo $e;
     }
 }
-
+//Mettre à jour une catégorie de projet
 function updateProjectCategory($idProCat,$title,$longCategoryLabel){
     global $DB_DB;
     $stmt = $DB_DB->prepare("UPDATE projectCategory SET title = :title, longCategoryLabel = :longCategoryLabel 

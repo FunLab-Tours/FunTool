@@ -1,4 +1,5 @@
 <?php
+//Ajouter une formule d'adhésion
     function addMembershipFrame($bonusMembership,$entryDate,$frameName,$framePrice,$frameComment){
         global $DB_DB;
         $stmt = $DB_DB->prepare("INSERT INTO MembershipFrame(bonusMembership, entryDate, frameName, framePrice, frameComment)                                                 
@@ -17,10 +18,10 @@
             echo $e;
         }    
     }
-
+//Liste de toutes les formules d'adhésion
     function listAllMembershipFrame(){
         global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM membershipFrame");
+        $request = $DB_DB->prepare("SELECT * FROM membershipFrame ORDER BY framePrice ASC");
 
         try{
             $request->execute();
@@ -28,7 +29,7 @@
 
         return $request->fetchAll();
     }
-
+//Mettre à jour une formule d'adhésion
     function updateMembershipFrame($idMembershipFrame,$bonusMembership,$entryDate,$frameName,$framePrice, $frameComment){
         global $DB_DB;
         $stmt = $DB_DB->prepare("UPDATE MembershipFrame SET bonusMembership = :bonusMembership, entryDate = :entryDate, 
@@ -50,7 +51,7 @@
         }
 
     }
-
+//Supprimer une formule d'adhésion
     function deleteMembershipFrame($idMembershipFrame){
         global $DB_DB;
         $stmt = $DB_DB->prepare("DELETE FROM MembershipFrame WHERE idMembershipFrame = :idMembershipFrame");
@@ -64,7 +65,7 @@
             echo $e;
         }   
     }
-
+//Séléctionner une formule d'adhésion
     function selectMembershipFrame($idMembershipFrame){
         global $DB_DB;
         $stmt = $DB_DB->prepare("SELECT * FROM MembershipFrame WHERE idMembershipFrame=:idMembershipFrame");
@@ -81,7 +82,7 @@
             return "";
         }
     }
-
+//Ajouter un adhérent
     function addMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,$idMembershipFrame,$idUser){
         global $DB_DB;
         $stmt = $DB_DB->prepare("INSERT INTO membershipTransaction(membershipingDate, endMembershipDate, paymentMethod,
@@ -114,7 +115,7 @@
             return -1;
         }
     }
-
+//Calcule la différence de jour entre deux dates
     function compareTwoDates($date1,$date2){
         if($date2){
             $date1ToCompare = date_create($date1);
@@ -127,7 +128,7 @@
             return -1;
         }
     }
-
+//Mettre à jour l'adhérent
     function updateMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,
                               $idMembershipFrame,$idUser){
         global $DB_DB;
@@ -150,7 +151,7 @@
             echo $e;
         }
     }
-
+//Séléctionne la méthode de paiement d'un utilisateur
     function selectPaymentMethodInMembership($idUser){
         global $DB_DB;
         $stmt = $DB_DB->prepare("SELECT paymentMethod FROM membershipTransaction WHERE idUser=:idUser");
@@ -168,14 +169,14 @@
         }
 
     }
-
+//Liste de tous les adhérents
     function listAllMembership(){
         global $DB_DB;
         $result = $DB_DB->query("SELECT * FROM membershiptransaction");
 
         return $result;
     }
-
+//Séléctionne un adhérent
 function selectMembership($idUser){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM membershiptransaction WHERE idUser=:idUser");
@@ -192,7 +193,7 @@ function selectMembership($idUser){
         return "";
     }
 }
-
+//Supprimer un adhérent
 function deleteMembership($idUser){
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM membershiptransaction WHERE idUser = :idUser");
@@ -206,7 +207,7 @@ function deleteMembership($idUser){
         echo $e;
     }   
 }
-
+//Ajoute le bonus de funnies lors de l'adhésion à l'adhérent
 function addFunnies($idUser,$bonusMembership){
     global $DB_DB;
     $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = nbFunnies + :bonusMembership 
@@ -223,7 +224,7 @@ function addFunnies($idUser,$bonusMembership){
             }  
 
 }
-
+//Recherche un utilisateur
 function searchUser($login){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM user WHERE login=:login LIKE '%" .$login. "%'");

@@ -1,4 +1,5 @@
 <?php
+//Nombre de funnies de l'utilisateur
 function currentUserFunnies($idUser){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser=:idUser");
@@ -15,7 +16,7 @@ function currentUserFunnies($idUser){
         return "";
     }
 }
-
+//Mettre à jour les funnies de l'utilisateur
 function updateUserFunnies($idUser,$newFunniesBalance){
     global $DB_DB;
 

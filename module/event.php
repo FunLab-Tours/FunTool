@@ -1,4 +1,5 @@
 <?php
+// AJouter un évenement
 
 function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent, $statutEvent, $nbPlaces, $pricePlace) {
         global $DB_DB;
@@ -25,6 +26,8 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
         }   
 }
 
+// Supprimmer un évenement
+
 function deleteEvent($idEvent) {
     global $DB_DB;
     $stmt = $DB_DB->prepare("DELETE FROM Events WHERE idEvent = :idEvent");
@@ -38,6 +41,7 @@ function deleteEvent($idEvent) {
         echo $e;
     }
 }
+// Mettre à jour un évenement
 
 function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endDatEvent,$statutEvent,$nbPlaces,$pricePlace) {
     global $DB_DB;
@@ -60,7 +64,7 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
         echo $e;
     }
 }
-
+// Liste des évenements
 function listAllEvent() {
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT * FROM Events");
@@ -71,7 +75,7 @@ function listAllEvent() {
 
     return $request->fetchAll();
 }
-
+// Séléctionner un évenement
 function selectEvent($idEvent){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT * FROM Events WHERE idEvent=:idEvent");
@@ -88,7 +92,7 @@ function selectEvent($idEvent){
         return "";
     }
 }
-
+// Retourne le nom du label selon l'état de l'évenement choisi
 function labelSelectBox($selected){
     global $lang;
 
@@ -99,7 +103,7 @@ function labelSelectBox($selected){
         default: return '';
     }
 }
-
+//Editer le nom du label selon l'état de l'évenement choisi
 function editLabelSelectBox($selected){
     global $lang;
     
@@ -112,7 +116,7 @@ function editLabelSelectBox($selected){
     }
 
 }
-
+//Compte le nombre de place libre restante(s)
 function ticketsLeft($allTickets,$idEvent){
     global $DB_DB;
     global $lang;
@@ -137,7 +141,7 @@ function ticketsLeft($allTickets,$idEvent){
         return $ticketsLeft."/".$allTickets;
     } 
 }
-
+//Vérifis si l'utilisateur est déjà enregistré dans l'évenement
 function alreadyRegistered($idEvent,$idUser){
     global $DB_DB;
     $request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM register WHERE idEvent = :idEvent AND idUser= :idUser");
@@ -157,7 +161,7 @@ function alreadyRegistered($idEvent,$idUser){
         return true;
 
 }
-
+//Détermine l'affichage du bouton d'inscription/désinscription
 function showRegisterButton($ticketsLeft,$idEvent,$alreadyRegistered){
     global $lang;
     if ($alreadyRegistered){
@@ -169,7 +173,7 @@ function showRegisterButton($ticketsLeft,$idEvent,$alreadyRegistered){
     else return $lang["full"];
 }
 
-
+//Montant de funnies de l'utilisateur
 function currentUserFunnies($idUser) {
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser=:idUser");
@@ -186,7 +190,7 @@ function currentUserFunnies($idUser) {
         return "";
     }
 }
-
+//Prix de place
 function ticketPrice($idEvent){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT pricePlace FROM Events WHERE idEvent = :idEvent");
@@ -204,7 +208,7 @@ function ticketPrice($idEvent){
         return "";
     }
 }
-
+//Relier l'utilisateur à l'évènement
 function userRegistrationToEvent($idUser,$idEvent){
     global $DB_DB;
     $stmt = $DB_DB->prepare("INSERT INTO register(idUser, idEvent) VALUES(:idUser, :idEvent)");
@@ -223,7 +227,7 @@ function userRegistrationToEvent($idUser,$idEvent){
         exit;
     }
 }
-
+// Mettre à jour les funnies de l'utilisateur
 function updateUserFunnies($idUser,$userFunniesLeft){
     global $DB_DB;
 
@@ -240,7 +244,7 @@ function updateUserFunnies($idUser,$userFunniesLeft){
         echo $e;
     }
 }
-
+//Désinscription de l'utilisateur à l'évènement
 function userUnregistrationToEvent($idUser,$idEvent){
     global $DB_DB;
 
@@ -259,7 +263,7 @@ function userUnregistrationToEvent($idUser,$idEvent){
     }
 
 }
-
+//Séléctionne tous les utilisateur d'un évènement
 function selectAllUsersInEvent($idEvent){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT idUser FROM register WHERE idEvent=:idEvent");
@@ -276,7 +280,7 @@ function selectAllUsersInEvent($idEvent){
         return "";
     }
 }
-
+//Nom d'un utilisateur dans un évènement
 function nameOfUsersInEvent($idEvent){
     global $DB_DB;
     $stmt = $DB_DB->prepare("SELECT firstName, telephone FROM User u INNER JOIN register r ON u.idUser = r.idUser WHERE idEvent=:idEvent");
