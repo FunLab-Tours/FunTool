@@ -12,6 +12,7 @@
         <td><?=$lang["projectTitle"]?></td>
         <td><?=$lang["projectWiki"]?></td>
         <td><?=$lang["dateProject"]?></td>
+        <td><?=$lang["projectCategory"]?></td>
         <td><?=$lang["pictureProject"]?></td>
     </tr>
 
@@ -23,6 +24,17 @@
                         <td><input type="text" name="title" value ="<?=$row['title']?>" /></td>
                         <td><input type="text" name="wiki" value ="<?=$row['wiki']?>" /></td>
                         <td><input type="date" name="dateProject" value ="<?=date("Y-m-d", strtotime($row['dateProject']))?>"/></td>
+                        <td><select name="idProCat">
+                        <option value = <?=selectProjectInIsIncludeIn($row['idProject'])['idProCat']?> selected><?=selectSpecificProjectCategory(selectProjectInIsIncludeIn($row['idProject'])['idProCat'])['title']?></option>
+<?php
+                            foreach(listAllProjectCategory()as $rowBis){                           
+?>
+                        <option value = <?=$rowBis['idProCat']?>><?=$rowBis['title']?></option>
+<?php
+                            }
+?>
+                        </select>
+                        </td>
                         <td><img src="<?=selectProjectPicture($_GET['idEdit'])?>" alt="<?=$row['title']?>">
                         <br><br>
                         <a href="index.php?page=project&idDeletePicture=<?=$row['idProject']?>" onClick=\"return confirm('Are you sure you want to delete?')"><?=$lang["delete"]?></a></td>

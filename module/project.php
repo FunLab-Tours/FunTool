@@ -96,13 +96,13 @@ function deletePictureLinkToProject($idProject){
 
 function selectAllProjectCategory(){
     global $DB_DB;
-    $request = $DB_DB->prepare("SELECT title FROM projectcategory");
+    $request = $DB_DB->prepare("SELECT * FROM projectcategory");
 
     try{
         $request->execute();
     }catch(Exception $e){}
 
-    return $request->fetch();
+    return $request->fetchAll();
 }
 
 function addPictureProject($picture,$idProject){
@@ -368,5 +368,52 @@ function deleteProjectParticipate($idProject){
     catch(Exception $e) {
         echo $e;
     }
+}
+
+function deleteProjectCategoryIncludeIn($idProCat){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM isincludein WHERE idProCat = :idProCat");
+
+    try {
+        $stmt->execute(array(
+            'idProCat' => $idProCat
+        ));
+    
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function deleteProjectCategory($idProCat){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("DELETE FROM projectCategory WHERE idProCat = :idProCat");
+
+    try {
+        $stmt->execute(array(
+            'idProCat' => $idProCat
+        ));
+    
+    }
+    catch(Exception $e) {
+        echo $e;
+    }
+}
+
+function updateProjectCategory($idProCat,$title,$longCategoryLabel){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("UPDATE projectCategory SET title = :title, longCategoryLabel = :longCategoryLabel 
+                             WHERE idProCat = :idProCat");
+
+    try {
+        $stmt->execute(array(
+            'title' => $title,
+            'longCategoryLabel' => $longCategoryLabel,
+            'idProCat' => $idProCat
+        ));
+    }
+    catch(Exception $e) {
+        echo $e;
+    }   
 }
 ?>
