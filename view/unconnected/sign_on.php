@@ -21,8 +21,8 @@
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
                 "");
-            //connectUser($_POST['login'], $_POST['password']);
-            //header('Location: index.php');
+            connectUser($_POST['login']);
+            header('Location: index.php');
         }
     }
 ?>

@@ -12,7 +12,7 @@ include("static/menu.php");
 
 if(isset($_GET['costUnit']))
     include("costUnit/index.php");
-else if(isset($_GET['stock']))
-    include("costUnit/index.php");
-else
+else if(isset($_GET['material']))
     include("materials/index.php");
+else
+    include("supplies/index.php");

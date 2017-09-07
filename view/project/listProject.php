@@ -13,7 +13,7 @@
         foreach(listAllProject() as $row){
 ?>
             <tr>
-                <td><a href="index.php?page=project&idInfo=<?=$row[idProject]?>"><?=$row['title']?></a></td>
+                <td><a href="index.php?page=project&idInfo=<?=$row['idProject']?>"><?=$row['title']?></a></td>
                 <td><?=$row['wiki']?></td>
                 <td><?=date("d/m/Y", strtotime($row['dateProject']))?></td>
                 <td><?=selectSpecificProjectCategory(selectProjectInIsIncludeIn($row['idProject'])['idProCat'])['title']?></td>
