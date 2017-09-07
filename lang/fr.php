@@ -235,6 +235,12 @@ $lang['dateEntry'] = "Date de création du matériau";
 $lang['priceUnit'] = "Prix par unité";
 $lang['unit'] = "Unité";
 $lang['machineMaterials'] = "Matériaux utilisés par la machine";
+$lang['stock'] = "Gérer les stocks du lab";
+$lang['quantityInStock'] = "Quantité en stock";
+$lang['lastRestock'] = "Dernier restockage";
+$lang['chooseMat'] = "Choisir un matériau";
+$lang['changeStock'] = "Modifier le stock";
+$lang['quantity'] = "Quantité";
 
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";
@@ -251,6 +257,8 @@ $lang["addProjectCategory"] = "Ajouter une catégorie de projet";
 $lang["title"] = "Titre";
 $lang["longCategoryLabel"] = "Description de la catégorie de projet";
 $lang["projectCategory"] = "Catégorie de projet";
+
+$lang["machineUseForm"] = "Formulaire d'utilisation de machine";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";

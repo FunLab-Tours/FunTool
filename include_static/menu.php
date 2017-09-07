@@ -26,6 +26,7 @@
                 (<?=$count?>)
             <?php } ?>
         </a>
+        <a href="?page=machineUseForm"><?=$lang["machineUseForm"]?></a>
         <form action="" method="post">
             <input type="submit" value="<?=$lang["disconnect"]?>" name="disconnect">
         </form>

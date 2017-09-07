@@ -24,9 +24,7 @@ function createMessage($idConversation, $idUser, $textMessage)
     }
 
     $idMessage = $DB_DB->lastInsertId();
-    var_dump("r=trux");
     setUnreadMessage($idMessage, $idConversation);
-    var_dump("mp");
 
     return $idMessage;
 }
