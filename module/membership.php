@@ -207,7 +207,7 @@ function deleteMembership($idUser){
         echo $e;
     }   
 }
-//Ajoute le bonus de funnies lors de l'adhésion à l'adhérent
+//Ajoute le bonus de funnies lors de l'adhésion de l'adhérent
 function addFunnies($idUser,$bonusMembership){
     global $DB_DB;
     $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = nbFunnies + :bonusMembership 
