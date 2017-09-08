@@ -259,6 +259,7 @@ $lang["longCategoryLabel"] = "Description de la catégorie de projet";
 $lang["projectCategory"] = "Catégorie de projet";
 
 $lang["machineUseForm"] = "Formulaire d'utilisation de machine";
+$lang["total"] = "Soit un total de";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";
