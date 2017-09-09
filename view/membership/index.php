@@ -21,7 +21,7 @@ else if(isset($_GET['idFrameDelete'])){
 else if(isset($_POST['submitMembership'])){
     include("membershipInfoCheck.php");
 }
-else if(isset($_POST['membershipPayed'])){
+else if(isset($_GET['bonusMembership'])){
     include("paymentMembershipAccepted.php");
 }
 else if(isset($_GET['listMembership'])){

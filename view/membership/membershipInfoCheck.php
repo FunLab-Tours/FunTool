@@ -34,6 +34,7 @@
     $totalToPay = $donationRadio + $donation + $membershipPrice;
     echo $lang["total"]." ".$totalToPay." €";
 ?>
+
 <!-- <form action="" method="POST">
     <input type="hidden" value="<?=$membershipingDate ?>" name="membershipingDate">
     <input type="hidden" value="<?=$endMembershipDate ?>" name="endMembershipDate">
@@ -103,8 +104,11 @@
                 // Make a call to the REST api to execute the payment
                 return actions.payment.execute().then(function() {
                     window.alert('Payment Complete!');
-                    document.getElementById("paymentAccepted").innerHTML = "Done";
-                    // var paymentChecked = true;
+                    location.replace("index.php?page=membership&idUser=<?=$idUser?>&membershipingDate=<?=$membershipingDate?>&endMembershipDate=<?=$endMembershipDate?>&idMembershipFrame=<?=$idMembershipFrame?>&bonusMembership=<?=$bonusMembership?>");
+                    // document.getElementById("paymentAccepted").innerHTML = 
+                    // var div = document.getElementById("dom-target");
+                    // var myData = div.textContent;
+
 
                 });
             
@@ -112,27 +116,30 @@
 
         }, '#paypal-button-container');
 
-// if(s = 50){
-//         document.getElementById("paymentAccepted").innerHTML = 
-//                         <?php  
-//                                 if(selectMembership($idUser)['endMembershipDate'] !== NULL){
-//                                     updateMembership($membershipingDate,$endMembershipDate,'web','',
-//                                                      $idMembershipFrame ,$idUser);
-//                                     addFunnies($idUser,$bonusMembership);
-                                                     
-                            
-//                                 }
-                            
-//                                 else{
-//                                     addMembership($membershipingDate,$endMembershipDate,'web','',
-//                                                  $idMembershipFrame ,$idUser);
-//                                     addFunnies($idUser,$bonusMembership);
-                                                    
-                                                  
-//                                 }
-//                                 header('Location: index.php?page=membership');
-//                         ?>;
-// }
+
+
+
+
     </script>
 
+<div id="dom-target" style="display: none;">
+    <?php  
+        // if(selectMembership($idUser)['endMembershipDate'] !== NULL){
+        //     updateMembership($membershipingDate,$endMembershipDate,'web','',
+        //                         $idMembershipFrame ,$idUser);
+        //     addFunnies($idUser,$bonusMembership);
+                                
+    
+        // }
+    
+        // else{
+        //     addMembership($membershipingDate,$endMembershipDate,'web','',
+        //                     $idMembershipFrame ,$idUser);
+        //     addFunnies($idUser,$bonusMembership);
+                            
+                            
+        // }
+        // header('Location: index.php?page=membership');
+    ?>;
+</div>
 <div id="paymentAccepted"></div>
