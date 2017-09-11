@@ -18,7 +18,8 @@
 
         <?php
             foreach(listAllLab() as $row) {
-                if($row['idLab'] == $_GET['idEdit']) { ?>
+                if($row['idLab'] == $_GET['idEdit']) { 
+        ?>
                 <tr>
                     <form action="" method="post">
                         <td><input type="text" name="labName" value ="<?=$row['labName']?>" /></td>
@@ -34,7 +35,7 @@
                         <td><?=$row['labName']?></td>
                         <td><?=$row['labDescription']?></td>
                     </tr>
-                <?php
+        <?php
                 }
             }
         ?>
