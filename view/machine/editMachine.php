@@ -37,7 +37,7 @@
                 $_POST['idLab']
             );
             reassignMaterialsToMachine($machine, $_POST['idMaterials']);
-            //header('Location: index.php?page=machine');
+            header('Location: index.php?page=machine');
         }
     }
 

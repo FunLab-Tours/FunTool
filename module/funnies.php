@@ -16,6 +16,7 @@ function currentUserFunnies($idUser){
         return "";
     }
 }
+
 //Mettre à jour les funnies de l'utilisateur
 function updateUserFunnies($idUser,$newFunniesBalance){
     global $DB_DB;
@@ -26,7 +27,6 @@ function updateUserFunnies($idUser,$newFunniesBalance){
         $stmt->execute(array(
             'idUser' => $idUser,
             'nbFunnies' => $newFunniesBalance
-
         ));
     }
     catch(Exception $e) {
