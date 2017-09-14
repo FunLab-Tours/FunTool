@@ -12,7 +12,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }
     }
 // Supprimer un Lab
@@ -27,7 +27,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }
     }
 // Mettre à jour les données d'un lab
@@ -44,7 +44,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }
     }
 
@@ -56,7 +56,10 @@
 
         try{
             $request->execute(array());
-        }catch(Exception $e){}
+        }
+        catch(Exception $e){
+            throw $e;
+        }
 
         return $request->fetchAll();
     }
@@ -77,7 +80,7 @@
                     ));
             }
             catch(Exception $e) {
-                echo $e;
+                throw $e;
             }
 
             if($request->fetch()['nb_entry'] == 0)
@@ -100,8 +103,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
-            exit();
+            throw $e;
         }
         return $request->fetch()[0];
     }

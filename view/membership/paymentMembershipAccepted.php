@@ -19,16 +19,28 @@
 
 <?php
     if(selectMembership($_GET['idUser'])['endMembershipDate'] !== NULL){
+        try{
         updateMembership($_GET['membershipingDate'],$_GET['endMembershipDate'],'web','',
                          $_GET['idMembershipFrame'] ,$_GET['idUser']);
         addFunnies($_GET['idUser'],$_GET['bonusMembership']);
+        }
+        catch(Exception $e)
+        {
+            echo 'Message: ' .$e->getMessage();
+        }  
                          
     }
 
     else{
+        try{
         addMembership($_GET['membershipingDate'],$_GET['endMembershipDate'],'web','',
                       $_GET['idMembershipFrame'] ,$_GET['idUser']);             
         addFunnies($_GET['idUser'],$_GET['bonusMembership']);
+        }
+        catch(Exception $e)
+        {
+            echo 'Message: ' .$e->getMessage();
+        }         
                               
     }
         header('Location: index.php?page=membership');

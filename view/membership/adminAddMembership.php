@@ -5,6 +5,7 @@ $passwordChecked = $randomPassword;
 
     if(isset($_POST['submit'])) {
         if(isValidSignOn()) {
+        try{
             addUser($_POST['login'],
                 $passwordChecked,
                 $_POST['firstName'],
@@ -25,6 +26,12 @@ $passwordChecked = $randomPassword;
                 "");
             //connectUser($_POST['login'], $_POST['password']);
             //header('Location: index.php');
+        }
+        catch(Exception $e)
+        {
+            echo 'Message: ' .$e->getMessage();
+        }
+        echo "OKOK";
         }
         echo $passwordChecked;
     }

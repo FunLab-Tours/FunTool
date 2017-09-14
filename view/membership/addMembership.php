@@ -1,5 +1,7 @@
 <?php
+try{
     $valueDiffDate = compareTwoDates(date('Y-m-d'),date((returnValidDateForMembership($_COOKIE["id"]))));
+
     if ($valueDiffDate<32){
         if($valueDiffDate>0){
 ?>
@@ -52,4 +54,9 @@
 <?php       
         echo $lang["rest"]." ". $valueDiffDate ." ".$lang["daysOfMembership"];
     }
+}
+catch(Exception $e)
+{
+    echo 'Message: ' .$e->getMessage();
+}
 ?>

@@ -1,5 +1,6 @@
 <?php
     if(isset($_POST['submit'])){
+    try{
             addEvent($_POST['shortSumEvent'],
                 $_POST['longSumEvent'],
                 $_POST['startdateEvent'],
@@ -7,6 +8,11 @@
                 $_POST['statutEvent'],
                 $_POST['nbPlaces'],
                 $_POST['pricePlace']);
+    }
+    catch(Exception $e)
+    {
+        die('erreur : '.$e->getMessage());
+    }
             header('Location: index.php?page=event');
         }
 

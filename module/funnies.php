@@ -12,8 +12,7 @@ function currentUserFunnies($idUser){
         return $result['nbFunnies'];
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 //Mettre à jour les funnies de l'utilisateur
@@ -30,7 +29,23 @@ function updateUserFunnies($idUser,$newFunniesBalance){
         ));
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
+    }
+}
+
+function searchUser($login){
+    global $DB_DB;
+    $stmt = $DB_DB->prepare("SELECT * FROM user WHERE login=:login LIKE '%" .$login. "%'");
+
+    try {
+        $stmt->execute(array(
+            'login' => $login,
+        ));
+        $result = $stmt->fetch();
+        return $result;
+    }
+    catch(Exception $e) {
+        throw $e;
     }
 }
 ?>

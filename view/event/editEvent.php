@@ -1,7 +1,13 @@
 <?php
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
-       updateEvent($_GET['idEdit'], $_POST['shortSumEvent'], $_POST['longSumEvent'], $_POST['startdateEvent'], $_POST['endDatEvent'], $_POST['statutEvent'], $_POST['nbPlaces'], $_POST['pricePlace']);
-       header('Location: index.php?page=event');
+    try{
+         updateEvent($_GET['idEdit'], $_POST['shortSumEvent'], $_POST['longSumEvent'], $_POST['startdateEvent'], $_POST['endDatEvent'], $_POST['statutEvent'], $_POST['nbPlaces'], $_POST['pricePlace']);
+    }
+    catch(Exception $e)
+    {
+        die('erreur : '.$e->getMessage());
+    }
+         header('Location: index.php?page=event');
     }
 ?>
 <body>

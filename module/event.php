@@ -21,8 +21,7 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
         }
         
         catch(Exception $e){
-            echo $e;
-            exit;
+            throw $e;
         }   
 }
 
@@ -38,7 +37,7 @@ function deleteEvent($idEvent) {
         ));
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
     }
 }
 // Mettre à jour un évenement
@@ -61,7 +60,7 @@ function updateEvent($idEvent,$shortSumEvent,$longSumEvent,$startdateEvent,$endD
         ));
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
     }
 }
 // Liste des évenements
@@ -71,7 +70,10 @@ function listAllEvent() {
 
     try{
         $request->execute();
-    }catch(Exception $e){}
+    }
+    catch(Exception $e){
+        throw $e;
+    }
 
     return $request->fetchAll();
 }
@@ -88,8 +90,7 @@ function selectEvent($idEvent){
         return $result;
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 // Retourne le nom du label selon l'état de l'évenement choisi
@@ -128,7 +129,7 @@ function ticketsLeft($allTickets,$idEvent){
             ));
         }
         catch(Exception $e) {
-                echo $e;
+            throw $e;
         }
 
     $ticketsSold = $request->fetch()['ticketsSold'];
@@ -153,7 +154,7 @@ function alreadyRegistered($idEvent,$idUser){
         ));
         }
     catch(Exception $e) {
-         echo $e;
+        throw $e;
     }
 
     if($request->fetch()['nb_entry'] == 0)
@@ -186,8 +187,7 @@ function currentUserFunnies($idUser) {
         return $result['nbFunnies'];
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 //Prix de place
@@ -204,8 +204,7 @@ function ticketPrice($idEvent){
         return $result['pricePlace'];
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 //Relier l'utilisateur à l'évènement
@@ -223,8 +222,7 @@ function userRegistrationToEvent($idUser,$idEvent){
         updateUserFunnies($idUser, $userFunniesLeft);
     }
     catch(Exception $e){
-        echo $e;
-        exit;
+        throw $e;
     }
 }
 // Mettre à jour les funnies de l'utilisateur
@@ -241,7 +239,7 @@ function updateUserFunnies($idUser,$userFunniesLeft){
         ));
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
     }
 }
 //Désinscription de l'utilisateur à l'évènement
@@ -259,7 +257,7 @@ function userUnregistrationToEvent($idUser,$idEvent){
         updateUserFunnies($idUser,$userFunniesLeft);
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
     }
 
 }
@@ -276,8 +274,7 @@ function selectAllUsersInEvent($idEvent){
         return $result;
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 //Nom d'un utilisateur dans un évènement
@@ -294,8 +291,7 @@ function nameOfUsersInEvent($idEvent){
         return $result;
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
 

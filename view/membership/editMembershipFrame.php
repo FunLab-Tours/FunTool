@@ -1,9 +1,15 @@
 <?php
     $entryDate = date('Ymd');
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
+    try{
         updateMembershipFrame($_GET['idFrameEdit'], $_POST['bonusMembership'], $entryDate, $_POST['frameName'], $_POST['framePrice'], $_POST['frameComment']);
+    }
+    catch(Exception $e)
+    {
+        echo 'Message: ' .$e->getMessage();
+    }  
         header('Location: index.php?page=membership&listMembershipFrame=0');
-        }
+    }
 ?>
 
 <table width='80%' border=0>

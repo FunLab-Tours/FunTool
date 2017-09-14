@@ -15,7 +15,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }    
     }
 //Liste de toutes les formules d'adhésion
@@ -25,7 +25,10 @@
 
         try{
             $request->execute();
-        }catch(Exception $e){}
+        }
+        catch(Exception $e){
+            throw $e;
+        }
 
         return $request->fetchAll();
     }
@@ -47,7 +50,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }
 
     }
@@ -62,7 +65,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }   
     }
 //Séléctionner une formule d'adhésion
@@ -78,8 +81,7 @@
             return $result;
         }
         catch(Exception $e) {
-            echo $e;
-            return "";
+            throw $e;
         }
     }
 //Ajouter un adhérent
@@ -102,7 +104,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }       
     }
 
@@ -148,7 +150,7 @@
             ));
         }
         catch(Exception $e) {
-            echo $e;
+            throw $e;
         }
     }
 //Séléctionne la méthode de paiement d'un utilisateur
@@ -164,8 +166,7 @@
             return $result;
         }
         catch(Exception $e) {
-            echo $e;
-            return "";
+            throw $e;
         }
 
     }
@@ -189,8 +190,7 @@ function selectMembership($idUser){
         return $result;
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;;
     }
 }
 //Supprimer un adhérent
@@ -204,7 +204,7 @@ function deleteMembership($idUser){
         ));
     }
     catch(Exception $e) {
-        echo $e;
+        throw $e;
     }   
 }
 //Ajoute le bonus de funnies lors de l'adhésion de l'adhérent
@@ -220,7 +220,7 @@ function addFunnies($idUser,$bonusMembership){
             }
 
             catch(Exception $e) {
-                echo $e;
+                throw $e;
             }  
 
 }
@@ -237,8 +237,7 @@ function searchUser($login){
         return $result;
     }
     catch(Exception $e) {
-        echo $e;
-        return "";
+        throw $e;
     }
 }
     

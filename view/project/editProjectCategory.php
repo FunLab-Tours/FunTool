@@ -1,6 +1,12 @@
 <?php
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
+    try{
         updateProjectCategory($_GET['idEditProjectCategory'], $_POST['title'], $_POST['longCategoryLabel']);
+    }
+    catch(Exception $e)
+    {
+        echo 'Message: ' .$e->getMessage();
+    }  
         header('Location: index.php?page=project&listProjectCategory=0');
         }
 ?>

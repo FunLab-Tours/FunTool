@@ -2,11 +2,17 @@
 //$membershipEndingDate = date('Y-m-d', strtotime('+1 year'));
 $entryDate = date('Ymd');
     if(isset($_POST['submit'])){
+    try{
         addMembershipFrame($_POST['bonusMembership'],
             $entryDate,
             $_POST['frameName'],
             $_POST['framePrice'],
             $_POST['frameComment']);
+    }
+    catch(Exception $e)
+    {
+        echo 'Message: ' .$e->getMessage();
+    }
 
             header('Location: index.php?page=membership&listMembershipFrame=0');
     }
