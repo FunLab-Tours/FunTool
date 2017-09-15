@@ -1,7 +1,13 @@
 <?php
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
         if(isValideLab($_POST['labName'])) {
+        try{
             addLab($_POST['labName'], $_POST['labDescription']);
+        }
+        catch(Exception $e)
+        {
+            echo 'Message: ' .$e->getMessage();
+        }
             header('Location: index.php?page=lab');
         }
     }

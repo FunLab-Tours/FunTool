@@ -7,7 +7,7 @@ echo $lang["youHave"]." ".currentUserFunnies($_COOKIE['id'])." Funnies";
 <input type="submit" value="<?=$lang["submit"]?>" name="buyFunnies">
 </form>
 
-<script>
+<!-- <script>
 function showResult(str) {
   if (str.length==0) { 
     document.getElementById("livesearch").innerHTML="";
@@ -34,4 +34,4 @@ function showResult(str) {
 <form>
 <input type="text" size="30" onkeyup="showResult(this.value)">
 <div id="livesearch"></div>
-</form>
+</form> -->

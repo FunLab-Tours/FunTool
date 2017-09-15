@@ -11,7 +11,7 @@
     }
     catch(Exception $e)
     {
-        die('erreur : '.$e->getMessage());
+        echo 'Message: ' .$e->getMessage();
     }
             header('Location: index.php?page=event');
         }
