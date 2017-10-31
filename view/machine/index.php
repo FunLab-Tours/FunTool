@@ -9,8 +9,11 @@
 
 	include("static/machineMenu.php");
 
+	//Maintenance Management
+	if(isset($_GET['maintenance']))
+		include("maintenance/index.php");
 	//Family Management
-	if(isset($_GET['familyManagement'])){
+	else if(isset($_GET['familyManagement'])){
 		include("family/listFamily.php");
 	}
 	else if(isset($_GET['add_family'])){

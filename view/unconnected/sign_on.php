@@ -22,7 +22,7 @@
                 $_POST['inscriptionNews'],
                 "");
             connectUser($_POST['login']);
-            header('Location: index.php');
+            //header('Location: index.php');
         }
     }
 ?>

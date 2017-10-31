@@ -10,7 +10,6 @@
     }
     else {
         include("addLab.php");
-        include("listLab.php");
     }
 
 ?>

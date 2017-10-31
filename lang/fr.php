@@ -283,6 +283,13 @@ $lang['listUnpaid'] = "Lister les déclarations impayées";
 $lang['bill_user'] = "Utilisateur";
 $lang['bill_numberUnpaid'] = "Nombre total impayés";
 
+$lang['machine_maintenance_management'] = "Gestion des maintenances de machine";
+$lang['machine_maintenance'] = "Maintenance par machine";
+$lang['historical'] = "Historique des maintenances";
+$lang['maintenance_name_time'] = "Noms des maintenances et intervalles de temps entre chacune d'elles";
+$lang['remainTime'] = "Temps restant";
+$lang['each'] = "chaque";
+
 $error = [];
 $error[-1] = "Erreur Inconnue";
 

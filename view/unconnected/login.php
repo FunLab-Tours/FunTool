@@ -3,7 +3,7 @@
 
     if(isset($_POST['submit'])) {
         if(isValidUser($_POST['login'], $_POST['password'])) {
-            var_dump("truc");
+            //var_dump("truc");
             connectUser($_POST['login']);
             header('Location: index.php');
         }
