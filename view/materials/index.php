@@ -1,18 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 30/08/2017
- * Time: 12:52
- */
 
-loadModules("materials");
-include("static/menu.php");
+    loadModules("materials");
+    include("static/menu.php");
 
+    if(isset($_GET['costUnit']))
+        include("costUnit/index.php");
+    else if(isset($_GET['material']))
+        include("materials/index.php");
+    else
+        include("supplies/index.php");
 
-if(isset($_GET['costUnit']))
-    include("costUnit/index.php");
-else if(isset($_GET['material']))
-    include("materials/index.php");
-else
-    include("supplies/index.php");
+?>

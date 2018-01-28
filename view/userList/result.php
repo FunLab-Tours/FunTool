@@ -1,21 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 22/08/2017
- * Time: 15:10
- */
 
-if(isset($_GET['user']))
-    $result = searchForUser($_GET['user']);
-else if(isset($_GET['roles']))
-    $result = searchForRoles(mb_split(";", $_GET['roles']));
-else if(isset($_GET['skills']))
-    $result = searchForSkills(mb_split(";", $_GET['skills']));
-else if(isset($_GET['knowledges']))
-    $result = searchForKnowledges(mb_split(";", $_GET['knowledges']));
+    if(isset($_GET['user']))
+        $result = searchForUser($_GET['user']);
+    else if(isset($_GET['roles']))
+        $result = searchForRoles(mb_split(";", $_GET['roles']));
+    else if(isset($_GET['skills']))
+        $result = searchForSkills(mb_split(";", $_GET['skills']));
+    else if(isset($_GET['knowledges']))
+        $result = searchForKnowledges(mb_split(";", $_GET['knowledges']));
 
-if(isset($result)) { ?>
+    if(isset($result)) { ?>
     <table width='80%' border=0>
         <tr bgcolor='#CCCCCC'>
             <td><?=$lang['login']?></td>

@@ -1,14 +1,14 @@
 <?php
-if(isset($_POST['submit'])){
-try{
-        addProjectCategory($_POST['title'],
-            $_POST['longCategoryLabel']);
-}
-catch(Exception $e)
-{
-    echo 'Message: ' .$e->getMessage();
-}
-            header('Location: index.php?page=project&listProjectCategory=0');
+    if(isset($_POST['submit'])) {
+        try {
+            addProjectCategory($_POST['title'], $_POST['longCategoryLabel']);
+        }
+        catch(Exception $e) {
+            echo 'Message: ' .$e->getMessage();
+        }
+
+        header('Location: index.php?page=project&listProjectCategory=0');
+
     }
 
 ?>

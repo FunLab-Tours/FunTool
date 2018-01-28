@@ -1,29 +1,32 @@
 <html>
+
 <?php
+
     if(isset($_POST['submit'])) {
         if(isValidMachineSubmit()) {
             if(!isset($_POST['idSubFamily']))
                 $subFamily = null;
             else
                 $subFamily = $_POST['idSubFamily'];
-            $id = addMachine( $_POST['codeMachine'],
-                        $_POST['shortLabel'],
-                        $_POST['longLabel'],
-                        $_POST['serialNumber'],
-                        $_POST['manufacturer'],
-                        $_POST['comment'],
-                        $_POST['docLink1'],
-                        $_POST['docLink2'],
-                        $_POST['idFamily'],
-                        $subFamily,
-                        $_POST['cost'],
-                        $_POST['costCoeff'],
-                        $_POST['idLab']
-            );
+                $id = addMachine($_POST['codeMachine'],
+                    $_POST['shortLabel'],
+                    $_POST['longLabel'],
+                    $_POST['serialNumber'],
+                    $_POST['manufacturer'],
+                    $_POST['comment'],
+                    $_POST['docLink1'],
+                    $_POST['docLink2'],
+                    $_POST['idFamily'],
+                    $subFamily,
+                    $_POST['cost'],
+                    $_POST['costCoeff'],
+                    $_POST['idLab']);
+
             assignMaterialsToMachine($id, $_POST['idMaterials']);
             header('Location: index.php?page=machine&chooseImage='.$id);
         }
     }
+
 ?>
 
 <form action="" method="post">

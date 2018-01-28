@@ -9,7 +9,7 @@
     </tr>
 
     <?php
-        foreach(listAllLab() as $row){
+        foreach(listAllLab() as $row) {
             echo "<tr>";
             echo "<td>".$row['labName']."</td>";
             echo "<td>".$row['labDescription']."</td>";

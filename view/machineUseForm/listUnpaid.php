@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 14/09/2017
- * Time: 15:46
- */
-?>
-
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang['bill_user']?></td>

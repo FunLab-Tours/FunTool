@@ -1,5 +1,7 @@
 <?php
+
     $user = getUser($_COOKIE['id']);
+
 ?>
 
 <div><?=$lang["login"]?> : <?=$user['login']?></div>

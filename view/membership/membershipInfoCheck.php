@@ -1,18 +1,22 @@
 <?php
-//Vérification si l'utilisateur a encore une adhésion en cours et combien de temps il reste
+    // Check if the user is a member and for how many time.
     $membershipingDate = date('Ymd');
-    if($_POST['valueDiffDate']>0 && $_POST['valueDiffDate']<32){
+
+    if($_POST['valueDiffDate']>0 && $_POST['valueDiffDate']<32) {
         $endMembershipDate = date('ymd', strtotime('+1 year', strtotime(returnValidDateForMembership($_COOKIE["id"]))));
     }
-    else{
+    else {
         $endMembershipDate = date('Ymd', strtotime('+1 year'));
     }
+
     $membershipPrice = selectMembershipFrame($_POST['framePrice'])['framePrice'];
     $frameName = selectMembershipFrame($_POST['framePrice'])['frameName'];
     $idMembershipFrame = selectMembershipFrame($_POST['framePrice'])['idMembershipFrame'];
     $idUser = $_COOKIE["id"];
     $bonusMembership = selectMembershipFrame($_POST['framePrice'])['bonusMembership'];
+
 ?>
+
 <br></br>
 
 <?php

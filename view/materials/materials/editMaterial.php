@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 30/08/2017
- * Time: 11:35
- */
 
-if(isset($_POST['submit']) && $_POST['labelMat'] != "" && $_POST['codeMat'] != "" && isset($_POST['priceMat']) && $_POST['priceMat'] >= 0)
-{
-    if(editMaterial( $_GET['editMaterial'], $_POST['labelMat'], $_POST['codeMat'], $_POST['priceMat'], $_POST['docLink'], $_POST['comment']))
-        ;//header('Location: index.php?page=materials&material=0');
-}
+    if(isset($_POST['submit']) && $_POST['labelMat'] != "" && $_POST['codeMat'] != "" && isset($_POST['priceMat']) && $_POST['priceMat'] >= 0) {
+        if(editMaterial( $_GET['editMaterial'], $_POST['labelMat'], $_POST['codeMat'], $_POST['priceMat'], $_POST['docLink'], $_POST['comment']))
+            ; //header('Location: index.php?page=materials&material=0');
+    }
+
 ?>
 
 <table width='80%' border=0>

@@ -1,13 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 22/08/2017
- * Time: 15:10
- */
-?>
-
-
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang['login']?></td>

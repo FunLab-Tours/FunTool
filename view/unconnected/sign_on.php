@@ -1,4 +1,5 @@
 <?php
+
     loadModules("user");
 
     if(isset($_POST['submit'])) {
@@ -21,10 +22,12 @@
                 $_POST['inscriptionActiveList'],
                 $_POST['inscriptionNews'],
                 "");
+
             connectUser($_POST['login']);
             //header('Location: index.php');
         }
     }
+
 ?>
 
 <form method="POST" action="" enctype="multipart/form-data">

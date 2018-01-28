@@ -1,21 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 21/08/2017
- * Time: 15:43
- */
-if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories'])) {
-    if(!isset($_POST['idSubCategories']))
-        $subcat = array();
-    else $subcat = $_POST['idSubCategories'];
-    addSoftware($_POST['name'],
-        $_POST['description'],
-        $_POST['categories'],
-        $subcat
-    );
-    //header('Location: index.php?page=profile&knowledge=0&softwares=0');
-}
+
+    if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories'])) {
+        if(!isset($_POST['idSubCategories']))
+            $subcat = array();
+        else $subcat = $_POST['idSubCategories'];
+            addSoftware($_POST['name'], $_POST['description'], $_POST['categories'], $subcat);
+
+        //header('Location: index.php?page=profile&knowledge=0&softwares=0');
+    }
+
 ?>
 
 <form method = "POST" action = "">

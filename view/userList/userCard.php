@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 22/08/2017
- * Time: 15:30
- */
 
-$user = getUser($_GET['details']);
-$skills = getSkillsListUser($_GET['details']);
-$knowledges = listKnowledges($_GET['details']);
+    $user = getUser($_GET['details']);
+    $skills = getSkillsListUser($_GET['details']);
+    $knowledges = listKnowledges($_GET['details']);
 
 ?>
 

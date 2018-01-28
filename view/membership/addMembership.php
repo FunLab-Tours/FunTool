@@ -1,18 +1,19 @@
 <?php
-try{
-    $valueDiffDate = compareTwoDates(date('Y-m-d'),date((returnValidDateForMembership($_COOKIE["id"]))));
+    try {
+        $valueDiffDate = compareTwoDates(date('Y-m-d'),date((returnValidDateForMembership($_COOKIE["id"]))));
 
-    if ($valueDiffDate<32){
-        if($valueDiffDate>0){
-?>
-<br></br>
-<?php
+    if ($valueDiffDate<32) {
+        if($valueDiffDate>0) {
+            ?>
+            <br></br>
+            <?php
             echo $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
-?>
-<br></br>
-<?php
+            ?>
+            <br></br>
+            <?php
         }
 ?>
+
 <form action="" method="POST">
     <table>
 

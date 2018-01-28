@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 30/08/2017
- * Time: 14:45
- */
+    if(isset($_POST['submit']) && isset($_POST['priceUnit']) && isset($_POST['unit'])) {
+        assignCostUnit($_GET['edit'], $_POST['priceUnit'], $_POST['unit']);
+        header('Location: index.php?page=materials&costUnit=1');
+    }
 
-if(isset($_POST['submit']) && isset($_POST['priceUnit']) && isset($_POST['unit']))
-{
-    assignCostUnit($_GET['edit'], $_POST['priceUnit'], $_POST['unit']);
-    header('Location: index.php?page=materials&costUnit=1');
-}
 ?>
 
 <table width='80%' border=0>

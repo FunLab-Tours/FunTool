@@ -1,18 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 07/09/2017
- * Time: 11:28
- */
 
-$idLab = listAllLab()[0]['idLab'];
+    $idLab = listAllLab()[0]['idLab'];
 
-if(isset($_POST['submit']) && isset($_POST['material']) && isset($_POST['quantity']))
-{
-    updateMaterialsQuantity($idLab, $_POST['material'], $_POST['quantity']);
-    header('Location: index.php?page=materials');
-}
+    if(isset($_POST['submit']) && isset($_POST['material']) && isset($_POST['quantity'])) {
+        updateMaterialsQuantity($idLab, $_POST['material'], $_POST['quantity']);
+        header('Location: index.php?page=materials');
+    }
 
 ?>
 

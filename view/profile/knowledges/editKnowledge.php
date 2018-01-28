@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 24/08/2017
- * Time: 11:30
- */
 
-if(isset($_POST['submit']) && $_POST['skillLevel'] != 0) {
-    if(editKnowledge($_COOKIE['id'], $_GET['editKnowledge'], $_POST['skillLevel'], $_POST['comment']))
-        header('Location: index.php?page=profile&knowledge=1');
-}
+    if(isset($_POST['submit']) && $_POST['skillLevel'] != 0) {
+        if(editKnowledge($_COOKIE['id'], $_GET['editKnowledge'], $_POST['skillLevel'], $_POST['comment']))
+            header('Location: index.php?page=profile&knowledge=1');
+    }
 
-$software = getSoftWare($_GET['editKnowledge']);
+    $software = getSoftWare($_GET['editKnowledge']);
+
 ?>
 
 <table width='80%' border=0>

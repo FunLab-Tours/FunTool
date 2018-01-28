@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 21/08/2017
- * Time: 15:43
- */
-?>
-
 <div>
     <a href="?page=profile&knowledge=1&addSoftware=1"><?=$lang["addSoftware"]?></a>
 </div>

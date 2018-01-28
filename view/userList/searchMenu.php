@@ -1,32 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 22/08/2017
- * Time: 15:10
- */
 
-if(isset($_POST['submitUser']) && $_POST['user'] != "")
-    header('Location: index.php?page=userList&result&user='.$_POST['user']);
+    if(isset($_POST['submitUser']) && $_POST['user'] != "")
+        header('Location: index.php?page=userList&result&user='.$_POST['user']);
 
-if(isset($_POST['submitRoles']) && isset($_POST['roles'])) {
-    $roles = "";
-    foreach ($_POST['roles'] as $role)
-        $roles = $roles . $role . ";";
-    header('Location: index.php?page=userList&result&roles='.$roles);
-}
-if(isset($_POST['submitSkills']) && isset($_POST['skills'])) {
-    $skills = "";
-    foreach ($_POST['skills'] as $skill)
-        $skills = $skills . $skill . ";";
-    header('Location: index.php?page=userList&result&skills='.$skills);
-}
-if(isset($_POST['submitSoftware']) && isset($_POST['knowledges'])){
-    $knowledges = "";
-    foreach ($_POST['knowledges'] as $knowledge)
-        $knowledges = $knowledges . $knowledge . ";";
-    header('Location: index.php?page=userList&result&knowledges='.$knowledges);
-}
+    if(isset($_POST['submitRoles']) && isset($_POST['roles'])) {
+        $roles = "";
+
+        foreach ($_POST['roles'] as $role)
+            $roles = $roles . $role . ";";
+
+        header('Location: index.php?page=userList&result&roles='.$roles);
+    }
+    if(isset($_POST['submitSkills']) && isset($_POST['skills'])) {
+        $skills = "";
+
+        foreach ($_POST['skills'] as $skill)
+            $skills = $skills . $skill . ";";
+
+        header('Location: index.php?page=userList&result&skills='.$skills);
+    }
+    if(isset($_POST['submitSoftware']) && isset($_POST['knowledges'])){
+        $knowledges = "";
+
+        foreach ($_POST['knowledges'] as $knowledge)
+            $knowledges = $knowledges . $knowledge . ";";
+
+        header('Location: index.php?page=userList&result&knowledges='.$knowledges);
+    }
+
 ?>
 
 <form action="" method="POST">

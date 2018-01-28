@@ -1,16 +1,18 @@
 <?php
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
-    try{
-        updateMembership($_POST['membershipingDate'], $_POST['endMembershipDate'], $_POST['paymentMethod'],
-        $_POST['adminCommentary'], $_POST['idMembershipFrame'], $_GET['idEditMembership']);
-    }
-    catch(Exception $e)
-    {
-        echo 'Message: ' .$e->getMessage();
-    }
-        header('Location: index.php?page=membership&listMembership=0');
+        try {
+            updateMembership($_POST['membershipingDate'], $_POST['endMembershipDate'], $_POST['paymentMethod'],
+            $_POST['adminCommentary'], $_POST['idMembershipFrame'], $_GET['idEditMembership']);
         }
+        catch(Exception $e) {
+            echo 'Message: ' .$e->getMessage();
+        }
+
+        header('Location: index.php?page=membership&listMembership=0');
+    }
+
 ?>
+
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang["login"]?></td>

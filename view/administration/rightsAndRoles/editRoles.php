@@ -1,25 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 16/08/2017
- * Time: 14:25
- */
-if(isset($_POST['submit']) && isset($_POST['roleName'])){
-    if(isset($_POST['rightsList']))
-        editRole( $_GET['editRole'],
+
+    if(isset($_POST['submit']) && isset($_POST['roleName'])) {
+        if(isset($_POST['rightsList']))
+            editRole( $_GET['editRole'],
+                $_POST['roleName'],
+                $_POST['roleDescription'],
+                $_POST['rightsList']);
+        else
+            editRole( $_GET['editRole'],
             $_POST['roleName'],
             $_POST['roleDescription'],
-            $_POST['rightsList']
-        );
-    else
-        editRole( $_GET['editRole'],
-        $_POST['roleName'],
-        $_POST['roleDescription'],
-        null
-    );
-   header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
-}
+            null);
+
+       header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+    }
+
 ?>
 
 <table width='80%' border=0>

@@ -1,19 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 16/08/2017
- * Time: 14:24
- */
 
-if(isset($_POST['submit'])){
-    if(isset($_POST['roleList'])) {
-        assignRolesToUser($_GET['editUser'],
-            $_POST['roleList']
-        );
-        header('Location: index.php?page=administration&rightsAndRoles&listUser=1');
+    if(isset($_POST['submit'])){
+        if(isset($_POST['roleList'])) {
+            assignRolesToUser($_GET['editUser'], $_POST['roleList']);
+            header('Location: index.php?page=administration&rightsAndRoles&listUser=1');
+        }
     }
-}
+
 ?>
 
 <table width='80%' border=0>
@@ -62,5 +55,4 @@ if(isset($_POST['submit'])){
             </tr>
         <?php }
     }?>
-
 </table>

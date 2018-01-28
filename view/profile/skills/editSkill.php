@@ -1,19 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 18/08/2017
- * Time: 10:33
- */
 
-if(isset($_POST['submit']) && $_POST['skillName'] != "" && $_POST['idSkillType'] != "") {
-    if (editSkill($_GET['editSkill'],
-        $_POST['skillName'],
-        $_POST['skillDescription'],
-        $_POST['idSkillType']
-    ))
-        header('Location: index.php?page=profile&skills=1');
-}
+    if(isset($_POST['submit']) && $_POST['skillName'] != "" && $_POST['idSkillType'] != "")
+        if (editSkill($_GET['editSkill'], $_POST['skillName'], $_POST['skillDescription'], $_POST['idSkillType']))
+            header('Location: index.php?page=profile&skills=1');
+
 ?>
 
 <table width='80%' border=0>

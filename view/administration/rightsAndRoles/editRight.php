@@ -1,18 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 16/08/2017
- * Time: 14:25
- */
-if(isset($_POST['submit']) && $_POST['rightsTitle'] != "" && $_POST['rightsPath'] != "") {
-    if(editRight( $_GET['editRight'],
-        $_POST['rightsTitle'],
-        $_POST['rightsDescription'],
-        $_POST['rightsPath']
-    ))
+
+    if(isset($_POST['submit']) && $_POST['rightsTitle'] != "" && $_POST['rightsPath'] != "") {
+        if(editRight( $_GET['editRight'],
+            $_POST['rightsTitle'],
+            $_POST['rightsDescription'],
+            $_POST['rightsPath']
+        ))
+
         header('Location: index.php?page=administration&rightsAndRoles&listRights=1');
-}
+    }
+
 ?>
 
 <table width='80%' border=0>

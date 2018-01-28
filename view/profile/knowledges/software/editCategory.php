@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 21/08/2017
- * Time: 11:45
- */
 
-if(isset($_POST['submit']) && $_POST['code'] != "" && $_POST['label'] != "") {
-    editCategory($_GET['editCategory'],
-        $_POST['code'],
-        $_POST['label']
-    );
-   header('Location: index.php?page=profile&knowledge=0&categories=0');
-}
+    if(isset($_POST['submit']) && $_POST['code'] != "" && $_POST['label'] != "") {
+        editCategory($_GET['editCategory'], $_POST['code'], $_POST['label']);
+        header('Location: index.php?page=profile&knowledge=0&categories=0');
+    }
+
 ?>
 
 <table width='80%' border=0>

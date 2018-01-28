@@ -4,13 +4,13 @@
 
     include("static/menu.php");
 
-    /*Skills Management*/
+    // Skills management.
     if(isset($_GET['skills']))
         include("skills/index.php");
-    /*Knowledge Management*/
+    // Knowledge management.
     else if(isset($_GET['knowledge']))
         include("knowledges/index.php");
-    /*User*/
+    // User.
     else if (isset($_GET['editUser']))
         include("descriptionEdit.php");
     else if (isset($_GET['editPass']))

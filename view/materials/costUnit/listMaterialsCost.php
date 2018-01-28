@@ -1,12 +1,3 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 30/08/2017
- * Time: 14:45
- */
-?>
-
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang['labelMat']?></td>

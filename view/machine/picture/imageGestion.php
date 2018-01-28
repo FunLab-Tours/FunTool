@@ -1,26 +1,13 @@
-
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 04/08/2017
- * Time: 11:52
- */
     if(isset($_POST['submit_choose'])) {
-        assignPicture( $_GET['chooseImage'],
-            $_POST['idImage']
-        );
+        assignPicture( $_GET['chooseImage'], $_POST['idImage']);
         header('Location: index.php?page=machine');
     }
-    else if(isset($_POST['submit_create'])
-        && $_POST['url'] != null
-        && $_POST['description'] != null) {
-        addPictureAndAssign($_GET['chooseImage'],
-            $_POST['url'],
-            $_POST['description']
-        );
+    else if(isset($_POST['submit_create']) && $_POST['url'] != null && $_POST['description'] != null) {
+        addPictureAndAssign($_GET['chooseImage'], $_POST['url'], $_POST['description']);
         header('Location: index.php?page=machine');
     }
+
 ?>
 
 <body>

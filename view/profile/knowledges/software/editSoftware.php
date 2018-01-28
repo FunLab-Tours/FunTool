@@ -1,21 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 21/08/2017
- * Time: 15:43
- */
 
-if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories']) && isset($_POST['idSubCategories'])) {
-    editSoftware($_GET['editSoftware'],
-        $_POST['name'],
-        $_POST['description'],
-        $_POST['categories'],
-        $_POST['idSubCategories']
-    );
-    header('Location: index.php?page=profile&knowledge=0&softwares=0');
-}
-$softEdit = getSoftWare($_GET['editSoftware']);
+    if(isset($_POST['submit']) && $_POST['name'] != "" && $_POST['description'] != "" && isset($_POST['categories']) && isset($_POST['idSubCategories'])) {
+        editSoftware($_GET['editSoftware'], $_POST['name'], $_POST['description'], $_POST['categories'], $_POST['idSubCategories']);
+        header('Location: index.php?page=profile&knowledge=0&softwares=0');
+    }
+
+    $softEdit = getSoftWare($_GET['editSoftware']);
+
 ?>
 
 <form method = "POST" action = "">

@@ -1,13 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 30/08/2017
- * Time: 11:34
- */
 
-if(isset($_GET['editMaterial']))
-    include("editMaterial.php");
-else if(isset($_GET['deleteMaterial']))
-    include("deleteMaterial.php");
-else include("listMaterials.php");
+    if(isset($_GET['editMaterial']))
+        include("editMaterial.php");
+    else if(isset($_GET['deleteMaterial']))
+        include("deleteMaterial.php");
+    else include("listMaterials.php");
+
+?>

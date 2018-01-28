@@ -1,22 +1,21 @@
 <?php
-// linkToProjectCategory(1,1);
-// echo lastInsertProjectId();
+    // linkToProjectCategory(1,1);
+    // echo lastInsertProjectId();
 
-    if(isset($_POST['submit'])){
-    try{
+    if(isset($_POST['submit'])) {
+        try{
             addProject($_POST['projectTitle'], $_POST['projectWiki'], $_POST['dateProject']);
             linkToProjectCategory($_POST['projectCategory'],lastInsertProjectId());
             addParticipantToProject($_COOKIE["id"],lastInsertProjectId());
-                if ($_POST['pictureUrl']!==""){
-                    addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
-                    
-                }
+
+            if ($_POST['pictureUrl']!=="")
+                addPictureProject($_POST['pictureUrl'],lastInsertProjectId());
+
             header('Location: index.php?page=project');
-    }
-    catch(Exception $e)
-    {
-        echo 'Message: ' .$e->getMessage();
-    }        
+        }
+        catch(Exception $e) {
+            echo 'Message: ' .$e->getMessage();
+        }
     }
 
 ?>

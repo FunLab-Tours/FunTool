@@ -1,11 +1,9 @@
 <?php
-if(isset($_POST['submit'])) {
-    if(addSubFamily($_POST['codeSubFamily'],
-        $_POST['labelSubFamily'],
-        $_GET['add_subFamily']
-    ))
-        header('Location: index.php?page=machine&familyManagement=0');
-}
+
+    if(isset($_POST['submit']))
+        if(addSubFamily($_POST['codeSubFamily'], $_POST['labelSubFamily'], $_GET['add_subFamily']))
+            header('Location: index.php?page=machine&familyManagement=0');
+
 ?>
 
 <body>

@@ -1,25 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 28/08/2017
- * Time: 11:56
- */
 
-if(isset($_POST['change']) && $_POST['name'] != "") {
-    changeConversationName($_GET['conversationOptions'], $_POST['name']);
-    header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
-}
+    if(isset($_POST['change']) && $_POST['name'] != "") {
+        changeConversationName($_GET['conversationOptions'], $_POST['name']);
+        header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
+    }
 
-if(isset($_POST['add'])) {
-    addUsersToConversation($_GET['conversationOptions'], $_POST['recipient']);
-    header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
-}
+    if(isset($_POST['add'])) {
+        addUsersToConversation($_GET['conversationOptions'], $_POST['recipient']);
+        header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
+    }
 
-if(isset($_POST['delete'])) {
-    removeUsersFromConversation($_GET['conversationOptions'], $_POST['checkRecipient']);
-    header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
-}
+    if(isset($_POST['delete'])) {
+        removeUsersFromConversation($_GET['conversationOptions'], $_POST['checkRecipient']);
+        header('Location: index.php?page=mailBox&conversationOptions='.$_GET['conversationOptions']);
+    }
+
 ?>
 
 <a href="index.php?page=mailBox&conversation=<?=$_GET['conversationOptions']?>"><?=$lang['backToConversation']?></a>

@@ -3,9 +3,10 @@
     include("../include/lang.php");
     include("../include/module.php");
     include("../include/db.php");
+
     loadModules("machine/machineSubFamily");
 
-    if(isset($_GET['q']) && $_GET["q"]){
+    if(isset($_GET['q']) && $_GET["q"]) {
 
         $idFamily = intval($_GET['q']);
         $result = getSubFamilyList($idFamily);
@@ -15,7 +16,9 @@
             echo "<option value=\"" . $row['idSubFamily'] . "\">". $row['labelSubFamily'] . "</option>";
         }
         echo "</select>";
-    }else{
+    }
+    else {
         echo "Can't get parameters !";
     }
+
 ?>

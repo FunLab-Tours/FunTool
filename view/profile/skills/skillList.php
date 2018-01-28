@@ -1,26 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 18/08/2017
- * Time: 10:33
- */
 
-if(isset($_POST['submitSkill']) && $_POST['skillName'] != "" && $_POST['idSkillType'] != "") {
-    if (addSkill($_POST['skillName'],
-        $_POST['skillDescription'],
-        $_POST['idSkillType']
-    ))
+    if(isset($_POST['submitSkill']) && $_POST['skillName'] != "" && $_POST['idSkillType'] != "") {
+        if (addSkill($_POST['skillName'], $_POST['skillDescription'], $_POST['idSkillType']))
         header('Location: index.php?page=profile&skills=1');
-}
-if(isset($_POST['submitSkillType']) && $_POST['skillTypeName'] != "")
-    if (addSkillType($_POST['skillTypeName']))
-        header('Location: index.php?page=profile&skills=1');
+    }
+    if(isset($_POST['submitSkillType']) && $_POST['skillTypeName'] != "")
+        if (addSkillType($_POST['skillTypeName']))
+            header('Location: index.php?page=profile&skills=1');
+
 ?>
 
-<!-- ################################# -->
-<!-- ########## SKILL TABLE ########## -->
-<!-- ################################# -->
+<!-- Skill table. -->
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang["skillName"]?></td>
@@ -55,11 +45,7 @@ if(isset($_POST['submitSkillType']) && $_POST['skillTypeName'] != "")
     </tr>
 </table>
 
-
-
-<!-- ##################################### -->
-<!-- ########## SKILLTYPE TABLE ########## -->
-<!-- ##################################### -->
+<!-- Skill type table. -->
 <table width='80%' border=0>
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang["skillTypeName"]?></td>

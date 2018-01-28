@@ -1,14 +1,16 @@
 <?php
+
     if(isset($_POST['submit']) && !empty($_POST['submit'])) {
-    try{
-       updateProject($_GET['idEdit'], $_POST['title'], $_POST['wiki'], $_POST['dateProject']);
+        try {
+           updateProject($_GET['idEdit'], $_POST['title'], $_POST['wiki'], $_POST['dateProject']);
+        }
+        catch(Exception $e) {
+            echo 'Message: ' .$e->getMessage();
+        }
+
+        header('Location: index.php?page=project');
     }
-    catch(Exception $e)
-    {
-        echo 'Message: ' .$e->getMessage();
-    }
-       header('Location: index.php?page=project');
-    }
+
 ?>
 
 <body>

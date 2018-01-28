@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 18/08/2017
- * Time: 15:49
- */
 
-if(isset($_POST['submit']) && $_POST['skillLevel'] > 0) {
-    editAssignment($_COOKIE['id'], $_GET['editAssignment'], $_POST['skillLevel'], $_POST['comment']);
-    header('Location: index.php?page=profile&usersSkills=1');
-}
+    if(isset($_POST['submit']) && $_POST['skillLevel'] > 0) {
+        editAssignment($_COOKIE['id'], $_GET['editAssignment'], $_POST['skillLevel'], $_POST['comment']);
+        header('Location: index.php?page=profile&usersSkills=1');
+    }
+
 ?>
 
 <table width='80%' border=0>

@@ -1,24 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thiba
- * Date: 16/08/2017
- * Time: 14:25
- */
-if(isset($_POST['submit'])) {
-    if(isset($_POST['rightsList']))
-        if(addRole( $_POST['roleName'],
-            $_POST['roleDescription'],
-            $_POST['rightsList']
-        ))
-            header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
-    else if(addRole( $_POST['roleName'],
-        $_POST['roleDescription'],
-        null
-         ))
-            header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
 
-}
+    if(isset($_POST['submit'])) {
+        if(isset($_POST['rightsList']))
+            if(addRole( $_POST['roleName'],
+                $_POST['roleDescription'],
+                $_POST['rightsList']))
+                header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+        else if(addRole( $_POST['roleName'],
+            $_POST['roleDescription'],
+            null))
+                header('Location: index.php?page=administration&rightsAndRoles&listRoles=1');
+
+    }
+
 ?>
 
 <table width='80%' border=0>

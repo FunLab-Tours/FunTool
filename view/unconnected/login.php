@@ -1,4 +1,5 @@
 <?php
+
     loadModules("user");
 
     if(isset($_POST['submit'])) {
@@ -8,6 +9,7 @@
             header('Location: index.php');
         }
     }
+
 ?>
 
 <form method="POST" action="">
