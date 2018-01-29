@@ -128,6 +128,7 @@
 
         return true;
     }
+
     function getCostUnit($idCost)
     {
         global $DB_DB;
@@ -339,4 +340,5 @@
         }
         assignPicture($idMachine, $DB_DB->lastInsertId());
     }
+
 ?>

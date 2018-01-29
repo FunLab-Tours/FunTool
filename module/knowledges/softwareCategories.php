@@ -1,15 +1,6 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: thiba
-     * Date: 21/08/2017
-     * Time: 11:06
-     */
 
-    /*###################################*/
-    /*########## SUBCATEGORIES ##########*/
-    /*###################################*/
-
+    // Subcategories.
     function testInformationSubCategory($id, $code, $label)
     {
         global $DB_DB;
@@ -265,3 +256,5 @@
             ));
         }catch(Exception $e){}
     }
+
+?>

@@ -1,5 +1,4 @@
 <?php
-// Ajouter un Lab
 
     function addLab($labName, $labDescription) {
         global $DB_DB;
@@ -15,7 +14,6 @@
             throw $e;
         }
     }
-// Supprimer un Lab
 
     function deleteLab($idLab) {
         global $DB_DB;
@@ -30,7 +28,6 @@
             throw $e;
         }
     }
-// Mettre à jour les données d'un lab
 
     function updateLab($idLab, $labName, $labDescription) {
         global $DB_DB;
@@ -48,7 +45,6 @@
         }
     }
 
-// Liste de tous les Labs
     function listAllLab() {
         global $DB_DB;
 
@@ -63,8 +59,6 @@
 
         return $request->fetchAll();
     }
-
-// Vérification que le Lab n'existe pas
 
     function isValideLab($labName) {
         if($labName == "") {
@@ -89,8 +83,6 @@
         }
 
     }
-
-// Selectionne le nom du lab
 
     function getLabName($idLab)
     {

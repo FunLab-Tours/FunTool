@@ -1,5 +1,5 @@
 <?php
-//Ajouter une formule d'adhésion
+
     function addMembershipFrame($bonusMembership,$entryDate,$frameName,$framePrice,$frameComment){
         global $DB_DB;
         $stmt = $DB_DB->prepare("INSERT INTO MembershipFrame(bonusMembership, entryDate, frameName, framePrice, frameComment)                                                 
@@ -18,7 +18,7 @@
             throw $e;
         }    
     }
-//Liste de toutes les formules d'adhésion
+
     function listAllMembershipFrame(){
         global $DB_DB;
         $request = $DB_DB->prepare("SELECT * FROM membershipFrame ORDER BY framePrice ASC");
@@ -32,7 +32,7 @@
 
         return $request->fetchAll();
     }
-//Mettre à jour une formule d'adhésion
+
     function updateMembershipFrame($idMembershipFrame,$bonusMembership,$entryDate,$frameName,$framePrice, $frameComment){
         global $DB_DB;
         $stmt = $DB_DB->prepare("UPDATE MembershipFrame SET bonusMembership = :bonusMembership, entryDate = :entryDate, 
@@ -54,7 +54,7 @@
         }
 
     }
-//Supprimer une formule d'adhésion
+
     function deleteMembershipFrame($idMembershipFrame){
         global $DB_DB;
         $stmt = $DB_DB->prepare("DELETE FROM MembershipFrame WHERE idMembershipFrame = :idMembershipFrame");
@@ -68,7 +68,7 @@
             throw $e;
         }   
     }
-//Séléctionner une formule d'adhésion
+
     function selectMembershipFrame($idMembershipFrame){
         global $DB_DB;
         $stmt = $DB_DB->prepare("SELECT * FROM MembershipFrame WHERE idMembershipFrame=:idMembershipFrame");
@@ -84,14 +84,13 @@
             throw $e;
         }
     }
-//Ajouter un adhérent
+
     function addMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,$idMembershipFrame,$idUser){
         global $DB_DB;
         $stmt = $DB_DB->prepare("INSERT INTO membershipTransaction(membershipingDate, endMembershipDate, paymentMethod,
                                              adminCommentary, idMembershipFrame, idUser)                                                 
                                 VALUES (:membershipingDate, :endMembershipDate, :paymentMethod, 
                                         :adminCommentary, :idMembershipFrame, :idUser)");
-                                        
 
         try {
             $stmt->execute(array(
@@ -108,7 +107,6 @@
         }       
     }
 
-// Renvoie la date de fin d'adhésion si User dans la base sinon renvoi une péremption de 1 jour
     function returnValidDateForMembership($idUser){
         if(isset(selectMembership($idUser)['endMembershipDate'])){
             return selectMembership($idUser)['endMembershipDate'];
@@ -117,7 +115,7 @@
             return -1;
         }
     }
-//Calcule la différence de jour entre deux dates
+
     function compareTwoDates($date1,$date2){
         if($date2){
             $date1ToCompare = date_create($date1);
@@ -130,7 +128,7 @@
             return -1;
         }
     }
-//Mettre à jour l'adhérent
+
     function updateMembership($membershipingDate,$endMembershipDate,$paymentMethod,$adminCommentary,
                               $idMembershipFrame,$idUser){
         global $DB_DB;
@@ -153,7 +151,7 @@
             throw $e;
         }
     }
-//Séléctionne la méthode de paiement d'un utilisateur
+
     function selectPaymentMethodInMembership($idUser){
         global $DB_DB;
         $stmt = $DB_DB->prepare("SELECT paymentMethod FROM membershipTransaction WHERE idUser=:idUser");
@@ -170,75 +168,75 @@
         }
 
     }
-//Liste de tous les adhérents
+
     function listAllMembership(){
         global $DB_DB;
         $result = $DB_DB->query("SELECT * FROM membershiptransaction");
 
         return $result;
     }
-//Séléctionne un adhérent
-function selectMembership($idUser){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT * FROM membershiptransaction WHERE idUser=:idUser");
 
-    try {
-        $stmt->execute(array(
-            'idUser' => $idUser,
-        ));
-        $result = $stmt->fetch();
-        return $result;
-    }
-    catch(Exception $e) {
-        throw $e;;
-    }
-}
-//Supprimer un adhérent
-function deleteMembership($idUser){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("DELETE FROM membershiptransaction WHERE idUser = :idUser");
+    function selectMembership($idUser){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("SELECT * FROM membershiptransaction WHERE idUser=:idUser");
 
-    try {
-        $stmt->execute(array(
-            'idUser' => $idUser
-        ));
+        try {
+            $stmt->execute(array(
+                'idUser' => $idUser,
+            ));
+            $result = $stmt->fetch();
+            return $result;
+        }
+        catch(Exception $e) {
+            throw $e;;
+        }
     }
-    catch(Exception $e) {
-        throw $e;
-    }   
-}
-//Ajoute le bonus de funnies lors de l'adhésion de l'adhérent
-function addFunnies($idUser,$bonusMembership){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = nbFunnies + :bonusMembership 
-                             WHERE idUser = :idUser");
-            try {
-                $stmt->execute(array(
-                    'bonusMembership' => $bonusMembership,
-                    'idUser' => $idUser
-                ));
-            }
 
-            catch(Exception $e) {
-                throw $e;
-            }  
+    function deleteMembership($idUser){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("DELETE FROM membershiptransaction WHERE idUser = :idUser");
 
-}
-//Recherche un utilisateur
-function searchUser($login){
-    global $DB_DB;
-    $stmt = $DB_DB->prepare("SELECT * FROM user WHERE login=:login LIKE '%" .$login. "%'");
-
-    try {
-        $stmt->execute(array(
-            'login' => $login,
-        ));
-        $result = $stmt->fetch();
-        return $result;
+        try {
+            $stmt->execute(array(
+                'idUser' => $idUser
+            ));
+        }
+        catch(Exception $e) {
+            throw $e;
+        }
     }
-    catch(Exception $e) {
-        throw $e;
+
+    function addFunnies($idUser,$bonusMembership){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("UPDATE user SET nbFunnies = nbFunnies + :bonusMembership 
+                                 WHERE idUser = :idUser");
+                try {
+                    $stmt->execute(array(
+                        'bonusMembership' => $bonusMembership,
+                        'idUser' => $idUser
+                    ));
+                }
+
+                catch(Exception $e) {
+                    throw $e;
+                }
+
     }
-}
-    
+
+    function searchUser($login){
+        global $DB_DB;
+        $stmt = $DB_DB->prepare("SELECT * FROM user WHERE login=:login LIKE '%" .$login. "%'");
+
+        try {
+            $stmt->execute(array(
+                'login' => $login,
+            ));
+            $result = $stmt->fetch();
+            return $result;
+        }
+        catch(Exception $e) {
+            throw $e;
+        }
+    }
+
 ?>

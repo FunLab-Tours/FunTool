@@ -1,4 +1,5 @@
 <?php
+
     // TODO : use parameters.
 
     function addCorporation($corporateName, $logo, $telephone, $adressL1, $adressL2,$adressL3,$zipCode, $town, $country, $email, $nbFunnies) {
