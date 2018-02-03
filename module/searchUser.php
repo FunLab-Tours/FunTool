@@ -1,6 +1,10 @@
 <?php
 
-// TODO : documentation and correct it ?
+/**
+ * Find users who their name or login contain the given argument.
+ * @param $pattern : the name to search.
+ * @return mixed : the map list of all users found.
+ */
 function searchForUser($pattern) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM User WHERE (firstName LIKE :pattern OR name LIKE :pattern OR login LIKE :pattern) AND idUser <> :id");
@@ -18,7 +22,11 @@ function searchForUser($pattern) {
 	return $request->fetchAll();
 }
 
-// TODO : documentation and correct it ?
+/**
+ * Find all user with given roles.
+ * @param $roles : an array of roles.
+ * @return mixed : the map list of all users found.
+ */
 function searchForRoles($roles) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (SELECT idUser FROM userRole WHERE idRole = :role) ORDER BY login");
@@ -42,7 +50,11 @@ function searchForRoles($roles) {
 	return $result[0];
 }
 
-// TODO : documentation and correct it ?
+/**
+ * Find all user with given skills.
+ * @param $skills : an array of skills.
+ * @return mixed : the map list of all users found.
+ */
 function searchForSkills($skills) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (SELECT idUser FROM has WHERE idSkill = :skill ORDER BY skillLevel)");
@@ -66,7 +78,11 @@ function searchForSkills($skills) {
 	return $result[0];
 }
 
-// TODO : documentation and correct it ?
+/**
+ * Find all user with given knowledge.
+ * @param $knowledge : an array of knowledge.
+ * @return mixed : the map list of all users found.
+ */
 function searchForKnowledge($knowledge) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM User WHERE idUser IN (SELECT idUser FROM know WHERE idsoftware = :current_knowledge ORDER BY knowledgeLevel)");
