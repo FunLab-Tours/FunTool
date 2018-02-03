@@ -29,7 +29,7 @@
 ?>
 <div><?=$lang["nbFunnies"]?> : <?=$user['nbFunnies']?></div>
 <div><?=$lang["telephone"]?> : <?=$user['telephone']?></div>
-<div><?=$lang["adress"]?> : <?=$user['adressL1']." ".$user['adressL2']." ".$user['adressL3']?></div>
+<div><?=$lang["address"]?> : <?=$user['addressL1']." ".$user['addressL2']." ".$user['addressL3']?></div>
 <div><?=$lang["zipCode"]?> : <?=$user['zipCode']?></div>
 <div><?=$lang["town"]?> : <?=$user['town']?></div>
 <div><?=$lang["country"]?> : <?=$user['country']?></div>

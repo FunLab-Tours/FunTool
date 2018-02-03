@@ -4,9 +4,9 @@
             $_POST['firstName'],
             $_POST['name'],
             $_POST['telephone'],
-            $_POST['adressL1'],
-            $_POST['adressL2'],
-            $_POST['adressL3'],
+            $_POST['addressL1'],
+            $_POST['addressL2'],
+            $_POST['addressL3'],
             $_POST['zipCode'],
             $_POST['town'],
             $_POST['country'],
@@ -45,9 +45,9 @@
     ?>
     <div><?=$lang["nbFunnies"]?> : <?=$user['nbFunnies']?></div>
     <div><?=$lang["telephone"]?> : <input type="tel" name="telephone" value="<?=$user['telephone']?>"/></div>
-    <div><?=$lang["adress"]?> :  <input type="text" name="adressL1" value="<?=$user['adressL1']?>"/>
-                                <input type="text" name="adressL2" value="<?=$user['adressL2']?>"/>
-                                <input type="text" name="adressL3" value="<?=$user['adressL3']?>"/>
+    <div><?=$lang["address"]?> :  <input type="text" name="addressL1" value="<?=$user['addressL1']?>"/>
+                                <input type="text" name="addressL2" value="<?=$user['addressL2']?>"/>
+                                <input type="text" name="addressL3" value="<?=$user['addressL3']?>"/>
     </div>
     <div><?=$lang["zipCode"]?> : <input type="number" name="zipCode" value="<?=$user['zipCode']?>"/></div>
     <div><?=$lang["town"]?> : <input type="text" name="town" value="<?=$user['town']?>"/></div>

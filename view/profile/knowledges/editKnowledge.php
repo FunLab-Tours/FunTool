@@ -16,7 +16,7 @@
         <td><?=$lang["skillLevel"]?></td>
         <td><?=$lang["comment"]?></td>
     </tr>
-    <?php foreach(listKnowledges($_COOKIE['id']) as $knowledge) {
+    <?php foreach(listKnowledge($_COOKIE['id']) as $knowledge) {
         $software = getSoftWare($knowledge['idSoftware']); ?>
         <tr>
             <td><?= $software['softwareName'] ?></td>

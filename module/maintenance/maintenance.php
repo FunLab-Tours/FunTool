@@ -1,163 +1,204 @@
 <?php
 
-    function createMaintenance($name, $timeBetweenMaintenances, $idMachine)
-    {
-        global $DB_DB;
+/**
+ * Create a new regularity between maintenance.
+ * @param $name : name of the maintenance.
+ * @param $timeBetweenMaintenance : time that we can wait between two maintenance.
+ * @param $idMachine : ID of the machine to maintain.
+ * @return int|mixed : error code if an error occurred or ID of the maintenance if everything passed well.
+ */
+function createMaintenance($name, $timeBetweenMaintenance, $idMachine) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("INSERT INTO Maintenance(nameMaintenance, timeBetweenMaintenances, idMachine) VALUES(:name, :timeBetweenMaintenance, :idMachine)");
 
-        $request = $DB_DB->prepare("INSERT INTO Maintenance (nameMaintenance, timeBetweenMaintenances, idMachine) VALUES (:name, :timeBetweenMaintenances, :idMachine)");
+	try {
+		$request->execute(array(
+			'name' => $name,
+			'timeBetweenMaintenance' => $timeBetweenMaintenance,
+			'idMachine' => $idMachine
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
 
-        try{
-            $request->execute(array(
-               'name' => $name,
-               'timeBetweenMaintenances' => $timeBetweenMaintenances,
-               'idMachine' => $idMachine
-            ));
-        }catch (Exception $e){
-            throw $e;
-        }
+	return $DB_DB->lastInsertedId();
+}
 
-        return $DB_DB->lastInsertedId();
-    }
+/**
+ * Edit a maintenance.
+ * @param $idMaintenance : ID of the maintenance to edit.
+ * @param $name : new name of the maintenance.
+ * @param $timeBetweenMaintenance : new time that we can wait between two maintenance.
+ * @return int|mixed|string
+ */
+function editMaintenance($idMaintenance, $name, $timeBetweenMaintenance) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("UPDATE Maintenance SET nameMaintenance = :nameMaintenance, timeBetweenMaintenances = :timeBetweenMaintenance WHERE idMaintenance = :idMaintenance");
 
-    function editMaintenance($idMaintenance, $name, $timeBetweenMaintenances)
-    {
-        global $DB_DB;
+	try {
+		$request->execute(array(
+			'name' => $name,
+			'timeBetweenMaintenance' => $timeBetweenMaintenance,
+			'idMaintenance' => $idMaintenance
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
 
-        $request = $DB_DB->prepare("UPDATE Maintenance SET nameMaintenance = :nameMaintenance, timeBetweenMaintenances = :timeBetweenMaintenance WHERE idMaintenance = :idMaintenance");
+	return "";
+}
 
-        try{
-            $request->execute(array(
-                'name' => $name,
-                'timeBetweenMaintenances' => $timeBetweenMaintenances,
-                'idMaintenance' => $idMaintenance
-            ));
-        }catch (Exception $e){
-            throw $e;
-        }
-    }
+/**
+ * Delete a maintenance.
+ * @param $idMaintenance : ID of maintenance to delete.
+ * @return int|mixed : error code if an error occurred, nothing else.
+ */
+function deleteMaintenance($idMaintenance) {
+	global $DB_DB;
+	$request = $DB_DB->prepapre("DELETE FROM Maintenance WHERE idMaintenant = :idMaintenance");
 
-    function deleteMaintenance($idMaintenance)
-    {
-        global $DB_DB;
+	try {
+		$request->execute(array(
+			'idMaintenance' => $idMaintenance
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
+}
 
-        $request = $DB_DB->prepapre("DELETE FROM Maintenance WHERE idMaintenant = :idMaintenance");
+/**
+ * Get information about a maintenance.
+ * @param $idMaintenance : ID of maintenance to get.
+ * @return int|mixed : All attributes of the maintenance or error code if an error occurred.
+ */
+function getMaintenance($idMaintenance) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Maintenance WHERE idMaintenance = :idMaintenance");
 
-        try{
-            $request->execute(array(
-                'idMaintenance' => $idMaintenance
-            ));
-        }catch(Exception $e){
-            throw  $e;
-        }
-    }
+	try {
+		$request->execute(array(
+			'idMaintenance' => $idMaintenance
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
 
-    function getMaintenance($idMaintenance)
-    {
-        global $DB_DB;
+	return $request->fetchAll()[0];
+}
 
-        $request = $DB_DB->prepare("SELECT * FROM Maintenance WHERE idMaintenance = :idMaintenance");
+/**
+ * List all maintenance about a machine.
+ * @param $idMachine : ID of the machine to check.
+ * @return int|mixed : list of maintenance with all attributes or error code if an error occurred.
+ */
+function listMaintenance($idMachine) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Maintenance WHERE idMaintenance IN (SELECT idMaintenance FROM repair WHERE idMachine = :idMachine);");
 
-        try{
-            $request->execute(array(
-               'idMaintenance' => $idMaintenance
-            ));
-        }catch(Exception $e){
-            throw  $e;
-        }
+	try {
+		$request->execute(array(
+			'idMachine' => $idMachine
+		));
 
-        return $request->fetchAll()[0];
-    }
+		return $request->fetchAll();
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
+}
 
-    function listMaintenances($idMachine)
-    {
-        global $DB_DB;
+/**
+ * Check the time that remain before the next maintenance of a machine.
+ * @param $idMaintenance : ID of maintenance to check.
+ * @return int|mixed : return time that remain before next maintenance or an error code if an error occurred.
+ */
+function remainTimeMaintenance($idMaintenance) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT dateMaintenance FROM Historical WHERE idHistorical = MAX(SELECT idHistorical FROM Historical WHERE idMaintenance = :idMaintenance)"); // Select the last maintenance date.
 
-        $request = $DB_DB->prepare("SELECT * FROM Maintenance WHERE idMaintenance IN (SELECT idMaintenance FROM repair WHERE idMachine = :idMachine);");
+	try {
+		$request->execute(array(
+			'idMaintenance' => $idMaintenance
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
 
-        try{
-            $request->execute(array(
-               'idMachine' => $idMachine
-            ));
+	$result = $request->fetch();
 
-            return $request->fetchAll();
-        }catch(Exception $e){
-            throw $e;
-        }
-    }
+	// Select all duration since the last maintenance.
+	if(empty($result)) {
+		$request = $DB_DB->prepare("SELECT duration FROM MachineUseForm WHERE idMachine IN (SELECT idMachine FROM Maintenance WHERE idMaintenance = :idMaintenance)");
 
-    function remainTimeMaintenances($idMaintenance)
-    {
-        global $DB_DB;
+		try {
+			$request->execute(array(
+				'idMaintenance' => $idMaintenance
+			));
+		}
+		catch(Exception $e) {
+			return $e->getCode();
+		}
+	}
+	else {
+		$request = $DB_DB->prepare("SELECT duration FROM MachineUseForm WHERE dateUseForm >= :dateMaintenance AND idMachine IN (SELECT idMachine FROM Maintenance WHERE idMaintenance = :idMaintenance)");
 
-        //Select the last maintenance date
-        $request = $DB_DB->prepare("SELECT dateMaintenance FROM Historical WHERE idHistorical = MAX(SELECT idHistorical FROM Historical WHERE idMaintenance = :idMaintenance)");
-        try{
-            $request->execute(array(
-               'idMaintenance' => $idMaintenance
-            ));
-        }catch(Exception $e){
-            throw $e;
-        }
-        $result = $request->fetch();
+		try {
+			$request->execute(array(
+				'idMaintenance' => $idMaintenance,
+				'dateMaintenance' => $result[0]
+			));
+		}
+		catch(Exception $e) {
+			return $e->getCode();
+		}
+	}
 
-        //Select all duration since the last maintenance
-        if(empty($result)){
-            $request = $DB_DB->prepare("SELECT duration FROM MachineUseForm WHERE idMachine IN (SELECT idMachine FROM Maintenance WHERE idMaintenance = :idMaintenance)");
-            try{
-                $request->execute(array(
-                    'idMaintenance' => $idMaintenance
-                ));
-            }catch(Exception $e){
-                throw $e;
-            }
-        }
-        else{
-            $request = $DB_DB->prepare("SELECT duration FROM MachineUseForm WHERE dateUseForm >= :dateMaintenance AND idMachine IN (SELECT idMachine FROM Maintenance WHERE idMaintenance = :idMaintenance)");
-            try{
-                $request->execute(array(
-                    'idMaintenance' => $idMaintenance,
-                    'dateMaintenance' => $result[0]
-                ));
-            }catch(Exception $e){
-                throw $e;
-            }
-        }
-        $result = $request->fetch();
-        $duration = 0;
+	$result = $request->fetch();
+	$duration = 0;
 
-        //Add theses duration and calcul the remaining time
-        for($count = 0; $count < sizeof($result); $count++)
-            $duration += $result[$count];
+	// Add theses duration and compute the remaining time.
+	for($count = 0; $count < sizeof($result); $count++)
+		$duration += $result[$count];
 
-        $request = $DB_DB->prepare("SELECT timeBetweenMaintenances FROM Maintenance WHERE idMaintenance = :idMaintenance");
-        try{
-            $request->execute(array(
-                'idMaintenance' => $idMaintenance
-            ));
-        }catch(Exception $e){
-            throw $e;
-        }
+	$request = $DB_DB->prepare("SELECT timeBetweenMaintenances FROM Maintenance WHERE idMaintenance = :idMaintenance");
 
-        $remainingTime = $request->fetch[0] - $duration;
-        if($remainingTime < 0)
-            return 0;
-        else return $remainingTime;
-    }
+	try {
+		$request->execute(array(
+			'idMaintenance' => $idMaintenance
+		));
+	}
+	catch(Exception $e) {
+		return $e->getCode();
+	}
 
-    function listMaintenancesToBeDone()
-    {
-        global $DB_DB;
+	$remainingTime = $request->fetch[0] - $duration;
 
-        $maintenances = $DB_DB->query("SELECT * FROM Maintenance")->fetchAll();
+	if($remainingTime < 0)
+		return 0;
+	else
+		return $remainingTime;
+}
 
-        $toBeDone = array();
+/**
+ * Check the list of all maintenance to be done.
+ * @return array : list of all maintenance to be done.
+ */
+function listMaintenanceToBeDone() {
+	global $DB_DB;
 
-        foreach ($maintenances as $maintenance) {
-            if(remainTimeMaintenances($maintenance['idMaintenance']) != 0)
-                array_push($toBeDone, $maintenance);
-        }
+	$maintenance = $DB_DB->query("SELECT * FROM Maintenance")->fetchAll();
 
-        return $toBeDone;
-    }
+	$toBeDone = array();
 
-?>
+	foreach($maintenance as $currentMaintenance) {
+		if(remainTimeMaintenance($currentMaintenance['idMaintenance']) != 0)
+			array_push($toBeDone, $currentMaintenance);
+	}
+
+	return $toBeDone;
+}

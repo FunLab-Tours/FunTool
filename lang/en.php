@@ -1,9 +1,9 @@
 <?php
-    $lang = [];
-    $lang["editMachine"] = "Edit Machine";
 
-    $error = [];
-    $error[-1] = "Erreur Inconnue";
+$lang = [];
+$lang["editMachine"] = "Edit Machine";
+
+$error = [];
+$error[-1] = "Unrecognized error.";
 
 ?>
-

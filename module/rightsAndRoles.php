@@ -1,395 +1,509 @@
 <?php
 
-    // User.
-
-    function assignRolesToUser($idUser, $idsRoles)
-    {
-        // We delete old ones and set new ones.
-        global $DB_DB;
-
-        $request = $DB_DB->prepare('DELETE FROM userRole WHERE idUser = :id');
-        try{
-            $request->execute(array(
-                'id' => $idUser,
-            ));
-        }
-        catch(Exception $e){}
-
-        foreach ($idsRoles as $idRole) {
-            $request = $DB_DB->prepare('INSERT INTO userRole (idRole, idUser) VALUES (:idRole, :idUser)');
-            try {
-                $request->execute(array(
-                    'idUser' => $idUser,
-                    'idRole' => $idRole
-                ));
-            } catch (Exception $e) {
-            }
-        }
-    }
-
-    // Roles.
-
-    function testValuesRole($id, $name)
-    {
-        global $DB_DB;
-        if($id == null)
-        {
-            $request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name");
-
-            try{
-                $request->execute(array(
-                    'name' => $name
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-        }
-        else
-        {
-            $request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name
-                                     AND idRole <> :id");
-
-            try{
-                $request->execute(array(
-                    'id' => $id,
-                    'name' => $name
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-        }
-        return true;
-    }
-
-    function getUserRoles($id)
-    {
-        global $DB_DB;
-
-        $request = $DB_DB->prepare("SELECT * FROM Role WHERE idRole IN (SELECT idRole FROM userRole WHERE idUser = :id)");
-
-        try{
-            $request->execute(array(
-                'id' => $id
-                ));
-        }catch(Exception $e){}
-
-        return $request->fetchAll();
-    }
-
-    function getRolesList()
-    {
-        global $DB_DB;
-
-        $request = $DB_DB->prepare("SELECT * FROM Role");
-
-        try{
-            $request->execute();
-        }catch(Exception $e){}
-
-        return $request->fetchAll();
-    }
-
-    function addRole($name, $description, $rights)
-    {
-        if(!testValuesRole(null, $name))
-            return false;
-
-        global $DB_DB;
-
-        $request = $DB_DB->prepare('INSERT INTO Role (roleName, roleDescription) VALUES (:roleName, :roleDescription)');
-
-        try{
-            $request->execute(array(
-                'roleName' => $name,
-                'roleDescription' => $description
-            ));
-        }
-        catch(Exception $e){}
-
-        $idRole = $DB_DB->lastInsertId();
-
-        // Add links with rights.
-        if($rights != null)
-            foreach($rights as $right) {
-                $request = $DB_DB->prepare('INSERT INTO according (idRole, idRights) VALUES (:idRole, :idRights)');
-
-                try {
-                    $request->execute(array(
-                        'idRole' => $idRole,
-                        'idRights' => $right
-                    ));
-                } catch (Exception $e) {
-                }
-            }
-        return true;
-    }
-
-
-    function editRole($id, $name, $description, $rights)
-    {
-        if(!testValuesRole($id, $name))
-            return false;
-
-        global $DB_DB;
-
-        $request = $DB_DB->prepare('UPDATE Role SET roleName = :roleName, 
-                                                      roleDescription = :roleDescription
-                                    WHERE idRole= :id');
-        var_dump($request);
-        try{
-            $request->execute(array(
-                'id' => $id,
-                'roleName' => $name,
-                'roleDescription' => $description
-            ));
-        }
-        catch(Exception $e){
-            return false;
-        }
-
-        // For according relation we delete all and add new ones.
-        $request = $DB_DB->prepare('DELETE FROM according WHERE idRole = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-
-        var_dump($rights);
-
-        // Add links with rights.
-        if($rights != null)
-            foreach($rights as $right) {
-                $request = $DB_DB->prepare('INSERT INTO according (idRole, idRights) VALUES (:idRole, :idRights)');
-
-                try {
-                    $request->execute(array(
-                        'idRole' => $id,
-                        'idRights' => $right
-                    ));
-                } catch (Exception $e){
-                    return false;
-                }
-            }
-        return true;
-    }
-
-    function deleteRole($id)
-    {
-        global $DB_DB;
-        // Delete the key in according.
-        $request = $DB_DB->prepare('DELETE FROM according WHERE idRole = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-
-        // Delete the key in userRole.
-        $request = $DB_DB->prepare('DELETE FROM userRole WHERE idRole = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-
-        // Then delete the role.
-        $request = $DB_DB->prepare('DELETE FROM Role WHERE idRole = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-    }
-
-    // Rights.
-
-    function testValuesRights($id, $title, $path)
-    {
-        global $DB_DB;
-        if($id == null)
-        {
-            $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title");
-
-            try{
-                $request->execute(array(
-                    'title' => $title
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-
-            $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path");
-
-            try{
-                $request->execute(array(
-                    'path' => $path
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-        }
-        else
-        {
-            $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title
-                                     AND idRights <> :id");
-
-            try{
-                $request->execute(array(
-                    'id' => $id,
-                    'title' => $title
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-
-            $request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path
-                                        AND idRights <> :id");
-
-            try{
-                $request->execute(array(
-                    'id' => $id,
-                    'path' => $path
-                ));
-            }catch(Exception $e){}
-            if($request->rowCount() != 0)
-                return false;
-        }
-        return true;
-    }
-
-    function getRights($id)
-    {
-        global $DB_DB;
-
-        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :id");
-
-        try{
-            $request->execute(array(
-                'id' => $id
-                ));
-        }catch(Exception $e){}
-
-        return $request->fetchAll();
-    }
-
-    function getRightsList()
-    {
-        global $DB_DB;
-
-        $request = $DB_DB->prepare("SELECT * FROM Rights");
-
-        try{
-            $request->execute();
-        }catch(Exception $e){}
-
-        return $request->fetchAll();
-    }
-
-    function getRightsRoleList($idRole)
-    {
-        global $DB_DB;
-
-        $request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :idRole)");
-
-        try{
-            $request->execute(array(
-                'idRole' => $idRole
-                ));
-        }catch(Exception $e){}
-
-        return $request->fetchAll();
-    }
-
-    function getRightsListWithRoles($roles)
-    {
-        // Return the list of all rights attached to the list of roles passed in parameters. Doesn't count double rights.
-        $list = array();
-        foreach ($roles as $role)
-            foreach (getRightsRoleList($role['idRole']) as $right)
-                if(!in_array($right, $list))
-                    array_push($list, $right);
-        foreach ($list as $row)
-            echo($row['rightsTitle']." ; ");
-    }
-
-    function addRight($title, $description, $path)
-    {
-        if(!testValuesRights(null, $title, $path))
-            return false;
-
-        global $DB_DB;
-
-        $request = $DB_DB->prepare('INSERT INTO Rights (rightsTitle, rightsDescription, rightsPath) VALUES (:rightsTitle, :rightsDescription, :rightsPath)');
-
-        try{
-            $request->execute(array(
-                'rightsTitle' => $title,
-                'rightsDescription' => $description,
-                'rightsPath' => $path
-            ));
-            return true;
-        }
-        catch(Exception $e){}
-        return false;
-    }
-
-    function editRight($id, $title, $description, $path)
-    {
-        if(!testValuesRights($id, $title, $path))
-            return false;
-
-        global $DB_DB;
-
-        $request = $DB_DB->prepare('UPDATE Rights SET rightsTitle = :rightsTitle, 
-                                                      rightsDescription = :rightsDescription, 
-                                                      rightsPath = :rightsPath
-                                    WHERE idRights = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-                'rightsTitle' => $title,
-                'rightsDescription' => $description,
-                'rightsPath' => $path
-            ));
-
-            return true;
-        }
-        catch(Exception $e){}
-
-        return false;
-    }
-
-    function deleteRight($id)
-    {
-        global $DB_DB;
-        //Suppression de la clef dans according
-        $request = $DB_DB->prepare('DELETE FROM according WHERE idRights = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-
-        $request = $DB_DB->prepare('DELETE FROM Rights WHERE idRights = :id');
-
-        try{
-            $request->execute(array(
-                'id' => $id,
-            ));
-        }
-        catch(Exception $e){}
-    }
-
-?>
+// User.
+
+/**
+ * Assign roles to a user.
+ * @param $idUser : ID of the user.
+ * @param $idsRoles : array of IDs of the roles.
+ * @return bool : false if an error occurred.
+ */
+function assignRolesToUser($idUser, $idsRoles) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('DELETE FROM userRole WHERE idUser = :id');
+
+	// We delete old ones and set new ones.
+
+	try {
+		$request->execute(array(
+			'id' => $idUser,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	foreach($idsRoles as $idRole) {
+		$request = $DB_DB->prepare('INSERT INTO userRole (idRole, idUser) VALUES (:idRole, :idUser)');
+
+		try {
+			$request->execute(array(
+				'idUser' => $idUser,
+				'idRole' => $idRole
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// Roles.
+
+// TODO : documentation and test returns.
+function testValuesRole($id, $name) {
+	global $DB_DB;
+
+	if($id == null) {
+		try {
+			$request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name");
+			$request->execute(array(
+				'name' => $name
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+	}
+	else {
+		try {
+			$request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name AND idRole <> :id");
+			$request->execute(array(
+				'id' => $id,
+				'name' => $name
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+	}
+
+	return true;
+}
+
+/**
+ * Get all roles of a user.
+ * @param $idUser : ID of the user.
+ * @return bool : list of roles or false if an error occurred.
+ */
+function getUserRoles($idUser) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Role WHERE idRole IN (SELECT idRole FROM userRole WHERE idUser = :idUser)");
+
+	try {
+		$request->execute(array(
+			'idUser' => $idUser
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+/**
+ * Get the list of all roles.
+ * @return bool : list of roles or false if an error occurred.
+ */
+function getRolesList() {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Role");
+
+	try {
+		$request->execute();
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+/**
+ * Add a role.
+ * @param $name : name of the role.
+ * @param $description : description of the role.
+ * @param $rights : rights of the role.
+ * @return bool : false if an error occurred.
+ */
+function addRole($name, $description, $rights) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO Role (roleName, roleDescription) VALUES (:roleName, :roleDescription)');
+
+	if(!testValuesRole(null, $name))
+		return false;
+
+	try {
+		$request->execute(array(
+			'roleName' => $name,
+			'roleDescription' => $description
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	$idRole = $DB_DB->lastInsertId();
+
+	// Add links with rights.
+	if($rights != null)
+		foreach($rights as $right) {
+			$request = $DB_DB->prepare('INSERT INTO according (idRole, idRights) VALUES (:idRole, :idRights)');
+
+			try {
+				$request->execute(array(
+					'idRole' => $idRole,
+					'idRights' => $right
+				));
+			}
+			catch(Exception $e) {
+				return false;
+			}
+		}
+
+	return true;
+}
+
+/**
+ * Edit a role.
+ * @param $idRole : ID of the role to edit.
+ * @param $name : new name for the role.
+ * @param $description : new description of the role.
+ * @param $rights : new rights for the role.
+ * @return bool : false if an error occurred.
+ */
+function editRole($idRole, $name, $description, $rights) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('UPDATE Role SET roleName = :roleName, roleDescription = :roleDescription WHERE idRole= :idRole');
+
+	if(!testValuesRole($idRole, $name))
+		return false;
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole,
+			'roleName' => $name,
+			'roleDescription' => $description
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	// For according relation we delete all and add new ones.
+	try {
+		$request = $DB_DB->prepare('DELETE FROM according WHERE idRole = :idRole');
+		$request->execute(array(
+			'idRole' => $idRole,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	// Add links with rights.
+	if($rights != null)
+		$request = $DB_DB->prepare('INSERT INTO according (idRole, idRights) VALUES (:idRole, :idRights)');
+
+		foreach($rights as $right) {
+			try {
+				$request->execute(array(
+					'idRole' => $idRole,
+					'idRights' => $right
+				));
+			}
+			catch(Exception $e) {
+				return false;
+			}
+		}
+
+	return true;
+}
+
+/**
+ * Delete a role.
+ * @param $idRole : ID of the role to delete.
+ * @return bool : false if an error occurred.
+ */
+function deleteRole($idRole) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('DELETE FROM according WHERE idRole = :idRole');
+
+	// Delete the key in according.
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	// Delete the key in userRole.
+	$request = $DB_DB->prepare('DELETE FROM userRole WHERE idRole = :idRole');
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	// Then delete the role.
+	$request = $DB_DB->prepare('DELETE FROM Role WHERE idRole = :idRole');
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}
+
+// Rights.
+
+// TODO : documentation.
+function testValuesRights($id, $title, $path) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title");
+
+	if($id == null) {
+		try {
+			$request->execute(array(
+				'title' => $title
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+
+		$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path");
+		try {
+			$request->execute(array(
+				'path' => $path
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+	}
+	else {
+		$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title AND idRights <> :id");
+
+		try {
+			$request->execute(array(
+				'id' => $id,
+				'title' => $title
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+
+		$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path AND idRights <> :id");
+
+		try {
+			$request->execute(array(
+				'id' => $id,
+				'path' => $path
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		if($request->rowCount() != 0)
+			return false;
+	}
+
+	return true;
+}
+
+/**
+ * Get the rights of a role.
+ * @param $idRole : ID of the role.
+ * @return bool : list of rights or false if an error occurred.
+ */
+function getRights($idRole) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :idRole");
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+/**
+ * Get the list of all rights.
+ * @return bool : list of rights or false if an error occurred.
+ */
+function getRightsList() {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Rights");
+
+	try {
+		$request->execute();
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+/**
+ * Get rights used by a role.
+ * @param $idRole : ID of the role.
+ * @return bool : list of rights or false if an error occurred.
+ */
+function getRightsRoleList($idRole) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM Rights WHERE idRights IN (SELECT idRights FROM according WHERE idRole = :idRole)");
+
+	try {
+		$request->execute(array(
+			'idRole' => $idRole
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+// TODO : documentation.
+function getRightsListWithRoles($roles) {
+	// Return the list of all rights attached to the list of roles passed in parameters. Doesn't count double rights.
+	$list = array();
+
+	foreach($roles as $role) {
+		$rights = getRightsRoleList($role['idRole']);
+
+		if(!$rights)
+			return false;
+
+		foreach($rights as $right)
+			if(!in_array($right, $list))
+				array_push($list, $right);
+	}
+
+	foreach($list as $row)
+		echo($row['rightsTitle'] . " ; "); // TODO : suppress echo.
+
+	return true;
+}
+
+/**
+ * Add a right.
+ * @param $title : title of the right.
+ * @param $description : description of the right.
+ * @param $path : path of the file used by the right.
+ * @return bool : false if an error occurred.
+ */
+function addRight($title, $description, $path) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO Rights(rightsTitle, rightsDescription, rightsPath) VALUES(:rightsTitle, :rightsDescription, :rightsPath)');
+
+	if(!testValuesRights(null, $title, $path))
+		return false;
+
+	try {
+		$request->execute(array(
+			'rightsTitle' => $title,
+			'rightsDescription' => $description,
+			'rightsPath' => $path
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Edit a right.
+ * @param $idRight : ID of the right to edit.
+ * @param $title : new title for the right.
+ * @param $description : new description for the right.
+ * @param $path : new path for the file used by the right.
+ * @return bool : false if an error occurred.
+ */
+function editRight($idRight, $title, $description, $path) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('UPDATE Rights SET rightsTitle = :rightsTitle, rightsDescription = :rightsDescription, rightsPath = :rightsPath WHERE idRights = :idRight');
+
+	if(!testValuesRights($idRight, $title, $path))
+		return false;
+
+	try {
+		$request->execute(array(
+			'idRight' => $idRight,
+			'rightsTitle' => $title,
+			'rightsDescription' => $description,
+			'rightsPath' => $path
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Delete a right.
+ * @param $idRight : ID of the right to delete.
+ * @return bool : false if an error occurred.
+ */
+function deleteRight($idRight) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('DELETE FROM according WHERE idRights = :idRight');
+
+	// We delete the key in according.
+
+	try {
+		$request->execute(array(
+			'idRight' => $idRight,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	$request = $DB_DB->prepare('DELETE FROM Rights WHERE idRights = :idRight');
+
+	try {
+		$request->execute(array(
+			'idRight' => $idRight,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}

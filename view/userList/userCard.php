@@ -2,7 +2,7 @@
 
     $user = getUser($_GET['details']);
     $skills = getSkillsListUser($_GET['details']);
-    $knowledges = listKnowledges($_GET['details']);
+    $knowledges = listKnowledge($_GET['details']);
 
 ?>
 

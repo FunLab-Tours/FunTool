@@ -55,7 +55,7 @@
     <td><input type="text" name="docLink2" value="<?= $edit['docLink2'] ?>"/></td>
     <td>
         <select name="idFamily" onchange="updateSubList(<?php echo $edit['idMachine']?>, this.value)">
-            <option value="<?= $edit['idFamily'] ?>" selected="selected"><?= getFamilyName($edit['idFamily']) ?></option>
+            <option value="<?= $edit['idFamily'] ?>" selected="selected"><?= getFamilyLabel($edit['idFamily']) ?></option>
             <?php
             foreach (getFamilyList() as $subRow) {
                 if ($edit['idFamily'] != $subRow['idFamily']) {
@@ -136,7 +136,7 @@
                 <td><?=$row['comment']?></td>
                 <td><?=$row['docLink1']?></td>
                 <td><?=$row['docLink2']?></td>
-                <td><?=getFamilyName($row['idFamily'])?></td>
+                <td><?=getFamilyLabel($row['idFamily'])?></td>
                 <td><?php foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
                         echo $subRow['labelSubFamily']." ; ";
                     ?>

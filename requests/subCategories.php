@@ -14,7 +14,7 @@
 
         foreach ($categories as $category) {
             if($category != "")
-                foreach (listSubCategories($category) as $subCat) {
+                foreach (listSoftwareSubCategories($category) as $subCat) {
                     echo "<option value=\"" . $subCat['idSoftSubcat'] . "\">". $subCat['SubcatLabel'] . "</option>";
                 }
         }

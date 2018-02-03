@@ -16,7 +16,7 @@
     <input type = "text" placeholder="<?=$lang['softwareDescription']?>" name="description"/>
     <select id ="categories" name ="categories[]" multiple onchange="updateSubList()">
         <option value="" selected="selected"><?=$lang['categories']?></option>
-        <?php foreach(listCategories() as $category){?>
+        <?php foreach(listSoftwareCategories() as $category){?>
             <option value="<?=$category['idSoftCat']?>"><?=$category['categoryLabel']?></option>
         <?php } ?>
     </select>

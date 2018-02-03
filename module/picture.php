@@ -1,100 +1,122 @@
 <?php
-    // TODO : use parameters.
-    // TODO : finish it.
 
-    function isValidPicture() {
-        $maxwidth = 60000;
-        $maxheight = 60000;
+// TODO : use parameters.
 
-        if(!isset($_FILES['picture']))
-            return false;
+/**
+ * Check if the sent picture is valid or not.
+ * @return bool : true if the picture is valid, false else.
+ */
+function isValidPicture() {
+	$maxWidth = 60000;
+	$maxHeight = 60000;
 
-        if ($_FILES['picture']['error'] > 0)
-            return false;
+	if(!isset($_FILES['picture']))
+		return false;
 
-        $image_sizes = getimagesize($_FILES['picture']['tmp_name']);
-        if($image_sizes[0] > $maxwidth OR $image_sizes[1] > $maxheight)
-            return false;
+	if($_FILES['picture']['error'] > 0)
+		return false;
 
-        $exts = array('jpg', 'jpeg', 'gif', 'png');
-        $ext_upload = strtolower(substr(strrchr($_FILES['picture']['name'], '.'),1));
-        if(in_array($ext_upload, $exts))
-            return true;
+	$image_sizes = getimagesize($_FILES['picture']['tmp_name']);
+	if($image_sizes[0] > $maxWidth OR $image_sizes[1] > $maxHeight)
+		return false;
 
-    }
+	$extensions = array(
+		'jpg',
+		'jpeg',
+		'gif',
+		'png'
+	);
 
-    function addPicture() {
-        global $DB_DB;
+	$ext_upload = strtolower(substr(strrchr($_FILES['picture']['name'], '.'), 1));
 
-        $name = md5(uniqid(rand(), true));
-        $path = "uploaded/{$name}";
-        $resultat = move_uploaded_file($_FILES['picture']['tmp_name'], $path);
+	if(in_array($ext_upload, $extensions))
+		return true;
+}
 
-        if(!$resultat)
-            echo "Error.";
+/**
+ * Add a picture to the database.
+ * @return bool : false if an error occurred.
+ */
+function addPicture() {
+	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO Picture(picture) VALUES(:picture)');
 
-        $request = $DB_DB->prepare('INSERT INTO Picture(picture) VALUES(:picture)');
+	$name = md5(uniqid(rand(), true));
+	$path = "uploaded/{$name}";
+	$result = move_uploaded_file($_FILES['picture']['tmp_name'], $path);
 
-        try {
-            $request->execute(array(
-                'picture' => $name
-            ));
+	if(!$result)
+		echo "Error.";
 
-            echo "Ok !";
-        }
-        catch(Exception $e) {
-            echo $e;
-            exit;
-        }
+	try {
+		$request->execute(array(
+			'picture' => $name
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-    }
+	return true;
+}
 
-    function getPictureList() {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT picture, pictureDescription FROM Picture");
+/**
+ * Get the list of all pictures.
+ * @return bool : list of pictures or false if an error occurred.
+ */
+function getPictureList() {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT picture, pictureDescription FROM Picture");
 
-        try{
-            $request->execute();
-        }catch(Exception $e){}
+	try {
+		$request->execute();
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        return $request->fetchAll();
-    }
+	return $request->fetchAll();
+}
 
-    function deletePicture() {
-        global $DB_DB;
+/**
+ * Delete the picture sent in POST.
+ * @return bool : false if an error occurred.
+ */
+function deletePicture() {
+	global $DB_DB;
+	$request = $DB_DB->prepare('DELETE FROM Picture WHERE picture = :picture');
 
-        $request = $DB_DB->prepare('DELETE FROM Picture WHERE picture = :picture');
+	try {
+		$request->execute(array(
+			'picture' => $_POST['picture']
+		));
 
-        try {
-            $request->execute(array(
-                'picture' => $_POST['picture']
-            ));
+		unlink("uploaded/" . $_POST['picture']);
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-            unlink ("uploaded/" . $_POST['picture']);
-            echo "Ok !";
-        }
-        catch(Exception $e) {
-            echo $e;
-            exit;
-        }
-    }
+	return true;
+}
 
-    function getPicture($idPicture)
-    {
-        global $DB_DB;
+/**
+ * Get information about a picture.
+ * @param $idPicture : ID of the picture to check.
+ * @return bool : false if an error occurred.
+ */
+function getPicture($idPicture) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('SELECT picture, pictureDescription FROM Picture WHERE idPicture = :idPicture');
 
-        $request = $DB_DB->prepare('SELECT picture, pictureDescription FROM Picture WHERE idPicture = :idPicture');
+	try {
+		$request->execute(array(
+			'idPicture' => $idPicture
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        try {
-            $request->execute(array(
-                'idPicture' => $idPicture
-            ));
-        }
-        catch(Exception $e) {
-            echo $e;
-            exit;
-        }
-        return $request->fetch();
-    }
-
-?>
+	return $request->fetch();
+}

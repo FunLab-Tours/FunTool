@@ -1,353 +1,493 @@
 <?php
 
-    // Skills to user.
+// Skills to user.
 
-    function isUserSkilled($idSkill, $idUser)
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+/**
+ * Check if a user has a particular skill.
+ * @param $idSkill : ID of the skill to check.
+ * @param $idUser : ID of the user to check.
+ * @return bool : true if the user has the skill, else false.
+ */
+function isUserSkilled($idSkill, $idUser) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
 
-        try{
-            $request->execute(array(
-                'idUser' => $idUser,
-                'idSkill' => $idSkill
-                ));
-        }catch(Exception $e){}
-        if ($request->rowCount() != 0)
-            return false;
-        return true;
-    }
+	try {
+		$request->execute(array(
+			'idUser' => $idUser,
+			'idSkill' => $idSkill
+		));
+	}
+	catch(Exception $e) {
+		return false; // TODO : change catch.
+	}
 
-    function assignSkills($idUser, $idSkill, $skillLevel, $comment)
-    {
-        global $DB_DB;
+	if($request->rowCount() != 0)
+		return false;
+	return true;
+}
 
-        if(!in_array(getSkill($idSkill), getSkillsListUser($idUser))) {
-            $request = $DB_DB->prepare('INSERT INTO has (idUser, idSkill, skillLevel, comment) VALUES (:idUser, :idSkill, :skillLevel, :comment)');
+/**
+ * Assign a skill to a user.
+ * @param $idUser : ID of the user.
+ * @param $idSkill : ID of the skill.
+ * @param $skillLevel : skill level.
+ * @param $comment : comment about the skill.
+ * @return bool : true if the skill has been added, false else.
+ */
+function assignSkills($idUser, $idSkill, $skillLevel, $comment) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO has(idUser, idSkill, skillLevel, comment) VALUES(:idUser, :idSkill, :skillLevel, :comment)');
 
-            try {
-                $request->execute(array(
-                    'idUser' => $idUser,
-                    'idSkill' => $idSkill,
-                    'skillLevel' => $skillLevel,
-                    'comment' => $comment
-                ));
-            } catch (Exception $e) {}
-        }
-    }
+	if(!in_array(getSkill($idSkill), getSkillsListUser($idUser))) {
+		try {
+			$request->execute(array(
+				'idUser' => $idUser,
+				'idSkill' => $idSkill,
+				'skillLevel' => $skillLevel,
+				'comment' => $comment
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
 
-    function unassignSkill($idUser, $idSkill)
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("DELETE FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+		return true;
+	}
 
-        try{
-            $request->execute(array(
-                'idUser' => $idUser,
-                'idSkill' => $idSkill
-                ));
-        }catch(Exception $e){}
-    }
+	return false;
+}
 
-    function getSkillUserInformation($idUser, $idSkill)
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
+/**
+ * Suppress a skill for a user.
+ * @param $idUser : ID of the user.
+ * @param $idSkill : ID of the skill.
+ * @return bool : false if an error occurred.
+ */
+function unassignSkill($idUser, $idSkill) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("DELETE FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
 
-        try{
-            $request->execute(array(
-                'idUser' => $idUser,
-                'idSkill' => $idSkill
-                ));
-        }catch(Exception $e){}
+	try {
+		$request->execute(array(
+			'idUser' => $idUser,
+			'idSkill' => $idSkill
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        return $request->fetchAll()[0];
-    }
+	return true;
+}
 
-    function editAssignment($idUser, $idSkill, $skillLevel, $comment)
-    {
-        global $DB_DB;
+/**
+ * Get all information about the skill of a user.
+ * @param $idUser : ID of the user.
+ * @param $idSkill : ID of the skill.
+ * @return bool : all attributes of the skill or false if an error occurred.
+ */
+function getSkillUserInformation($idUser, $idSkill) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM has WHERE idUser = :idUser AND idSkill = :idSkill");
 
-            $request = $DB_DB->prepare('UPDATE has SET skillLevel = :skillLevel, comment = :comment WHERE idUser = :idUser AND idSkill = :idSkill');
+	try {
+		$request->execute(array(
+			'idUser' => $idUser,
+			'idSkill' => $idSkill
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-            try {
-                $request->execute(array(
-                    'idUser' => $idUser,
-                    'idSkill' => $idSkill,
-                    'skillLevel' => $skillLevel,
-                    'comment' => $comment
-                ));
-            } catch (Exception $e) {}
-    }
+	return $request->fetchAll()[0];
+}
 
-    // Skills.
+/**
+ * Edit a skill assigned to a user.
+ * @param $idUser : ID of the user.
+ * @param $idSkill : ID of the skill.
+ * @param $skillLevel : new level for the skill.
+ * @param $comment : new comment for the skill.
+ * @return bool : false if an error occurred.
+ */
+function editAssignment($idUser, $idSkill, $skillLevel, $comment) {
+	global $DB_DB;
+	$request = $DB_DB->prepare('UPDATE has SET skillLevel = :skillLevel, comment = :comment WHERE idUser = :idUser AND idSkill = :idSkill');
 
-    function testSkill($idSkill, $skillName, $idSkillType)
-    {
-        global $DB_DB;
-        if($idSkill == null) {
-            $request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName");
+	try {
+		$request->execute(array(
+			'idUser' => $idUser,
+			'idSkill' => $idSkill,
+			'skillLevel' => $skillLevel,
+			'comment' => $comment
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-            try{
-                $request->execute(array(
-                    'skillName' => $skillName
-                ));
-            }catch(Exception $e){}
-            if ($request->rowCount() != 0)
-                return false;
-        }
-        else{
-            $request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName
-                                     AND idSkill <> :idSkill");
+	return true;
+}
 
-            try{
-                $request->execute(array(
-                    'skillName' => $skillName,
-                    'idSkill' => $idSkill
-                ));
-            }catch(Exception $e){}
-            if ($request->rowCount() != 0)
-                return false;
-        }
+// Skills.
 
-        $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType LIKE :idSkillType");
+// TODO : documentation test.
+function testSkill($idSkill, $skillName, $idSkillType) {
+	global $DB_DB;
 
-        try{
-            $request->execute(array(
-                'idSkillType' => $idSkillType
-                ));
-        }catch(Exception $e){}
-        if ($request->rowCount() == 0)
-            return false;
+	if($idSkill == null) {
+		$request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName");
 
-        return true;
-    }
-    function getSkillsList()
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM VariousSkills");
+		try {
+			$request->execute(array(
+				'skillName' => $skillName
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
 
-        try{
-            $request->execute();
-        }catch(Exception $e){}
+		if($request->rowCount() != 0)
+			return false;
+	}
+	else {
+		$request = $DB_DB->prepare("SELECT * FROM variousskills WHERE skillName LIKE :skillName AND idSkill <> :idSkill");
 
-        return $request->fetchAll();
-    }
+		try {
+			$request->execute(array(
+				'skillName' => $skillName,
+				'idSkill' => $idSkill
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
 
-    function getSkill($idSkill)
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill = :idSkill");
+		if($request->rowCount() != 0)
+			return false;
+	}
 
-        try{
-            $request->execute(array(
-                'idSkill' => $idSkill
-                ));
-        }catch(Exception $e){}
+	$request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType LIKE :idSkillType");
 
-        return $request->fetchAll();
-    }
+	try {
+		$request->execute(array(
+			'idSkillType' => $idSkillType
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-    function getSkillsListUser($idUser)
-    {
-        global $DB_DB;
+	if($request->rowCount() == 0)
+		return false;
 
-        $request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill IN (
-                                            SELECT idSkill FROM has WHERE idUser = :idUser)");
+	return true;
+}
 
-        try{
-            $request->execute(array(
-                'idUser' => $idUser
-                ));
-        }catch(Exception $e){}
+/**
+ * Get the list of all skills.
+ * @return bool : all attributes of all skills or false if an error occurred.
+ */
+function getSkillsList() {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM VariousSkills");
 
-        return $request->fetchAll();
-    }
+	try {
+		$request->execute();
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-    function addSkill($skillName, $skillDescription, $idSkillType)
-    {
-        if(!testSkill(null, $skillName, $idSkillType))
-            return false;
+	return $request->fetchAll();
+}
 
-        global $DB_DB;
+/**
+ * Get all information about a specific skill.
+ * @param $idSkill : ID of the skill.
+ * @return bool : all information about the skill or false if an error occurred.
+ */
+function getSkill($idSkill) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill = :idSkill");
 
-        $request = $DB_DB->prepare("INSERT INTO VariousSkills (skillName, skillDescription, idSkillType)
-                                    VALUES (:skillName, :skillDescription, :idSkillType)");
+	try {
+		$request->execute(array(
+			'idSkill' => $idSkill
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        try{
-            $request->execute(array(
-                'skillName' => $skillName,
-                'skillDescription' => $skillDescription,
-                'idSkillType' => $idSkillType
-            ));
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
-    }
+	return $request->fetchAll();
+}
 
-    function editSkill($idSkill, $skillName, $skillDescription, $idSkillType)
-    {
-        if(!testSkill($idSkill, $skillName, $idSkillType))
-            return false;
+/**
+ * Get all skills of a specific user.
+ * @param $idUser : ID of the user.
+ * @return bool : list of skills or false if an error occurred.
+ */
+function getSkillsListUser($idUser) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM VariousSkills WHERE idSkill IN (SELECT idSkill FROM has WHERE idUser = :idUser)");
 
-        global $DB_DB;
+	try {
+		$request->execute(array(
+			'idUser' => $idUser
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        $request = $DB_DB->prepare("UPDATE VariousSkills SET skillName = :skillName, skillDescription = :skillDescription, idSkillType = :idSkillType
-                                    WHERE idSkill = :idSkill");
+	return $request->fetchAll();
+}
 
-        try{
-            $request->execute(array(
-                'idSkill' => $idSkill,
-                'skillName' => $skillName,
-                'skillDescription' => $skillDescription,
-                'idSkillType' => $idSkillType
-            ));
-            return true;
-        }
-        catch(Exception $e){
-            return false;
-        }
-    }
+/**
+ * Add a skill.
+ * @param $skillName : name of the skill.
+ * @param $skillDescription : description of the skill.
+ * @param $idSkillType : ID of the type of the skill.
+ * @return bool : false if an error occurred.
+ */
+function addSkill($skillName, $skillDescription, $idSkillType) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("INSERT INTO VariousSkills (skillName, skillDescription, idSkillType) VALUES (:skillName, :skillDescription, :idSkillType)");
 
-    function deleteSkill($idSkill)
-    {
-        global $DB_DB;
+	if(!testSkill(null, $skillName, $idSkillType))
+		return false;
 
-        // Delete in table 'has'.
-        $request = $DB_DB->prepare("DELETE FROM has WHERE idSkill = :idSkill");
-        try{
-            $request->execute(array(
-                'idSkill' => $idSkill,
-            ));
-        }
-        catch(Exception $e){}
+	try {
+		$request->execute(array(
+			'skillName' => $skillName,
+			'skillDescription' => $skillDescription,
+			'idSkillType' => $idSkillType
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        // Delete in table 'VariousSkills'.
-        $request = $DB_DB->prepare("DELETE FROM VariousSkills WHERE idSkill = :idSkill");
-        try{
-            $request->execute(array(
-                'idSkill' => $idSkill,
-            ));
-        }
-        catch(Exception $e){}
-    }
+	return true;
+}
 
-    // Skill type.
+/**
+ * Edit a skill.
+ * @param $idSkill : ID of the skill to edit.
+ * @param $skillName : new name for the skill.
+ * @param $skillDescription : new description about the skill.
+ * @param $idSkillType : new ID for the new type of skill.
+ * @return bool : false if an error occurred.
+ */
+function editSkill($idSkill, $skillName, $skillDescription, $idSkillType) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("UPDATE VariousSkills SET skillName = :skillName, skillDescription = :skillDescription, idSkillType = :idSkillType WHERE idSkill = :idSkill");
 
-    function testSkillType($idSkillType, $skillTypeName)
-    {
-        global $DB_DB;
+	if(!testSkill($idSkill, $skillName, $idSkillType))
+		return false;
 
-        if($idSkillType == null) {
-            $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName");
+	try {
+		$request->execute(array(
+			'idSkill' => $idSkill,
+			'skillName' => $skillName,
+			'skillDescription' => $skillDescription,
+			'idSkillType' => $idSkillType
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-            try{
-                $request->execute(array(
-                    'skillTypeName' => $skillTypeName
-                ));
-            }catch(Exception $e){}
-            if ($request->rowCount() != 0)
-                return false;
-        }
-        else
-        {
-            $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName
-                                     AND idSkillType <> :idSkillType");
+	return true;
+}
 
-            try{
-                $request->execute(array(
-                    'idSkillType' => $idSkillType,
-                    'skillTypeName' => $skillTypeName
-                ));
-            }catch(Exception $e){}
-            if ($request->rowCount() != 0)
-                return false;
-        }
-        return true;
-    }
+/**
+ * Delete a skill.
+ * @param $idSkill : ID of the skill.
+ * @return bool : false if an error occurred.
+ */
+function deleteSkill($idSkill) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("DELETE FROM has WHERE idSkill = :idSkill");
 
-    function getSkillType($idSkillType)
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType = :idSkillType");
+	// Delete in table 'has'.
 
-        try{
-            $request->execute(array(
-                'idSkillType' => $idSkillType
-                ));
-        }catch(Exception $e){}
+	try {
+		$request->execute(array(
+			'idSkill' => $idSkill,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        return $request->fetchAll()[0];
-    }
+	// Delete in table 'VariousSkills'.
+	$request = $DB_DB->prepare("DELETE FROM VariousSkills WHERE idSkill = :idSkill");
 
-    function getSkillsTypeList()
-    {
-        global $DB_DB;
-        $request = $DB_DB->prepare("SELECT * FROM SkillType");
+	try {
+		$request->execute(array(
+			'idSkill' => $idSkill,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        try{
-            $request->execute();
-        }catch(Exception $e){}
+	return true;
+}
 
-        return $request->fetchAll();
-    }
+// Skill type.
 
-    function addSkillType($skillTypeName)
-    {
-        if(!testSkillType(null, $skillTypeName))
-            return false;
+// TODO : documentation test.
+function testSkillType($idSkillType, $skillTypeName) {
+	global $DB_DB;
 
-        global $DB_DB;
+	if($idSkillType == null) {
+		$request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName");
 
-        $request = $DB_DB->prepare("INSERT INTO SkillType (skillTypeName) VALUES (:skillTypeName)");
+		try {
+			$request->execute(array(
+				'skillTypeName' => $skillTypeName
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
 
-        try{
-            $request->execute(array(
-                'skillTypeName' => $skillTypeName
-            ));
-            return true;
-        }catch(Exception $e)
-        {
-            return false;
-        }
-    }
+		if($request->rowCount() != 0)
+			return false;
+	}
+	else {
+		$request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName AND idSkillType <> :idSkillType");
 
-    function editSkillType($idSkillType, $skillTypeName)
-    {
-        if(!testSkillType($idSkillType, $skillTypeName))
-            return false;
+		try {
+			$request->execute(array(
+				'idSkillType' => $idSkillType,
+				'skillTypeName' => $skillTypeName
+			));
+		}
+		catch(Exception $e) {
+			return false;
+		}
 
-        global $DB_DB;
+		if($request->rowCount() != 0)
+			return false;
+	}
 
-        $request = $DB_DB->prepare("UPDATE SkillType SET skillTypeName = :skillTypeName
-                                    WHERE idSkillType = :idSkillType");
+	return true;
+}
 
-        try{
-            $request->execute(array(
-                'idSkillType' => $idSkillType,
-                'skillTypeName' => $skillTypeName
-            ));
-            return true;
-        }catch(Exception $e)
-        {
-            return false;
-        }
-    }
+/**
+ * Get information about a skill type.
+ * @param $idSkillType : ID of the skill type.
+ * @return bool : all attributes of the skill or false if an error occurred.
+ */
+function getSkillType($idSkillType) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM SkillType WHERE idSkillType = :idSkillType");
 
-    function deleteSkillType($idSkillType)
-    {
-        global $DB_DB;
+	try {
+		$request->execute(array(
+			'idSkillType' => $idSkillType
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
 
-        //The delete can be effective only if it is not use in a variousSkill
-        $request = $DB_DB->prepare("DELETE FROM SkillType WHERE idSkillType = :idSkillType");
-        try{
-            $request->execute(array(
-                'idSkillType' => $idSkillType,
-            ));
-        }
-        catch(Exception $e){}
-    }
+	return $request->fetchAll()[0];
+}
 
-?>
+/**
+ * Get the list of all skill type.
+ * @return bool : all attributes about all skill types or false if an error occurred.
+ */
+function getSkillsTypeList() {
+	global $DB_DB;
+	$request = $DB_DB->prepare("SELECT * FROM SkillType");
+
+	try {
+		$request->execute();
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return $request->fetchAll();
+}
+
+/**
+ * Add a skill type.
+ * @param $skillTypeName : name of the skill type.
+ * @return bool : false if an error occurred.
+ */
+function addSkillType($skillTypeName) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("INSERT INTO SkillType (skillTypeName) VALUES (:skillTypeName)");
+
+	if(!testSkillType(null, $skillTypeName))
+		return false;
+
+	try {
+		$request->execute(array(
+			'skillTypeName' => $skillTypeName
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Edit a skill type.
+ * @param $idSkillType : ID of the skill type.
+ * @param $skillTypeName : new name for the skill.
+ * @return bool : false if an error occurred.
+ */
+function editSkillType($idSkillType, $skillTypeName) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("UPDATE SkillType SET skillTypeName = :skillTypeName WHERE idSkillType = :idSkillType");
+
+	if(!testSkillType($idSkillType, $skillTypeName))
+		return false;
+
+	try {
+		$request->execute(array(
+			'idSkillType' => $idSkillType,
+			'skillTypeName' => $skillTypeName
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Delete a skill type.
+ * @param $idSkillType : ID of the skill.
+ * @return bool : false if an error occurred.
+ */
+function deleteSkillType($idSkillType) {
+	global $DB_DB;
+	$request = $DB_DB->prepare("DELETE FROM SkillType WHERE idSkillType = :idSkillType");
+
+	// The delete can be effective only if it is not use in a variousSkill.
+
+	try {
+		$request->execute(array(
+			'idSkillType' => $idSkillType,
+		));
+	}
+	catch(Exception $e) {
+		return false;
+	}
+
+	return true;
+}

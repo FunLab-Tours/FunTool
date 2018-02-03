@@ -1,4 +1,5 @@
 <?php
+
 $lang = [];
 
 $lang["profile"] = "Accéder à son profil";
@@ -28,9 +29,9 @@ $lang["sign_on"] = "S'inscrire";
 $lang["firstName"] = "Prénom";
 $lang["name"] = "Nom";
 $lang["telephone"] = "Numéro de téléphone";
-$lang["adressL1"] = "Adresse Ligne 1";
-$lang["adressL2"] = "Adresse Ligne 2";
-$lang["adressL3"] = "Adresse Ligne 3";
+$lang["addressL1"] = "Adresse Ligne 1";
+$lang["addressL2"] = "Adresse Ligne 2";
+$lang["addressL3"] = "Adresse Ligne 3";
 $lang["adress"] = "Adresse";
 $lang["zipCode"] = "Code postal";
 $lang["town"] = "Ville";
@@ -45,7 +46,7 @@ $lang["haveSubscribeNews"] = "Inscrit à la newsletter";
 $lang["idPicture"] = "Photo de profil";
 $lang["editPassword"] = "Modifier le mot de passe";
 $lang["editUser"] = "Modifier les informations";
-$lang["passDontMatch"] = "le mot de passe ne correspond pas";
+$lang["passDontMatch"] = "Le mot de passe ne correspond pas";
 $lang["newPassword"] = "Nouveau mot de passe";
 $lang["passwordChecker"] = "Recopier le mot de passe";
 
@@ -292,5 +293,3 @@ $lang['each'] = "chaque";
 
 $error = [];
 $error[-1] = "Erreur Inconnue";
-
-?>

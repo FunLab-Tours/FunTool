@@ -1,7 +1,7 @@
 <?php
 
     if(isset($_POST['submit']) && isset($_POST['labName'])) {
-        if(isValideLab($_POST['labName'])) {
+        if(isValidLab($_POST['labName'])) {
             try {
                 addLab($_POST['labName'], $_POST['labDescription']);
             }

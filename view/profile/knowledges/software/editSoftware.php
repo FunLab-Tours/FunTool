@@ -17,7 +17,7 @@
             foreach($softwareCategories as $category){?>
             <option selected value="<?=$category['idSoftCat']?>"><?=$category['categoryLabel']?></option>
         <?php } ?>
-        <?php foreach(listCategories() as $category) {
+        <?php foreach(listSoftwareCategories() as $category) {
             if (!in_array($category, $softwareCategories)) { ?>
                 <option value="<?= $category['idSoftCat'] ?>"><?= $category['categoryLabel'] ?></option>
             <?php }

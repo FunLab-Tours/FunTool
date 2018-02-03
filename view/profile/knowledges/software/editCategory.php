@@ -1,7 +1,7 @@
 <?php
 
     if(isset($_POST['submit']) && $_POST['code'] != "" && $_POST['label'] != "") {
-        editCategory($_GET['editCategory'], $_POST['code'], $_POST['label']);
+        editSoftwareCategory($_GET['editCategory'], $_POST['code'], $_POST['label']);
         header('Location: index.php?page=profile&knowledge=0&categories=0');
     }
 
@@ -12,7 +12,7 @@
         <td><?=$lang["catCode"]?></td>
         <td><?=$lang["catLabel"]?></td>
     </tr>
-    <?php foreach(listCategories() as $category) {
+    <?php foreach(listSoftwareCategories() as $category) {
         if ($_GET['editCategory'] == $category['idSoftCat']) {?>
             <tr>
                 <form method = "POST" action="">

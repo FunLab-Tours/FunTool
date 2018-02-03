@@ -7,7 +7,7 @@
     else if(isset($_GET['skills']))
         $result = searchForSkills(mb_split(";", $_GET['skills']));
     else if(isset($_GET['knowledges']))
-        $result = searchForKnowledges(mb_split(";", $_GET['knowledges']));
+        $result = searchForKnowledge(mb_split(";", $_GET['knowledges']));
 
     if(isset($result)) { ?>
     <table width='80%' border=0>
@@ -44,7 +44,7 @@
                     } ?>
                 </td>
                 <td>
-                    <?php foreach (listKnowledges($user['idUser']) as $knowledge) {
+                    <?php foreach (listKnowledge($user['idUser']) as $knowledge) {
                         echo getSoftWare($knowledge['idSoftware'])['softwareName'] . " ; ";
                     } ?>
                 </td>

@@ -11,11 +11,11 @@
         <td><?=$lang['bills_totalCost']?></td>
         <td><?=$lang['bills_transactionStatus']?></td>
     </tr>
-    <?php foreach(listMachineUseFormUser($_COOKIE['id']) as $machineUseForm) {
+    <?php foreach(listMachineUseFormByUser($_COOKIE['id']) as $machineUseForm) {
         if (!strcmp($machineUseForm['TransactionStatut'], $lang['unpaid'])) { ?>
             <tr>
                 <td><?= getUser($machineUseForm['idUser'])['login'] ?></td>
-                <td><?= countUnpaidUser($machineUseForm['idUser'], $lang['unpaid'])?></td>
+                <td><?= countUnpaidByUser($machineUseForm['idUser'], $lang['unpaid'])?></td>
                 <td><?= $machineUseForm['dateUseForm'] ?></td>
                 <td><?= $machineUseForm['entryDate'] ?></td>
                 <td><?= getMachine($machineUseForm['idMachine'])['shortLabel'] ?></td>
@@ -28,7 +28,7 @@
                     <?php } ?>
                 </td>
                 <td><?= $machineUseForm['comment'] ?></td>
-                <td><?= calculCost($machineUseForm['idUseForm']) ?> <?= $lang['funnies'] ?></td>
+                <td><?= computeCost($machineUseForm['idUseForm']) ?> <?= $lang['funnies'] ?></td>
                 <td><?= $machineUseForm['TransactionStatut'] ?></td>
                 <td>
                     <a href="index.php?page=mailBox&send=<?=$machineUseForm['idUser']?>"><?=$lang['contact']?></a> |

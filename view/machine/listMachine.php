@@ -30,7 +30,7 @@
                     <td><?=$row['comment']?></td>
                     <td><?=$row['docLink1']?></td>
                     <td><?=$row['docLink2']?></td>
-					<td><?=getFamilyName($row['idFamily'])?></td>
+					<td><?=getFamilyLabel($row['idFamily'])?></td>
                     <td><?php
                         foreach(getSubFamilyListMachine($row['idMachine']) as $subRow)
                             echo $subRow['labelSubFamily']." ; ";

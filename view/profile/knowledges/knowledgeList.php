@@ -1,7 +1,7 @@
 <?php
 
     if(isset($_POST['submit']) && $_POST['skillLevel'] != 0 && isset($_POST['software'])) {
-        if(assignKnowledges($_COOKIE['id'], $_POST['software'], $_POST['skillLevel'], $_POST['comment']))
+        if(assignKnowledge($_COOKIE['id'], $_POST['software'], $_POST['skillLevel'], $_POST['comment']))
             header('Location: index.php?page=profile&knowledge=1');
     }
 
@@ -14,7 +14,7 @@
         <td><?=$lang["skillLevel"]?></td>
         <td><?=$lang["comment"]?></td>
     </tr>
-    <?php foreach(listKnowledges($_COOKIE['id']) as $knowledge){
+    <?php foreach(listKnowledge($_COOKIE['id']) as $knowledge){
         $software = getSoftWare($knowledge['idSoftware']);?>
         <tr>
             <td><?=$software['softwareName']?></td>

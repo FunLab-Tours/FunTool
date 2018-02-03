@@ -1,7 +1,7 @@
 <?php
 
     if(isset($_POST['submit']) && $_POST['code'] != "" && $_POST['label'] != "") {
-        addSubCategory($_GET['addSubCategory'], $_POST['code'], $_POST['label']);
+        addSoftwareSubCategory($_GET['addSubCategory'], $_POST['code'], $_POST['label']);
 
         header('Location: index.php?page=profile&knowledge&categories=0');
     }

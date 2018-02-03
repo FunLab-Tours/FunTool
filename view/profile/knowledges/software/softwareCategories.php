@@ -1,7 +1,7 @@
 <?php
 
     if(isset($_POST['submit']) && $_POST['code'] != "" && $_POST['label'] != "") {
-        addCategory($_POST['code'], $_POST['label']);
+        addSoftwareCategory($_POST['code'], $_POST['label']);
         header('Location: index.php?page=profile&knowledge&categories=0');
     }
 
@@ -12,7 +12,7 @@
         <td><?=$lang["catCode"]?></td>
         <td><?=$lang["catLabel"]?></td>
     </tr>
-    <?php foreach(listCategories() as $category){?>
+    <?php foreach(listSoftwareCategories() as $category){?>
         <tr>
             <td><?=$category['categoryCode']?></td>
             <td><?=$category['categoryLabel']?></td>
@@ -23,7 +23,7 @@
             </td>
         </tr>
         <!--Affichage des sous-catégorie de la catégorie sous la catégorie-->
-        <?php foreach (listSubCategories($category['idSoftCat']) as $sub){ ?>
+        <?php foreach (listSoftwareSubCategories($category['idSoftCat']) as $sub){ ?>
             <tr>
                 <td><?=$sub['SubcatCode']?></td>
                 <td><?=$sub['SubcatLabel']?></td>

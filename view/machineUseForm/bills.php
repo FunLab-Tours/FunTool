@@ -9,7 +9,7 @@
         <td><?=$lang['bills_totalCost']?></td>
         <td><?=$lang['bills_transactionStatus']?></td>
     </tr>
-    <?php foreach(listMachineUseFormUser($_COOKIE['id']) as $machineUseForm){ ?>
+    <?php foreach(listMachineUseFormByUser($_COOKIE['id']) as $machineUseForm){ ?>
         <tr>
             <td><?=$machineUseForm['dateUseForm']?></td>
             <td><?=$machineUseForm['entryDate']?></td>
@@ -23,11 +23,11 @@
                 <?php } ?>
             </td>
             <td><?=$machineUseForm['comment']?></td>
-            <td><?=calculCost($machineUseForm['idUseForm'])?> <?=$lang['funnies']?></td>
+            <td><?=computeCost($machineUseForm['idUseForm'])?> <?=$lang['funnies']?></td>
             <td><?=$machineUseForm['TransactionStatut']?></td>
             <?php if(!strcmp($machineUseForm['TransactionStatut'], $lang['unpaid'])){ ?>
                 <td>
-                    <a href="index.php?page=machineUseForm&confirmation=<?=calculCost($machineUseForm['idUseForm'])?>&useForm=<?=$machineUseForm['idUseForm']?>"><?=$lang['pay']?></a>
+                    <a href="index.php?page=machineUseForm&confirmation=<?=computeCost($machineUseForm['idUseForm'])?>&useForm=<?=$machineUseForm['idUseForm']?>"><?=$lang['pay']?></a>
                 </td>
             <?php } ?>
         </tr>

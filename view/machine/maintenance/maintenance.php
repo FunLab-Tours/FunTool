@@ -9,8 +9,8 @@
             <td><?=$machine['shortLabel']?>{</td>
             <td><?=$machine['codeMachine']?></td>
             <td>
-                <?php foreach (listMaintenances($machine['idMachine']) as $maintenance) { ?>
-                    <?=$maintenance['nameMaintenance']." ".$lang['each']." ".$maintenance['timeBetweenMaintenances']." ".$lang['remainTime']." ".remainTimeMaintenances(['idMaintenance'])?>
+                <?php foreach (listMaintenance($machine['idMachine']) as $maintenance) { ?>
+                    <?=$maintenance['nameMaintenance']." ".$lang['each']." ".$maintenance['timeBetweenMaintenances']." ".$lang['remainTime']." " . remainTimeMaintenance(['idMaintenance'])?>
                 <?php } ?>
             </td>
         </tr>
