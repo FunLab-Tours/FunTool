@@ -4,7 +4,7 @@
  * Add a FabLab.
  * @param $labName : name of the FabLab.
  * @param $labDescription : description of the FabLab.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function addLab($labName, $labDescription) {
 	global $DB_DB;
@@ -17,14 +17,16 @@ function addLab($labName, $labDescription) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Delete a FabLab.
  * @param $idLab : ID of the FabLab to delete.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function deleteLab($idLab) {
 	global $DB_DB;
@@ -36,8 +38,10 @@ function deleteLab($idLab) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -45,7 +49,7 @@ function deleteLab($idLab) {
  * @param $idLab : ID of the FabLab to edit.
  * @param $labName : new name of the FabLab.
  * @param $labDescription : new description of the FabLab.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function updateLab($idLab, $labName, $labDescription) {
 	global $DB_DB;
@@ -59,13 +63,15 @@ function updateLab($idLab, $labName, $labDescription) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Get all existing labs.
- * @return int|mixed : all attributes about all labs or error code if an error occurred.
+ * @return int|mixed : all attributes about all labs or an error code if an error occurred.
  */
 function listAllLab() {
 	global $DB_DB;
@@ -75,7 +81,7 @@ function listAllLab() {
 		$request->execute(array());
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -91,7 +97,7 @@ function isValidLab($labName) {
 	$request = $DB_DB->prepare("SELECT COUNT(labName) as nb_entry FROM lab WHERE labName = :labName");
 
 	if($labName == "")
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -99,7 +105,7 @@ function isValidLab($labName) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	if($request->fetch()['nb_entry'] == 0)
@@ -110,7 +116,7 @@ function isValidLab($labName) {
 /**
  * Get the name of a lab.
  * @param $idLab : ID of the lab to check.
- * @return int|mixed : lab name or error code if an error occurred.
+ * @return int|mixed : lab name or an error code if an error occurred.
  */
 function getLabName($idLab) {
 	global $DB_DB;
@@ -122,7 +128,7 @@ function getLabName($idLab) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetch()[0];

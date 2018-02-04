@@ -7,6 +7,7 @@
 // TODO : documentation.
 function testInformationCategory($id, $code, $label) {
 	global $DB_DB;
+
 	if($id == null) {
 		$request = $DB_DB->prepare("SELECT * FROM SoftwareCategory WHERE categoryCode = :code OR categoryLabel LIKE :label");
 
@@ -17,10 +18,8 @@ function testInformationCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM SoftwareCategory WHERE idSoftCat <> :id AND (categoryCode LIKE :code OR categoryLabel LIKE :label)");
@@ -33,17 +32,18 @@ function testInformationCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
+
+	if($request->rowCount() != 0)
+		return false;
+	return true;
 }
 
 /**
  * List all software categories.
- * @return mixed : all data from all categories.
+ * @return int : all data from all categories, or error code if an error occurred.
  */
 function listSoftwareCategories() {
 	global $DB_DB;
@@ -53,6 +53,7 @@ function listSoftwareCategories() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -61,7 +62,7 @@ function listSoftwareCategories() {
 /**
  * Get a specific category of software.
  * @param $id : ID of the category to get.
- * @return mixed : entire category with all of this attributes.
+ * @return mixed : entire category with all of this attributes, or error code if an error occurred.
  */
 function getSoftwareCategory($id) {
 	global $DB_DB;
@@ -73,6 +74,7 @@ function getSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -82,14 +84,14 @@ function getSoftwareCategory($id) {
  * Add a new software category.
  * @param $code : code of the category to add.
  * @param $label : label of the category.
- * @return bool : return true if the category has been added, false else.
+ * @return bool : return error code if an error occurred.
  */
 function addSoftwareCategory($code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SoftwareCategory  (categoryCode, categoryLabel) VALUES (:code, :label)');
 
 	if(!testInformationCategory(null, $code, $label))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -98,10 +100,10 @@ function addSoftwareCategory($code, $label) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -109,14 +111,14 @@ function addSoftwareCategory($code, $label) {
  * @param $id : ID of the software category to edit.
  * @param $code : new code of the software category.
  * @param $label : new label of the software category.
- * @return bool : return true if the software has been modified, false else.
+ * @return bool : return error code if an error occurred.
  */
 function editSoftwareCategory($id, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SoftwareCategory SET categoryCode = :code, categoryLabel = :label WHERE idSoftCat = :id');
 
 	if(!testInformationCategory($id, $code, $label))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -126,15 +128,16 @@ function editSoftwareCategory($id, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a software category.
  * @param $id : ID of the software category to delete.
+ * @return bool : return error code if an error occurred.
  */
 function deleteSoftwareCategory($id) {
 	global $DB_DB;
@@ -146,6 +149,7 @@ function deleteSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	$request = $DB_DB->prepare("DELETE FROM softwareCategory WHERE idSoftcat = :id");
@@ -156,7 +160,10 @@ function deleteSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
+	return "";
 }
 
 
@@ -178,10 +185,8 @@ function testInformationSoftwareSubCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM SoftwareSubCategory WHERE idSoftSubcat <> :id AND (SubcatCode LIKE :code OR SubcatLabel LIKE :label)");
@@ -194,18 +199,19 @@ function testInformationSoftwareSubCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
+
+	if($request->rowCount() != 0)
+		return false;
+	return true;
 }
 
 /**
  * List all subcategories of software for a specific category.
  * @param $idCategory : category to check.
- * @return mixed : all attributes of all subcategories found.
+ * @return mixed : all attributes of all subcategories found, or error code if an error occurred.
  */
 function listSoftwareSubCategories($idCategory) {
 	global $DB_DB;
@@ -217,6 +223,7 @@ function listSoftwareSubCategories($idCategory) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -225,7 +232,7 @@ function listSoftwareSubCategories($idCategory) {
 /**
  * Get a specific software subcategory.
  * @param $id : id of the subcategory to get.
- * @return mixed : all attributes of the software category selected.
+ * @return mixed : all attributes of the software category selected, or error code if an error occurred.
  */
 function getSoftwareSubCategory($id) {
 	global $DB_DB;
@@ -237,6 +244,7 @@ function getSoftwareSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -247,14 +255,14 @@ function getSoftwareSubCategory($id) {
  * @param $idCat : category of the subcategory.
  * @param $code : code of the subcategory.
  * @param $label : label of the subcategory.
- * @return bool : return true if the subcategory has been added, false else.
+ * @return int : return error code if an error occurred.
  */
 function addSoftwareSubCategory($idCat, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SoftwareSubcategory  (idSoftCat, SubcatCode, SubcatLabel)  VALUES (:idCat, :code, :label)');
 
 	if(!testInformationSoftwareSubCategory(null, $code, $label))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -264,10 +272,10 @@ function addSoftwareSubCategory($idCat, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -275,14 +283,14 @@ function addSoftwareSubCategory($idCat, $code, $label) {
  * @param $id : ID of the subcategory to edit.
  * @param $code : new code of the subcategory.
  * @param $label : new label of the subcategory.
- * @return bool : return true if the subcategory has been modified, false else.
+ * @return int : return error code if an error occurred.
  */
 function editSoftwareSubCategory($id, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SoftwareSubcategory SET SubcatCode = :code, SubcatLabel = :label WHERE idSoftSubcat = :id');
 
 	if(!testInformationSoftwareSubCategory($id, $code, $label))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -292,15 +300,16 @@ function editSoftwareSubCategory($id, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a subcategory.
  * @param $id : ID of the subcategory to delete.
+ * @return int : return error code if an error occurred.
  */
 function deleteSubCategory($id) {
 	global $DB_DB;
@@ -312,7 +321,9 @@ function deleteSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
 	$request = $DB_DB->prepare('DELETE FROM softwaresubcategory WHERE idSoftSubcat = :id');
 
 	try {
@@ -321,5 +332,8 @@ function deleteSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
+	return "";
 }

@@ -2,7 +2,7 @@
 
 /**
  * List all projects.
- * @return bool : all attributes from all projects, or false if an error occurred.
+ * @return bool : all attributes from all projects, or an error code if an error occurred.
  */
 function listAllProject() {
 	global $DB_DB;
@@ -12,7 +12,7 @@ function listAllProject() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -23,7 +23,7 @@ function listAllProject() {
  * @param $projectTitle : title of the project.
  * @param $projectWiki : description for the wiki of the project.
  * @param $dateProject : date of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addProject($projectTitle, $projectWiki, $dateProject) {
 	global $DB_DB;
@@ -37,16 +37,16 @@ function addProject($projectTitle, $projectWiki, $dateProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get all information of a project.
  * @param $idProject : ID of the project to get.
- * @return bool : all attributes of the project or false if an error occurred.
+ * @return bool : all attributes of the project or an error code if an error occurred.
  */
 function selectProject($idProject) {
 	global $DB_DB;
@@ -58,7 +58,7 @@ function selectProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetchAll();
@@ -72,7 +72,7 @@ function selectProject($idProject) {
  * @param $projectTitle : new title for the project.
  * @param $projectWiki : new description for the wiki of the project.
  * @param $dateProject : new date for the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function updateProject($idProject, $projectTitle, $projectWiki, $dateProject) {
 	global $DB_DB;
@@ -87,16 +87,16 @@ function updateProject($idProject, $projectTitle, $projectWiki, $dateProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a project.
  * @param $idProject : ID of the project to delete.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteProject($idProject) {
 	global $DB_DB;
@@ -108,16 +108,16 @@ function deleteProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete all pictures of a project.
  * @param $idProject : ID of the project to act.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deletePictureLinkToProject($idProject) {
 	global $DB_DB;
@@ -129,15 +129,15 @@ function deletePictureLinkToProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Select all categories of projects.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function selectAllProjectCategory() {
 	global $DB_DB;
@@ -147,7 +147,7 @@ function selectAllProjectCategory() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -157,7 +157,7 @@ function selectAllProjectCategory() {
  * Add a picture to a project.
  * @param $picture : picture to add.
  * @param $idProject : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addPictureProject($picture, $idProject) {
 	global $DB_DB;
@@ -170,15 +170,15 @@ function addPictureProject($picture, $idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get the ID of the last inserted project.
- * @return bool : ID of the last inserted project or false if an error occurred.
+ * @return bool : ID of the last inserted project or an error code if an error occurred.
  */
 function lastInsertProjectId() {
 	global $DB_DB;
@@ -188,7 +188,7 @@ function lastInsertProjectId() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $request->fetch()['max(idProject)'];
@@ -199,7 +199,7 @@ function lastInsertProjectId() {
 /**
  * Select all pictures of a project.
  * @param $idProject : ID of the project.
- * @return bool : array of pictures or false if an error occurred.
+ * @return bool : array of pictures or an error code if an error occurred.
  */
 function selectProjectPicture($idProject) {
 	global $DB_DB;
@@ -211,7 +211,7 @@ function selectProjectPicture($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch()['picture'];
@@ -252,12 +252,11 @@ function alreadyRegisteredProject($idProject, $idUser) { // TODO : error code.
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	if($request->fetch()['nb_entry'] == 0)
 		return false;
-
 	return true;
 }
 
@@ -265,7 +264,7 @@ function alreadyRegisteredProject($idProject, $idUser) { // TODO : error code.
  * Add a category of projects.
  * @param $title : title of the category.
  * @param $longCategoryLabel : long label for the category.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addProjectCategory($title, $longCategoryLabel) {
 	global $DB_DB;
@@ -281,10 +280,10 @@ function addProjectCategory($title, $longCategoryLabel) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -302,7 +301,7 @@ function listAllProjectCategory() {
  * Add a project into a category.
  * @param $idProCat : ID of the category.
  * @param $idProject : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function linkToProjectCategory($idProCat, $idProject) {
 	global $DB_DB;
@@ -315,16 +314,16 @@ function linkToProjectCategory($idProCat, $idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a project from a categories.
  * @param $idProject : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteProjectIncludeIn($idProject) {
 	global $DB_DB;
@@ -336,16 +335,16 @@ function deleteProjectIncludeIn($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Select a project into a category.
  * @param $idProject : ID of the project.
- * @return bool : all attributes of the project or false if an error occurred.
+ * @return bool : all attributes of the project or an error code if an error occurred.
  */
 function selectProjectInIsIncludeIn($idProject) {
 	global $DB_DB;
@@ -357,7 +356,7 @@ function selectProjectInIsIncludeIn($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -368,7 +367,7 @@ function selectProjectInIsIncludeIn($idProject) {
 /**
  * Select a project category.
  * @param $idProCat : ID of the project category.
- * @return bool : all attributes of the project category or false if an error occurred.
+ * @return bool : all attributes of the project category or an error code if an error occurred.
  */
 function selectSpecificProjectCategory($idProCat) {
 	global $DB_DB;
@@ -380,7 +379,7 @@ function selectSpecificProjectCategory($idProCat) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -392,7 +391,7 @@ function selectSpecificProjectCategory($idProCat) {
  * Add a participant to a project.
  * @param $idUser : ID of the user.
  * @param $idProject : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addParticipantToProject($idUser, $idProject) {
 	global $DB_DB;
@@ -405,16 +404,16 @@ function addParticipantToProject($idUser, $idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Select all participants to a project.
  * @param $idProject : ID of the project.
- * @return bool : all attributes of all participants or false if an error occurred.
+ * @return bool : all attributes of all participants or an error code if an error occurred.
  */
 function selectParticipantsToProject($idProject) {
 	global $DB_DB;
@@ -426,7 +425,7 @@ function selectParticipantsToProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -437,7 +436,7 @@ function selectParticipantsToProject($idProject) {
 /**
  * Get all information from a user.
  * @param $idUser : ID of the user.
- * @return bool : all attributes of the user or false if an error occurred.
+ * @return bool : all attributes of the user or an error code if an error occurred.
  */
 function selectUser($idUser) {
 	global $DB_DB;
@@ -449,7 +448,7 @@ function selectUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return true;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -460,7 +459,7 @@ function selectUser($idUser) {
 /**
  * Delete all participants of a project.
  * @param $idProject : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteProjectParticipate($idProject) {
 	global $DB_DB;
@@ -472,16 +471,16 @@ function deleteProjectParticipate($idProject) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a project from a category.
  * @param $idProCat : ID of the project.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteProjectCategoryIncludeIn($idProCat) {
 	global $DB_DB;
@@ -493,16 +492,16 @@ function deleteProjectCategoryIncludeIn($idProCat) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a category of projects.
  * @param $idProCat : ID of category.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteProjectCategory($idProCat) {
 	global $DB_DB;
@@ -514,10 +513,10 @@ function deleteProjectCategory($idProCat) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -525,7 +524,7 @@ function deleteProjectCategory($idProCat) {
  * @param $idProCat : ID of the category to edit.
  * @param $title : new title for the category.
  * @param $longCategoryLabel : new long label for the category.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function updateProjectCategory($idProCat, $title, $longCategoryLabel) {
 	global $DB_DB;
@@ -539,8 +538,8 @@ function updateProjectCategory($idProCat, $title, $longCategoryLabel) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }

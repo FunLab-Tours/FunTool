@@ -6,7 +6,7 @@
  * Assign roles to a user.
  * @param $idUser : ID of the user.
  * @param $idsRoles : array of IDs of the roles.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function assignRolesToUser($idUser, $idsRoles) {
 	global $DB_DB;
@@ -20,7 +20,7 @@ function assignRolesToUser($idUser, $idsRoles) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	foreach($idsRoles as $idRole) {
@@ -33,11 +33,11 @@ function assignRolesToUser($idUser, $idsRoles) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
 
-	return true;
+	return "";
 }
 
 // Roles.
@@ -49,40 +49,38 @@ function testValuesRole($id, $name) {
 	if($id == null) {
 		try {
 			$request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name");
+
 			$request->execute(array(
 				'name' => $name
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 	else {
 		try {
 			$request = $DB_DB->prepare("SELECT * FROM Role WHERE roleName LIKE :name AND idRole <> :id");
+
 			$request->execute(array(
 				'id' => $id,
 				'name' => $name
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 
+	if($request->rowCount() != 0)
+		return false;
 	return true;
 }
 
 /**
  * Get all roles of a user.
  * @param $idUser : ID of the user.
- * @return bool : list of roles or false if an error occurred.
+ * @return bool : list of roles or an error code if an error occurred.
  */
 function getUserRoles($idUser) {
 	global $DB_DB;
@@ -94,7 +92,7 @@ function getUserRoles($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -102,7 +100,7 @@ function getUserRoles($idUser) {
 
 /**
  * Get the list of all roles.
- * @return bool : list of roles or false if an error occurred.
+ * @return bool : list of roles or an error code if an error occurred.
  */
 function getRolesList() {
 	global $DB_DB;
@@ -112,7 +110,7 @@ function getRolesList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -123,14 +121,14 @@ function getRolesList() {
  * @param $name : name of the role.
  * @param $description : description of the role.
  * @param $rights : rights of the role.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addRole($name, $description, $rights) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Role (roleName, roleDescription) VALUES (:roleName, :roleDescription)');
 
 	if(!testValuesRole(null, $name))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -139,7 +137,7 @@ function addRole($name, $description, $rights) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$idRole = $DB_DB->lastInsertId();
@@ -156,11 +154,11 @@ function addRole($name, $description, $rights) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 		}
 
-	return true;
+	return "";
 }
 
 /**
@@ -169,7 +167,7 @@ function addRole($name, $description, $rights) {
  * @param $name : new name for the role.
  * @param $description : new description of the role.
  * @param $rights : new rights for the role.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function editRole($idRole, $name, $description, $rights) {
 	global $DB_DB;
@@ -186,18 +184,19 @@ function editRole($idRole, $name, $description, $rights) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	// For according relation we delete all and add new ones.
 	try {
 		$request = $DB_DB->prepare('DELETE FROM according WHERE idRole = :idRole');
+
 		$request->execute(array(
 			'idRole' => $idRole,
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	// Add links with rights.
@@ -212,17 +211,17 @@ function editRole($idRole, $name, $description, $rights) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 		}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a role.
  * @param $idRole : ID of the role to delete.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteRole($idRole) {
 	global $DB_DB;
@@ -236,7 +235,7 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	// Delete the key in userRole.
@@ -248,7 +247,7 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	// Then delete the role.
@@ -260,10 +259,10 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 // Rights.
@@ -280,20 +279,21 @@ function testValuesRights($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
 			return false;
 
 		$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsPath LIKE :path");
+
 		try {
 			$request->execute(array(
 				'path' => $path
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
@@ -309,7 +309,7 @@ function testValuesRights($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
@@ -324,7 +324,7 @@ function testValuesRights($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
@@ -337,7 +337,7 @@ function testValuesRights($id, $title, $path) {
 /**
  * Get the rights of a role.
  * @param $idRole : ID of the role.
- * @return bool : list of rights or false if an error occurred.
+ * @return bool : list of rights or an error code if an error occurred.
  */
 function getRights($idRole) {
 	global $DB_DB;
@@ -349,7 +349,7 @@ function getRights($idRole) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -357,7 +357,7 @@ function getRights($idRole) {
 
 /**
  * Get the list of all rights.
- * @return bool : list of rights or false if an error occurred.
+ * @return bool : list of rights or an error code if an error occurred.
  */
 function getRightsList() {
 	global $DB_DB;
@@ -367,7 +367,7 @@ function getRightsList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -376,7 +376,7 @@ function getRightsList() {
 /**
  * Get rights used by a role.
  * @param $idRole : ID of the role.
- * @return bool : list of rights or false if an error occurred.
+ * @return bool : list of rights or an error code if an error occurred.
  */
 function getRightsRoleList($idRole) {
 	global $DB_DB;
@@ -388,7 +388,7 @@ function getRightsRoleList($idRole) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -421,14 +421,14 @@ function getRightsListWithRoles($roles) {
  * @param $title : title of the right.
  * @param $description : description of the right.
  * @param $path : path of the file used by the right.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addRight($title, $description, $path) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Rights(rightsTitle, rightsDescription, rightsPath) VALUES(:rightsTitle, :rightsDescription, :rightsPath)');
 
 	if(!testValuesRights(null, $title, $path))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -438,10 +438,10 @@ function addRight($title, $description, $path) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -450,14 +450,14 @@ function addRight($title, $description, $path) {
  * @param $title : new title for the right.
  * @param $description : new description for the right.
  * @param $path : new path for the file used by the right.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function editRight($idRight, $title, $description, $path) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Rights SET rightsTitle = :rightsTitle, rightsDescription = :rightsDescription, rightsPath = :rightsPath WHERE idRights = :idRight');
 
 	if(!testValuesRights($idRight, $title, $path))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -468,16 +468,16 @@ function editRight($idRight, $title, $description, $path) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a right.
  * @param $idRight : ID of the right to delete.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteRight($idRight) {
 	global $DB_DB;
@@ -491,7 +491,7 @@ function deleteRight($idRight) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$request = $DB_DB->prepare('DELETE FROM Rights WHERE idRights = :idRight');
@@ -502,8 +502,8 @@ function deleteRight($idRight) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }

@@ -35,7 +35,7 @@ function isValidPicture() {
 
 /**
  * Add a picture to the database.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addPicture() {
 	global $DB_DB;
@@ -46,7 +46,7 @@ function addPicture() {
 	$result = move_uploaded_file($_FILES['picture']['tmp_name'], $path);
 
 	if(!$result)
-		echo "Error.";
+		return -4;
 
 	try {
 		$request->execute(array(
@@ -54,15 +54,15 @@ function addPicture() {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get the list of all pictures.
- * @return bool : list of pictures or false if an error occurred.
+ * @return bool : list of pictures or an error code if an error occurred.
  */
 function getPictureList() {
 	global $DB_DB;
@@ -72,7 +72,7 @@ function getPictureList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -80,7 +80,7 @@ function getPictureList() {
 
 /**
  * Delete the picture sent in POST.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deletePicture() {
 	global $DB_DB;
@@ -94,16 +94,16 @@ function deletePicture() {
 		unlink("uploaded/" . $_POST['picture']);
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get information about a picture.
  * @param $idPicture : ID of the picture to check.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function getPicture($idPicture) {
 	global $DB_DB;
@@ -115,7 +115,7 @@ function getPicture($idPicture) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetch();

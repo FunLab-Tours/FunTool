@@ -14,10 +14,8 @@ function testFamily($id, $familyCode, $familyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM Family WHERE idFamily <> :id AND (familyCode LIKE :familyCode OR familyLabel LIKE :familyLabel)");
@@ -30,12 +28,12 @@ function testFamily($id, $familyCode, $familyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 
+	if($request->rowCount() != 0)
+		return false;
 	return true;
 }
 
@@ -43,14 +41,14 @@ function testFamily($id, $familyCode, $familyLabel) {
  * Add a family for machines.
  * @param $familyCode : code of the family.
  * @param $familyLabel : label of the family.
- * @return bool : true if the family has been added, false else.
+ * @return int : return error code if an error occurred.
  */
 function addFamily($familyCode, $familyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Family(familyCode, familyLabel) VALUES(:familyCode, :familyLabel)');
 
 	if(!testFamily(null, $familyCode, $familyLabel))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -59,16 +57,15 @@ function addFamily($familyCode, $familyLabel) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get the list of all families.
- * @return mixed : all attributes of all families.
+ * @return mixed : all attributes of all families, or error code if an error occurred.
  */
 function getFamilyList() {
 	global $DB_DB;
@@ -78,6 +75,7 @@ function getFamilyList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -86,7 +84,7 @@ function getFamilyList() {
 /**
  * Get a family label.
  * @param $idFamily : ID of the family to get.
- * @return mixed : family label found.
+ * @return mixed : family label found, or error code if an error occurred.
  */
 function getFamilyLabel($idFamily) {
 	global $DB_DB;
@@ -98,8 +96,7 @@ function getFamilyLabel($idFamily) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit();
+		return -2;
 	}
 
 	return $request->fetch()[0];
@@ -108,6 +105,7 @@ function getFamilyLabel($idFamily) {
 /**
  * Delete an existing family. We replace by null all machine that used this family.
  * @param $idDelete : ID of the family to delete.
+ * @return int : return error code if an error occurred.
  */
 function deleteFamily($idDelete) {
 	global $DB_DB;
@@ -119,7 +117,7 @@ function deleteFamily($idDelete) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
 
 	// We delete subfamilies.
@@ -135,8 +133,10 @@ function deleteFamily($idDelete) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -144,14 +144,14 @@ function deleteFamily($idDelete) {
  * @param $idFamily : ID of the family to edit.
  * @param $familyCode : new code of the family.
  * @param $familyLabel : new label of the family.
- * @return bool : true if the family has been updated, false else.
+ * @return int : return error code if an error occurred.
  */
 function editFamily($idFamily, $familyCode, $familyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Family SET  familyCode = :familyCode, familyLabel = :familyLabel WHERE idFamily = :idFamily');
 
 	if(!testFamily($idFamily, $familyCode, $familyLabel))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -161,17 +161,16 @@ function editFamily($idFamily, $familyCode, $familyLabel) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Count the number of existing subfamilies.
  * @param $idFamily : ID of the family to check.
- * @return mixed : number of subfamilies.
+ * @return mixed : number of subfamilies, or error code if an error occurred.
  */
 function countNbrSubFamily($idFamily) {
 	global $DB_DB;
@@ -183,6 +182,7 @@ function countNbrSubFamily($idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetch()[0];

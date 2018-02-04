@@ -5,7 +5,7 @@
  * @param $name : name of the maintenance.
  * @param $timeBetweenMaintenance : time that we can wait between two maintenance.
  * @param $idMachine : ID of the machine to maintain.
- * @return int|mixed : error code if an error occurred or ID of the maintenance if everything passed well.
+ * @return int : error code if an error occurred or ID of the maintenance if everything passed well.
  */
 function createMaintenance($name, $timeBetweenMaintenance, $idMachine) {
 	global $DB_DB;
@@ -19,7 +19,7 @@ function createMaintenance($name, $timeBetweenMaintenance, $idMachine) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $DB_DB->lastInsertedId();
@@ -30,7 +30,7 @@ function createMaintenance($name, $timeBetweenMaintenance, $idMachine) {
  * @param $idMaintenance : ID of the maintenance to edit.
  * @param $name : new name of the maintenance.
  * @param $timeBetweenMaintenance : new time that we can wait between two maintenance.
- * @return int|mixed|string
+ * @return int : return an error code if an error occurred.
  */
 function editMaintenance($idMaintenance, $name, $timeBetweenMaintenance) {
 	global $DB_DB;
@@ -44,7 +44,7 @@ function editMaintenance($idMaintenance, $name, $timeBetweenMaintenance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return "";
@@ -53,7 +53,7 @@ function editMaintenance($idMaintenance, $name, $timeBetweenMaintenance) {
 /**
  * Delete a maintenance.
  * @param $idMaintenance : ID of maintenance to delete.
- * @return int|mixed : error code if an error occurred, nothing else.
+ * @return int : error code if an error occurred, nothing else.
  */
 function deleteMaintenance($idMaintenance) {
 	global $DB_DB;
@@ -65,14 +65,16 @@ function deleteMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Get information about a maintenance.
  * @param $idMaintenance : ID of maintenance to get.
- * @return int|mixed : All attributes of the maintenance or error code if an error occurred.
+ * @return mixed : all attributes of the maintenance or an error code if an error occurred.
  */
 function getMaintenance($idMaintenance) {
 	global $DB_DB;
@@ -84,7 +86,7 @@ function getMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -93,7 +95,7 @@ function getMaintenance($idMaintenance) {
 /**
  * List all maintenance about a machine.
  * @param $idMachine : ID of the machine to check.
- * @return int|mixed : list of maintenance with all attributes or error code if an error occurred.
+ * @return mixed : list of maintenance with all attributes or an error code if an error occurred.
  */
 function listMaintenance($idMachine) {
 	global $DB_DB;
@@ -103,18 +105,18 @@ function listMaintenance($idMachine) {
 		$request->execute(array(
 			'idMachine' => $idMachine
 		));
-
-		return $request->fetchAll();
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return $request->fetchAll();
 }
 
 /**
  * Check the time that remain before the next maintenance of a machine.
  * @param $idMaintenance : ID of maintenance to check.
- * @return int|mixed : return time that remain before next maintenance or an error code if an error occurred.
+ * @return mixed : return time that remain before next maintenance or an error code if an error occurred (-1).
  */
 function remainTimeMaintenance($idMaintenance) {
 	global $DB_DB;
@@ -126,7 +128,7 @@ function remainTimeMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $request->fetch();
@@ -141,7 +143,7 @@ function remainTimeMaintenance($idMaintenance) {
 			));
 		}
 		catch(Exception $e) {
-			return $e->getCode();
+			return -2;
 		}
 	}
 	else {
@@ -154,7 +156,7 @@ function remainTimeMaintenance($idMaintenance) {
 			));
 		}
 		catch(Exception $e) {
-			return $e->getCode();
+			return -2;
 		}
 	}
 
@@ -173,7 +175,7 @@ function remainTimeMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$remainingTime = $request->fetch[0] - $duration;

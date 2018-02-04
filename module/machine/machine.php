@@ -1,73 +1,73 @@
 <?php
 
-// TODO : extract errors and suppress echo.
+// TODO : suppress echos.
 
 /**
  * Check if the submit for a new machine or an edit is valid.
  * @param bool $isEdit : true if it's to edit a machine, false if it's to add a new one.
- * @return bool : true if the submit is valid, false else.
+ * @return int : return true if the submit is valid or an error code else.
  */
 function isValidMachineSubmit($isEdit = false) {
 	if(!$isEdit) {
 		if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "") {
 			echo 'Erreur code machine';
-			return false;
+			return -2;
 		}
 
 		if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "") {
 			echo 'Erreur shortLabel';
-			return false;
+			return -2;
 		}
 	}
 
 	if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']) || $_POST['longLabel'] == "") {
 		echo 'Erreur longLabel';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['serialNumber']) || !isValidSerialNumber($_POST['serialNumber']) || $_POST['serialNumber'] == "") {
 		echo 'Erreur serialNumber';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']) || $_POST['manufacturer'] == "") {
 		echo 'Erreur manufacturer';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['comment']) || !isValidComment($_POST['comment']) || $_POST['comment'] == "") {
 		echo 'Erreur comment';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']) || $_POST['docLink1'] == "") {
 		echo 'Erreur link1';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']) || $_POST['docLink2'] == "") {
 		echo 'Erreur link2';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['idFamily']) || $_POST['idFamily'] == "") {
 		echo 'Erreur family';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['cost']) || $_POST['cost'] == "") {
 		echo 'Erreur cost';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['costCoeff']) || $_POST['costCoeff'] == "") {
 		echo 'Erreur cost coeff';
-		return false;
+		return -2;
 	}
 
 	if(!isset($_POST['idLab']) || $_POST['idLab'] == "") {
 		echo 'Erreur lab';
-		return false;
+		return -2;
 	}
 
 	return true;
@@ -76,7 +76,7 @@ function isValidMachineSubmit($isEdit = false) {
 /**
  * Check if the code for the machine is valid or not.
  * @param $codeMachine : code of the machine.
- * @return bool : true if the code is valid, false else.
+ * @return bool : true if the code is valid, false else, or error code if an error occurred.
  */
 function isValidCodeMachine($codeMachine) {
 	global $DB_DB;
@@ -88,7 +88,9 @@ function isValidCodeMachine($codeMachine) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
 	if($request->rowCount() != 0)
 		return false;
 	return true;
@@ -97,7 +99,7 @@ function isValidCodeMachine($codeMachine) {
 /**
  * Check if the short label of the machine is valid or not.
  * @param $shortLabel : short label of the machine.
- * @return bool : true if the label is valid, false else.
+ * @return bool : true if the label is valid, false else, or error code if an error occurred.
  */
 function isValidShortLabel($shortLabel) {
 	global $DB_DB;
@@ -109,7 +111,9 @@ function isValidShortLabel($shortLabel) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
 	if($request->rowCount() != 0)
 		return false;
 	return true;
@@ -174,7 +178,7 @@ function isValidDocLink($docLink) {
 /**
  * Get the time package and the coefficient time for a cost unit.
  * @param $idCost : ID of the cost unit to get.
- * @return mixed : time package and coefficient time for the cost unit.
+ * @return mixed : time package and coefficient time for the cost unit, or error code if an error occurred.
  */
 function getCostUnit($idCost) {
 	global $DB_DB;
@@ -188,9 +192,9 @@ function getCostUnit($idCost) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit;
+		return -2;
 	}
+
 	return $request->fetch();
 }
 
@@ -209,7 +213,7 @@ function getCostUnit($idCost) {
  * @param $costUnit : cost unit of the machine.
  * @param $costCoeff : cost coefficient of the machine.
  * @param $idLab : ID of the lab of the machine.
- * @return null
+ * @return int : return error code if an error occurred.
  */
 function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $costUnit, $costCoeff, $idLab) {
 	global $DB_DB;
@@ -246,8 +250,7 @@ function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manuf
 		}
 	}
 	catch(Exception $e) {
-		echo $e;
-		return null;
+		return -2;
 	}
 
 	return $idMachine;
@@ -255,7 +258,7 @@ function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manuf
 
 /**
  * Get the list of all machines.
- * @return mixed : list with all machine with all attributes.
+ * @return mixed : list with all machine with all attributes, or error code if an error occurred.
  */
 function getMachineList() {
 	global $DB_DB;
@@ -265,6 +268,7 @@ function getMachineList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -273,7 +277,7 @@ function getMachineList() {
 /**
  * Get a specific machine.
  * @param $id : ID of the machine to get.
- * @return mixed : all attributes of the machine.
+ * @return mixed : all attributes of the machine, or error code if an error occurred.
  */
 function getMachine($id) {
 	global $DB_DB;
@@ -285,6 +289,7 @@ function getMachine($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetch();
@@ -306,6 +311,7 @@ function getMachine($id) {
  * @param $costUnit : new cost unit of the machine.
  * @param $costCoeff : new cost coefficient of the machine.
  * @param $idLab : new ID of the lab of the machine.
+ * @return int : return error code if an error occurred.
  */
 function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $CostUnit, $CostCoeff, $idLab) {
 	global $DB_DB;
@@ -356,13 +362,16 @@ function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialN
 		}
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Delete an existing machine.
  * @param $idDelete : ID of the machine to delete.
+ * @return int : return error code if an error occurred.
  */
 function deleteMachine($idDelete) {
 	global $DB_DB;
@@ -376,7 +385,7 @@ function deleteMachine($idDelete) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
 
 	$request = $DB_DB->prepare('DELETE FROM Machine WHERE idMachine = :idMachine');
@@ -387,13 +396,15 @@ function deleteMachine($idDelete) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Get the list of all pictures about machines.
- * @return mixed : all attributes from all pictures of machines.
+ * @return mixed : all attributes from all pictures of machines, or error code if an error occurred.
  */
 function getListPictureMachine() {
 	global $DB_DB;
@@ -403,8 +414,7 @@ function getListPictureMachine() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -414,6 +424,7 @@ function getListPictureMachine() {
  * Assign a picture to a machine.
  * @param $idMachine : ID of the machine to add a picture.
  * @param $idPicture : ID of the picture to add to the machine.
+ * @return int : return error code if an error occurred.
  */
 function assignPicture($idMachine, $idPicture) {
 	global $DB_DB;
@@ -426,9 +437,10 @@ function assignPicture($idMachine, $idPicture) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -436,7 +448,7 @@ function assignPicture($idMachine, $idPicture) {
  * @param $idMachine : ID of the machine to add the picture.
  * @param $urlPicture : URL of the picture to add.
  * @param $descriptionPicture : description of the picture to add.
- * @return null
+ * @return int : return error code if an error occurred.
  */
 function addPictureAndAssign($idMachine, $urlPicture, $descriptionPicture) {
 	global $DB_DB;
@@ -449,8 +461,8 @@ function addPictureAndAssign($idMachine, $urlPicture, $descriptionPicture) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		return null;
+		return -2;
 	}
+
 	assignPicture($idMachine, $DB_DB->lastInsertId());
 }

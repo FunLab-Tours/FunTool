@@ -4,7 +4,7 @@
  * Get the stock of a material.
  * @param $idLab : ID of the lab who got the material.
  * @param $idMaterial : ID of the material.
- * @return array|bool : quantity of material or false if an error occurred.
+ * @return array|bool : quantity of material or an error code if an error occurred.
  */
 function getMaterialStock($idLab, $idMaterial) {
 	global $DB_DB;
@@ -17,7 +17,7 @@ function getMaterialStock($idLab, $idMaterial) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $request->fetchAll();
@@ -38,7 +38,7 @@ function getMaterialStock($idLab, $idMaterial) {
  * @param $idLab : ID of the lab which contain the material.
  * @param $idMaterial : ID of the material.
  * @param $nbr : quantity of materials.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
 	global $DB_DB;
@@ -51,7 +51,7 @@ function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$count = $request->fetch()[0];
@@ -75,7 +75,7 @@ function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
 	else {
@@ -91,7 +91,7 @@ function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 		}
 		else {
@@ -105,8 +105,10 @@ function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 		}
 	}
+
+	return "";
 }

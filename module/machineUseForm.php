@@ -42,7 +42,7 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$idMachineUseForm = $DB_DB->lastInsertId();
@@ -58,7 +58,7 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
 			));
 		}
 		catch(Exception $e) {
-			return $e->getCode();
+			return -2;
 		}
 	}
 
@@ -72,7 +72,7 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
  * Change the status of a transaction.
  * @param $idMachineUseForm : ID of the use form to edit.
  * @param $transactionStatus : new status for the transaction.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function setTransactionStatus($idMachineUseForm, $transactionStatus) {
 	global $DB_DB;
@@ -85,8 +85,10 @@ function setTransactionStatus($idMachineUseForm, $transactionStatus) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -130,7 +132,7 @@ function getMachineUseForm($idMachineUseForm) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -151,7 +153,7 @@ function listUsedQuantity($idUseForm) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -172,7 +174,7 @@ function listMachineUseFormByUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -193,7 +195,7 @@ function listUnpaidMachineUseForm($unpaidForm) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -216,7 +218,7 @@ function countUnpaidByUser($idUser, $unpaidForm) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetch()[0];

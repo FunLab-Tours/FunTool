@@ -6,7 +6,7 @@
  * Check if a user has a particular skill.
  * @param $idSkill : ID of the skill to check.
  * @param $idUser : ID of the user to check.
- * @return bool : true if the user has the skill, else false.
+ * @return bool : true if the user has the skill, else false, or an error code if an error occurred.
  */
 function isUserSkilled($idSkill, $idUser) {
 	global $DB_DB;
@@ -19,7 +19,7 @@ function isUserSkilled($idSkill, $idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false; // TODO : change catch.
+		return -2;
 	}
 
 	if($request->rowCount() != 0)
@@ -33,7 +33,7 @@ function isUserSkilled($idSkill, $idUser) {
  * @param $idSkill : ID of the skill.
  * @param $skillLevel : skill level.
  * @param $comment : comment about the skill.
- * @return bool : true if the skill has been added, false else.
+ * @return bool : true if the skill has been added, false else. Or an error code if an error occurred.
  */
 function assignSkills($idUser, $idSkill, $skillLevel, $comment) {
 	global $DB_DB;
@@ -49,7 +49,7 @@ function assignSkills($idUser, $idSkill, $skillLevel, $comment) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		return true;
@@ -62,7 +62,7 @@ function assignSkills($idUser, $idSkill, $skillLevel, $comment) {
  * Suppress a skill for a user.
  * @param $idUser : ID of the user.
  * @param $idSkill : ID of the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function unassignSkill($idUser, $idSkill) {
 	global $DB_DB;
@@ -75,17 +75,17 @@ function unassignSkill($idUser, $idSkill) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get all information about the skill of a user.
  * @param $idUser : ID of the user.
  * @param $idSkill : ID of the skill.
- * @return bool : all attributes of the skill or false if an error occurred.
+ * @return bool : all attributes of the skill or an error code if an error occurred
  */
 function getSkillUserInformation($idUser, $idSkill) {
 	global $DB_DB;
@@ -98,7 +98,7 @@ function getSkillUserInformation($idUser, $idSkill) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -110,7 +110,7 @@ function getSkillUserInformation($idUser, $idSkill) {
  * @param $idSkill : ID of the skill.
  * @param $skillLevel : new level for the skill.
  * @param $comment : new comment for the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function editAssignment($idUser, $idSkill, $skillLevel, $comment) {
 	global $DB_DB;
@@ -125,10 +125,10 @@ function editAssignment($idUser, $idSkill, $skillLevel, $comment) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 // Skills.
@@ -146,7 +146,7 @@ function testSkill($idSkill, $skillName, $idSkillType) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
@@ -162,7 +162,7 @@ function testSkill($idSkill, $skillName, $idSkillType) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 
 		if($request->rowCount() != 0)
@@ -177,7 +177,7 @@ function testSkill($idSkill, $skillName, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	if($request->rowCount() == 0)
@@ -188,7 +188,7 @@ function testSkill($idSkill, $skillName, $idSkillType) {
 
 /**
  * Get the list of all skills.
- * @return bool : all attributes of all skills or false if an error occurred.
+ * @return bool : all attributes of all skills or an error code if an error occurred
  */
 function getSkillsList() {
 	global $DB_DB;
@@ -198,7 +198,7 @@ function getSkillsList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -207,7 +207,7 @@ function getSkillsList() {
 /**
  * Get all information about a specific skill.
  * @param $idSkill : ID of the skill.
- * @return bool : all information about the skill or false if an error occurred.
+ * @return bool : all information about the skill or an error code if an error occurred
  */
 function getSkill($idSkill) {
 	global $DB_DB;
@@ -219,7 +219,7 @@ function getSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -228,7 +228,7 @@ function getSkill($idSkill) {
 /**
  * Get all skills of a specific user.
  * @param $idUser : ID of the user.
- * @return bool : list of skills or false if an error occurred.
+ * @return bool : list of skills or an error code if an error occurred
  */
 function getSkillsListUser($idUser) {
 	global $DB_DB;
@@ -240,7 +240,7 @@ function getSkillsListUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -251,14 +251,14 @@ function getSkillsListUser($idUser) {
  * @param $skillName : name of the skill.
  * @param $skillDescription : description of the skill.
  * @param $idSkillType : ID of the type of the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function addSkill($skillName, $skillDescription, $idSkillType) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO VariousSkills (skillName, skillDescription, idSkillType) VALUES (:skillName, :skillDescription, :idSkillType)");
 
 	if(!testSkill(null, $skillName, $idSkillType))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -268,10 +268,10 @@ function addSkill($skillName, $skillDescription, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -280,14 +280,14 @@ function addSkill($skillName, $skillDescription, $idSkillType) {
  * @param $skillName : new name for the skill.
  * @param $skillDescription : new description about the skill.
  * @param $idSkillType : new ID for the new type of skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function editSkill($idSkill, $skillName, $skillDescription, $idSkillType) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE VariousSkills SET skillName = :skillName, skillDescription = :skillDescription, idSkillType = :idSkillType WHERE idSkill = :idSkill");
 
 	if(!testSkill($idSkill, $skillName, $idSkillType))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -298,16 +298,16 @@ function editSkill($idSkill, $skillName, $skillDescription, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a skill.
  * @param $idSkill : ID of the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function deleteSkill($idSkill) {
 	global $DB_DB;
@@ -321,7 +321,7 @@ function deleteSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	// Delete in table 'VariousSkills'.
@@ -333,10 +333,10 @@ function deleteSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 // Skill type.
@@ -354,11 +354,8 @@ function testSkillType($idSkillType, $skillTypeName) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM SkillType WHERE skillTypeName LIKE :skillTypeName AND idSkillType <> :idSkillType");
@@ -370,20 +367,19 @@ function testSkillType($idSkillType, $skillTypeName) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
-
-		if($request->rowCount() != 0)
-			return false;
 	}
 
+	if($request->rowCount() != 0)
+		return false;
 	return true;
 }
 
 /**
  * Get information about a skill type.
  * @param $idSkillType : ID of the skill type.
- * @return bool : all attributes of the skill or false if an error occurred.
+ * @return bool : all attributes of the skill or an error code if an error occurred
  */
 function getSkillType($idSkillType) {
 	global $DB_DB;
@@ -395,7 +391,7 @@ function getSkillType($idSkillType) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -403,7 +399,7 @@ function getSkillType($idSkillType) {
 
 /**
  * Get the list of all skill type.
- * @return bool : all attributes about all skill types or false if an error occurred.
+ * @return bool : all attributes about all skill types or an error code if an error occurred
  */
 function getSkillsTypeList() {
 	global $DB_DB;
@@ -413,7 +409,7 @@ function getSkillsTypeList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -422,14 +418,14 @@ function getSkillsTypeList() {
 /**
  * Add a skill type.
  * @param $skillTypeName : name of the skill type.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function addSkillType($skillTypeName) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO SkillType (skillTypeName) VALUES (:skillTypeName)");
 
 	if(!testSkillType(null, $skillTypeName))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -437,24 +433,24 @@ function addSkillType($skillTypeName) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Edit a skill type.
  * @param $idSkillType : ID of the skill type.
  * @param $skillTypeName : new name for the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function editSkillType($idSkillType, $skillTypeName) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE SkillType SET skillTypeName = :skillTypeName WHERE idSkillType = :idSkillType");
 
 	if(!testSkillType($idSkillType, $skillTypeName))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -463,16 +459,16 @@ function editSkillType($idSkillType, $skillTypeName) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a skill type.
  * @param $idSkillType : ID of the skill.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred
  */
 function deleteSkillType($idSkillType) {
 	global $DB_DB;
@@ -486,8 +482,8 @@ function deleteSkillType($idSkillType) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }

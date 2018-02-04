@@ -12,7 +12,7 @@
  * @param $statutEvent : the current status of the event.
  * @param $nbPlaces : number of available places for the event.
  * @param $pricePlace : the price of a place for the event.
- * @return int|mixed|string : error code if an error occurred, else nothing.
+ * @return int : error code if an error occurred, else nothing.
  */
 function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent, $statutEvent, $nbPlaces, $pricePlace) {
 	global $DB_DB;
@@ -43,7 +43,7 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return "";
@@ -52,7 +52,7 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
 /**
  * Delete an event.
  * @param $idEvent : ID of the event to delete.
- * @return int|mixed|string : error code if an error occurred, else nothing.
+ * @return int : error code if an error occurred, else nothing.
  */
 function deleteEvent($idEvent) {
 	global $DB_DB;
@@ -64,7 +64,7 @@ function deleteEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return "";
@@ -80,7 +80,7 @@ function deleteEvent($idEvent) {
  * @param $statutEvent : the current status of the event.
  * @param $nbPlaces : number of available places for the event.
  * @param $pricePlace : the price of a place for the event.
- * @return int|mixed|string : error code if an error occurred, else nothing.
+ * @return int : error code if an error occurred, else nothing.
  */
 function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startdateEvent, $endDatEvent, $statutEvent, $nbPlaces, $pricePlace) {
 	global $DB_DB;
@@ -100,7 +100,7 @@ function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startdateEvent, $
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return "";
@@ -108,7 +108,7 @@ function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startdateEvent, $
 
 /**
  * List all event.
- * @return int|mixed : list of events.
+ * @return int : list of events, or an error code if an error occurred.
  */
 function listAllEvent() {
 	global $DB_DB;
@@ -118,7 +118,7 @@ function listAllEvent() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -127,7 +127,7 @@ function listAllEvent() {
 /**
  * Get a specific event.
  * @param $idEvent : ID of the event to get.
- * @return int|mixed : all attributes of the event.
+ * @return int : all attributes of the event, or an error code if an error occurred.
  */
 function selectEvent($idEvent) {
 	global $DB_DB;
@@ -139,7 +139,7 @@ function selectEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetchAll();
@@ -205,7 +205,7 @@ function ticketsLeft($allTickets, $idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$ticketsSold = $request->fetch()['ticketsSold'];
@@ -221,7 +221,7 @@ function ticketsLeft($allTickets, $idEvent) {
  * Check if a user is registered on an event or not.
  * @param $idEvent : ID of the event to check.
  * @param $idUser : ID of the user to check.
- * @return bool|int|mixed : error code if an error occurred or a boolean to say if the user is registered or not.
+ * @return bool|int : error code if an error occurred or a boolean to say if the user is registered or not.
  */
 function alreadyRegistered($idEvent, $idUser) {
 	global $DB_DB;
@@ -234,7 +234,7 @@ function alreadyRegistered($idEvent, $idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	if($request->fetch()['nb_entry'] == 0)
@@ -275,7 +275,7 @@ function currentUserFunnies($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -298,7 +298,7 @@ function ticketPrice($idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -310,7 +310,7 @@ function ticketPrice($idEvent) {
  * Register a user to an event.
  * @param $idUser : ID of the user to register.
  * @param $idEvent : ID of the event to register the user.
- * @return int|mixed : error code if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function userRegistrationToEvent($idUser, $idEvent) {
 	global $DB_DB;
@@ -323,18 +323,20 @@ function userRegistrationToEvent($idUser, $idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$userFunniesLeft = currentUserFunnies($idUser) - ticketPrice($idEvent);
 	updateUserFunnies($idUser, $userFunniesLeft);
+
+	return "";
 }
 
 /**
  * Set a new number of funnies on the account of a user.
  * @param $idUser : ID of the user to update number of funnies.
  * @param $userFunniesLeft : new number of funnies for the user.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function updateUserFunnies($idUser, $userFunniesLeft) {
 	global $DB_DB;
@@ -347,15 +349,17 @@ function updateUserFunnies($idUser, $userFunniesLeft) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Unregister a user from an event.
  * @param $idUser : ID of the user to unregister.
  * @param $idEvent : ID of the event.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function userUnregistrationToEvent($idUser, $idEvent) { // TODO : rename.
 	global $DB_DB;
@@ -368,11 +372,13 @@ function userUnregistrationToEvent($idUser, $idEvent) { // TODO : rename.
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$userFunniesLeft = currentUserFunnies($idUser) + ticketPrice($idEvent);
 	updateUserFunnies($idUser, $userFunniesLeft);
+
+	return "";
 }
 
 /**
@@ -390,7 +396,7 @@ function selectAllUsersInEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetchAll();
@@ -401,7 +407,7 @@ function selectAllUsersInEvent($idEvent) {
 /**
  * Select the name and the phone of all users registered to an event.
  * @param $idEvent : ID of the event to check.
- * @return int|mixed : first name and telephone number of all users registered to the event or error code if an error occurred.
+ * @return int|mixed : first name and telephone number of all users registered to the event or an error code if an error occurred.
  */
 function nameOfUsersInEvent($idEvent) {
 	global $DB_DB;
@@ -413,7 +419,7 @@ function nameOfUsersInEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetchAll();

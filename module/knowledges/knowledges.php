@@ -3,7 +3,7 @@
 /**
  * List all knowledge of a specific user.
  * @param $idUser : ID of the user to list.
- * @return mixed : list of knowledge with all attributes.
+ * @return int : list of knowledge with all attributes, or error code if an error occurred.
  */
 function listKnowledge($idUser) {
 	global $DB_DB;
@@ -15,6 +15,7 @@ function listKnowledge($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -23,7 +24,7 @@ function listKnowledge($idUser) {
 /**
  * List all knowledge of a specific user with ID of software.
  * @param $idUser : ID of the user to list.
- * @return mixed : ID list of knowledge.
+ * @return mixed : ID list of knowledge, or error code if an error occurred.
  */
 function listIdSoftwareFromKnowledge($idUser) {
 	global $DB_DB;
@@ -35,6 +36,7 @@ function listIdSoftwareFromKnowledge($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -46,7 +48,7 @@ function listIdSoftwareFromKnowledge($idUser) {
  * @param $idSoftware : ID of the software to add.
  * @param $level : level of knowledge.
  * @param $comment : commentary about the knowledge.
- * @return bool : return true if the knowledge has been added, false else.
+ * @return bool : return error code if an error occurred.
  */
 function assignKnowledge($idUser, $idSoftware, $level, $comment) {
 	global $DB_DB;
@@ -61,10 +63,10 @@ function assignKnowledge($idUser, $idSoftware, $level, $comment) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -73,7 +75,7 @@ function assignKnowledge($idUser, $idSoftware, $level, $comment) {
  * @param $idSoft : ID of the software to modify.
  * @param $level : new knowledge level.
  * @param $comment : commentary about the knowledge.
- * @return bool : return true if the knowledge has been modified, false else.
+ * @return bool : return error code if an error occurred.
  */
 function editKnowledge($idUser, $idSoft, $level, $comment) {
 	global $DB_DB;
@@ -88,15 +90,16 @@ function editKnowledge($idUser, $idSoft, $level, $comment) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a knowledge from the database.
  * @param $idSoftware : ID of the software of the knowledge to delete.
+ * @return int : return error code if an error occurred.
  */
 function unassignKnowledge($idSoftware) {
 	global $DB_DB;
@@ -108,5 +111,6 @@ function unassignKnowledge($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 }

@@ -17,10 +17,8 @@ function testSoftware($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM Software WHERE idSoftware <> :id AND softwareName LIKE :name");
@@ -32,16 +30,18 @@ function testSoftware($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
-		return true;
 	}
+
+	if($request->rowCount() != 0)
+		return false;
+	return true;
 }
 
 /**
  * List all software.
- * @return mixed : all software with all attributes.
+ * @return mixed : all software with all attributes, or error code if an error occurred.
  */
 function listSoftware() {
 	global $DB_DB;
@@ -51,6 +51,7 @@ function listSoftware() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -59,7 +60,7 @@ function listSoftware() {
 /**
  * Get all attributes of a specific software.
  * @param $id : ID of the software to get.
- * @return mixed : all attributes of a specific software.
+ * @return mixed : all attributes of a specific software, or error code if an error occurred.
  */
 function getSoftWare($id) {
 	global $DB_DB;
@@ -71,6 +72,7 @@ function getSoftWare($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -82,14 +84,14 @@ function getSoftWare($id) {
  * @param $description : description of the software.
  * @param $categories : list of categories to add.
  * @param $subCategories : list of subcategories to add.
- * @return bool : return true if the software has been added, false else.
+ * @return bool : return error code if an error occurred.
  */
 function addSoftware($name, $description, $categories, $subCategories) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO Software (SoftwareName, softwareDescription) VALUES (:name, :description)");
 
 	if(!testSoftware(null, $name))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -98,14 +100,14 @@ function addSoftware($name, $description, $categories, $subCategories) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$id = $DB_DB->lastInsertId();
 	assignCategoriesToSoftWare($id, $categories);
 	assignSubCategoriesToSoftWare($id, $subCategories);
 
-	return true;
+	return "";
 }
 
 /**
@@ -115,14 +117,14 @@ function addSoftware($name, $description, $categories, $subCategories) {
  * @param $description : new description of the software.
  * @param $categories : new categories of the software.
  * @param $subCategories : new subcategories of the software.
- * @return bool : return true if the software has been modified, false else.
+ * @return int : return error code if an error occurred.
  */
 function editSoftware($id, $name, $description, $categories, $subCategories) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE Software SET SoftwareName = :name, softwareDescription = :description WHERE idSoftware = :id");
 
 	if(!testSoftware($id, $name))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -132,18 +134,19 @@ function editSoftware($id, $name, $description, $categories, $subCategories) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	assignCategoriesToSoftWare($id, $categories);
 	assignSubCategoriesToSoftWare($id, $subCategories);
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a software.
  * @param $id : ID of the software to delete.
+ * @return int : return error code if an error occurred.
  */
 function deleteSoftware($id) {
 	global $DB_DB;
@@ -155,6 +158,7 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	$request = $DB_DB->prepare("DELETE FROM SoftwareInCategory WHERE  idSoftware = :id");
@@ -165,6 +169,7 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	$request = $DB_DB->prepare("DELETE FROM SoftwareInSubCategory WHERE  idSoftware = :id");
@@ -175,6 +180,7 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	$request = $DB_DB->prepare("DELETE FROM software WHERE  idSoftware = :id");
@@ -185,7 +191,10 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
+	return "";
 }
 
 
@@ -196,7 +205,7 @@ function deleteSoftware($id) {
 /**
  * Get the categories of a software.
  * @param $id : ID of the software to check.
- * @return mixed : all categories with all attributes found.
+ * @return mixed : all categories with all attributes found, or error code if an error occurred.
  */
 function getSoftwareCategories($id) {
 	global $DB_DB;
@@ -208,6 +217,7 @@ function getSoftwareCategories($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -217,17 +227,17 @@ function getSoftwareCategories($id) {
  * Add multiple categories to a software.
  * @param $idSoftware : ID of the software.
  * @param $categories : categories to add.
- * @return bool : true if all categories has been added, false else.
+ * @return bool : return error code if an error occurred.
  */
 function assignCategoriesToSoftWare($idSoftware, $categories) {
 	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO SoftwareInCategory (idSoftware, idSoftCat) VALUES (:idSoftware, :idSoftCat)');
 
 	// First, we delete old links from SoftwareInCategory.
 	unassignCategoriesFromSoftWare($idSoftware);
 
 	// And then we set the new ones.
 	foreach($categories as $category) {
-		$request = $DB_DB->prepare('INSERT INTO SoftwareInCategory (idSoftware, idSoftCat) VALUES (:idSoftware, :idSoftCat)');
 		try {
 			$request->execute(array(
 				'idSoftware' => $idSoftware,
@@ -235,7 +245,7 @@ function assignCategoriesToSoftWare($idSoftware, $categories) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
 }
@@ -243,7 +253,7 @@ function assignCategoriesToSoftWare($idSoftware, $categories) {
 /**
  * Delete all categories of a software.
  * @param $idSoftware : ID of the software to edit.
- * @return bool : return true if all software have been deleted, false else.
+ * @return bool : return error code if an error occurred.
  */
 function unassignCategoriesFromSoftWare($idSoftware) {
 	global $DB_DB;
@@ -255,8 +265,10 @@ function unassignCategoriesFromSoftWare($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
+
+	return "";
 }
 
 
@@ -267,7 +279,7 @@ function unassignCategoriesFromSoftWare($idSoftware) {
 /**
  * Get all subcategories of a software.
  * @param $id : ID of the software.
- * @return mixed : all subcategories with all attributes.
+ * @return mixed : all subcategories with all attributes, or error code if an error occurred.
  */
 function getSoftwareSubCategories($id) {
 	global $DB_DB;
@@ -279,6 +291,7 @@ function getSoftwareSubCategories($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -288,17 +301,17 @@ function getSoftwareSubCategories($id) {
  * Add many subcategories to a software.
  * @param $idSoftware : ID of the software.
  * @param $subCategories : list of subcategories to add.
- * @return bool : return true if subcategories have been added, false else.
+ * @return bool : return error code if an error occurred.
  */
 function assignSubCategoriesToSoftWare($idSoftware, $subCategories) {
 	global $DB_DB;
+	$request = $DB_DB->prepare('INSERT INTO SoftwareInSubCategory (idSoftware, idSoftSubcat) VALUES (:idSoftware, :idSoftSubcat)');
 
 	// First we delete old links from SoftwareInSubCategory.
 	unassignSubCategoriesFromSoftWare($idSoftware);
 
 	// And then we add new ones.
 	foreach($subCategories as $subCategory) {
-		$request = $DB_DB->prepare('INSERT INTO SoftwareInSubCategory (idSoftware, idSoftSubcat) VALUES (:idSoftware, :idSoftSubcat)');
 		try {
 			$request->execute(array(
 				'idSoftware' => $idSoftware,
@@ -306,15 +319,17 @@ function assignSubCategoriesToSoftWare($idSoftware, $subCategories) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
+
+	return "";
 }
 
 /**
  * Delete all subcategories of a software.
  * @param $idSoftware : ID of the software.
- * @return bool : true if all subcategories have been deleted, false else.
+ * @return bool : return error code if an error occurred.
  */
 function unassignSubCategoriesFromSoftWare($idSoftware) {
 	global $DB_DB;
@@ -326,6 +341,8 @@ function unassignSubCategoriesFromSoftWare($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
+
+	return "";
 }

@@ -4,7 +4,7 @@
  * Create a new conversation between multiple users.
  * @param $idUsers : ID of the users in the conversation.
  * @param $name : name of the conversation.
- * @return bool : true if the conversation has been added, false else.
+ * @return bool : the ID of the conversation if it has been added, or an error code if an error occurred.
  */
 function createConversation($idUsers, $name) {
 	global $DB_DB;
@@ -20,7 +20,7 @@ function createConversation($idUsers, $name) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$idConversation = $DB_DB->lastInsertId();
@@ -34,7 +34,7 @@ function createConversation($idUsers, $name) {
 /**
  * List all conversation of a specific user.
  * @param $idUser : ID of the user to check.
- * @return mixed : all attributes of all conversations of the user.
+ * @return mixed : all attributes of all conversations of the user, or an error code if an error occurred.
  */
 function listConversations($idUser) {
 	global $DB_DB;
@@ -46,6 +46,7 @@ function listConversations($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -54,7 +55,7 @@ function listConversations($idUser) {
 /**
  * Get a conversation.
  * @param $idConversation : ID of the conversation to get.
- * @return mixed : all attributes of the conversation.
+ * @return mixed : all attributes of the conversation, or an error code if an error occurred.
  */
 function getConversation($idConversation) {
 	global $DB_DB;
@@ -66,6 +67,7 @@ function getConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll()[0];
@@ -74,20 +76,19 @@ function getConversation($idConversation) {
 /**
  * Get all messages in a conversation.
  * @param $idConversation : ID of the conversation to get.
- * @return mixed : all attributes of all messages in the conversation.
+ * @return mixed : all attributes of all messages in the conversation, or an error code if an error occurred.
  */
 function getMessages($idConversation) {
 	global $DB_DB;
-
 	$request = $DB_DB->prepare("SELECT * FROM Message WHERE idConversation = :idConversation ORDER BY sentDateTime");
 
 	try {
 		$request->execute(array(
 			'idConversation' => $idConversation
-
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -96,7 +97,7 @@ function getMessages($idConversation) {
 /**
  * Get the list of users in a conversation.
  * @param $idConversation : ID of the conversation to get.
- * @return mixed : all attributes of all the users in the conversation.
+ * @return mixed : all attributes of all the users in the conversation, or an error code if an error occurred.
  */
 function getUsersInConversation($idConversation) {
 	global $DB_DB;
@@ -108,6 +109,7 @@ function getUsersInConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -117,7 +119,7 @@ function getUsersInConversation($idConversation) {
  * Search a conversation and create a new one if the conversation doesn't exist.
  * @param $idUser : ID of the user in the conversation.
  * @param $idRecipient : ID of the recipient.
- * @return bool
+ * @return int : return the ID of the conversation if it has been added or an error code if an error occurred.
  */
 function searchForConversation($idUser, $idRecipient) {
 	global $DB_DB;
@@ -129,6 +131,7 @@ function searchForConversation($idUser, $idRecipient) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	$idConversations = $request->fetchAll();
@@ -144,6 +147,7 @@ function searchForConversation($idUser, $idRecipient) {
 				));
 			}
 			catch(Exception $e) {
+				return -2;
 			}
 
 			$conversation = $request->fetchAll();
@@ -159,7 +163,7 @@ function searchForConversation($idUser, $idRecipient) {
 /**
  * Count the number of users in a conversation.
  * @param $idConversation : ID of the conversation to count.
- * @return mixed : number of users in the conversation.
+ * @return mixed : number of users in the conversation, or an error code if an error occurred.
  */
 function countUserInConversation($idConversation) {
 	global $DB_DB;
@@ -171,6 +175,7 @@ function countUserInConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetch()['COUNT(idUser)'];
@@ -179,7 +184,7 @@ function countUserInConversation($idConversation) {
 /**
  * Change the name of a conversation.
  * @param $idConversation : ID of the conversation to edit.
- * @param $name : new name of the conversation.
+ * @param $name : new name of the conversation, or an error code if an error occurred.
  */
 function changeConversationName($idConversation, $name) {
 	global $DB_DB;
@@ -192,14 +197,17 @@ function changeConversationName($idConversation, $name) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Add users in a conversation.
  * @param $idConversation : ID of the conversation to add users.
  * @param $idUsers : list of users to add.
- * @return bool : true if all users has been added, false else.
+ * @return int : return an error code if an error occurred.
  */
 function addUsersToConversation($idConversation, $idUsers) {
 	global $DB_DB;
@@ -213,16 +221,18 @@ function addUsersToConversation($idConversation, $idUsers) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
+
+	return "";
 }
 
 /**
  * Remove many users in a conversation.
  * @param $idConversation : ID of the conversation.
  * @param $idUsers : list of users to remove.
- * @return bool : true if all users has been removed, false else.
+ * @return int : return an error code if an error occurred.
  */
 function removeUsersFromConversation($idConversation, $idUsers) {
 	global $DB_DB;
@@ -236,16 +246,18 @@ function removeUsersFromConversation($idConversation, $idUsers) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
+
+	return "";
 }
 
 /**
  * Add a message to the conversation and place it into unread messages.
  * @param $idMessage : ID of the message to add.
  * @param $idConversation : ID of the conversation.
- * @return bool : true if the message has been added, false else.
+ * @return int : return an error code if an error occurred.
  */
 function setUnreadMessage($idMessage, $idConversation) {
 	global $DB_DB;
@@ -260,19 +272,19 @@ function setUnreadMessage($idMessage, $idConversation) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 		}
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Set a message as read.
  * @param $idConversation : ID of the conversation of the message.
  * @param $idUser : ID of user concerned.
- * @return bool : true if the message has been placed into read messages, false else.
+ * @return int : return an error code if an error occurred.
  */
 function setReadMessage($idConversation, $idUser) {
 	global $DB_DB;
@@ -285,17 +297,17 @@ function setReadMessage($idConversation, $idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Check if a user has an unread message in a specific conversation.
  * @param $idConversation : ID of the conversation to check.
  * @param $idUser : ID of the user to check.
- * @return mixed : number of unread messages.
+ * @return mixed : number of unread messages, or an error code if an error occurred.
  */
 function haveUnreadMessage($idConversation, $idUser) {
 	global $DB_DB;
@@ -308,6 +320,7 @@ function haveUnreadMessage($idConversation, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetch()[0];

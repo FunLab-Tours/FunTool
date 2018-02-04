@@ -14,9 +14,8 @@ function testSubFamily($id, $sfamilyCode, $sfamilyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> :id AND (codeSubFamily LIKE :sfamilyCode OR labelSubFamily LIKE :sfamilyLabel)");
@@ -29,10 +28,12 @@ function testSubFamily($id, $sfamilyCode, $sfamilyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			return -2;
 		}
-		if($request->rowCount() != 0)
-			return false;
 	}
+
+	if($request->rowCount() != 0)
+		return false;
 	return true;
 }
 
@@ -41,14 +42,14 @@ function testSubFamily($id, $sfamilyCode, $sfamilyLabel) {
  * @param $subFamilyCode : code of the subfamily.
  * @param $subFamilyLabel : code of the label.
  * @param $idFamily : ID of the main family.
- * @return bool : true if the subfamily has been added, false else.
+ * @return int : return error code if an error occurred.
  */
 function addSubFamily($subFamilyCode, $subFamilyLabel, $idFamily) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SubFamily(codeSubFamily, labelSubFamily, idFamily) VALUES(:codeSubFamily, :labelSubFamily, :idFamily)');
 
 	if(!testSubFamily(null, $subFamilyCode, $subFamilyLabel))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -58,16 +59,15 @@ function addSubFamily($subFamilyCode, $subFamilyLabel, $idFamily) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get the list of all subfamilies that exist.
- * @return mixed : all attributes from all subfamilies.
+ * @return mixed : all attributes from all subfamilies, or error code if an error occurred.
  */
 function getAllSubFamilyList() {
 	global $DB_DB;
@@ -77,6 +77,7 @@ function getAllSubFamilyList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -85,7 +86,7 @@ function getAllSubFamilyList() {
 /**
  * Get the list of all subfamilies for a specific family.
  * @param $idFamily : ID of the main family to check.
- * @return mixed : all attributes from all subfamilies found.
+ * @return mixed : all attributes from all subfamilies found, or error code if an error occurred.
  */
 function getSubFamilyList($idFamily) {
 	global $DB_DB;
@@ -97,6 +98,7 @@ function getSubFamilyList($idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -105,7 +107,7 @@ function getSubFamilyList($idFamily) {
 /**
  * Get the subfamily of a specific machine.
  * @param $idMachine : ID of the machine to check.
- * @return mixed : all attributes of the subfamily found.
+ * @return mixed : all attributes of the subfamily found, or error code if an error occurred.
  */
 function getSubFamilyListMachine($idMachine) {
 	global $DB_DB;
@@ -117,6 +119,7 @@ function getSubFamilyListMachine($idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -125,12 +128,13 @@ function getSubFamilyListMachine($idMachine) {
 /**
  * Delete a subfamily.
  * @param $idSubFamily : ID of the subfamily to delete.
+ * @return int : error code if an error occurred.
  */
 function deleteSubFamily($idSubFamily) {
 	global $DB_DB;
+	$request = $DB_DB->prepare('DELETE FROM machineInSubFamily WHERE idSubFamily = :idSubFamily');
 
 	// We delete all links.
-	$request = $DB_DB->prepare('DELETE FROM machineInSubFamily WHERE idSubFamily = :idSubFamily');
 
 	try {
 		$request->execute(array(
@@ -138,7 +142,7 @@ function deleteSubFamily($idSubFamily) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
 
 	// Then we delete all subfamilies.
@@ -150,8 +154,10 @@ function deleteSubFamily($idSubFamily) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -159,14 +165,14 @@ function deleteSubFamily($idSubFamily) {
  * @param $idSubFamily : ID of the subfamily to edit.
  * @param $SubFamilyCode : new code of the subfamily.
  * @param $SubFamilyLabel : new label of the subfamily.
- * @return bool : true if the subfamily has been edited, false else.
+ * @return int : return error code if an error occurred.
  */
 function editSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SubFamily SET  codeSubFamily = :codeSubFamily, labelSubFamily = :labelSubFamily WHERE idSubFamily = :idSubFamily');
 
 	if(!testSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -176,20 +182,20 @@ function editSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Link a machine and a subfamily together.
  * @param $idSubFamily : ID of the subfamily to link.
  * @param $idMachine : ID of the machine to link.
+ * @return int : error code if an error occurred.
  */
 function linkSubFamilyWithMachine($idSubFamily, $idMachine) {
 	global $DB_DB;
-
 	$request = $DB_DB->prepare('INSERT INTO machineInSubFamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
 
 	try {
@@ -199,7 +205,8 @@ function linkSubFamilyWithMachine($idSubFamily, $idMachine) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
-		exit;
+		return -2;
 	}
+
+	return "";
 }

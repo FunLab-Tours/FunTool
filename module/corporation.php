@@ -16,6 +16,7 @@
  * @param $country : country of the corporation.
  * @param $email : email of the corporation.
  * @param $nbFunnies : number of funnies of the corporation. // TODO : delete that parameter to pass by a default value.
+ * @return int : return an error code if an error occurred.
  */
 function addCorporation($corporateName, $logo, $telephone, $adressL1, $adressL2, $adressL3, $zipCode, $town, $country, $email, $nbFunnies) {
 	global $DB_DB;
@@ -58,13 +59,16 @@ function addCorporation($corporateName, $logo, $telephone, $adressL1, $adressL2,
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Delete a corporation.
  * @param $idCorporation : ID of the corporation to delete.
+ * @return int : return an error code if an error occurred.
  */
 function deleteCorporation($idCorporation) {
 	global $DB_DB;
@@ -76,8 +80,10 @@ function deleteCorporation($idCorporation) {
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
@@ -94,6 +100,7 @@ function deleteCorporation($idCorporation) {
  * @param $country : new country of the corporation.
  * @param $email : new email of the corporation.
  * @param $nbFunnies : new number of funnies of the corporation. // TODO : delete that parameter to pass by a default value.
+ * @return int : return an error code if an error occurred.
  */
 function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $adressL1, $adressL2, $adressL3, $zipCode, $town, $country, $email, $nbFunnies) {
 	global $DB_DB;
@@ -126,13 +133,15 @@ function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $a
 		));
 	}
 	catch(Exception $e) {
-		echo $e;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * List all corporation.
- * @return mixed : list of all corporation or error code if an error occurred.
+ * @return mixed : list of all corporation or in error code if an error occurred.
  */
 function listAllCorporation() {
 	global $DB_DB;
@@ -142,6 +151,7 @@ function listAllCorporation() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll();

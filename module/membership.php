@@ -9,7 +9,7 @@
  * @param $frameName : name of the setting.
  * @param $framePrice : price of the setting.
  * @param $frameComment : comment about the setting.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addMembershipFrame($bonusMembership, $entryDate, $frameName, $framePrice, $frameComment) {
 	global $DB_DB;
@@ -34,15 +34,15 @@ function addMembershipFrame($bonusMembership, $entryDate, $frameName, $framePric
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * List all existing settings.
- * @return bool : all attributes of all settings or false if an error occurred.
+ * @return bool : all attributes of all settings or an error code if an error occurred.
  */
 function listAllMembershipFrame() {
 	global $DB_DB;
@@ -52,7 +52,7 @@ function listAllMembershipFrame() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -66,7 +66,7 @@ function listAllMembershipFrame() {
  * @param $frameName : new name of the setting.
  * @param $framePrice : new price of the setting.
  * @param $frameComment : new comment about the setting.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function updateMembershipFrame($idMembershipFrame, $bonusMembership, $entryDate, $frameName, $framePrice, $frameComment) {
 	global $DB_DB;
@@ -88,16 +88,16 @@ function updateMembershipFrame($idMembershipFrame, $bonusMembership, $entryDate,
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete a membership setting.
  * @param $idMembershipFrame : ID of the setting to delete.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteMembershipFrame($idMembershipFrame) {
 	global $DB_DB;
@@ -109,16 +109,16 @@ function deleteMembershipFrame($idMembershipFrame) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get information about a membership setting.
  * @param $idMembershipFrame : ID of the membership.
- * @return bool : all attributes about the membership or false if an error occurred.
+ * @return bool : all attributes about the membership or an error code if an error occurred.
  */
 function selectMembershipFrame($idMembershipFrame) {
 	global $DB_DB;
@@ -130,10 +130,11 @@ function selectMembershipFrame($idMembershipFrame) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
+
 	return $result;
 }
 
@@ -145,7 +146,7 @@ function selectMembershipFrame($idMembershipFrame) {
  * @param $adminCommentary : comment about the membership.
  * @param $idMembershipFrame : ID of the used setting.
  * @param $idUser : ID of the user to add as a member.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addMembership($membershipingDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
 	global $DB_DB;
@@ -173,22 +174,22 @@ function addMembership($membershipingDate, $endMembershipDate, $paymentMethod, $
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get the ending date for the membership of a user.
  * @param $idUser : ID of the user.
- * @return bool : ending date or false if an error occurred.
+ * @return bool : ending date or an error code if an error occurred.
  */
 function returnValidDateForMembership($idUser) {
 	if(isset(selectMembership($idUser)['endMembershipDate']))
 		return selectMembership($idUser)['endMembershipDate'];
 	else
-		return false;
+		return -3;
 }
 
 /**
@@ -207,7 +208,7 @@ function compareTwoDates($date1, $date2) {
 		return $valueDiffDate;
 	}
 	else
-		return -1;
+		return -3;
 }
 
 /**
@@ -218,7 +219,7 @@ function compareTwoDates($date1, $date2) {
  * @param $adminCommentary : new comment about the membership.
  * @param $idMembershipFrame : new ID of the used setting.
  * @param $idUser : ID of the user to edit the membership.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function updateMembership($membershipingDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
 	global $DB_DB;
@@ -240,16 +241,16 @@ function updateMembership($membershipingDate, $endMembershipDate, $paymentMethod
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Get how a user payed to become a member.
  * @param $idUser : ID of the user.
- * @return bool : method used or false if an error occurred.
+ * @return bool : method used or an error code if an error occurred.
  */
 function selectPaymentMethodInMembership($idUser) {
 	global $DB_DB;
@@ -261,10 +262,11 @@ function selectPaymentMethodInMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return true;
+		return -2;
 	}
 
 	$result = $stmt->fetch()[0];
+
 	return $result;
 }
 
@@ -282,7 +284,7 @@ function listAllMembership() {
 /**
  * Get all attributes of the membership of a user.
  * @param $idUser : ID of the user.
- * @return bool : all attributes of the membership of a user or false if an error occurred.
+ * @return bool : all attributes of the membership of a user or an error code if an error occurred.
  */
 function selectMembership($idUser) {
 	global $DB_DB;
@@ -294,17 +296,18 @@ function selectMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
+
 	return $result;
 }
 
 /**
  * Delete a membership.
  * @param $idUser : ID of the user.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function deleteMembership($idUser) {
 	global $DB_DB;
@@ -316,17 +319,17 @@ function deleteMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Add funnies when a user become a member.
  * @param $idUser : ID of the user.
  * @param $bonusMembership : bonus to add.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function addFunnies($idUser, $bonusMembership) {
 	global $DB_DB;
@@ -339,16 +342,16 @@ function addFunnies($idUser, $bonusMembership) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Find users who their name or login contain the given argument.
  * @param $login : name to search.
- * @return bool : list of all users found or false if an error occurred.
+ * @return bool : list of all users found or an error code if an error occurred.
  */
 function searchUser($login) {
 	global $DB_DB;
@@ -360,9 +363,10 @@ function searchUser($login) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $stmt->fetch();
+
 	return $result;
 }

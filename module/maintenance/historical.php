@@ -6,7 +6,7 @@
  * @param $idUser : ID of the user that maintained the machine.
  * @param $message : message or comment about the maintenance.
  * @param $date : date of the maintenance.
- * @return int|mixed : error code if needed, else nothing.
+ * @return int : return an error code if an error occurred.
  */
 function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 	global $DB_DB;
@@ -18,7 +18,7 @@ function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$idMaintenance = $request->fetch()[0];
@@ -34,7 +34,7 @@ function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return "";
@@ -43,7 +43,7 @@ function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 /**
  * Get the historical of maintenance for a specific machine.
  * @param $idMachine : ID of the machine to check.
- * @return int|mixed : error code if needed, else nothing.
+ * @return mixed : return information about all historic, or an error code if an error occurred.
  */
 function getMaintenanceHistorical($idMachine) {
 	global $DB_DB;
@@ -55,7 +55,7 @@ function getMaintenanceHistorical($idMachine) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	return $request->fetchAll()[0];

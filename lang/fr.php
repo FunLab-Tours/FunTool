@@ -292,4 +292,7 @@ $lang['remainTime'] = "Temps restant";
 $lang['each'] = "chaque";
 
 $error = [];
-$error[-1] = "Erreur Inconnue";
+$error[-1] = "Erreur inconnue.";
+$error[-2] = "Erreur avec la base de données.";
+$error[-3] = "Erreur avec les paramètres du formulaires.";
+$error[-4] = "Erreur avec les déplacements de fichiers.";

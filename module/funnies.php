@@ -3,7 +3,7 @@
 /**
  * Get the number of funnies from a user.
  * @param $idUser : ID of the user to check/
- * @return int|mixed : number of funnies or error code if an error occurred.
+ * @return int|mixed : number of funnies or an error code if an error occurred.
  */
 function currentUserFunnies($idUser) {
 	global $DB_DB;
@@ -15,7 +15,7 @@ function currentUserFunnies($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetch();
@@ -27,7 +27,7 @@ function currentUserFunnies($idUser) {
  * Update the number of funnies of a user.
  * @param $idUser : ID of the user to update.
  * @param $newFunniesBalance : new number of funnies for the user.
- * @return int|mixed : error code if an error occurred, else nothing.
+ * @return int : an error code if an error occurred, else nothing.
  */
 function updateUserFunnies($idUser, $newFunniesBalance) {
 	global $DB_DB;
@@ -40,14 +40,16 @@ function updateUserFunnies($idUser, $newFunniesBalance) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Search users by login.
  * @param $login : login to search.
- * @return int|mixed : all information about all user found.
+ * @return int|mixed : all information about all user found, or an error code if an error occurred.
  */
 function searchUser($login) {
 	global $DB_DB;
@@ -59,7 +61,7 @@ function searchUser($login) {
 		));
 	}
 	catch(Exception $e) {
-		return $e->getCode();
+		return -2;
 	}
 
 	$result = $stmt->fetch();

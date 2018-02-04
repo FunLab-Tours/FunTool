@@ -4,7 +4,7 @@
 
 /**
  * Check if there are labs in the database or not.
- * @return bool : true if there is no lab, false else. Can throw an error code.
+ * @return bool : true if there is no lab, false else, or an error code if an error occurred.
  */
 function noLab() {
 	global $DB_DB;
@@ -14,7 +14,7 @@ function noLab() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		echo $e; // TODO : error code.
+		return -2;
 	}
 
 	if($request->fetch()['nb_entry'] == 0)

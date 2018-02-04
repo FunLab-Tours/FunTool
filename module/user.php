@@ -6,7 +6,7 @@ include('include/config.php');
  * Check if the couple of login and password is valid or not.
  * @param $login : login.
  * @param $password : password.
- * @return bool : true if the couple is valid, false else. Can throw an error code.
+ * @return bool : true if the couple is valid, false else, or an error code if an error occurred.
  */
 function isValidUser($login, $password) {
 	global $DB_DB;
@@ -18,7 +18,7 @@ function isValidUser($login, $password) {
 		));
 	}
 	catch(Exception $e) {
-		return false; // TODO : error code.
+		return -2;
 	}
 
 	$result = $request->fetch();
@@ -31,7 +31,7 @@ function isValidUser($login, $password) {
 /**
  * Connect a user and set a cookie on his computer.
  * @param $login : login of the user.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function connectUser($login) {
 	global $DB_DB, $privateKey;
@@ -43,7 +43,7 @@ function connectUser($login) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$result = $request->fetch();
@@ -123,17 +123,17 @@ function isValidSignOn() {
 /**
  * Check if the login is available or not.
  * @param $login : login.
- * @return bool : true if the login is available, false else. Can throw an error code.
+ * @return bool : true if the login is available, false else, or an error code if an error occurred.
  */
 function isValidNewLogin($login) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry FROM User WHERE login = :login');
 
 	if($login == "")
-		return false;
+		return -3;
 
 	if(!preg_match("#^[a-zA-Z0-9]{3,}$#", $login))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -141,7 +141,7 @@ function isValidNewLogin($login) {
 		));
 	}
 	catch(Exception $e) {
-		return false; // TODO : error code.
+		return -2;
 	}
 
 	$result = $request->fetch();
@@ -437,7 +437,7 @@ function disconnectUser() {
 /**
  * Get information about a user.
  * @param $idUser : ID of the user.
- * @return bool : all attributes about the user or false if an error occurred.
+ * @return bool : all attributes about the user or an error code if an error occurred.
  */
 function getUser($idUser) {
 	global $DB_DB;
@@ -449,7 +449,7 @@ function getUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetch();
@@ -457,7 +457,7 @@ function getUser($idUser) {
 
 /**
  * Get the list of users.
- * @return bool : all attributes of all users or false if an error occurred.
+ * @return bool : all attributes of all users or an error code if an error occurred.
  */
 function getUserList() {
 	global $DB_DB;
@@ -467,7 +467,7 @@ function getUserList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -492,7 +492,7 @@ function getUserList() {
  * @param $inscriptionActiveList : true if the user subscribe to the active list, false else.
  * @param $inscriptionNews : true if the user subscribe to the newsletter, false else.
  * @param $picture : link to the profile picture of the user.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $emailBis, $birthDate, $inscriptionActiveList, $inscriptionNews, $picture) {
 	global $DB_DB;
@@ -508,7 +508,7 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$login = $request->fetch()[0];
@@ -526,7 +526,7 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$idPicture = $request->fetch()[0];
@@ -585,17 +585,17 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Edit the password of the connected user.
  * @param $old : old password.
  * @param $new : new password.
- * @return bool : false if an error occurred.
+ * @return int : return an error code if an error occurred.
  */
 function editPassword($old, $new) {
 	global $DB_DB;
@@ -607,28 +607,26 @@ function editPassword($old, $new) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$password = $request->fetch()[0];
 
-	if(password_verify($old, $password)) {
-		$request = $DB_DB->prepare('UPDATE User SET User.password = :new WHERE idUser = :id');
+	$request = $DB_DB->prepare('UPDATE User SET User.password = :new WHERE idUser = :id');
 
+	if(password_verify($old, $password)) {
 		$request->execute(array(
 			'new' => password_hash($new, PASSWORD_DEFAULT),
 			'id' => $_COOKIE['id']
 		));
-
-		return true;
 	}
 
-	return false;
+	return "";
 }
 
 /**
  * Select all information about all users.
- * @return bool : all attributes about all users or false if an error occurred.
+ * @return bool : all attributes about all users or an error code if an error occurred.
  */
 function allUser() {
 	global $DB_DB;
@@ -638,7 +636,7 @@ function allUser() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -647,7 +645,7 @@ function allUser() {
 /**
  * Check if a user is a member of the lab or not.
  * @param $idUser : ID of the user.
- * @return bool : true if the user is a member, false else. Can throw an error code.
+ * @return bool : true if the user is a member, false else, or an error code if an error occurred.
  */
 function isMember($idUser) {
 	global $DB_DB;
@@ -659,7 +657,7 @@ function isMember($idUser) {
 		));
 	}
 	catch(Exception $e) {
-		return false; // TODO : error code.
+		return -2;
 	}
 
 	if($request->fetch()['isMember'] == 1)

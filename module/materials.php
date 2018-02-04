@@ -5,25 +5,30 @@
 // TODO : documentation.
 function testMaterial($id, $labelMat, $codeMat) {
 	global $DB_DB;
+
 	if($id == null) {
 		$request = $DB_DB->prepare("SELECT * FROM Materials WHERE labelMat LIKE :labelMat OR codeMat LIKE :codeMat");
+
 		$request->execute(array(
 			'labelMat' => $labelMat,
 			'codeMat' => $codeMat
 		));
+
 		$result = $request->fetchAll();
-		return empty($result);
 	}
 	else {
 		$request = $DB_DB->prepare("SELECT * FROM Materials WHERE (labelMat LIKE :labelMat OR codeMat LIKE :codeMat) AND idMat = :id");
+
 		$request->execute(array(
 			'labelMat' => $labelMat,
 			'codeMat' => $codeMat,
 			'id' => $id
 		));
+
 		$result = $request->fetchAll();
-		return empty($result);
 	}
+
+	return empty($result);
 }
 
 /**
@@ -33,14 +38,14 @@ function testMaterial($id, $labelMat, $codeMat) {
  * @param $priceMat : price of the material.
  * @param $docLink : link to the documentation of the material.
  * @param $comment : comment about the material.
- * @return bool : ID of the material or false if an error occurred.
+ * @return bool : ID of the material or an error code if an error occurred.
  */
 function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO Materials(labelMat, codeMat, priceMat, docLink, comment, dateEntry) VALUES (:labelMat, :codeMat, :priceMat, :docLink, :comment, :dateEntry)");
 
 	if(!testMaterial(null, $labelMat, $codeMat))
-		return false;
+		return -2;
 
 	try {
 		$request->execute(array(
@@ -53,7 +58,7 @@ function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $DB_DB->lastInsertId();
@@ -62,7 +67,7 @@ function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 /**
  * Get information about a material.
  * @param $idMaterial : ID of the material to get.
- * @return mixed : all attributes of the material or false if an error occurred.
+ * @return mixed : all attributes of the material or an error code if an error occurred.
  */
 function getMaterial($idMaterial) {
 	global $DB_DB;
@@ -74,7 +79,7 @@ function getMaterial($idMaterial) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetch();
@@ -82,7 +87,7 @@ function getMaterial($idMaterial) {
 
 /**
  * List all materials.
- * @return bool : list of all materials or false if an error occurred.
+ * @return int : list of all materials or an error code if an error occurred.
  */
 function listMaterials() {
 	global $DB_DB;
@@ -92,7 +97,7 @@ function listMaterials() {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -101,21 +106,22 @@ function listMaterials() {
 /**
  * Delete a material.
  * @param $idMat : ID of the material to delete.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function deleteMaterial($idMat) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("DELETE FROM Materials WHERE idMat = :idMat");
+
 	try {
 		$request->execute(array(
 			'idMat' => $idMat
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
@@ -126,14 +132,14 @@ function deleteMaterial($idMat) {
  * @param $priceMat : new price for the material.
  * @param $docLink : new link for the documentation of the material.
  * @param $comment : new comment about the material.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE Materials SET labelMat = :labelMat, codeMat = :codeMat, priceMat = :priceMat, docLink = :docLink, comment = :comment WHERE idMat = :idMat");
 
 	if(!testMaterial($idMat, $labelMat, $codeMat))
-		return false;
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -146,10 +152,10 @@ function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 // Cost unit.
@@ -157,7 +163,7 @@ function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment
 /**
  * Get the cost price of a material.
  * @param $idMat : ID of the material to get the price.
- * @return bool : price of the material or false if an error occurred.
+ * @return int : price of the material or an error code if an error occurred.
  */
 function getCostUnitMat($idMat) {
 	global $DB_DB;
@@ -169,7 +175,7 @@ function getCostUnitMat($idMat) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetch();
@@ -180,7 +186,7 @@ function getCostUnitMat($idMat) {
  * @param $idMat : ID of the material.
  * @param $priceUnit : price of the material for one unit.
  * @param $unit : number of unit for the material.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function assignCostUnit($idMat, $priceUnit, $unit) {
 	global $DB_DB;
@@ -195,15 +201,17 @@ function assignCostUnit($idMat, $priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
+
+	return "";
 }
 
 /**
  * Get the cost of a unit material.
  * @param $priceUnit : price unit for the material.
  * @param $unit : number of unit of the material.
- * @return bool : ID of the cost unit or false if an error occurred.
+ * @return int : ID of the cost unit or an error code if an error occurred.
  */
 function getIdCostUnitMat($priceUnit, $unit) {
 	global $DB_DB;
@@ -218,7 +226,7 @@ function getIdCostUnitMat($priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	if($request->rowCount() == 0)
@@ -231,7 +239,7 @@ function getIdCostUnitMat($priceUnit, $unit) {
  * Add a cost unit for a material.
  * @param $priceUnit : price for one unit of material.
  * @param $unit : number of unit of the material.
- * @return bool : ID of the cost unit or false if an error occurred.
+ * @return int : ID of the cost unit or an error code if an error occurred.
  */
 function addCostUnitMaterial($priceUnit, $unit) {
 	global $DB_DB;
@@ -244,7 +252,7 @@ function addCostUnitMaterial($priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $DB_DB->lastInsertId();
@@ -255,7 +263,7 @@ function addCostUnitMaterial($priceUnit, $unit) {
 /**
  * Get the materials available for a machine.
  * @param $idMachine : ID of the machine to check.
- * @return bool : list of materials or false if an error occurred.
+ * @return int : list of materials or an error code if an error occurred.
  */
 function getMaterialsMachine($idMachine) {
 	global $DB_DB;
@@ -267,7 +275,7 @@ function getMaterialsMachine($idMachine) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -277,7 +285,7 @@ function getMaterialsMachine($idMachine) {
  * Assign one or multiple materials to a machine.
  * @param $idMachine : ID of the machine.
  * @param $idsMat : IDs of the materials.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function assignMaterialsToMachine($idMachine, $idsMat) {
 	global $DB_DB;
@@ -294,17 +302,17 @@ function assignMaterialsToMachine($idMachine, $idsMat) {
 			));
 		}
 		catch(Exception $e) {
-			return false;
+			return -2;
 		}
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Unassign all materials for a machine.
  * @param $idMachine : ID of the machine.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function unassignMaterialsFromMachine($idMachine) {
 	global $DB_DB;
@@ -314,24 +322,26 @@ function unassignMaterialsFromMachine($idMachine) {
 		$request->execute();
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
-	return true;
+	return "";
 }
 
 /**
  * Delete all materials available for a machine and assign new ones.
  * @param $idMachine : ID of the machine.
  * @param $idsMat : ID of the materials.
- * @return bool : false if an error occurred.
+ * @return int : an error code if an error occurred.
  */
 function reassignMaterialsToMachine($idMachine, $idsMat) {
-	if(!unassignMaterialsFromMachine($idMachine))
-		return false;
+	$error_code = unassignMaterialsFromMachine($idMachine);
+	if($error_code != "")
+		return $error_code;
 
-	if(!assignMaterialsToMachine($idMachine, $idsMat))
-		return false;
+	$error_code = assignMaterialsToMachine($idMachine, $idsMat);
+	if($error_code != "")
+		return $error_code;
 
-	return true;
+	return "";
 }

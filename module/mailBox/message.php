@@ -5,7 +5,7 @@
  * @param $idConversation : ID of the conversation.
  * @param $idUser : ID of the sender.
  * @param $textMessage : text of the message.
- * @return bool : true if the message has been sent, false else.
+ * @return bool : ID of the message if it has been sent, or an error code if an error occurred.
  */
 function createMessage($idConversation, $idUser, $textMessage) {
 	global $DB_DB;
@@ -20,7 +20,7 @@ function createMessage($idConversation, $idUser, $textMessage) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	$idMessage = $DB_DB->lastInsertId();
@@ -32,7 +32,7 @@ function createMessage($idConversation, $idUser, $textMessage) {
 /**
  * Get a message.
  * @param $id : ID of the message.
- * @return mixed : all attributes of the message.
+ * @return mixed : all attributes of the message, or an error code if an error occurred.
  */
 function getMessage($id) {
 	global $DB_DB;
@@ -44,6 +44,7 @@ function getMessage($id) {
 		));
 	}
 	catch(Exception $e) {
+		return -2;
 	}
 
 	return $request->fetchAll()[0];

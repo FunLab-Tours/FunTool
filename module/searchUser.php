@@ -3,7 +3,7 @@
 /**
  * Find users who their name or login contain the given argument.
  * @param $pattern : the name to search.
- * @return mixed : the map list of all users found.
+ * @return mixed : the map list of all users found, or an error code if an error occurred.
  */
 function searchForUser($pattern) {
 	global $DB_DB;
@@ -16,7 +16,7 @@ function searchForUser($pattern) {
 		));
 	}
 	catch(Exception $e) {
-		return false;
+		return -2;
 	}
 
 	return $request->fetchAll();
@@ -25,7 +25,7 @@ function searchForUser($pattern) {
 /**
  * Find all user with given roles.
  * @param $roles : an array of roles.
- * @return mixed : the map list of all users found.
+ * @return mixed : the map list of all users found, or an error code if an error occurred.
  */
 function searchForRoles($roles) {
 	global $DB_DB;
@@ -41,7 +41,7 @@ function searchForRoles($roles) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 
 			array_push($result, $request->fetchAll());
@@ -53,7 +53,7 @@ function searchForRoles($roles) {
 /**
  * Find all user with given skills.
  * @param $skills : an array of skills.
- * @return mixed : the map list of all users found.
+ * @return mixed : the map list of all users found, or an error code if an error occurred.
  */
 function searchForSkills($skills) {
 	global $DB_DB;
@@ -69,7 +69,7 @@ function searchForSkills($skills) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 
 			array_push($result, $request->fetchAll());
@@ -81,7 +81,7 @@ function searchForSkills($skills) {
 /**
  * Find all user with given knowledge.
  * @param $knowledge : an array of knowledge.
- * @return mixed : the map list of all users found.
+ * @return mixed : the map list of all users found, or an error code if an error occurred.
  */
 function searchForKnowledge($knowledge) {
 	global $DB_DB;
@@ -97,7 +97,7 @@ function searchForKnowledge($knowledge) {
 				));
 			}
 			catch(Exception $e) {
-				return false;
+				return -2;
 			}
 
 			array_push($result, $request->fetchAll());
