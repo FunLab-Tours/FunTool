@@ -3,20 +3,20 @@
 /**
  * Check if a subfamily of machines exits or not.
  * @param $id : ID of the subfamily (can be null).
- * @param $sfamilyCode : code of the subfamily.
- * @param $sfamilyLabel : label of the subfamily.
+ * @param $codeSubFamily : code of the subfamily.
+ * @param $labelSubFamily : label of the subfamily.
  * @return bool|int : true if the software category already exists, false else, or an error code if an error occurred.
  */
-function alreadyExistsSubFamily($id, $sfamilyCode, $sfamilyLabel) {
+function alreadyExistsSubFamily($id, $codeSubFamily, $labelSubFamily) {
 	global $DB_DB;
 
 	if($id == null) {
-		$request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE codeSubFamily LIKE :sfamilyCode OR labelSubFamily LIKE :sfamilyLabel");
+		$request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE codeSubFamily LIKE :codeSubFamily OR labelSubFamily LIKE :labelSubFamily");
 
 		try {
 			$request->execute(array(
-				'sfamilyCode' => $sfamilyCode,
-				'sfamilyLabel' => $sfamilyLabel
+				'codeSubFamily' => $codeSubFamily,
+				'labelSubFamily' => $labelSubFamily
 			));
 		}
 		catch(Exception $e) {
@@ -24,12 +24,12 @@ function alreadyExistsSubFamily($id, $sfamilyCode, $sfamilyLabel) {
 		}
 	}
 	else {
-		$request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> :id AND (codeSubFamily LIKE :sfamilyCode OR labelSubFamily LIKE :sfamilyLabel)");
+		$request = $DB_DB->prepare("SELECT * FROM SubFamily WHERE idSubFamily <> :id AND (codeSubFamily LIKE :codeSubFamily OR labelSubFamily LIKE :labelSubFamily)");
 
 		try {
 			$request->execute(array(
-				'sfamilyCode' => $sfamilyCode,
-				'sfamilyLabel' => $sfamilyLabel,
+				'codeSubFamily' => $codeSubFamily,
+				'labelSubFamily' => $labelSubFamily,
 				'id' => $id
 			));
 		}

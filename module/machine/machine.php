@@ -99,6 +99,7 @@ function isValidShortLabel($shortLabel) {
  * @return bool : true if the label is valid, false else.
  */
 function isValidLongLabel($longLabel) {
+	unused($longLabel);
 	return true;
 }
 
@@ -119,6 +120,7 @@ function isValidMachineUsePrice($machineUsePrice) {
  * @return bool : true if the serial number is valid, false else.
  */
 function isValidSerialNumber($serialNumber) {
+	unused($serialNumber);
 	return true;
 }
 
@@ -128,6 +130,7 @@ function isValidSerialNumber($serialNumber) {
  * @return bool : true if the manufacturer is valid, false else.
  */
 function isValidManufacturer($manufacturer) {
+	unused($manufacturer);
 	return true;
 }
 
@@ -137,6 +140,7 @@ function isValidManufacturer($manufacturer) {
  * @return bool : true if the comment is valid, false else.
  */
 function isValidComment($comment) {
+	unused($comment);
 	return true;
 }
 
@@ -146,6 +150,7 @@ function isValidComment($comment) {
  * @return bool : true if the documentation link is valid, false else.
  */
 function isValidDocLink($docLink) {
+	unused($docLink);
 	return true;
 }
 

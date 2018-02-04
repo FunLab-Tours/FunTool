@@ -71,7 +71,7 @@ function deleteCostUnit($idDelete) {
  */
 function editCostUnit($idCostUnit, $timePackage, $coeffTime) {
 	global $DB_DB;
-	$request = $DB_DB->prepare('UPDATE costUnit SET  timePackage = :timePackage, coeffTime = :coeffTime, WHERE idCostUnit = :idCostUnit');
+	$request = $DB_DB->prepare('UPDATE CostUnit SET timePackage = :timePackage, coeffTime = :coeffTime, WHERE idCostUnit = :idCostUnit');
 
 	try {
 		$request->execute(array(
@@ -95,7 +95,7 @@ function editCostUnit($idCostUnit, $timePackage, $coeffTime) {
  */
 function getIdCostUnit($timePackage, $costCoeff) {
 	global $DB_DB;
-	$request = $DB_DB->prepare('SELECT idCostUnit FROM costunit WHERE timePackage LIKE :timePackage AND coeffTime LIKE :coeffTime');
+	$request = $DB_DB->prepare('SELECT idCostUnit FROM CostUnit WHERE timePackage LIKE :timePackage AND coeffTime LIKE :coeffTime');
 
 	// We check if cost exists, if yes we get its ID, else we create it and we get its ID.
 

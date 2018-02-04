@@ -295,6 +295,8 @@ function isValidBirthDate($birthDate) {
 function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $emailBis, $birthDate, $inscriptionActiveList, $inscriptionNews, $picture) {
 	global $DB_DB, $privateKey, $DEFAULT_FUNNIES, $max_upload_size, $base_url;
 
+	unused($picture); // TODO : correct it.
+
 	$inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
 	$inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
 
@@ -305,26 +307,15 @@ function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $
 		$folder = 'assets/user_images/';
 		$size = filesize($_FILES['idPicture']['tmp_name']);
 
-		// if(!getimagesize($_FILES['idPicture']['tmp_name'])) {
-		//     echo 'Ce fichier n\'est pas une image!';
-		//     return ;
-		// }
-		if($size > $max_upload_size) {
-			echo 'Taille maximale dépassée!';
-			return;
-		}
+		if($size > $max_upload_size)
+			return -29;
 
 		$image_link = $folder . sha1($login . $privateKey) . '.' . pathinfo($_FILES['idPicture']['name'], PATHINFO_EXTENSION);
-
-		// if(!move_uploaded_file($_FILES['idPicture']['tmp_name'], $image_link)){
-		//     echo 'Echec de l\'upload !';
-		//     return ;
-		// }
 
 		$request->execute(array(
 			'picture' => $base_url . $image_link,
 			'pictureDescription' => $login,
-			'categoryPicture' => "ProfilUser"
+			'categoryPicture' => "ProfileUser"
 		));
 
 		$idPicture = $DB_DB->lastInsertId();
@@ -514,7 +505,7 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 			$request->execute(array(
 				'picture' => $picture,
 				'pictureDescription' => "Avatar for user " . $login,
-				'categoryPicture' => "ProfilUser"
+				'categoryPicture' => "ProfileUser"
 			));
 
 			$idPicture = $DB_DB->lastInsertId();

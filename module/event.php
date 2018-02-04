@@ -1,33 +1,30 @@
 <?php
 
-// TODO : statut -> status.
-// TODO : startdateEvent -> statDateEvent
-
 /**
  * Add a new event.
  * @param $shortSumEvent : a short description about the event.
  * @param $longSumEvent : a complete description about the event.
  * @param $startDateEvent : the starting date of the event.
  * @param $endDateEvent : the ending date of the event.
- * @param $statutEvent : the current status of the event.
+ * @param $statusEvent : the current status of the event.
  * @param $nbPlaces : number of available places for the event.
  * @param $pricePlace : the price of a place for the event.
  * @return int : error code if an error occurred, else nothing.
  */
-function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent, $statutEvent, $nbPlaces, $pricePlace) {
+function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent, $statusEvent, $nbPlaces, $pricePlace) {
 	global $DB_DB;
 	$stmt = $DB_DB->prepare('INSERT INTO Events(shortSumEvent,
 												longSumEvent,
-												startdateEvent,
+												startDateEvent,
 												endDatEvent, 
-                                                statutEvent,
+                                                statusEvent,
                                                 nbPlaces,
                                                 pricePlace) 
                                         VALUES( :shortSumEvent,
                                         		:longSumEvent,
                                         		:startDateEvent,
                                         		:endDateEvent,
-                                        		:statutEvent,
+                                        		:statusEvent,
                                                 :nbPlaces,
                                                 :pricePlace)');
 
@@ -37,7 +34,7 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
 			'longSumEvent' => $longSumEvent,
 			'startDateEvent' => $startDateEvent,
 			'endDateEvent' => $endDateEvent,
-			'statutEvent' => $statutEvent,
+			'statusEvent' => $statusEvent,
 			'nbPlaces' => $nbPlaces,
 			'pricePlace' => $pricePlace
 		));
@@ -77,23 +74,23 @@ function deleteEvent($idEvent) {
  * @param $longSumEvent : a complete description about the event.
  * @param $startDateEvent : the starting date of the event.
  * @param $endDateEvent : the ending date of the event.
- * @param $statutEvent : the current status of the event.
+ * @param $statusEvent : the current status of the event.
  * @param $nbPlaces : number of available places for the event.
  * @param $pricePlace : the price of a place for the event.
  * @return int : error code if an error occurred, else nothing.
  */
-function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startdateEvent, $endDatEvent, $statutEvent, $nbPlaces, $pricePlace) {
+function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startDateEvent, $endDatEvent, $statusEvent, $nbPlaces, $pricePlace) {
 	global $DB_DB;
-	$stmt = $DB_DB->prepare("UPDATE Events SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startdateEvent = :startdateEvent, endDatEvent = :endDatEvent, statutEvent = :statutEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
+	$stmt = $DB_DB->prepare("UPDATE Events SET shortSumEvent = :shortSumEvent, longSumEvent = :longSumEvent, startDateEvent = :startDateEvent, endDatEvent = :endDatEvent, statusEvent = :statusEvent, nbPlaces = :nbPlaces, pricePlace = :pricePlace WHERE idEvent = :idEvent");
 
 	try {
 		$stmt->execute(array(
 			'idEvent' => $idEvent,
 			'shortSumEvent' => $shortSumEvent,
 			'longSumEvent' => $longSumEvent,
-			'startdateEvent' => $startdateEvent,
+			'startDateEvent' => $startDateEvent,
 			'endDatEvent' => $endDatEvent,
-			'statutEvent' => $statutEvent,
+			'statusEvent' => $statusEvent,
 			'nbPlaces' => $nbPlaces,
 			'pricePlace' => $pricePlace
 
@@ -158,11 +155,11 @@ function labelSelectBox($selected) {
 
 	switch($selected) {
 		case 'ok':
-			return $lang["statutOk"];
+			return $lang["statusOk"];
 		case 'maybe':
-			return $lang["statutMaybe"];
+			return $lang["statusMaybe"];
 		case 'cancel':
-			return $lang["statutCancel"];
+			return $lang["statusCancel"];
 		default:
 			return '';
 	}
@@ -179,11 +176,11 @@ function editLabelSelectBox($selected) { // TODO : correct the return ?
 	switch($selected) {
 
 		case 'ok' :
-			return "<option value=\"maybe\">" . $lang["statutMaybe"] . "</option><option value=\"cancel\">" . $lang["statutCancel"] . "</option>";
+			return "<option value=\"maybe\">" . $lang["statusMaybe"] . "</option><option value=\"cancel\">" . $lang["statusCancel"] . "</option>";
 		case 'maybe':
-			return "<option value=\"ok\">" . $lang["statutOk"] . "</option><option value=\"cancel\">" . $lang["statutCancel"] . "</option>";
+			return "<option value=\"ok\">" . $lang["statusOk"] . "</option><option value=\"cancel\">" . $lang["statusCancel"] . "</option>";
 		case 'cancel':
-			return "<option value=\"ok\">" . $lang["statutOk"] . "</option><option value=\"maybe\">" . $lang["statutMaybe"] . "</option>";
+			return "<option value=\"ok\">" . $lang["statusOk"] . "</option><option value=\"maybe\">" . $lang["statusMaybe"] . "</option>";
 		default:
 			return '';
 	}

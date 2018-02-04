@@ -79,9 +79,9 @@ CREATE TABLE User(
         firstName             Varchar (255) ,
         name                  Varchar (255) ,
         telephone             Char (25) ,
-        adressL1              Varchar (255) ,
-        adressL2              Varchar (255) ,
-        adressL3              Varchar (255) ,
+        addressL1             Varchar (255) ,
+        addressL2             Varchar (255) ,
+        addressL3             Varchar (255) ,
         zipCode               Varchar (5) ,
         town                  Varchar (255) ,
         country               Varchar (255) ,
@@ -189,9 +189,9 @@ CREATE TABLE Corporation(
         corporateName Varchar (25) ,
         logo          Varchar (25) ,
         telephone     Char (25) ,
-        adressL1      Varchar (255) ,
-        adressL2      Varchar (255) ,
-        adressL3      Varchar (255) ,
+        addressL1     Varchar (255) ,
+        addressL2     Varchar (255) ,
+        addressL3     Varchar (255) ,
         zipCode       Varchar (25) ,
         town          Varchar (25) NOT NULL ,
         country       Varchar (25) ,
@@ -368,6 +368,7 @@ CREATE TABLE Maintenance(
         idMaintenance           int (11) Auto_increment  NOT NULL ,
         nameMaintenance         Varchar (25) ,
         timeBetweenMaintenances Time ,
+        idMachine               Int ,
         PRIMARY KEY (idMaintenance )
 )ENGINE=InnoDB;
 
@@ -378,10 +379,10 @@ CREATE TABLE Maintenance(
 
 CREATE TABLE Historical(
         idHistorical    int (11) Auto_increment  NOT NULL ,
-        nameRepairer    Varchar (25) ,
-        messageRepair   Text ,
         dateMaintenance Datetime ,
+        messageRepairer Varchar (25) ,
         idMaintenance   Int ,
+        idUser          Int ,
         PRIMARY KEY (idHistorical )
 )ENGINE=InnoDB;
 
@@ -622,17 +623,6 @@ CREATE TABLE labSupplies(
 
 
 #------------------------------------------------------------
-# Table: repair
-#------------------------------------------------------------
-
-CREATE TABLE repair(
-        idMaintenance Int NOT NULL ,
-        idMachine     Int NOT NULL ,
-        PRIMARY KEY (idMaintenance ,idMachine )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: used
 #------------------------------------------------------------
 
@@ -649,7 +639,7 @@ CREATE TABLE used(
 #------------------------------------------------------------
 
 CREATE TABLE membershipTransaction(
-        membershipingDate Date ,
+        membershipDate    Date ,
         endMembershipDate Date ,
         paymentMethod     Varchar (255) ,
         adminCommentary   Varchar (255) ,
@@ -726,7 +716,9 @@ ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KE
 ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
+ALTER TABLE Maintenance ADD CONSTRAINT FK_Maintenance_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
+ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE funniesTransaction ADD CONSTRAINT FK_funniesTransaction_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
 ALTER TABLE userRole ADD CONSTRAINT FK_userRole_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
@@ -762,8 +754,6 @@ ALTER TABLE labTeam ADD CONSTRAINT FK_labTeam_idUser FOREIGN KEY (idUser) REFERE
 ALTER TABLE labTeam ADD CONSTRAINT FK_labTeam_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
-ALTER TABLE repair ADD CONSTRAINT FK_repair_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
-ALTER TABLE repair ADD CONSTRAINT FK_repair_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE used ADD CONSTRAINT FK_used_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE used ADD CONSTRAINT FK_used_idUseForm FOREIGN KEY (idUseForm) REFERENCES MachineUseForm(idUseForm);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);
@@ -776,3 +766,4 @@ ALTER TABLE unread ADD CONSTRAINT FK_unread_idMessage FOREIGN KEY (idMessage) RE
 ALTER TABLE unread ADD CONSTRAINT FK_unread_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE consume ADD CONSTRAINT FK_consume_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
+

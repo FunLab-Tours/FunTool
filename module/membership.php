@@ -1,6 +1,6 @@
 <?php
 
-// TODO : correct membershiping.
+// TODO : correct membership.
 
 /**
  * Add a membership settings.
@@ -140,7 +140,7 @@ function selectMembershipFrame($idMembershipFrame) {
 
 /**
  * Add a membership.
- * @param $membershipingDate : date of the membership.
+ * @param $membershipDate : date of the membership.
  * @param $endMembershipDate : ending date for the user to be a member.
  * @param $paymentMethod : how the user will pay his membership.
  * @param $adminCommentary : comment about the membership.
@@ -148,15 +148,15 @@ function selectMembershipFrame($idMembershipFrame) {
  * @param $idUser : ID of the user to add as a member.
  * @return int : return an error code if an error occurred.
  */
-function addMembership($membershipingDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
+function addMembership($membershipDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
 	global $DB_DB;
-	$stmt = $DB_DB->prepare("INSERT INTO membershipTransaction(	membershipingDate,
+	$stmt = $DB_DB->prepare("INSERT INTO membershipTransaction(	membershipDate,
 																endMembershipDate,
 																paymentMethod,
 				 	                                            adminCommentary,
 				 	                                            idMembershipFrame,
 				 	                                            idUser)                                                 
-														VALUES(	:membershipingDate,
+														VALUES(	:membershipDate,
 																:endMembershipDate,
 																:paymentMethod, 
                                         						:adminCommentary,
@@ -165,7 +165,7 @@ function addMembership($membershipingDate, $endMembershipDate, $paymentMethod, $
 
 	try {
 		$stmt->execute(array(
-			'membershipingDate' => $membershipingDate,
+			'membershipDate' => $membershipDate,
 			'endMembershipDate' => $endMembershipDate,
 			'paymentMethod' => $paymentMethod,
 			'adminCommentary' => $adminCommentary,
@@ -213,7 +213,7 @@ function compareTwoDates($date1, $date2) {
 
 /**
  * Update a membership.
- * @param $membershipingDate : new date of the membership.
+ * @param $membershipDate : new date of the membership.
  * @param $endMembershipDate : new ending date for the user to be a member.
  * @param $paymentMethod : new method used to pay the membership.
  * @param $adminCommentary : new comment about the membership.
@@ -221,9 +221,9 @@ function compareTwoDates($date1, $date2) {
  * @param $idUser : ID of the user to edit the membership.
  * @return int : return an error code if an error occurred.
  */
-function updateMembership($membershipingDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
+function updateMembership($membershipDate, $endMembershipDate, $paymentMethod, $adminCommentary, $idMembershipFrame, $idUser) {
 	global $DB_DB;
-	$stmt = $DB_DB->prepare("UPDATE membershipTransaction SET 	membershipingDate = :membershipingDate, 
+	$stmt = $DB_DB->prepare("UPDATE membershipTransaction SET 	membershipDate = :membershipDate, 
 																endMembershipDate = :endMembershipDate,
 																paymentMethod = :paymentMethod,
                                  								adminCommentary = :adminCommentary,
@@ -232,7 +232,7 @@ function updateMembership($membershipingDate, $endMembershipDate, $paymentMethod
 
 	try {
 		$stmt->execute(array(
-			'membershipingDate' => $membershipingDate,
+			'membershipDate' => $membershipDate,
 			'endMembershipDate' => $endMembershipDate,
 			'paymentMethod' => $paymentMethod,
 			'adminCommentary' => $adminCommentary,
