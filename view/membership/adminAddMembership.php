@@ -3,7 +3,9 @@
     $passwordChecked = $randomPassword;
 
     if(isset($_POST['submit'])) {
-        if(isValidSignOn()) {
+		$isValidSignOnReturn = isValidSignOn();
+
+		if($isValidSignOnReturn && $isValidSignOnReturn > 0) {
             try {
                 addUser($_POST['login'],
                     $passwordChecked,
@@ -19,22 +21,17 @@
                     $_POST['email'],
                     $_POST['emailBis'],
                     $_POST['birthDate'],
-                    0, // $_POST['nbFunnies'], TODO : use global parameter.
                     $_POST['inscriptionActiveList'],
                     $_POST['inscriptionNews'],
                     "");
-                //connectUser($_POST['login'], $_POST['password']);
-                //header('Location: index.php');
             }
             catch(Exception $e) {
                 echo 'Message: ' .$e->getMessage();
             }
-
-            echo "OKOK";
         }
-
-        echo $passwordChecked;
-    }
+        else
+			echo $error[$isValidSignOnReturn];
+	}
 
 ?>
 

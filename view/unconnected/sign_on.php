@@ -3,11 +3,15 @@
 loadModules("user");
 
 if(isset($_POST['submit'])) {
-	if(isValidSignOn()) {
+	$isValidSignOnReturn = isValidSignOn();
+
+	if($isValidSignOnReturn && $isValidSignOnReturn > 0) {
 		addUser($_POST['login'], $_POST['password'], $_POST['firstName'], $_POST['name'], $_POST['telephone'], $_POST['addressL1'], $_POST['addressL2'], $_POST['addressL3'], $_POST['zipCode'], $_POST['town'], $_POST['country'], $_POST['email'], $_POST['emailBis'], $_POST['birthDate'], $_POST['inscriptionActiveList'], $_POST['inscriptionNews'], "");
 		connectUser($_POST['login']);
-//		header('Location: index.php');
+		header('Location: index.php');
 	}
+	else
+		echo $error[$isValidSignOnReturn];
 }
 
 ?>

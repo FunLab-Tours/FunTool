@@ -58,66 +58,43 @@ function connectUser($login) {
  */
 function isValidSignOn() {
 	if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['passwordChecker']) && isset($_POST['firstName']) && isset($_POST['name']) && isset($_POST['telephone']) && isset($_POST['addressL1']) && isset($_POST['zipCode']) && isset($_POST['town']) && isset($_POST['country']) && isset($_POST['email']) && isset($_POST['birthDate'])) {
-		// TODO : extract echo.
-		if(!isValidNewLogin($_POST['login'])) {
-			echo "Error on login.";
-			return false;
-		}
+		if(!isValidNewLogin($_POST['login']))
+			return -5;
 
-		if(!isValidPassword($_POST['password'], $_POST['passwordChecker'])) {
-			echo "Error on password.";
-			return false;
-		}
+		if(!isValidPassword($_POST['password'], $_POST['passwordChecker']))
+			return -6;
 
-		if(!isValidFirstName($_POST['firstName'])) {
-			echo "Error on first name.";
-			return false;
-		}
+		if(!isValidFirstName($_POST['firstName']))
+			return -7;
 
-		if(!isValidName($_POST['name'])) {
-			echo "Error on name.";
-			return false;
-		}
+		if(!isValidName($_POST['name']))
+			return -8;
 
-		if(!isValidTelephone($_POST['telephone'])) {
-			echo "Error on phone number.";
-			return false;
-		}
+		if(!isValidTelephone($_POST['telephone']))
+			return -9;
 
-		if(!isValidAddressL1($_POST['addressL1'])) {
-			echo "Error on first address.";
-			return false;
-		}
+		if(!isValidAddressL1($_POST['addressL1']))
+			return -10;
 
-		if(!isValidZipCode($_POST['zipCode'])) {
-			echo "Error on zip code.";
-			return false;
-		}
+		if(!isValidZipCode($_POST['zipCode']))
+			return -11;
 
-		if(!isValidTown($_POST['town'])) {
-			echo "Error on town.";
-			return false;
-		}
+		if(!isValidTown($_POST['town']))
+			return -12;
 
-		if(!isValidCountry($_POST['country'])) {
-			echo "Error on country.";
-			return false;
-		}
+		if(!isValidCountry($_POST['country']))
+			return -13;
 
-		if(!isValidEmail($_POST['email'])) {
-			echo "Error on email.";
-			return false;
-		}
+		if(!isValidEmail($_POST['email']))
+			return -14;
 
-		if(!isValidBirthDate($_POST['birthDate'])) {
-			echo "Error on birth date.";
-			return false;
-		}
+		if(!isValidBirthDate($_POST['birthDate']))
+			return -15;
 
 		return true;
 	}
 
-	return false;
+	return -16;
 }
 
 /**

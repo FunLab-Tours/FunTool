@@ -1,7 +1,5 @@
 <?php
 
-// TODO : suppress echos.
-
 /**
  * Check if the submit for a new machine or an edit is valid.
  * @param bool $isEdit : true if it's to edit a machine, false if it's to add a new one.
@@ -9,66 +7,42 @@
  */
 function isValidMachineSubmit($isEdit = false) {
 	if(!$isEdit) {
-		if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "") {
-			echo 'Erreur code machine';
-			return -2;
-		}
+		if(!isset($_POST['codeMachine']) || !isValidCodeMachine($_POST['codeMachine']) || $_POST['codeMachine'] == "")
+			return -17;
 
-		if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "") {
-			echo 'Erreur shortLabel';
-			return -2;
-		}
+		if(!isset($_POST['shortLabel']) || !isValidShortLabel($_POST['shortLabel']) || $_POST['shortLabel'] == "")
+			return -18;
 	}
 
-	if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']) || $_POST['longLabel'] == "") {
-		echo 'Erreur longLabel';
-		return -2;
-	}
+	if(!isset($_POST['longLabel']) || !isValidLongLabel($_POST['longLabel']) || $_POST['longLabel'] == "")
+		return -19;
 
-	if(!isset($_POST['serialNumber']) || !isValidSerialNumber($_POST['serialNumber']) || $_POST['serialNumber'] == "") {
-		echo 'Erreur serialNumber';
-		return -2;
-	}
+	if(!isset($_POST['serialNumber']) || !isValidSerialNumber($_POST['serialNumber']) || $_POST['serialNumber'] == "")
+		return -20;
 
-	if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']) || $_POST['manufacturer'] == "") {
-		echo 'Erreur manufacturer';
-		return -2;
-	}
+	if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']) || $_POST['manufacturer'] == "")
+		return -21;
 
-	if(!isset($_POST['comment']) || !isValidComment($_POST['comment']) || $_POST['comment'] == "") {
-		echo 'Erreur comment';
-		return -2;
-	}
+	if(!isset($_POST['comment']) || !isValidComment($_POST['comment']) || $_POST['comment'] == "")
+		return -22;
 
-	if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']) || $_POST['docLink1'] == "") {
-		echo 'Erreur link1';
-		return -2;
-	}
+	if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']) || $_POST['docLink1'] == "")
+		return -23;
 
-	if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']) || $_POST['docLink2'] == "") {
-		echo 'Erreur link2';
-		return -2;
-	}
+	if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']) || $_POST['docLink2'] == "")
+		return -24;
 
-	if(!isset($_POST['idFamily']) || $_POST['idFamily'] == "") {
-		echo 'Erreur family';
-		return -2;
-	}
+	if(!isset($_POST['idFamily']) || $_POST['idFamily'] == "")
+		return -25;
 
-	if(!isset($_POST['cost']) || $_POST['cost'] == "") {
-		echo 'Erreur cost';
-		return -2;
-	}
+	if(!isset($_POST['cost']) || $_POST['cost'] == "")
+		return -26;
 
-	if(!isset($_POST['costCoeff']) || $_POST['costCoeff'] == "") {
-		echo 'Erreur cost coeff';
-		return -2;
-	}
+	if(!isset($_POST['costCoeff']) || $_POST['costCoeff'] == "")
+		return -27;
 
-	if(!isset($_POST['idLab']) || $_POST['idLab'] == "") {
-		echo 'Erreur lab';
-		return -2;
-	}
+	if(!isset($_POST['idLab']) || $_POST['idLab'] == "")
+		return -28;
 
 	return true;
 }

@@ -5,7 +5,9 @@
     $family = $edit['idFamily'];
 
     if(isset($_POST['submit'])) {
-        if(isValidMachineSubmit(true)) {
+		$isValidSignOnReturn = isValidMachineSubmit();
+
+		if($isValidSignOnReturn && $isValidSignOnReturn > 0) {
             if(isset($_POST['idSubFamily']))
                 editMachine($_GET['idEdit'],
                     $_POST['codeMachine'],
@@ -40,7 +42,9 @@
             reassignMaterialsToMachine($machine, $_POST['idMaterials']);
             header('Location: index.php?page=machine');
         }
-    }
+		else
+			echo $error[$isValidSignOnReturn];
+	}
 
 ?>
 

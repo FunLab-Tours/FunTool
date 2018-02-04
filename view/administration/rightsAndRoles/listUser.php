@@ -15,7 +15,12 @@
                 <?php } ?>
             </td>
             <td>
-                <?php getRightsListWithRoles(getUserRoles($row['idUser']))?>
+                <?php
+				$list = getRightsListWithRoles(getUserRoles($row['idUser']));
+
+				foreach($list as $row)
+					echo($row['rightsTitle'] . " ; ");
+				?>
             </td>
             <td><a href="index.php?page=administration&rightsAndRoles&editUser=<?=$row['idUser']?>"><?=$lang['edit']?></a></td>
         </tr>

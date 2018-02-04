@@ -3,7 +3,9 @@
 <?php
 
     if(isset($_POST['submit'])) {
-        if(isValidMachineSubmit()) {
+		$isValidSignOnReturn = isValidMachineSubmit();
+
+		if($isValidSignOnReturn && $isValidSignOnReturn > 0) {
             if(!isset($_POST['idSubFamily']))
                 $subFamily = null;
             else
@@ -25,7 +27,9 @@
             assignMaterialsToMachine($id, $_POST['idMaterials']);
             header('Location: index.php?page=machine&chooseImage='.$id);
         }
-    }
+		else
+			echo $error[$isValidSignOnReturn];
+	}
 
 ?>
 

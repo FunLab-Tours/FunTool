@@ -403,17 +403,14 @@ function getRightsListWithRoles($roles) {
 		$rights = getRightsRoleList($role['idRole']);
 
 		if(!$rights)
-			return false;
+			return -2;
 
 		foreach($rights as $right)
 			if(!in_array($right, $list))
 				array_push($list, $right);
 	}
 
-	foreach($list as $row)
-		echo($row['rightsTitle'] . " ; "); // TODO : suppress echo.
-
-	return true;
+	return $list;
 }
 
 /**
