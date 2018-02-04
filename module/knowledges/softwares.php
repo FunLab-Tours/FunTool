@@ -4,8 +4,13 @@
  * Software.
  */
 
-// TODO : documentation.
-function testSoftware($id, $name) {
+/**
+ * Check if a software already exits or not.
+ * @param $id : ID of the software (can be null).
+ * @param $name : name of the software.
+ * @return bool|int : true if the software already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSoftware($id, $name) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -90,7 +95,7 @@ function addSoftware($name, $description, $categories, $subCategories) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO Software (SoftwareName, softwareDescription) VALUES (:name, :description)");
 
-	if(!testSoftware(null, $name))
+	if(!alreadyExistsSoftware(null, $name))
 		return -3;
 
 	try {
@@ -123,7 +128,7 @@ function editSoftware($id, $name, $description, $categories, $subCategories) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE Software SET SoftwareName = :name, softwareDescription = :description WHERE idSoftware = :id");
 
-	if(!testSoftware($id, $name))
+	if(!alreadyExistsSoftware($id, $name))
 		return -3;
 
 	try {

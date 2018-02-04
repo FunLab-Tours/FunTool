@@ -42,8 +42,13 @@ function assignRolesToUser($idUser, $idsRoles) {
 
 // Roles.
 
-// TODO : documentation and test returns.
-function testValuesRole($id, $name) {
+/**
+ * Check if a role already exists or not.
+ * @param $id : ID of the role (can be null).
+ * @param $name : name of the role.
+ * @return bool|int : true if the role already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsRole($id, $name) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -127,7 +132,7 @@ function addRole($name, $description, $rights) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Role (roleName, roleDescription) VALUES (:roleName, :roleDescription)');
 
-	if(!testValuesRole(null, $name))
+	if(!alreadyExistsRole(null, $name))
 		return -3;
 
 	try {
@@ -173,7 +178,7 @@ function editRole($idRole, $name, $description, $rights) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Role SET roleName = :roleName, roleDescription = :roleDescription WHERE idRole= :idRole');
 
-	if(!testValuesRole($idRole, $name))
+	if(!alreadyExistsRole($idRole, $name))
 		return false;
 
 	try {
@@ -267,8 +272,14 @@ function deleteRole($idRole) {
 
 // Rights.
 
-// TODO : documentation.
-function testValuesRights($id, $title, $path) {
+/**
+ * Check if a right already exists or not.
+ * @param $id : ID of the right (can be null).
+ * @param $title : title of the right.
+ * @param $path : path used by the right.
+ * @return bool|int : true if the right already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsRight($id, $title, $path) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM Rights WHERE rightsTitle LIKE :title");
 
@@ -394,7 +405,11 @@ function getRightsRoleList($idRole) {
 	return $request->fetchAll();
 }
 
-// TODO : documentation.
+/**
+ * Get the list of rights related with their roles.
+ * @param $roles : roles to get.
+ * @return array|int : list of rights and roles or an error code if an error occurred.
+ */
 function getRightsListWithRoles($roles) {
 	// Return the list of all rights attached to the list of roles passed in parameters. Doesn't count double rights.
 	$list = array();
@@ -424,7 +439,7 @@ function addRight($title, $description, $path) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Rights(rightsTitle, rightsDescription, rightsPath) VALUES(:rightsTitle, :rightsDescription, :rightsPath)');
 
-	if(!testValuesRights(null, $title, $path))
+	if(!alreadyExistsRight(null, $title, $path))
 		return -3;
 
 	try {
@@ -453,7 +468,7 @@ function editRight($idRight, $title, $description, $path) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Rights SET rightsTitle = :rightsTitle, rightsDescription = :rightsDescription, rightsPath = :rightsPath WHERE idRights = :idRight');
 
-	if(!testValuesRights($idRight, $title, $path))
+	if(!alreadyExistsRight($idRight, $title, $path))
 		return -3;
 
 	try {

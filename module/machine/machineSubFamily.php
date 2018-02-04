@@ -1,7 +1,13 @@
 <?php
 
-// TODO : documentation.
-function testSubFamily($id, $sfamilyCode, $sfamilyLabel) {
+/**
+ * Check if a subfamily of machines exits or not.
+ * @param $id : ID of the subfamily (can be null).
+ * @param $sfamilyCode : code of the subfamily.
+ * @param $sfamilyLabel : label of the subfamily.
+ * @return bool|int : true if the software category already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSubFamily($id, $sfamilyCode, $sfamilyLabel) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -48,7 +54,7 @@ function addSubFamily($subFamilyCode, $subFamilyLabel, $idFamily) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SubFamily(codeSubFamily, labelSubFamily, idFamily) VALUES(:codeSubFamily, :labelSubFamily, :idFamily)');
 
-	if(!testSubFamily(null, $subFamilyCode, $subFamilyLabel))
+	if(!alreadyExistsSubFamily(null, $subFamilyCode, $subFamilyLabel))
 		return -3;
 
 	try {
@@ -171,7 +177,7 @@ function editSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SubFamily SET  codeSubFamily = :codeSubFamily, labelSubFamily = :labelSubFamily WHERE idSubFamily = :idSubFamily');
 
-	if(!testSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel))
+	if(!alreadyExistsSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel))
 		return -3;
 
 	try {

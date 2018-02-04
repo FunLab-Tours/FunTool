@@ -133,8 +133,14 @@ function editAssignment($idUser, $idSkill, $skillLevel, $comment) {
 
 // Skills.
 
-// TODO : documentation test.
-function testSkill($idSkill, $skillName, $idSkillType) {
+/**
+ * Check if a skill already exists or not.
+ * @param $idSkill : ID of the skill (can be null).
+ * @param $skillName : name of the skill.
+ * @param $idSkillType : type of the skill.
+ * @return bool|int : true if the skill already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSkill($idSkill, $skillName, $idSkillType) {
 	global $DB_DB;
 
 	if($idSkill == null) {
@@ -257,7 +263,7 @@ function addSkill($skillName, $skillDescription, $idSkillType) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO VariousSkills (skillName, skillDescription, idSkillType) VALUES (:skillName, :skillDescription, :idSkillType)");
 
-	if(!testSkill(null, $skillName, $idSkillType))
+	if(!alreadyExistsSkill(null, $skillName, $idSkillType))
 		return -3;
 
 	try {
@@ -286,7 +292,7 @@ function editSkill($idSkill, $skillName, $skillDescription, $idSkillType) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE VariousSkills SET skillName = :skillName, skillDescription = :skillDescription, idSkillType = :idSkillType WHERE idSkill = :idSkill");
 
-	if(!testSkill($idSkill, $skillName, $idSkillType))
+	if(!alreadyExistsSkill($idSkill, $skillName, $idSkillType))
 		return -3;
 
 	try {
@@ -341,8 +347,13 @@ function deleteSkill($idSkill) {
 
 // Skill type.
 
-// TODO : documentation test.
-function testSkillType($idSkillType, $skillTypeName) {
+/**
+ * Check if a skill type already exists or not.
+ * @param $idSkillType : ID of the skill type (can be null).
+ * @param $skillTypeName : name of the skill type.
+ * @return bool|int : true if the skill type already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSkillType($idSkillType, $skillTypeName) {
 	global $DB_DB;
 
 	if($idSkillType == null) {
@@ -424,7 +435,7 @@ function addSkillType($skillTypeName) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO SkillType (skillTypeName) VALUES (:skillTypeName)");
 
-	if(!testSkillType(null, $skillTypeName))
+	if(!alreadyExistsSkillType(null, $skillTypeName))
 		return -3;
 
 	try {
@@ -449,7 +460,7 @@ function editSkillType($idSkillType, $skillTypeName) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE SkillType SET skillTypeName = :skillTypeName WHERE idSkillType = :idSkillType");
 
-	if(!testSkillType($idSkillType, $skillTypeName))
+	if(!alreadyExistsSkillType($idSkillType, $skillTypeName))
 		return -3;
 
 	try {

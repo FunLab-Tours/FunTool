@@ -4,8 +4,15 @@
  *  Categories.
  */
 
-// TODO : documentation.
-function testInformationCategory($id, $code, $label) {
+
+/**
+ * Check if a software category already exists or not.
+ * @param $id : ID of the software (can be null).
+ * @param $code : code of the software.
+ * @param $label : label of the software.
+ * @return bool|int : true if the software category already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSoftwareCategory($id, $code, $label) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -90,7 +97,7 @@ function addSoftwareCategory($code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SoftwareCategory  (categoryCode, categoryLabel) VALUES (:code, :label)');
 
-	if(!testInformationCategory(null, $code, $label))
+	if(!alreadyExistsSoftwareCategory(null, $code, $label))
 		return -3;
 
 	try {
@@ -117,7 +124,7 @@ function editSoftwareCategory($id, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SoftwareCategory SET categoryCode = :code, categoryLabel = :label WHERE idSoftCat = :id');
 
-	if(!testInformationCategory($id, $code, $label))
+	if(!alreadyExistsSoftwareCategory($id, $code, $label))
 		return -3;
 
 	try {
@@ -171,8 +178,14 @@ function deleteSoftwareCategory($id) {
  * Subcategories.
  */
 
-// TODO : documentation.
-function testInformationSoftwareSubCategory($id, $code, $label) {
+/**
+ * Check if a software subcategory already exists or not.
+ * @param $id : ID of the subcategory (can be null).
+ * @param $code : code of the subcategory.
+ * @param $label : label of the subcategory.
+ * @return bool|int : true if the software subcategory already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsSoftwareSubCategory($id, $code, $label) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -261,7 +274,7 @@ function addSoftwareSubCategory($idCat, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO SoftwareSubcategory  (idSoftCat, SubcatCode, SubcatLabel)  VALUES (:idCat, :code, :label)');
 
-	if(!testInformationSoftwareSubCategory(null, $code, $label))
+	if(!alreadyExistsSoftwareSubCategory(null, $code, $label))
 		return -3;
 
 	try {
@@ -289,7 +302,7 @@ function editSoftwareSubCategory($id, $code, $label) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE SoftwareSubcategory SET SubcatCode = :code, SubcatLabel = :label WHERE idSoftSubcat = :id');
 
-	if(!testInformationSoftwareSubCategory($id, $code, $label))
+	if(!alreadyExistsSoftwareSubCategory($id, $code, $label))
 		return -3;
 
 	try {

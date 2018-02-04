@@ -1,7 +1,13 @@
 <?php
 
-// TODO : documentation.
-function testFamily($id, $familyCode, $familyLabel) {
+/**
+ * Check if a machine family exists or not.
+ * @param $id : ID of the family (can be null).
+ * @param $familyCode : code of the family.
+ * @param $familyLabel : label of the family.
+ * @return bool|int : true if the family already exists, false else, or an error code if an error occurred.
+ */
+function alreadyExistsMachineFamily($id, $familyCode, $familyLabel) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -47,7 +53,7 @@ function addFamily($familyCode, $familyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO Family(familyCode, familyLabel) VALUES(:familyCode, :familyLabel)');
 
-	if(!testFamily(null, $familyCode, $familyLabel))
+	if(!alreadyExistsMachineFamily(null, $familyCode, $familyLabel))
 		return -3;
 
 	try {
@@ -150,7 +156,7 @@ function editFamily($idFamily, $familyCode, $familyLabel) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Family SET  familyCode = :familyCode, familyLabel = :familyLabel WHERE idFamily = :idFamily');
 
-	if(!testFamily($idFamily, $familyCode, $familyLabel))
+	if(!alreadyExistsMachineFamily($idFamily, $familyCode, $familyLabel))
 		return -3;
 
 	try {

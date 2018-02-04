@@ -2,8 +2,14 @@
 
 // Materials.
 
-// TODO : documentation.
-function testMaterial($id, $labelMat, $codeMat) {
+/**
+ * Check if a material already exists or not.
+ * @param $id : ID of the material (can be null).
+ * @param $labelMat : label of the material.
+ * @param $codeMat : code of the material.
+ * @return bool : true if the software category already exists, false else.
+ */
+function alreadyExistsMaterial($id, $labelMat, $codeMat) {
 	global $DB_DB;
 
 	if($id == null) {
@@ -44,7 +50,7 @@ function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO Materials(labelMat, codeMat, priceMat, docLink, comment, dateEntry) VALUES (:labelMat, :codeMat, :priceMat, :docLink, :comment, :dateEntry)");
 
-	if(!testMaterial(null, $labelMat, $codeMat))
+	if(!alreadyExistsMaterial(null, $labelMat, $codeMat))
 		return -2;
 
 	try {
@@ -138,7 +144,7 @@ function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment
 	global $DB_DB;
 	$request = $DB_DB->prepare("UPDATE Materials SET labelMat = :labelMat, codeMat = :codeMat, priceMat = :priceMat, docLink = :docLink, comment = :comment WHERE idMat = :idMat");
 
-	if(!testMaterial($idMat, $labelMat, $codeMat))
+	if(!alreadyExistsMaterial($idMat, $labelMat, $codeMat))
 		return -3;
 
 	try {

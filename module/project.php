@@ -241,7 +241,7 @@ function showRegisterButtonProject($idProject, $alreadyRegistered) {
  * @param $idUser : ID of the user
  * @return bool : true if the user is registered, else false.
  */
-function alreadyRegisteredProject($idProject, $idUser) { // TODO : error code.
+function alreadyRegisteredProject($idProject, $idUser) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT COUNT(idUser) as nb_entry FROM participate WHERE idProject = :idProject AND idUser= :idUser");
 
