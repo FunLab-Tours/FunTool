@@ -291,6 +291,8 @@ $lang['maintenance_name_time'] = "Noms des maintenances et intervalles de temps 
 $lang['remainTime'] = "Temps restant";
 $lang['each'] = "chaque";
 
+$lang['cantGetParameters'] = "Ne peut pas obtenir les paramètres !";
+
 $error = [];
 $error[-1] = "Erreur inconnue.";
 $error[-2] = "Erreur avec la base de données.";

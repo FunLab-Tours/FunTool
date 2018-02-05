@@ -1,24 +1,22 @@
 <?php
-    include("../include/config.php");
-    include("../include/lang.php");
-    include("../include/module.php");
-    include("../include/db.php");
 
-    loadModules("machine/machineSubFamily");
+include("../include/config.php");
+include("../include/lang.php");
+include("../include/module.php");
+include("../include/db.php");
 
-    if(isset($_GET['q']) && $_GET["q"]) {
+loadModules("machine/machineSubFamily");
 
-        $idFamily = intval($_GET['q']);
-        $result = getSubFamilyList($idFamily);
+if(isset($_GET['q']) && $_GET["q"]) {
+	$idFamily = intval($_GET['q']);
+	$result = getSubFamilyList($idFamily);
 
-        echo "<select multiple name =\"idSubFamily[]\"> <option value=\"\" disabled selected=\"selected\">".$lang['machineSubFamily']."</option>";
-        foreach($result as $row) {
-            echo "<option value=\"" . $row['idSubFamily'] . "\">". $row['labelSubFamily'] . "</option>";
-        }
-        echo "</select>";
-    }
-    else {
-        echo "Can't get parameters !";
-    }
+	echo "<select multiple name =\"idSubFamily[]\"> <option value=\"\" disabled selected=\"selected\">" . $lang['machineSubFamily'] . "</option>";
 
-?>
+	foreach($result as $row)
+		echo "<option value=\"" . $row['idSubFamily'] . "\">" . $row['labelSubFamily'] . "</option>";
+
+	echo "</select>";
+}
+else
+	echo $lang['cantGetParameters'];
