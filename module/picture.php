@@ -1,6 +1,6 @@
 <?php
 
-// TODO : use parameters.
+// TODO : use parameters instead of $_FILES.
 
 /**
  * Check if the sent picture is valid or not.

@@ -228,9 +228,8 @@ function selectProjectPicture($idProject) {
 function showRegisterButtonProject($idProject, $alreadyRegistered) {
 	global $lang;
 
-	// TODO : check return.
 	if($alreadyRegistered)
-		return "<a href=\"index.php?page=project&idUnregister=$idProject\" class=\"button\">" . $lang["unregister"] . "</a>"; // TODO : check links and make it more flexible.
+		return "<a href=\"index.php?page=project&idUnregister=$idProject\" class=\"button\">" . $lang["unregister"] . "</a>";
 	else
 		return "<a href=\"index.php?page=project&idRegister=$idProject\" class=\"button\">" . $lang["register"] . "</a>";
 }

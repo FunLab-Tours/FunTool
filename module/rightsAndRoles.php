@@ -410,7 +410,7 @@ function getRightsRoleList($idRole) {
  * @param $roles : roles to get.
  * @return array|int : list of rights and roles or an error code if an error occurred.
  */
-function getRightsListWithRoles($roles) {
+function getRightsListWithRoles($roles) { // TODO : test this function.
 	// Return the list of all rights attached to the list of roles passed in parameters. Doesn't count double rights.
 	$list = array();
 

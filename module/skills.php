@@ -35,7 +35,7 @@ function isUserSkilled($idSkill, $idUser) {
  * @param $comment : comment about the skill.
  * @return bool : true if the skill has been added, false else. Or an error code if an error occurred.
  */
-function assignSkills($idUser, $idSkill, $skillLevel, $comment) {
+function assignSkills($idUser, $idSkill, $skillLevel, $comment) { // TODO : test this function.
 	global $DB_DB;
 	$request = $DB_DB->prepare('INSERT INTO has(idUser, idSkill, skillLevel, comment) VALUES(:idUser, :idSkill, :skillLevel, :comment)');
 

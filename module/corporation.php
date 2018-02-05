@@ -1,8 +1,5 @@
 <?php
 
-// TODO : change address to address..
-// TODO : correct POST.
-
 /**
  * Add a new corporation.
  * @param $corporateName : name of the corporation.
@@ -15,10 +12,9 @@
  * @param $town : town of the corporation.
  * @param $country : country of the corporation.
  * @param $email : email of the corporation.
- * @param $nbFunnies : number of funnies of the corporation. // TODO : delete that parameter to pass by a default value.
  * @return int : return an error code if an error occurred.
  */
-function addCorporation($corporateName, $logo, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $nbFunnies) {
+function addCorporation($corporateName, $logo, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email) {
 	global $DB_DB;
 	$stmt = $DB_DB->prepare("INSERT INTO Corporation( corporateName,
 													  logo,
@@ -29,8 +25,7 @@ function addCorporation($corporateName, $logo, $telephone, $addressL1, $addressL
 													  zipCode,
 													  town,
 													  country,
-													  email,
-													  nbFunnies)
+													  email)
 											  VALUES( :corporateName,
 													  :logo,
 			                                          :telephone,
@@ -40,22 +35,21 @@ function addCorporation($corporateName, $logo, $telephone, $addressL1, $addressL
 													  :zipCode,
 													  :town,
 													  :country,
-													  :email,
-											 		  :nbFunnies)");
+													  :email)");
 
 	try {
 		$stmt->execute(array(
-			'corporateName' => $_POST['corporateName'],
-			'logo' => $_POST['logo'],
-			'telephone' => $_POST['telephone'],
-			'addressL1' => $_POST['addressL1'],
-			'addressL2' => $_POST['addressL2'],
-			'addressL3' => $_POST['addressL3'],
-			'zipCode' => $_POST['zipCode'],
-			'town' => $_POST['town'],
-			'country' => $_POST['country'],
-			'email' => $_POST['email'],
-			'nbFunnies' => $_POST['nbFunnies'],
+			'corporateName' => $corporateName,
+			'logo' => $logo,
+			'telephone' => $telephone,
+			'addressL1' => $addressL1,
+			'addressL2' => $addressL2,
+			'addressL3' => $addressL3,
+			'zipCode' => $zipCode,
+			'town' => $town,
+			'country' => $country,
+			'email' => $email,
+			'nbFunnies' => $DEFAULT_FUNNIES,
 		));
 	}
 	catch(Exception $e) {
@@ -99,10 +93,9 @@ function deleteCorporation($idCorporation) {
  * @param $town : new town of the corporation.
  * @param $country : new country of the corporation.
  * @param $email : new email of the corporation.
- * @param $nbFunnies : new number of funnies of the corporation. // TODO : delete that parameter to pass by a default value.
  * @return int : return an error code if an error occurred.
  */
-function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $nbFunnies) {
+function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email) {
 	global $DB_DB;
 	$stmt = $DB_DB->prepare("UPDATE Corporation SET corporateName = :corporateName,
 													logo = :logo,
@@ -119,17 +112,18 @@ function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $a
 
 	try {
 		$stmt->execute(array(
-			'corporateName' => $_POST['corporateName'],
-			'logo' => $_POST['logo'],
-			'telephone' => $_POST['telephone'],
-			'addressL1' => $_POST['addressL1'],
-			'addressL2' => $_POST['addressL2'],
-			'addressL3' => $_POST['addressL3'],
-			'zipCode' => $_POST['zipCode'],
-			'town' => $_POST['town'],
-			'country' => $_POST['country'],
-			'email' => $_POST['email'],
-			'nbFunnies' => $_POST['nbFunnies'],
+			'idCorporation' => $idCorporation,
+			'corporateName' => $corporateName,
+			'logo' => $logo,
+			'telephone' => $telephone,
+			'addressL1' => $addressL1,
+			'addressL2' => $addressL2,
+			'addressL3' => $addressL3,
+			'zipCode' => $zipCode,
+			'town' => $town,
+			'country' => $country,
+			'email' => $email,
+			'nbFunnies' => $DEFAULT_FUNNIES
 		));
 	}
 	catch(Exception $e) {
@@ -141,7 +135,7 @@ function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $a
 
 /**
  * List all corporation.
- * @return mixed : list of all corporation or in error code if an error occurred.
+ * @return mixed : list of all corporation or an error code if an error occurred.
  */
 function listAllCorporation() {
 	global $DB_DB;

@@ -4,9 +4,9 @@
     <tr bgcolor='#CCCCCC'>
         <td><?=$lang["shortSumEvent"]?></td>
         <td><?=$lang["longSumEvent"]?></td>
-        <td><?=$lang["startdateEvent"]?></td>
+        <td><?=$lang["startDateEvent"]?></td>
         <td><?=$lang["endDatEvent"]?></td>
-        <td><?=$lang["statutEvent"]?></td>
+        <td><?=$lang["statusEvent"]?></td>
         <td><?=$lang["ticketsLeft"]?></td>
         <td><?=$lang["pricePlace"]?></td>
         <td><?=$lang["register"]?></td>
@@ -18,9 +18,9 @@
             $ticketsLeft = ticketsLeft($row['nbPlaces'],$row['idEvent']);
             echo "<td>".$row['shortSumEvent']."</td>";
             echo "<td>".$row['longSumEvent']."</td>";
-            echo "<td>".$row['startdateEvent']."</td>";
+            echo "<td>".$row['startDateEvent']."</td>";
             echo "<td>".$row['endDatEvent']."</td>";
-            echo "<td>".labelSelectBox($row['statutEvent'])."</td>";
+            echo "<td>".labelSelectBox($row['statusEvent'])."</td>";
             echo "<td>".$ticketsLeft."</td>";
             echo "<td>".$row['pricePlace']."</td>";
             echo "<td>".showRegisterButton($ticketsLeft,$row['idEvent'],alreadyRegistered($row['idEvent'],$_COOKIE["id"]))."</td>";

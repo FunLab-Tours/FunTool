@@ -1,7 +1,5 @@
 <?php
 
-// TODO : correct membership.
-
 /**
  * Add a membership settings.
  * @param $bonusMembership : funnies bonus when you become a member.

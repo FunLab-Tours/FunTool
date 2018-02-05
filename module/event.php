@@ -144,7 +144,6 @@ function selectEvent($idEvent) {
 	return $result;
 }
 
-// TODO : is that function really useful ?
 /**
  * Select a label box.
  * @param $selected : name of the selected label box.
@@ -170,7 +169,7 @@ function labelSelectBox($selected) {
  * @param $selected : selected label.
  * @return string : HTML code for the select box.
  */
-function editLabelSelectBox($selected) { // TODO : correct the return ?
+function editLabelSelectBox($selected) {
 	global $lang;
 
 	switch($selected) {
@@ -246,7 +245,7 @@ function alreadyRegistered($idEvent, $idUser) {
  * @param $alreadyRegistered : boolean to say if the user is already registered or not.
  * @return string : HTML code for the button or a label if the event is full.
  */
-function showRegisterButton($ticketsLeft, $idEvent, $alreadyRegistered) { // TODO : correct return ?
+function showRegisterButton($ticketsLeft, $idEvent, $alreadyRegistered) {
 	global $lang;
 
 	if($alreadyRegistered)
@@ -358,7 +357,7 @@ function updateUserFunnies($idUser, $userFunniesLeft) {
  * @param $idEvent : ID of the event.
  * @return int : an error code if an error occurred, else nothing.
  */
-function userUnregistrationToEvent($idUser, $idEvent) { // TODO : rename.
+function userUnregisterToEvent($idUser, $idEvent) {
 	global $DB_DB;
 	$stmt = $DB_DB->prepare("DELETE FROM register WHERE idUser = :idUser AND idEvent = :idEvent");
 

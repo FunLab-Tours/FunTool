@@ -295,7 +295,7 @@ function isValidBirthDate($birthDate) {
 function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $emailBis, $birthDate, $inscriptionActiveList, $inscriptionNews, $picture) {
 	global $DB_DB, $privateKey, $DEFAULT_FUNNIES, $max_upload_size, $base_url;
 
-	unused($picture); // TODO : correct it.
+	unused($picture); // TODO : correct it by adding picture to the subscription.
 
 	$inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
 	$inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;

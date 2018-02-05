@@ -1,7 +1,5 @@
 <?php
 
-// TODO : transactionStatut -> transactionStatus
-
 /**
  * Create a form to use a machine.
  * @param $idUser : ID of the user who use the machine.
@@ -20,7 +18,7 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
 														  	dateUseForm,
 														  	comment,
 														  	entryDate,
-														  	transactionStatut,
+														  	transactionStatus,
 														  	duration)
                                            			VALUES( :idUser,
                                            					:idMachine,
@@ -76,7 +74,7 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
  */
 function setTransactionStatus($idMachineUseForm, $transactionStatus) {
 	global $DB_DB;
-	$request = $DB_DB->prepare("UPDATE MachineUseForm SET TransactionStatut = :transactionStatus WHERE idUseForm = :id");
+	$request = $DB_DB->prepare("UPDATE MachineUseForm SET transactionStatus = :transactionStatus WHERE idUseForm = :id");
 
 	try {
 		$request->execute(array(
@@ -187,7 +185,7 @@ function listMachineUseFormByUser($idUser) {
  */
 function listUnpaidMachineUseForm($unpaidForm) {
 	global $DB_DB;
-	$request = $DB_DB->prepare("SELECT * FROM MachineUseForm WHERE TransactionStatut LIKE :unpaidForm");
+	$request = $DB_DB->prepare("SELECT * FROM MachineUseForm WHERE transactionStatus LIKE :unpaidForm");
 
 	try {
 		$request->execute(array(
@@ -209,7 +207,7 @@ function listUnpaidMachineUseForm($unpaidForm) {
  */
 function countUnpaidByUser($idUser, $unpaidForm) {
 	global $DB_DB;
-	$request = $DB_DB->prepare("SELECT COUNT(*) FROM machineUseForm WHERE TransactionStatut LIKE :unpaidForm AND idUser = :idUser");
+	$request = $DB_DB->prepare("SELECT COUNT(*) FROM machineUseForm WHERE transactionStatus LIKE :unpaidForm AND idUser = :idUser");
 
 	try {
 		$request->execute(array(

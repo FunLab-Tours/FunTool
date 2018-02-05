@@ -2,7 +2,7 @@
 
     try {
         foreach(selectAllUsersInEvent($_GET['idDelete']) as $user)
-            userUnregistrationToEvent($user['idUser'],$_GET['idDelete']);
+            userUnregisterToEvent($user['idUser'],$_GET['idDelete']);
 
         deleteEvent($_GET['idDelete']);
     }
