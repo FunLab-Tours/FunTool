@@ -17,6 +17,8 @@ function addCostUnit($timePackage, $coeffTime) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -35,6 +37,8 @@ function getCostUnitList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -56,6 +60,8 @@ function deleteCostUnit($idDelete) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -81,9 +87,11 @@ function editCostUnit($idCostUnit, $timePackage, $coeffTime) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
-	
+
 	return "";
 }
 
@@ -106,6 +114,8 @@ function getIdCostUnit($timePackage, $costCoeff) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

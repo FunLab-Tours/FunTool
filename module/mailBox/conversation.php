@@ -20,6 +20,8 @@ function createConversation($idUsers, $name) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -46,6 +48,8 @@ function listConversations($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -67,6 +71,8 @@ function getConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -88,6 +94,8 @@ function getMessages($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -109,6 +117,8 @@ function getUsersInConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -131,6 +141,8 @@ function searchForConversation($idUser, $idRecipient) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -147,6 +159,8 @@ function searchForConversation($idUser, $idRecipient) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 
@@ -175,6 +189,8 @@ function countUserInConversation($idConversation) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -197,6 +213,8 @@ function changeConversationName($idConversation, $name) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -221,6 +239,8 @@ function addUsersToConversation($idConversation, $idUsers) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -246,6 +266,8 @@ function removeUsersFromConversation($idConversation, $idUsers) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -272,6 +294,8 @@ function setUnreadMessage($idMessage, $idConversation) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 		}
@@ -297,6 +321,8 @@ function setReadMessage($idConversation, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -320,6 +346,8 @@ function haveUnreadMessage($idConversation, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

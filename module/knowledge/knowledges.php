@@ -15,6 +15,8 @@ function listKnowledge($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -36,6 +38,8 @@ function listIdSoftwareFromKnowledge($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -63,6 +67,8 @@ function assignKnowledge($idUser, $idSoftware, $level, $comment) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -90,6 +96,8 @@ function editKnowledge($idUser, $idSoft, $level, $comment) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -111,6 +119,8 @@ function unassignKnowledge($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 }

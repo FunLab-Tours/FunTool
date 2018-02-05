@@ -62,6 +62,8 @@ function isValidCodeMachine($codeMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -85,6 +87,8 @@ function isValidShortLabel($shortLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -171,6 +175,8 @@ function getCostUnit($idCost) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -229,6 +235,8 @@ function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manuf
 		}
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -247,6 +255,8 @@ function getMachineList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -268,6 +278,8 @@ function getMachine($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -341,6 +353,8 @@ function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialN
 		}
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -364,6 +378,8 @@ function deleteMachine($idDelete) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -375,6 +391,8 @@ function deleteMachine($idDelete) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -393,6 +411,8 @@ function getListPictureMachine() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -416,6 +436,8 @@ function assignPicture($idMachine, $idPicture) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -440,6 +462,8 @@ function addPictureAndAssign($idMachine, $urlPicture, $descriptionPicture) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

@@ -40,6 +40,8 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -56,6 +58,8 @@ function createMachineUseForm($idUser, $idMachine, $date, $duration, $comment, $
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -83,6 +87,8 @@ function setTransactionStatus($idMachineUseForm, $transactionStatus) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -130,6 +136,8 @@ function getMachineUseForm($idMachineUseForm) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -151,6 +159,8 @@ function listUsedQuantity($idUseForm) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -172,6 +182,8 @@ function listMachineUseFormByUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -193,6 +205,8 @@ function listUnpaidMachineUseForm($unpaidForm) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -216,6 +230,8 @@ function countUnpaidByUser($idUser, $unpaidForm) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

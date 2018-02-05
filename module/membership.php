@@ -32,6 +32,8 @@ function addMembershipFrame($bonusMembership, $entryDate, $frameName, $framePric
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -50,6 +52,8 @@ function listAllMembershipFrame() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -86,6 +90,8 @@ function updateMembershipFrame($idMembershipFrame, $bonusMembership, $entryDate,
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -107,6 +113,8 @@ function deleteMembershipFrame($idMembershipFrame) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -128,6 +136,8 @@ function selectMembershipFrame($idMembershipFrame) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -172,6 +182,8 @@ function addMembership($membershipDate, $endMembershipDate, $paymentMethod, $adm
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -239,6 +251,8 @@ function updateMembership($membershipDate, $endMembershipDate, $paymentMethod, $
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -260,6 +274,8 @@ function selectPaymentMethodInMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -294,6 +310,8 @@ function selectMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -317,6 +335,8 @@ function deleteMembership($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -340,6 +360,8 @@ function addFunnies($idUser, $bonusMembership) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -361,6 +383,8 @@ function searchUser($login) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

@@ -64,6 +64,8 @@ function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -85,6 +87,8 @@ function getMaterial($idMaterial) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -103,6 +107,8 @@ function listMaterials() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -124,6 +130,8 @@ function deleteMaterial($idMat) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -158,6 +166,8 @@ function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -181,6 +191,8 @@ function getCostUnitMat($idMat) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -207,6 +219,8 @@ function assignCostUnit($idMat, $priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -232,6 +246,8 @@ function getIdCostUnitMat($priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -258,6 +274,8 @@ function addCostUnitMaterial($priceUnit, $unit) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -281,6 +299,8 @@ function getMaterialsMachine($idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -308,6 +328,8 @@ function assignMaterialsToMachine($idMachine, $idsMat) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -328,6 +350,8 @@ function unassignMaterialsFromMachine($idMachine) {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

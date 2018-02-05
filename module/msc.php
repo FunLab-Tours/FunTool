@@ -12,6 +12,8 @@ function noLab() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

@@ -22,6 +22,8 @@ function alreadyExistsSoftware($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -35,6 +37,8 @@ function alreadyExistsSoftware($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -56,6 +60,8 @@ function listSoftware() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -77,6 +83,8 @@ function getSoftWare($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -105,6 +113,8 @@ function addSoftware($name, $description, $categories, $subCategories) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -139,6 +149,8 @@ function editSoftware($id, $name, $description, $categories, $subCategories) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -163,6 +175,8 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -174,6 +188,8 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -185,6 +201,8 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -196,6 +214,8 @@ function deleteSoftware($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -222,6 +242,8 @@ function getSoftwareCategories($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -250,6 +272,8 @@ function assignCategoriesToSoftWare($idSoftware, $categories) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -270,6 +294,8 @@ function unassignCategoriesFromSoftWare($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -296,6 +322,8 @@ function getSoftwareSubCategories($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -324,6 +352,8 @@ function assignSubCategoriesToSoftWare($idSoftware, $subCategories) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -346,6 +376,8 @@ function unassignSubCategoriesFromSoftWare($idSoftware) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

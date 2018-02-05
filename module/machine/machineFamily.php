@@ -20,6 +20,8 @@ function alreadyExistsMachineFamily($id, $familyCode, $familyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -34,6 +36,8 @@ function alreadyExistsMachineFamily($id, $familyCode, $familyLabel) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -63,6 +67,8 @@ function addFamily($familyCode, $familyLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -81,6 +87,8 @@ function getFamilyList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -102,6 +110,8 @@ function getFamilyLabel($idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -123,6 +133,8 @@ function deleteFamily($idDelete) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -139,6 +151,8 @@ function deleteFamily($idDelete) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -167,6 +181,8 @@ function editFamily($idFamily, $familyCode, $familyLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -188,6 +204,8 @@ function countNbrSubFamily($idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

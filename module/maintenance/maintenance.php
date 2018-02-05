@@ -19,6 +19,8 @@ function createMaintenance($name, $timeBetweenMaintenance, $idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -44,6 +46,8 @@ function editMaintenance($idMaintenance, $name, $timeBetweenMaintenance) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -65,6 +69,8 @@ function deleteMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -86,6 +92,8 @@ function getMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -107,6 +115,8 @@ function listMaintenance($idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -128,6 +138,8 @@ function remainTimeMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -143,6 +155,8 @@ function remainTimeMaintenance($idMaintenance) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -156,6 +170,8 @@ function remainTimeMaintenance($idMaintenance) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -175,6 +191,8 @@ function remainTimeMaintenance($idMaintenance) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

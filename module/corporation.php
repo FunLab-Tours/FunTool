@@ -53,6 +53,8 @@ function addCorporation($corporateName, $logo, $telephone, $addressL1, $addressL
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -74,6 +76,8 @@ function deleteCorporation($idCorporation) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -127,6 +131,8 @@ function updateCorporation($idCorporation, $corporateName, $logo, $telephone, $a
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -145,6 +151,8 @@ function listAllCorporation() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

@@ -20,6 +20,8 @@ function createMessage($idConversation, $idUser, $textMessage) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -44,6 +46,8 @@ function getMessage($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

@@ -25,6 +25,8 @@ function alreadyExistsSoftwareCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -39,6 +41,8 @@ function alreadyExistsSoftwareCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -60,6 +64,8 @@ function listSoftwareCategories() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -81,6 +87,8 @@ function getSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -107,6 +115,8 @@ function addSoftwareCategory($code, $label) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -135,6 +145,8 @@ function editSoftwareCategory($id, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -156,6 +168,8 @@ function deleteSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -167,6 +181,8 @@ function deleteSoftwareCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -198,6 +214,8 @@ function alreadyExistsSoftwareSubCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -212,6 +230,8 @@ function alreadyExistsSoftwareSubCategory($id, $code, $label) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -236,6 +256,8 @@ function listSoftwareSubCategories($idCategory) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -257,6 +279,8 @@ function getSoftwareSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -285,6 +309,8 @@ function addSoftwareSubCategory($idCat, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -313,6 +339,8 @@ function editSoftwareSubCategory($id, $code, $label) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -334,6 +362,8 @@ function deleteSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -345,6 +375,8 @@ function deleteSubCategory($id) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

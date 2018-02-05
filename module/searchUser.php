@@ -16,6 +16,8 @@ function searchForUser($pattern) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -41,6 +43,8 @@ function searchForRoles($roles) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 
@@ -69,6 +73,8 @@ function searchForSkills($skills) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 
@@ -97,6 +103,8 @@ function searchForKnowledge($knowledge) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 

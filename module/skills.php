@@ -19,6 +19,8 @@ function isUserSkilled($idSkill, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -49,6 +51,8 @@ function assignSkills($idUser, $idSkill, $skillLevel, $comment) { // TODO : test
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -75,6 +79,8 @@ function unassignSkill($idUser, $idSkill) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -98,6 +104,8 @@ function getSkillUserInformation($idUser, $idSkill) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -125,6 +133,8 @@ function editAssignment($idUser, $idSkill, $skillLevel, $comment) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -152,6 +162,8 @@ function alreadyExistsSkill($idSkill, $skillName, $idSkillType) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -168,6 +180,8 @@ function alreadyExistsSkill($idSkill, $skillName, $idSkillType) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -183,6 +197,8 @@ function alreadyExistsSkill($idSkill, $skillName, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -204,6 +220,8 @@ function getSkillsList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -225,6 +243,8 @@ function getSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -246,6 +266,8 @@ function getSkillsListUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -274,6 +296,8 @@ function addSkill($skillName, $skillDescription, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -304,6 +328,8 @@ function editSkill($idSkill, $skillName, $skillDescription, $idSkillType) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -327,6 +353,8 @@ function deleteSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -339,6 +367,8 @@ function deleteSkill($idSkill) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -365,6 +395,8 @@ function alreadyExistsSkillType($idSkillType, $skillTypeName) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -378,6 +410,8 @@ function alreadyExistsSkillType($idSkillType, $skillTypeName) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -402,6 +436,8 @@ function getSkillType($idSkillType) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -420,6 +456,8 @@ function getSkillsTypeList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -444,6 +482,8 @@ function addSkillType($skillTypeName) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -470,6 +510,8 @@ function editSkillType($idSkillType, $skillTypeName) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -493,6 +535,8 @@ function deleteSkillType($idSkillType) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

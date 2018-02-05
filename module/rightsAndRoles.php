@@ -20,6 +20,8 @@ function assignRolesToUser($idUser, $idsRoles) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -33,6 +35,8 @@ function assignRolesToUser($idUser, $idsRoles) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -60,6 +64,8 @@ function alreadyExistsRole($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -73,6 +79,8 @@ function alreadyExistsRole($id, $name) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -97,6 +105,8 @@ function getUserRoles($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -115,6 +125,8 @@ function getRolesList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -142,6 +154,8 @@ function addRole($name, $description, $rights) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -159,6 +173,8 @@ function addRole($name, $description, $rights) {
 				));
 			}
 			catch(Exception $e) {
+				if($DEBUG_MODE)
+					echo $e;
 				return -2;
 			}
 		}
@@ -189,6 +205,8 @@ function editRole($idRole, $name, $description, $rights) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -201,6 +219,8 @@ function editRole($idRole, $name, $description, $rights) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -208,17 +228,19 @@ function editRole($idRole, $name, $description, $rights) {
 	if($rights != null)
 		$request = $DB_DB->prepare('INSERT INTO according (idRole, idRights) VALUES (:idRole, :idRights)');
 
-		foreach($rights as $right) {
-			try {
-				$request->execute(array(
-					'idRole' => $idRole,
-					'idRights' => $right
-				));
-			}
-			catch(Exception $e) {
-				return -2;
-			}
+	foreach($rights as $right) {
+		try {
+			$request->execute(array(
+				'idRole' => $idRole,
+				'idRights' => $right
+			));
 		}
+		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
+			return -2;
+		}
+	}
 
 	return "";
 }
@@ -240,6 +262,8 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -252,6 +276,8 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -264,6 +290,8 @@ function deleteRole($idRole) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -290,6 +318,8 @@ function alreadyExistsRight($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -304,6 +334,8 @@ function alreadyExistsRight($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -320,6 +352,8 @@ function alreadyExistsRight($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -335,6 +369,8 @@ function alreadyExistsRight($id, $title, $path) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 
@@ -360,6 +396,8 @@ function getRights($idRole) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -378,6 +416,8 @@ function getRightsList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -399,6 +439,8 @@ function getRightsRoleList($idRole) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -450,6 +492,8 @@ function addRight($title, $description, $path) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -480,6 +524,8 @@ function editRight($idRight, $title, $description, $path) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -503,6 +549,8 @@ function deleteRight($idRight) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -514,6 +562,8 @@ function deleteRight($idRight) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

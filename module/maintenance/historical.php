@@ -18,6 +18,8 @@ function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -34,6 +36,8 @@ function haveUserMaintainedMachine($idMachine, $idUser, $message, $date) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -55,6 +59,8 @@ function getMaintenanceHistorical($idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

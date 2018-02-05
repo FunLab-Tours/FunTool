@@ -40,6 +40,8 @@ function addEvent($shortSumEvent, $longSumEvent, $startDateEvent, $endDateEvent,
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -61,6 +63,8 @@ function deleteEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -97,6 +101,8 @@ function updateEvent($idEvent, $shortSumEvent, $longSumEvent, $startDateEvent, $
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -115,6 +121,8 @@ function listAllEvent() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -136,6 +144,8 @@ function selectEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -201,6 +211,8 @@ function ticketsLeft($allTickets, $idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -230,6 +242,8 @@ function alreadyRegistered($idEvent, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -271,6 +285,8 @@ function currentUserFunnies($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -294,6 +310,8 @@ function ticketPrice($idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -319,6 +337,8 @@ function userRegistrationToEvent($idUser, $idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -345,6 +365,8 @@ function updateUserFunnies($idUser, $userFunniesLeft) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -368,6 +390,8 @@ function userUnregisterToEvent($idUser, $idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -392,6 +416,8 @@ function selectAllUsersInEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -415,6 +441,8 @@ function nameOfUsersInEvent($idEvent) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

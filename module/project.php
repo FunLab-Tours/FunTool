@@ -12,6 +12,8 @@ function listAllProject() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -37,6 +39,8 @@ function addProject($projectTitle, $projectWiki, $dateProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -58,6 +62,8 @@ function selectProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -87,6 +93,8 @@ function updateProject($idProject, $projectTitle, $projectWiki, $dateProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -108,6 +116,8 @@ function deleteProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -129,6 +139,8 @@ function deletePictureLinkToProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -147,6 +159,8 @@ function selectAllProjectCategory() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -170,6 +184,8 @@ function addPictureProject($picture, $idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -188,6 +204,8 @@ function lastInsertProjectId() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -211,6 +229,8 @@ function selectProjectPicture($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -251,6 +271,8 @@ function alreadyRegisteredProject($idProject, $idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -279,6 +301,8 @@ function addProjectCategory($title, $longCategoryLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -313,6 +337,8 @@ function linkToProjectCategory($idProCat, $idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -334,6 +360,8 @@ function deleteProjectIncludeIn($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -355,6 +383,8 @@ function selectProjectInIsIncludeIn($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -378,6 +408,8 @@ function selectSpecificProjectCategory($idProCat) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -403,6 +435,8 @@ function addParticipantToProject($idUser, $idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -424,6 +458,8 @@ function selectParticipantsToProject($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -447,6 +483,8 @@ function selectUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -470,6 +508,8 @@ function deleteProjectParticipate($idProject) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -491,6 +531,8 @@ function deleteProjectCategoryIncludeIn($idProCat) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -512,6 +554,8 @@ function deleteProjectCategory($idProCat) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -537,6 +581,8 @@ function updateProjectCategory($idProCat, $title, $longCategoryLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

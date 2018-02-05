@@ -18,6 +18,8 @@ function isValidUser($login, $password) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -43,6 +45,8 @@ function connectUser($login) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -118,6 +122,8 @@ function isValidNewLogin($login) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -321,6 +327,8 @@ function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $
 		$idPicture = $DB_DB->lastInsertId();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		$idPicture = NULL;
 	}
 
@@ -385,6 +393,8 @@ function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return false;
 	}
 
@@ -417,6 +427,8 @@ function getUser($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -435,6 +447,8 @@ function getUserList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -476,6 +490,8 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -494,6 +510,8 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -511,6 +529,8 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 			$idPicture = $DB_DB->lastInsertId();
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			$idPicture = NULL;
 		}
 	}
@@ -553,6 +573,8 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -575,6 +597,8 @@ function editPassword($old, $new) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -604,6 +628,8 @@ function allUser() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -625,6 +651,8 @@ function isMember($idUser) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 

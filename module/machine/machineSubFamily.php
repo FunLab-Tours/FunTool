@@ -20,6 +20,8 @@ function alreadyExistsSubFamily($id, $codeSubFamily, $labelSubFamily) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -34,6 +36,8 @@ function alreadyExistsSubFamily($id, $codeSubFamily, $labelSubFamily) {
 			));
 		}
 		catch(Exception $e) {
+			if($DEBUG_MODE)
+				echo $e;
 			return -2;
 		}
 	}
@@ -65,6 +69,8 @@ function addSubFamily($subFamilyCode, $subFamilyLabel, $idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -83,6 +89,8 @@ function getAllSubFamilyList() {
 		$request->execute();
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -104,6 +112,8 @@ function getSubFamilyList($idFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -125,6 +135,8 @@ function getSubFamilyListMachine($idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -148,6 +160,8 @@ function deleteSubFamily($idSubFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -160,6 +174,8 @@ function deleteSubFamily($idSubFamily) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -188,6 +204,8 @@ function editSubFamily($idSubFamily, $SubFamilyCode, $SubFamilyLabel) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
@@ -211,6 +229,8 @@ function linkSubFamilyWithMachine($idSubFamily, $idMachine) {
 		));
 	}
 	catch(Exception $e) {
+		if($DEBUG_MODE)
+			echo $e;
 		return -2;
 	}
 
