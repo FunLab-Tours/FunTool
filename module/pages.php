@@ -1,9 +1,9 @@
 <?php
 
-loadModules(msc);
-
 include('include_static/header.php');
 include('include_static/menu.php');
+
+include('msc.php');
 
 if(noLab()) {
 	include('view/lab/index.php');

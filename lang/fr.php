@@ -292,6 +292,7 @@ $lang['remainTime'] = "Temps restant";
 $lang['each'] = "chaque";
 
 $lang['cantGetParameters'] = "Ne peut pas obtenir les paramètres !";
+$lang['invalidUser'] = "Mauvais nom d'utilisateur ou mot de passe.";
 
 $error = [];
 $error[-1] = "Erreur inconnue.";
@@ -323,3 +324,4 @@ $error[-26] = "Erreur sur le prix.";
 $error[-27] = "Erreur sur le coefficient du prix.";
 $error[-28] = "Erreur le lab.";
 $error[-29] = "Taille maximale dépassée !";
+$error[-30] = "Login déjà existant.";

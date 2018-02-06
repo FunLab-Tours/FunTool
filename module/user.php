@@ -60,45 +60,50 @@ function connectUser($login) {
  * Check if the POST variables are valid to add a user or not.
  * @return bool : true if the form is valid or an error text if not.
  */
-function isValidSignOn() {
-	if(isset($_POST['login']) && isset($_POST['password']) && isset($_POST['passwordChecker']) && isset($_POST['firstName']) && isset($_POST['name']) && isset($_POST['telephone']) && isset($_POST['addressL1']) && isset($_POST['zipCode']) && isset($_POST['town']) && isset($_POST['country']) && isset($_POST['email']) && isset($_POST['birthDate'])) {
-		if(!isValidNewLogin($_POST['login']))
-			return -5;
+function isValidSignOn($login, $password, $passwordChecker, $firstName, $name, $telephone, $addressL1, $zipCode, $town, $country, $email, $birthDate) {
+	// Check edit and new user forms.
+	if(!isset($_COOKIE) && ($login != "" || $login != null) && ($password != "" || $password != null) && ($passwordChecker != "" || $passwordChecker != null) && $firstName != "" && $name != "" && $telephone != "" && $addressL1 != "" && $zipCode != "" && $town != "" && $country != "" && $email != "" && $birthDate != "")
+		return -16;
+
+	// If it's not an edit.
+	if(!isset($_COOKIE)) {
+		$isValidNewLoginReturn = isValidNewLogin($_POST['login']);
+
+		if(!$isValidNewLoginReturn || $isValidNewLoginReturn < 0)
+			return $isValidNewLoginReturn;
 
 		if(!isValidPassword($_POST['password'], $_POST['passwordChecker']))
 			return -6;
-
-		if(!isValidFirstName($_POST['firstName']))
-			return -7;
-
-		if(!isValidName($_POST['name']))
-			return -8;
-
-		if(!isValidTelephone($_POST['telephone']))
-			return -9;
-
-		if(!isValidAddressL1($_POST['addressL1']))
-			return -10;
-
-		if(!isValidZipCode($_POST['zipCode']))
-			return -11;
-
-		if(!isValidTown($_POST['town']))
-			return -12;
-
-		if(!isValidCountry($_POST['country']))
-			return -13;
-
-		if(!isValidEmail($_POST['email']))
-			return -14;
-
-		if(!isValidBirthDate($_POST['birthDate']))
-			return -15;
-
-		return true;
 	}
 
-	return -16;
+	if(!isValidFirstName($_POST['firstName']))
+		return -7;
+
+	if(!isValidName($_POST['name']))
+		return -8;
+
+	if(!isValidTelephone($_POST['telephone']))
+		return -9;
+
+	if(!isValidAddressL1($_POST['addressL1']))
+		return -10;
+
+	if(!isValidZipCode($_POST['zipCode']))
+		return -11;
+
+	if(!isValidTown($_POST['town']))
+		return -12;
+
+	if(!isValidCountry($_POST['country']))
+		return -13;
+
+	if(!isValidEmail($_POST['email']))
+		return -14;
+
+	if(!isValidBirthDate($_POST['birthDate']))
+		return -15;
+
+	return true;
 }
 
 /**
@@ -110,11 +115,8 @@ function isValidNewLogin($login) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('SELECT COUNT(login) as nb_entry FROM User WHERE login = :login');
 
-	if($login == "")
-		return -3;
-
-	if(!preg_match("#^[a-zA-Z0-9]{3,}$#", $login))
-		return -3;
+	if(!preg_match("#^[a-zA-Z0-9]{3,20}$#", $login))
+		return -5;
 
 	try {
 		$request->execute(array(
@@ -130,7 +132,7 @@ function isValidNewLogin($login) {
 	$result = $request->fetch();
 
 	if($result['nb_entry'] == 1)
-		return false;
+		return -30;
 	return true;
 }
 
@@ -141,10 +143,7 @@ function isValidNewLogin($login) {
  * @return bool : true if the password is valid, false else.
  */
 function isValidPassword($password, $passwordConfirmation) {
-	if($password == "")
-		return false;
-
-	if(strlen($password) < 8 || strcmp($password, $passwordConfirmation) != 0)
+	if(strlen($password) < 6 || strcmp($password, $passwordConfirmation) != 0)
 		return false;
 
 	return true;
@@ -301,7 +300,7 @@ function isValidBirthDate($birthDate) {
 function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $addressL2, $addressL3, $zipCode, $town, $country, $email, $emailBis, $birthDate, $inscriptionActiveList, $inscriptionNews, $picture) {
 	global $DB_DB, $privateKey, $DEFAULT_FUNNIES, $max_upload_size, $base_url;
 
-	unused($picture); // TODO : correct it by adding picture to the subscription.
+	//unused($picture); // TODO : correct it by adding picture to the subscription.
 
 	$inscriptionActiveListBoolean = ($inscriptionActiveList == "true") ? 1 : 0;
 	$inscriptionNewsBoolean = ($inscriptionNews == "true") ? 1 : 0;
@@ -519,6 +518,7 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 
 	if($idPicture == null) {
 		$request = $DB_DB->prepare('INSERT INTO Picture (picture, pictureDescription, categoryPicture) VALUE (:picture, :pictureDescription, :categoryPicture)');
+
 		try {
 			$request->execute(array(
 				'picture' => $picture,
@@ -535,7 +535,7 @@ function editUser($firstName, $name, $telephone, $addressL1, $addressL2, $addres
 		}
 	}
 
-	// Then we add the user.
+	// Then we edit the user.
 	$request = $DB_DB->prepare('UPDATE User SET firstName = :firstName,
                                                     name = :name,
                                                     telephone = :telephone,

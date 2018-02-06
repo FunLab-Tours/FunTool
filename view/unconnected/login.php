@@ -7,6 +7,8 @@ if(isset($_POST['submit'])) {
 		connectUser($_POST['login']);
 		header('Location: index.php');
 	}
+	else
+		echo $lang['invalidUser'];
 }
 
 ?>
