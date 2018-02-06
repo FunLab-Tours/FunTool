@@ -1,7 +1,8 @@
 <?php
 loadModules("mailBox/conversation");
 loadModules("event");
-//loadModules("maintenance"); // TODO : check this line.
+loadModules("funnies");
+//loadModules("maintenance"); // TODO : check this line, must add maintenance ?.
 
 if(isset($_POST["disconnect"])) {
 	loadModules("user");

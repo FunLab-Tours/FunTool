@@ -1,10 +1,12 @@
 <?php
-    echo $lang["youHave"]." ".currentUserFunnies($_COOKIE['id'])." Funnies";
+
+echo $lang["youHave"] . " " . currentUserFunnies($_COOKIE['id']) . " " . $lang['funnies'];
+
 ?>
 
 <form action="" method="POST">
-    <input type="number" min="0" placeholder="<?=$lang["nbFunnies"]?>" name="nbFunnies" />
-    <input type="submit" value="<?=$lang["submit"]?>" name="buyFunnies">
+	<input type="number" min="0" placeholder="<?=$lang["nbFunnies"]?>" name="nbFunnies"/>
+	<input type="submit" value="<?=$lang["submit"]?>" name="buyFunnies">
 </form>
 
 <!-- <script>

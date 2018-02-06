@@ -52,8 +52,8 @@ function connectUser($login) {
 
 	$result = $request->fetch();
 
-	setcookie("id", $result['idUser'], time() + 300000, "/");
-	setcookie("token", sha1($result['idUser'] . $privateKey), time() + 30000, "/");
+	setcookie('id', $result['idUser'], time() + 300000, "/");
+	setcookie('token', sha1($result['idUser'] . $privateKey), time() + 30000, "/");
 }
 
 /**
@@ -404,11 +404,11 @@ function addUser($login, $password, $firstName, $name, $telephone, $addressL1, $
  * Disconnect the connected user (delete his cookies).
  */
 function disconnectUser() {
-	unset($_COOKIE["id"]);
-	unset($_COOKIE["token"]);
+	unset($_COOKIE['id']);
+	unset($_COOKIE['token']);
 
-	setcookie("id", null, -1, '/');
-	setcookie("token", null, -1, '/');
+	setcookie('id', null, -1, '/');
+	setcookie('token', null, -1, '/');
 }
 
 /**

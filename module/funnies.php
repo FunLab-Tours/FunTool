@@ -7,7 +7,7 @@
  */
 function currentUserFunnies($idUser) {
 	global $DB_DB;
-	$stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser =: idUser");
+	$stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser = :idUser");
 
 	try {
 		$stmt->execute(array(

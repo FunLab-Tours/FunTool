@@ -275,9 +275,9 @@ function showRegisterButton($ticketsLeft, $idEvent, $alreadyRegistered) {
  * @param $idUser : ID of the user.
  * @return int|mixed : error code if an error occurred or the number of funnies for the user.
  */
-function currentUserFunnies($idUser) {
+/*function currentUserFunnies($idUser) { // TODO : delete this function (already exists in funnies.php).
 	global $DB_DB;
-	$stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser =: idUser");
+	$stmt = $DB_DB->prepare("SELECT nbFunnies FROM User WHERE idUser = :idUser");
 
 	try {
 		$stmt->execute(array(
@@ -293,7 +293,7 @@ function currentUserFunnies($idUser) {
 	$result = $stmt->fetch();
 
 	return $result['nbFunnies'];
-}
+}*/
 
 /**
  * Get the price of the ticket for an event.
@@ -354,7 +354,7 @@ function userRegistrationToEvent($idUser, $idEvent) {
  * @param $userFunniesLeft : new number of funnies for the user.
  * @return int : an error code if an error occurred, else nothing.
  */
-function updateUserFunnies($idUser, $userFunniesLeft) {
+/*function updateUserFunnies($idUser, $userFunniesLeft) { // TODO : delete this function (already exists in funnies.php).
 	global $DB_DB;
 	$stmt = $DB_DB->prepare("UPDATE User SET nbFunnies = :nbFunnies WHERE idUser = :idUser");
 
@@ -371,7 +371,7 @@ function updateUserFunnies($idUser, $userFunniesLeft) {
 	}
 
 	return "";
-}
+}*/
 
 /**
  * Unregister a user from an event.

@@ -1,12 +1,19 @@
 <?php
-    echo $lang["goingToBuy"]." ".$_POST['nbFunnies']." Funnies";
+
+echo $lang["goingToBuy"] . " " . $_POST['nbFunnies'] . " " . $lang['funnies'];
+
 ?>
-<br></br>
+
+<br/>
+
 <?php
-    $newBalance = $_POST['nbFunnies']+currentUserFunnies($_COOKIE['id']);
-    echo $lang["newBalance"]." ".$newBalance." Funnies";
+
+$newBalance = $_POST['nbFunnies'] + currentUserFunnies($_COOKIE['id']);
+echo $lang["newBalance"] . " " . $newBalance . " " . $lang['funnies'];
+
 ?>
+
 <form action="" method="POST">
-    <input type="hidden" value="<?=$newBalance?>" name="newBalance">
-    <input type="submit" value="<?=$lang["submit"]?>" name="funniesPayment"> 
+	<input type="hidden" value="<?=$newBalance?>" name="newBalance">
+	<input type="submit" value="<?=$lang["submit"]?>" name="funniesPayment">
 </form>

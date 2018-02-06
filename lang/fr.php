@@ -243,6 +243,7 @@ $lang['chooseMat'] = "Choisir un matériau";
 $lang['changeStock'] = "Modifier le stock";
 $lang['quantity'] = "Quantité";
 
+$lang['funnies'] = "funnies";
 $lang["nbFunnies"] = "Nombre de funnies";
 $lang["youHave"] = "Vous avez";
 $lang["goingToBuy"] = "Vous êtes sur le point d'acheter";
