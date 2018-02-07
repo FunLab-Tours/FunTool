@@ -294,6 +294,7 @@ $lang['each'] = "chaque";
 
 $lang['cantGetParameters'] = "Ne peut pas obtenir les paramètres !";
 $lang['invalidUser'] = "Mauvais nom d'utilisateur ou mot de passe.";
+$lang['suppressConfirmation'] = "Êtes vous sûr de vouloir procéder à la suppression ?";
 
 $error = [];
 $error[-1] = "Erreur inconnue.";

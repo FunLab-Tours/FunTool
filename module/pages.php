@@ -8,7 +8,7 @@ include('msc.php');
 if(noLab()) {
 	include('view/lab/index.php');
 }
-else if(isset($_COOKIE['id']) && sha1($_COOKIE['id'] . $privateKey) == $_COOKIE['token']) {
+else if(isset($_COOKIE['id']) && isset($_COOKIE['token']) && sha1($_COOKIE['id'] . $privateKey) == $_COOKIE['token']) {
 	if(isset($_GET['page']) && file_exists('view/' . $_GET['page'] . '/index.php'))
 		include('view/' . $_GET['page'] . '/index.php');
 	else

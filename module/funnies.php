@@ -49,28 +49,3 @@ function updateUserFunnies($idUser, $newFunniesBalance) {
 
 	return "";
 }
-
-/**
- * Search users by login.
- * @param $login : login to search.
- * @return int|mixed : all information about all user found, or an error code if an error occurred.
- */
-function searchUser($login) {
-	global $DB_DB;
-	$stmt = $DB_DB->prepare("SELECT * FROM User WHERE login =: login LIKE '%" . $login . "%'");
-
-	try {
-		$stmt->execute(array(
-			'login' => $login,
-		));
-	}
-	catch(Exception $e) {
-		if($DEBUG_MODE)
-			echo $e;
-		return -2;
-	}
-
-	$result = $stmt->fetch();
-
-	return $result;
-}

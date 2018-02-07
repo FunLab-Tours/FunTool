@@ -42,7 +42,7 @@ function addMembershipFrame($bonusMembership, $entryDate, $frameName, $framePric
 
 /**
  * List all existing settings.
- * @return bool : all attributes of all settings or an error code if an error occurred.
+ * @return int : all attributes of all settings or an error code if an error occurred.
  */
 function listAllMembershipFrame() {
 	global $DB_DB;

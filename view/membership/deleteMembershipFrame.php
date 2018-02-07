@@ -1,12 +1,8 @@
 <?php
 
-    try {
-        deleteMembershipFrame($_GET['idFrameDelete']);
-    }
-    catch(Exception $e) {
-        echo 'Message: ' .$e->getMessage();
-    }
+$errorManager = deleteMembershipFrame($_GET['idFrameDelete']);
 
-    header('Location: index.php?page=membership&listMembershipFrame=0');
-
-?>
+if($errorManager == "" || ($errorManager && $errorManager > 0))
+	header('Location: index.php?page=membership&listMembershipFrame');
+else if($errorManager < 0)
+	echo $error[$errorManager];
