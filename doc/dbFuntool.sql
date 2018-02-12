@@ -34,7 +34,6 @@ CREATE TABLE Machine(
         dateEntry       Datetime ,
         idFamily        Int ,
         idPicture       Int ,
-        idLab           Int ,
         PRIMARY KEY (idMachine ) ,
         UNIQUE (codeMachine )
 )ENGINE=InnoDB;
@@ -132,14 +131,16 @@ CREATE TABLE Message(
 #------------------------------------------------------------
 
 CREATE TABLE Materials(
-        idMat     int (11) Auto_increment  NOT NULL ,
-        labelMat  Varchar (255) ,
-        codeMat   Varchar (10) ,
-        priceMat  Integer ,
-        docLink   Varchar (255) ,
-        comment   Text ,
-        dateEntry Datetime ,
-        idPicture Int ,
+        idMat      int (11) Auto_increment  NOT NULL ,
+        labelMat   Varchar (255) ,
+        codeMat    Varchar (10) ,
+        priceMat   Integer ,
+        docLink    Varchar (255) ,
+        comment    Text ,
+        dateEntry  Datetime ,
+        supplies   Integer ,
+        dateUpdate Datetime ,
+        idPicture  Int ,
         PRIMARY KEY (idMat ) ,
         UNIQUE (codeMat )
 )ENGINE=InnoDB;
@@ -156,7 +157,6 @@ CREATE TABLE Picture(
         categoryPicture    Varchar (25) ,
         idMat              Int ,
         idUser             Int ,
-        idLab              Int ,
         idProject          Int ,
         PRIMARY KEY (idPicture )
 )ENGINE=InnoDB;
@@ -248,7 +248,6 @@ CREATE TABLE Events(
         statutEvent    Varchar (25) ,
         nbPlaces       Int ,
         pricePlace     Int ,
-        idLab          Int ,
         PRIMARY KEY (idEvent )
 )ENGINE=InnoDB;
 
@@ -301,18 +300,6 @@ CREATE TABLE Rights(
         rightsDescription Text ,
         rightsPath        Varchar (25) ,
         PRIMARY KEY (idRights )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: Lab
-#------------------------------------------------------------
-
-CREATE TABLE Lab(
-        idLab          int (11) Auto_increment  NOT NULL ,
-        labName        Varchar (25) ,
-        labDescription Text ,
-        PRIMARY KEY (idLab )
 )ENGINE=InnoDB;
 
 
@@ -521,30 +508,6 @@ CREATE TABLE according(
 
 
 #------------------------------------------------------------
-# Table: labTeam
-#------------------------------------------------------------
-
-CREATE TABLE labTeam(
-        idUser Int NOT NULL ,
-        idLab  Int NOT NULL ,
-        PRIMARY KEY (idUser ,idLab )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: labSupplies
-#------------------------------------------------------------
-
-CREATE TABLE labSupplies(
-        quantityInStock Int ,
-        lastRestock     Datetime ,
-        idLab           Int NOT NULL ,
-        idMat           Int NOT NULL ,
-        PRIMARY KEY (idLab ,idMat )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: used
 #------------------------------------------------------------
 
@@ -619,7 +582,6 @@ CREATE TABLE consume(
 
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
-ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE User ADD CONSTRAINT FK_User_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Empowerment ADD CONSTRAINT FK_Empowerment_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
@@ -629,10 +591,8 @@ ALTER TABLE Message ADD CONSTRAINT FK_Message_idUser FOREIGN KEY (idUser) REFERE
 ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES SkillType(idSkillType);
-ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Maintenance ADD CONSTRAINT FK_Maintenance_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE Historical ADD CONSTRAINT FK_Historical_idMaintenance FOREIGN KEY (idMaintenance) REFERENCES Maintenance(idMaintenance);
@@ -664,10 +624,6 @@ ALTER TABLE contribution ADD CONSTRAINT FK_contribution_idUser FOREIGN KEY (idUs
 ALTER TABLE contribution ADD CONSTRAINT FK_contribution_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
 ALTER TABLE according ADD CONSTRAINT FK_according_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
 ALTER TABLE according ADD CONSTRAINT FK_according_idRights FOREIGN KEY (idRights) REFERENCES Rights(idRights);
-ALTER TABLE labTeam ADD CONSTRAINT FK_labTeam_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
-ALTER TABLE labTeam ADD CONSTRAINT FK_labTeam_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE labSupplies ADD CONSTRAINT FK_labSupplies_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE used ADD CONSTRAINT FK_used_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE used ADD CONSTRAINT FK_used_idUseForm FOREIGN KEY (idUseForm) REFERENCES MachineUseForm(idUseForm);
 ALTER TABLE membershipTransaction ADD CONSTRAINT FK_membershipTransaction_idMembershipFrame FOREIGN KEY (idMembershipFrame) REFERENCES MembershipFrame(idMembershipFrame);

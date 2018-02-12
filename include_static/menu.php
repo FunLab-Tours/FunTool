@@ -15,7 +15,6 @@ if(isset($_COOKIE['id']) && isset($_COOKIE['token']) && sha1($_COOKIE['id'] . $p
 	<a href="?page=profile"><?=$lang["profile"]?></a>
 	<a href="?page=membership"><?=$lang["membership"]?></a>
 	<a href="?page=funnies"><?=$lang["funnies"]?> (<?=currentUserFunnies($_COOKIE['id'])?>)</a>
-	<a href="?page=lab"><?=$lang["lab_management"]?></a>
 	<a href="?page=event"><?=$lang["event_management"]?></a>
 	<a href="?page=machine"><?=$lang["machine"]?></a>
 	<a href="?page=materials"><?=$lang["materials"]?></a>

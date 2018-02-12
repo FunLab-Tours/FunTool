@@ -4,7 +4,6 @@ loadModules("machine/machine");
 loadModules("machine/machineFamily");
 loadModules("machine/machineSubFamily");
 loadModules("picture");
-loadModules("lab");
 loadModules("materials");
 
 include("static/machineMenu.php");

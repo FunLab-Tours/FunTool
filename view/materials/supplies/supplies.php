@@ -1,9 +1,7 @@
 <?php
 
-$idLab = listAllLab()[0]['idLab'];
-
 if(isset($_POST['submit']) && isset($_POST['material']) && isset($_POST['quantity'])) {
-	$errorManager = addMaterialsQuantity($idLab, $_POST['material'], $_POST['quantity']);
+	$errorManager = setMaterialsQuantity($_POST['material'], $_POST['quantity']);
 
 	if($errorManager == "" || ($errorManager && $errorManager > 0))
 		header('Location: index.php?page=materials');
@@ -25,12 +23,12 @@ if(isset($_POST['submit']) && isset($_POST['material']) && isset($_POST['quantit
 
 	if($listMaterials && $listMaterials > 0)
 		foreach($listMaterials as $material) {
-			$stock = getMaterialStock($idLab, $material['idMat']); ?>
+			$stock = getMaterialStock($material['idMat']); ?>
 			<tr>
 				<td><?=$material['labelMat']?></td>
 				<td><?=$material['codeMat']?></td>
-				<td><?=$stock['lastRestock']?></td>
-				<td><?=$stock['quantityInStock']?></td>
+				<td><?=$stock['dateUpdate']?></td>
+				<td><?=$stock['supplies']?></td>
 			</tr>
 		<?php } ?>
 </table>

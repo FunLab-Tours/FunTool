@@ -23,7 +23,7 @@
 
             $count = 0;
             foreach(getMaterialsMachine($idMachine) as $material) {
-                addMaterialsQuantity(listAllLab()[0]['idLab'], $material['idMat'], intval($_POST['material' . $count]) * (-1));
+                setMaterialsQuantity(listAllLab()[0]['idLab'], $material['idMat'], intval($_POST['material' . $count]) * (-1));
                 $count++;
             }
 
