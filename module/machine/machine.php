@@ -23,26 +23,8 @@ function isValidMachineSubmit($isEdit = false) {
 	if(!isset($_POST['manufacturer']) || !isValidManufacturer($_POST['manufacturer']) || $_POST['manufacturer'] == "")
 		return -21;
 
-	if(!isset($_POST['comment']) || !isValidComment($_POST['comment']) || $_POST['comment'] == "")
-		return -22;
-
-	if(!isset($_POST['docLink1']) || !isValidDocLink($_POST['docLink1']) || $_POST['docLink1'] == "")
-		return -23;
-
-	if(!isset($_POST['docLink2']) || !isValidDocLink($_POST['docLink2']) || $_POST['docLink2'] == "")
-		return -24;
-
 	if(!isset($_POST['idFamily']) || $_POST['idFamily'] == "")
 		return -25;
-
-	if(!isset($_POST['cost']) || $_POST['cost'] == "")
-		return -26;
-
-	if(!isset($_POST['costCoeff']) || $_POST['costCoeff'] == "")
-		return -27;
-
-	if(!isset($_POST['idLab']) || $_POST['idLab'] == "")
-		return -28;
 
 	return true;
 }
@@ -103,7 +85,7 @@ function isValidShortLabel($shortLabel) {
  * @return bool : true if the label is valid, false else.
  */
 function isValidLongLabel($longLabel) {
-	unused($longLabel);
+	unset($longLabel);
 	return true;
 }
 
@@ -124,7 +106,7 @@ function isValidMachineUsePrice($machineUsePrice) {
  * @return bool : true if the serial number is valid, false else.
  */
 function isValidSerialNumber($serialNumber) {
-	unused($serialNumber);
+	unset($serialNumber);
 	return true;
 }
 
@@ -134,7 +116,7 @@ function isValidSerialNumber($serialNumber) {
  * @return bool : true if the manufacturer is valid, false else.
  */
 function isValidManufacturer($manufacturer) {
-	unused($manufacturer);
+	unset($manufacturer);
 	return true;
 }
 
@@ -144,7 +126,7 @@ function isValidManufacturer($manufacturer) {
  * @return bool : true if the comment is valid, false else.
  */
 function isValidComment($comment) {
-	unused($comment);
+	unset($comment);
 	return true;
 }
 
@@ -154,33 +136,8 @@ function isValidComment($comment) {
  * @return bool : true if the documentation link is valid, false else.
  */
 function isValidDocLink($docLink) {
-	unused($docLink);
+	unset($docLink);
 	return true;
-}
-
-/**
- * Get the time package and the coefficient time for a cost unit.
- * @param $idCost : ID of the cost unit to get.
- * @return mixed : time package and coefficient time for the cost unit, or error code if an error occurred.
- */
-function getCostUnit($idCost) {
-	global $DB_DB;
-	$request = $DB_DB->prepare('SELECT timePackage, coeffTime FROM costunit WHERE idCostUnit = :idCostUnit');
-
-	// We check if cost unit exist, if yes we get it's ID, else we create it and we get it's ID.
-
-	try {
-		$request->execute(array(
-			'idCostUnit' => $idCost,
-		));
-	}
-	catch(Exception $e) {
-		if($DEBUG_MODE)
-			echo $e;
-		return -2;
-	}
-
-	return $request->fetch();
 }
 
 /**
@@ -188,29 +145,25 @@ function getCostUnit($idCost) {
  * @param $codeMachine : code of the machine.
  * @param $shortLabel : short label of the machine.
  * @param $longLabel : long label of the machine.
+ * @param $machineUsePrice : price of the machine for one hour of utilisation.
  * @param $serialNumber : serial number of the machine.
  * @param $manufacturer : manufacturer of the machine.
  * @param $comment : comment about the machine (if needed).
  * @param $docLink1 : documentation link about the machine.
  * @param $docLink2 : second documentation link about the machine (if needed).
  * @param $idFamily : ID of the family of the machine.
- * @param $idsSubFamily : ID of the subfamily of the machine.
- * @param $costUnit : cost unit of the machine.
- * @param $costCoeff : cost coefficient of the machine.
- * @param $idLab : ID of the lab of the machine.
  * @return int : return error code if an error occurred.
  */
-function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $costUnit, $costCoeff, $idLab) {
+function addMachine($codeMachine, $shortLabel, $longLabel, $machineUsePrice, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily) {
 	global $DB_DB;
-	$request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture, idCostUnit, idLab) VALUES (:codeMachine, :shortLabel, :longLabel, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture, :idCostUnit, :idLab)');
-
-	$idCostUnit = getIdCostUnit($costUnit, $costCoeff);
+	$request = $DB_DB->prepare('INSERT INTO Machine(codeMachine, shortLabel, longLabel, machineUsePrice, serialNumber, manufacturer, comment, docLink1, docLink2, dateEntry, idFamily, idPicture) VALUES (:codeMachine, :shortLabel, :longLabel, :machineUsePrice, :serialNumber, :manufacturer, :comment, :docLink1, :docLink2, NOW(), :idFamily, :idPicture)');
 
 	try {
 		$request->execute(array(
 			'codeMachine' => $codeMachine,
 			'shortLabel' => $shortLabel,
 			'longLabel' => $longLabel,
+			'machineUsePrice' => $machineUsePrice,
 			'serialNumber' => $serialNumber,
 			'manufacturer' => $manufacturer,
 			'comment' => $comment,
@@ -218,27 +171,15 @@ function addMachine($codeMachine, $shortLabel, $longLabel, $serialNumber, $manuf
 			'docLink2' => $docLink2,
 			'idFamily' => $idFamily,
 			'idPicture' => NULL,
-			'idCostUnit' => $idCostUnit,
-			'idLab' => $idLab
 		));
-
-		$idMachine = $DB_DB->lastInsertId();
-
-		if($idsSubFamily != null) {
-			foreach($idsSubFamily as $idSubFamily) {
-				$request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
-				$request->execute(array(
-					'idMachine' => $idMachine,
-					'idSubFamily' => $idSubFamily
-				));
-			}
-		}
 	}
 	catch(Exception $e) {
 		if($DEBUG_MODE)
 			echo $e;
 		return -2;
 	}
+
+	$idMachine = $DB_DB->lastInsertId();
 
 	return $idMachine;
 }
@@ -292,34 +233,30 @@ function getMachine($id) {
  * @param $codeMachine : new code of the machine.
  * @param $shortLabel : new short label of the machine.
  * @param $longLabel : new long label of the machine.
+ * @param $machineUsePrice : price of the machine for one hour of using it.
  * @param $serialNumber : new serial number of the machine.
  * @param $manufacturer : new manufacturer of the machine.
  * @param $comment : new comment about the machine (if needed).
  * @param $docLink1 : new documentation link about the machine.
  * @param $docLink2 : new second documentation link about the machine (if needed).
  * @param $idFamily : new ID of the family of the machine.
- * @param $idsSubFamily : new ID of the subfamily of the machine.
- * @param $costUnit : new cost unit of the machine.
- * @param $costCoeff : new cost coefficient of the machine.
- * @param $idLab : new ID of the lab of the machine.
- * @return int : return error code if an error occurred.
+ * @param $idsSubFamily
+ * @return int|string : return error code if an error occurred.
  */
-function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily, $idsSubFamily, $CostUnit, $CostCoeff, $idLab) {
+function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $machineUsePrice, $serialNumber, $manufacturer, $comment, $docLink1, $docLink2, $idFamily) {
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Machine SET  codeMachine = :codeMachine,
-                                                        shortLabel = :shortLabel,
-                                                        longLabel = :longLabel,
-                                                        serialNumber = :serialNumber,
-                                                        manufacturer = :manufacturer,
-                                                        comment = :comment,
-                                                        docLink1 = :docLink1,
-                                                        docLink2 = :docLink2,
-                                                        idFamily = :idFamily,
-                                                        idCostUnit = :idCostUnit,
-                                                        idLab = :idLab
+													shortLabel = :shortLabel,
+													longLabel = :longLabel,
+													machineUsePrice = :machineUsePrice,
+													serialNumber = :serialNumber,
+													manufacturer = :manufacturer,
+													comment = :comment,
+													docLink1 = :docLink1,
+													docLink2 = :docLink2,
+													idFamily = :idFamily,
+													idPicture = :idPicture
                                     WHERE idMachine = :idMachine');
-
-	$idCostUnit = getIdCostUnit($CostUnit, $CostCoeff);
 
 	try {
 		$request->execute(array(
@@ -327,30 +264,15 @@ function editMachine($idMachine, $codeMachine, $shortLabel, $longLabel, $serialN
 			'codeMachine' => $codeMachine,
 			'shortLabel' => $shortLabel,
 			'longLabel' => $longLabel,
+			'machineUsePrice' => $machineUsePrice,
 			'serialNumber' => $serialNumber,
 			'manufacturer' => $manufacturer,
 			'comment' => $comment,
 			'docLink1' => $docLink1,
 			'docLink2' => $docLink2,
 			'idFamily' => $idFamily,
-			'idCostUnit' => $idCostUnit,
-			'idLab' => $idLab
+			'idPicture' => NULL
 		));
-
-		if($idsSubFamily != null) {
-			$request = $DB_DB->prepare('DELETE FROM machineinsubfamily WHERE idMachine = :idMachine');
-			$request->execute(array(
-				'idMachine' => $idMachine
-			));
-
-			foreach($idsSubFamily as $idSubFamily) {
-				$request = $DB_DB->prepare('INSERT INTO machineinsubfamily(idMachine, idSubFamily) VALUES(:idMachine, :idSubFamily)');
-				$request->execute(array(
-					'idMachine' => $idMachine,
-					'idSubFamily' => $idSubFamily
-				));
-			}
-		}
 	}
 	catch(Exception $e) {
 		if($DEBUG_MODE)

@@ -4,15 +4,15 @@
 
 /**
  * Check if a material already exists or not.
- * @param $id : ID of the material (can be null).
+ * @param $idMat : ID of the material (can be null).
  * @param $labelMat : label of the material.
  * @param $codeMat : code of the material.
  * @return bool : true if the software category already exists, false else.
  */
-function alreadyExistsMaterial($id, $labelMat, $codeMat) {
+function alreadyExistsMaterial($idMat, $labelMat, $codeMat) {
 	global $DB_DB;
 
-	if($id == null) {
+	if($idMat == null) {
 		$request = $DB_DB->prepare("SELECT * FROM Materials WHERE labelMat LIKE :labelMat OR codeMat LIKE :codeMat");
 
 		$request->execute(array(
@@ -23,18 +23,18 @@ function alreadyExistsMaterial($id, $labelMat, $codeMat) {
 		$result = $request->fetchAll();
 	}
 	else {
-		$request = $DB_DB->prepare("SELECT * FROM Materials WHERE (labelMat LIKE :labelMat OR codeMat LIKE :codeMat) AND idMat = :id");
+		$request = $DB_DB->prepare("SELECT * FROM Materials WHERE labelMat LIKE :labelMat OR codeMat LIKE :codeMat OR idMat = :idMat");
 
 		$request->execute(array(
 			'labelMat' => $labelMat,
 			'codeMat' => $codeMat,
-			'id' => $id
+			'idMat' => $idMat
 		));
 
 		$result = $request->fetchAll();
 	}
 
-	return empty($result);
+	return !empty($result);
 }
 
 /**
@@ -50,8 +50,8 @@ function addMaterial($labelMat, $codeMat, $priceMat, $docLink, $comment) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("INSERT INTO Materials(labelMat, codeMat, priceMat, docLink, comment, dateEntry) VALUES (:labelMat, :codeMat, :priceMat, :docLink, :comment, :dateEntry)");
 
-	if(!alreadyExistsMaterial(null, $labelMat, $codeMat))
-		return -2;
+	if(alreadyExistsMaterial(null, $labelMat, $codeMat))
+		return -3;
 
 	try {
 		$request->execute(array(
@@ -181,7 +181,7 @@ function editMaterial($idMat, $labelMat, $codeMat, $priceMat, $docLink, $comment
  * @param $idMat : ID of the material to get the price.
  * @return int : price of the material or an error code if an error occurred.
  */
-function getCostUnitMat($idMat) {
+/*function getCostUnitMat($idMat) { // TODO : delete it.
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT * FROM CostUnitMaterial WHERE idCostUnitMaterial IN (SELECT idCostUnitMaterial FROM Materials WHERE idMat = :idMat)");
 
@@ -197,7 +197,7 @@ function getCostUnitMat($idMat) {
 	}
 
 	return $request->fetch();
-}
+}*/
 
 /**
  * Assign a cost for a material.
@@ -206,7 +206,7 @@ function getCostUnitMat($idMat) {
  * @param $unit : number of unit for the material.
  * @return int : an error code if an error occurred.
  */
-function assignCostUnit($idMat, $priceUnit, $unit) {
+/*function assignCostUnit($idMat, $priceUnit, $unit) { // TODO : delete it.
 	global $DB_DB;
 	$request = $DB_DB->prepare('UPDATE Materials SET idCostUnitMaterial = :idCostUnitMaterial WHERE idMat = :idMat');
 
@@ -225,7 +225,7 @@ function assignCostUnit($idMat, $priceUnit, $unit) {
 	}
 
 	return "";
-}
+}*/
 
 /**
  * Get the cost of a unit material.
@@ -315,7 +315,7 @@ function getMaterialsMachine($idMachine) {
  */
 function assignMaterialsToMachine($idMachine, $idsMat) {
 	global $DB_DB;
-	$request = $DB_DB->prepare("INSERT INTO consume (idMat, idMachine) VALUES (:idMat, :idMachine)");
+	$request = $DB_DB->prepare("INSERT INTO consume(idMat, idMachine) VALUES(:idMat, :idMachine)");
 
 	if(!is_array($idsMat))
 		$idsMat = array($idsMat);

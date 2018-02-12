@@ -31,14 +31,11 @@ CREATE TABLE Machine(
         comment         Text ,
         docLink1        Varchar (255) ,
         docLink2        Varchar (255) ,
-        datePrice       Datetime ,
         dateEntry       Datetime ,
         idFamily        Int ,
         idPicture       Int ,
-        idCostUnit      Int ,
         idLab           Int ,
         PRIMARY KEY (idMachine ) ,
-        INDEX (datePrice ) ,
         UNIQUE (codeMachine )
 )ENGINE=InnoDB;
 
@@ -53,20 +50,6 @@ CREATE TABLE Family(
         familyLabel Varchar (255) ,
         PRIMARY KEY (idFamily ) ,
         UNIQUE (familyCode )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: SubFamily
-#------------------------------------------------------------
-
-CREATE TABLE SubFamily(
-        idSubFamily    int (11) Auto_increment  NOT NULL ,
-        codeSubFamily  Varchar (255) ,
-        labelSubFamily Varchar (255) ,
-        idFamily       Int ,
-        PRIMARY KEY (idSubFamily ) ,
-        UNIQUE (codeSubFamily )
 )ENGINE=InnoDB;
 
 
@@ -122,7 +105,7 @@ CREATE TABLE MachineUseForm(
         dateUseForm       Datetime ,
         comment           Varchar (255) ,
         entryDate         Datetime ,
-        TransactionStatut Varchar (255) ,
+        transactionStatus Varchar (255) ,
         duration          Time ,
         idMachine         Int ,
         idUser            Int ,
@@ -149,15 +132,14 @@ CREATE TABLE Message(
 #------------------------------------------------------------
 
 CREATE TABLE Materials(
-        idMat              int (11) Auto_increment  NOT NULL ,
-        labelMat           Varchar (255) ,
-        codeMat            Varchar (10) ,
-        priceMat           Integer ,
-        docLink            Varchar (255) ,
-        comment            Text ,
-        dateEntry          Datetime ,
-        idPicture          Int ,
-        idCostUnitMaterial Int ,
+        idMat     int (11) Auto_increment  NOT NULL ,
+        labelMat  Varchar (255) ,
+        codeMat   Varchar (10) ,
+        priceMat  Integer ,
+        docLink   Varchar (255) ,
+        comment   Text ,
+        dateEntry Datetime ,
+        idPicture Int ,
         PRIMARY KEY (idMat ) ,
         UNIQUE (codeMat )
 )ENGINE=InnoDB;
@@ -254,20 +236,6 @@ CREATE TABLE SoftwareCategory(
 
 
 #------------------------------------------------------------
-# Table: SoftwareSubcategory
-#------------------------------------------------------------
-
-CREATE TABLE SoftwareSubcategory(
-        idSoftSubcat int (11) Auto_increment  NOT NULL ,
-        SubcatCode   Varchar (255) ,
-        SubcatLabel  Varchar (255) ,
-        idSoftCat    Int ,
-        PRIMARY KEY (idSoftSubcat ) ,
-        INDEX (SubcatCode )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: Events
 #------------------------------------------------------------
 
@@ -313,18 +281,6 @@ CREATE TABLE ProjectCategory(
 
 
 #------------------------------------------------------------
-# Table: CostUnit
-#------------------------------------------------------------
-
-CREATE TABLE CostUnit(
-        idCostUnit  int (11) Auto_increment  NOT NULL ,
-        timePackage Int ,
-        coeffTime   Int ,
-        PRIMARY KEY (idCostUnit )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: SkillType
 #------------------------------------------------------------
 
@@ -365,10 +321,10 @@ CREATE TABLE Lab(
 #------------------------------------------------------------
 
 CREATE TABLE Maintenance(
-        idMaintenance           int (11) Auto_increment  NOT NULL ,
-        nameMaintenance         Varchar (25) ,
-        timeBetweenMaintenances Time ,
-        idMachine               Int ,
+        idMaintenance          int (11) Auto_increment  NOT NULL ,
+        nameMaintenance        Varchar (25) ,
+        timeBetweenMaintenance Time ,
+        idMachine              Int ,
         PRIMARY KEY (idMaintenance )
 )ENGINE=InnoDB;
 
@@ -412,18 +368,6 @@ CREATE TABLE funniesTransaction(
         adminCommentary      Varchar (255) ,
         idUser               Int ,
         PRIMARY KEY (idFunniesTransaction )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: CostUnitMaterial
-#------------------------------------------------------------
-
-CREATE TABLE CostUnitMaterial(
-        idCostUnitMaterial int (11) Auto_increment  NOT NULL ,
-        unit               Varchar (25) ,
-        costUnit           Int ,
-        PRIMARY KEY (idCostUnitMaterial )
 )ENGINE=InnoDB;
 
 
@@ -566,28 +510,6 @@ CREATE TABLE contribution(
 
 
 #------------------------------------------------------------
-# Table: softwareInSubCategory
-#------------------------------------------------------------
-
-CREATE TABLE softwareInSubCategory(
-        idSoftware   Int NOT NULL ,
-        idSoftSubcat Int NOT NULL ,
-        PRIMARY KEY (idSoftware ,idSoftSubcat )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
-# Table: machineInSubFamily
-#------------------------------------------------------------
-
-CREATE TABLE machineInSubFamily(
-        idMachine   Int NOT NULL ,
-        idSubFamily Int NOT NULL ,
-        PRIMARY KEY (idMachine ,idSubFamily )
-)ENGINE=InnoDB;
-
-
-#------------------------------------------------------------
 # Table: according
 #------------------------------------------------------------
 
@@ -697,9 +619,7 @@ CREATE TABLE consume(
 
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
-ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idCostUnit FOREIGN KEY (idCostUnit) REFERENCES CostUnit(idCostUnit);
 ALTER TABLE Machine ADD CONSTRAINT FK_Machine_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
-ALTER TABLE SubFamily ADD CONSTRAINT FK_SubFamily_idFamily FOREIGN KEY (idFamily) REFERENCES Family(idFamily);
 ALTER TABLE User ADD CONSTRAINT FK_User_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Empowerment ADD CONSTRAINT FK_Empowerment_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
@@ -707,13 +627,11 @@ ALTER TABLE MachineUseForm ADD CONSTRAINT FK_MachineUseForm_idUser FOREIGN KEY (
 ALTER TABLE Message ADD CONSTRAINT FK_Message_idConversation FOREIGN KEY (idConversation) REFERENCES Conversation(idConversation);
 ALTER TABLE Message ADD CONSTRAINT FK_Message_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
-ALTER TABLE Materials ADD CONSTRAINT FK_Materials_idCostUnitMaterial FOREIGN KEY (idCostUnitMaterial) REFERENCES CostUnitMaterial(idCostUnitMaterial);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idMat FOREIGN KEY (idMat) REFERENCES Materials(idMat);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE Picture ADD CONSTRAINT FK_Picture_idProject FOREIGN KEY (idProject) REFERENCES Project(idProject);
 ALTER TABLE VariousSkills ADD CONSTRAINT FK_VariousSkills_idSkillType FOREIGN KEY (idSkillType) REFERENCES SkillType(idSkillType);
-ALTER TABLE SoftwareSubcategory ADD CONSTRAINT FK_SoftwareSubcategory_idSoftCat FOREIGN KEY (idSoftCat) REFERENCES SoftwareCategory(idSoftCat);
 ALTER TABLE Events ADD CONSTRAINT FK_Events_idLab FOREIGN KEY (idLab) REFERENCES Lab(idLab);
 ALTER TABLE ProjectCategory ADD CONSTRAINT FK_ProjectCategory_idPicture FOREIGN KEY (idPicture) REFERENCES Picture(idPicture);
 ALTER TABLE Maintenance ADD CONSTRAINT FK_Maintenance_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
@@ -744,10 +662,6 @@ ALTER TABLE employ ADD CONSTRAINT FK_employ_idProject FOREIGN KEY (idProject) RE
 ALTER TABLE employ ADD CONSTRAINT FK_employ_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
 ALTER TABLE contribution ADD CONSTRAINT FK_contribution_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);
 ALTER TABLE contribution ADD CONSTRAINT FK_contribution_idUser_1 FOREIGN KEY (idUser_1) REFERENCES User(idUser);
-ALTER TABLE softwareInSubCategory ADD CONSTRAINT FK_softwareInSubCategory_idSoftware FOREIGN KEY (idSoftware) REFERENCES Software(idSoftware);
-ALTER TABLE softwareInSubCategory ADD CONSTRAINT FK_softwareInSubCategory_idSoftSubcat FOREIGN KEY (idSoftSubcat) REFERENCES SoftwareSubcategory(idSoftSubcat);
-ALTER TABLE machineInSubFamily ADD CONSTRAINT FK_machineInSubFamily_idMachine FOREIGN KEY (idMachine) REFERENCES Machine(idMachine);
-ALTER TABLE machineInSubFamily ADD CONSTRAINT FK_machineInSubFamily_idSubFamily FOREIGN KEY (idSubFamily) REFERENCES SubFamily(idSubFamily);
 ALTER TABLE according ADD CONSTRAINT FK_according_idRole FOREIGN KEY (idRole) REFERENCES Role(idRole);
 ALTER TABLE according ADD CONSTRAINT FK_according_idRights FOREIGN KEY (idRights) REFERENCES Rights(idRights);
 ALTER TABLE labTeam ADD CONSTRAINT FK_labTeam_idUser FOREIGN KEY (idUser) REFERENCES User(idUser);

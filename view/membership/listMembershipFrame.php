@@ -1,5 +1,3 @@
-<!-- TODO : correct warnings. -->
-
 <table width='80%' border=0>
 	<tr bgcolor='#CCCCCC'>
 		<td><?=$lang["frameName"]?></td>
@@ -10,10 +8,10 @@
 	</tr>
 
 	<?php
-	$membershipFrameList = (array)listAllMembershipFrame();
+	$materialsList = (array)listAllMembershipFrame();
 
-	if($membershipFrameList && $membershipFrameList > 0)
-		foreach($membershipFrameList as $row) {
+	if($materialsList && $materialsList > 0)
+		foreach($materialsList as $row) {
 		?>
 		<tr>
 			<td><?=$row['frameName']?></td>
@@ -23,7 +21,7 @@
 			<td><?=$row['entryDate']?></td>
 			<td><a href="index.php?page=membership&idFrameEdit=<?=$row['idMembershipFrame']?>"><?=$lang["edit"]?></a>
 				| <a href="index.php?page=membership&idFrameDelete=<?=$row['idMembershipFrame']?>"
-					 onClick="return confirm('TODO : suppress confirm')"><?=$lang["delete"]?></a></td>
+					 onClick="return confirm(<?="'" . $lang['suppressConfirmation'] . "'"?>)"><?=$lang["delete"]?></a></td>
 		</tr>
 		<?php
 		}

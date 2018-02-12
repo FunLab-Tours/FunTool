@@ -1,7 +1,5 @@
 <?php
 
-// TODO : correct warnings.
-
 $entryDate = date('Ymd');
 
 if(isset($_POST['submit']) && !empty($_POST['submit'])) {

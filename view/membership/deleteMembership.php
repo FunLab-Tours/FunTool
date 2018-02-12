@@ -1,12 +1,8 @@
 <?php
 
-    try {
-        deleteMembership($_GET['idDeleteMembership']);
-    }
-    catch(Exception $e) {
-        echo 'Message: ' .$e->getMessage();
-    }
+$errorManager = deleteMembership($_GET['idDeleteMembership']);
 
-    header('Location: index.php?page=membership&listMembership=0');
-
-?>
+if($errorManager == "" || ($errorManager && $errorManager > 0))
+	header('Location: index.php?page=membership&listMembership=0');
+else if($errorManager < 0)
+	echo $error[$errorManager];

@@ -42,7 +42,7 @@ function getMaterialStock($idLab, $idMaterial) {
  * @param $nbr : quantity of materials.
  * @return int : return an error code if an error occurred.
  */
-function updateMaterialsQuantity($idLab, $idMaterial, $nbr) {
+function addMaterialsQuantity($idLab, $idMaterial, $nbr) {
 	global $DB_DB;
 	$request = $DB_DB->prepare("SELECT COUNT(*) FROM labSupplies WHERE idLab = :idLab AND idMat = :idMat");
 

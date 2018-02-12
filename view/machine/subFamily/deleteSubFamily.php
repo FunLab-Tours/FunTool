@@ -1,4 +1,4 @@
 <?php
 
-deleteFamily($_GET['idDeleteFamily']);
+deleteSubFamily($_GET['idDeleteSubFamily']);
 header('Location: index.php?page=machine&familyManagement');

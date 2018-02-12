@@ -1,63 +1,63 @@
 <?php
-    try {
-        $valueDiffDate = compareTwoDates(date('Y-m-d'),date((returnValidDateForMembership($_COOKIE["id"]))));
 
-    if ($valueDiffDate<32) {
-        if($valueDiffDate>0) {
-            ?>
-            <br></br>
-            <?php
-            echo $lang["rest"]." ".$valueDiffDate." ".$lang["daysOfMembership"];
-            ?>
-            <br></br>
-            <?php
-        }
-?>
+// TODO : check valueDiffDate.
 
-<form action="" method="POST">
-    <table>
+$errorManager = $valueDiffDate = compareTwoDates(date('Y-m-d'), date((returnValidDateForMembership($_COOKIE["id"]))));
 
-        <?php
-            foreach (listAllMembershipFrame() as $row) {
-        ?> 
-                <tr>
-                    <td><?=$row['frameName']?><br><?=$row['frameComment']?></br></td>
-                    <td><?=$row['framePrice']?> €</td>
-                    <td><input type ="radio" name ="framePrice" value="<?=$row['idMembershipFrame']?>"></td>
-            
-                </tr>
-        <?php
-            }
-        ?> 
-    </table>
+if($errorManager == "" || ($errorManager && $errorManager > 0))
+	if($valueDiffDate < 32) {
+		if($valueDiffDate > 0) {
+			?>
+			<br/>
+			<?=$lang['rest'] . " " . $valueDiffDate . " " . $lang['daysOfMembership']?>
+			<br/>
+			<?php
+		}
+		?>
 
-    <br></br>
-    <?=$lang["donationRequest"]?>
-    <br></br>
+		<form action="" method="POST">
+			<table>
+				<?php
+				$membershipFrameList = (array)listAllMembershipFrame();
 
-    <input type ="radio" name ="donationRadio" value="0" checked><?=$lang["noDonation"]?>
-    <input type ="radio" name ="donationRadio" value="20">20€
-    <input type ="radio" name ="donationRadio" value="50">50€
-    <input type ="radio" name ="donationRadio" value="150">150€
-    <br></br>
-    <input type ="radio" name ="donationRadio" value="0"><?=$lang["freeDonation"]?>
-    <input type="number" min="0" placeholder="<?=$lang["valueFreeDonation"]?>" name="donation" />
-    <br></br>
-    <input type="hidden" value="<?=$valueDiffDate?>" name="valueDiffDate">
-    <input type="submit" value="<?=$lang["submit"]?>" name="submitMembership"> 
-</form>
+				if($membershipFrameList && $membershipFrameList > 0)
+					foreach($membershipFrameList as $row) {
 
-<?php
-    }
-    else{
-?>
-<br></br>
-<?php       
-        echo $lang["rest"]." ". $valueDiffDate ." ".$lang["daysOfMembership"];
-    }
-}
-catch(Exception $e)
-{
-    echo 'Message: ' .$e->getMessage();
-}
-?>
+						?>
+						<label for="<?=$row['frameName']?>">
+							<?=$row['frameName']?><br/>
+							<?=$row['frameComment']?><br/>
+							<?=$row['framePrice']?>€<br/>
+						</label>
+						<input id="<?=$row['frameName']?>" type="radio" name="framePrice" value="<?=$row['idMembershipFrame']?>"><br/>
+						<?php
+					}
+				?>
+			</table>
+
+			<br/>
+			<?=$lang["donationRequest"]?>
+			<br/>
+
+			<label for="no"><?=$lang["noDonation"]?></label><input id="no" type="radio" name="donationRadio" value="0" checked>
+			<label for="20">20€</label><input id="20" type="radio" name="donationRadio" value="20">
+			<label for="50">50€</label><input id="50" type="radio" name="donationRadio" value="50">
+			<label for="150">150€</label><input id="150" type="radio" name="donationRadio" value="150">
+			<br/>
+			<label for="free"><?=$lang["freeDonation"]?></label><input id="free" type="radio" name="donationRadio" value="0">
+			<input type="number" min="0" placeholder="<?=$lang["valueFreeDonation"]?>" name="donation"/>
+			<br/>
+			<input type="hidden" value="<?=$valueDiffDate?>" name="valueDiffDate">
+			<input type="submit" value="<?=$lang["submit"]?>" name="submitMembership">
+		</form>
+
+		<?php
+	}
+	else {
+		?>
+		<br/>
+		<?=$lang['rest'] . " " . $valueDiffDate . " " . $lang['daysOfMembership']?>
+		<?php
+	}
+else
+	echo $error[$errorManager];

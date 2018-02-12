@@ -1,8 +1,6 @@
 <?php
 
-    loadModules("supplies");
-    loadModules("lab");
+loadModules("supplies");
+loadModules("lab");
 
-    include('supplies.php');
-
-?>
+include('supplies.php');

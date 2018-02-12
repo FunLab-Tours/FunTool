@@ -1,89 +1,61 @@
-<html>
-
 <?php
 
-    if(isset($_POST['submit'])) {
-		$isValidSignOnReturn = isValidMachineSubmit();
+if(isset($_POST['submit'])) {
+	$errorManager = isValidMachineSubmit();
 
-		if($isValidSignOnReturn && $isValidSignOnReturn > 0) {
-            if(!isset($_POST['idSubFamily']))
-                $subFamily = null;
-            else
-                $subFamily = $_POST['idSubFamily'];
-                $id = addMachine($_POST['codeMachine'],
-                    $_POST['shortLabel'],
-                    $_POST['longLabel'],
-                    $_POST['serialNumber'],
-                    $_POST['manufacturer'],
-                    $_POST['comment'],
-                    $_POST['docLink1'],
-                    $_POST['docLink2'],
-                    $_POST['idFamily'],
-                    $subFamily,
-                    $_POST['cost'],
-                    $_POST['costCoeff'],
-                    $_POST['idLab']);
+	if($errorManager == "" || ($errorManager && $errorManager > 0)) {
+		$errorManager = addMachine($_POST['codeMachine'], $_POST['shortLabel'], $_POST['longLabel'], $_POST['machineUsePrice'], $_POST['serialNumber'], $_POST['manufacturer'], $_POST['comment'], $_POST['docLink1'], $_POST['docLink2'], $_POST['idFamily']);
+		$id = $errorManager;
 
-            assignMaterialsToMachine($id, $_POST['idMaterials']);
-            header('Location: index.php?page=machine&chooseImage='.$id);
-        }
-		else
-			echo $error[$isValidSignOnReturn];
+		if($errorManager == "" || ($errorManager && $errorManager > 0)) {
+			$errorManager = assignMaterialsToMachine($id, $_POST['idMaterials']);
+
+			if($errorManager == "" || ($errorManager && $errorManager > 0))
+				header('Location: index.php?page=machine&listMachine');
+			//header('Location: index.php?page=machine&chooseImage=' . $id); // TODO : add pictures.
+			else if($errorManager < 0)
+				echo $error[$errorManager];
+		}
+		else if($errorManager < 0)
+			echo $error[$errorManager];
 	}
+	else if($errorManager < 0)
+		echo $error[$errorManager];
+}
 
 ?>
 
 <form action="" method="post">
-    <input type="text" placeholder="<?=$lang['codeMachineInput']?>" name="codeMachine" />
-    <input type="text" placeholder="<?=$lang['shortLabelInput']?>" name="shortLabel" />
-    <input type="text" placeholder="<?=$lang['longLabelInput']?>" name="longLabel" />
-    <input type="text" placeholder="<?=$lang['serialNumberInput']?>" name="serialNumber" />
-    <input type="text" placeholder="<?=$lang['manufacturerInput']?>" name="manufacturer" />
-    <input type="text" placeholder="<?=$lang['commentInput']?>" name="comment" />
-    <input type="text" placeholder="<?=$lang['docLink1Input']?>" name="docLink1" />
-    <input type="text" placeholder="<?=$lang['docLink2Input']?>" name="docLink2" />
-    <select name ="idFamily" onchange="updateSubList(this.value)">
-        <option value="" selected="selected"><?=$lang['machineFamily']?></option>
-        <?php foreach(getFamilyList() as $row){?>
-            <option value="<?=$row['idFamily']?>"><?=$row['familyLabel']?></option>
-        <?php } ?>
-    </select>
-    <div id="idSubFamily" name="idSubFamily"></div>
-    <input type="number" min="0" placeholder="<?=$lang['cost']?>" name="cost" />
-    x
-    <input type="number" min="0" step="0.1" placeholder="<?=$lang['costCoeff']?>" name="costCoeff" />
-    <select name ="idLab"">
-        <option value="" selected="selected"><?=$lang['funLab']?></option>
-        <?php
-        foreach(listAllLab() as $row){?>
-            <option value="<?=$row['idLab']?>"><?=$row['labName']?></option>
-        <?php } ?>
-    </select>
-    <select multiple name ="idMaterials"">
-        <option value="" selected="selected"><?=$lang['machineMaterials']?></option>
-        <?php foreach(listMaterials() as $row){?>
-            <option value="<?=$row['idMat']?>"><?=$row['labelMat']?></option>
-        <?php } ?>
-    </select>
-    <input type="submit" value="<?=$lang["submit"]?>" name="submit">
-</form>
+	<input type="text" placeholder="<?=$lang['codeMachineInput']?>" name="codeMachine"/>
+	<input type="text" placeholder="<?=$lang['shortLabelInput']?>" name="shortLabel"/>
+	<input type="text" placeholder="<?=$lang['longLabelInput']?>" name="longLabel"/>
+	<input type="number" placeholder="<?=$lang['machineUsePriceInput']?>" name="machineUsePrice"/>
+	<input type="text" placeholder="<?=$lang['serialNumberInput']?>" name="serialNumber"/>
+	<input type="text" placeholder="<?=$lang['manufacturerInput']?>" name="manufacturer"/>
+	<input type="text" placeholder="<?=$lang['commentInput']?>" name="comment"/>
+	<input type="text" placeholder="<?=$lang['docLink1Input']?>" name="docLink1"/>
+	<input type="text" placeholder="<?=$lang['docLink2Input']?>" name="docLink2"/>
 
-<script>
-    function updateSubList(str) {
-        if(str == "") {
-            document.getElementById("idSubFamily").innerHTML = "";
-            return;
-        }
-        else
-        {
-            xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("idSubFamily").innerHTML = this.responseText;
-                }
-            };
-            xmlhttp.open("GET", "requests/subFamily.php?q="+str,false);
-            xmlhttp.send(null);
-        }
-    }
-</script>
+	<label for="idFamily"><?=$lang['machineFamily']?> : </label>
+	<select id="idFamily" name="idFamily">
+		<option value="" selected="selected"><?=$lang['machineFamily']?></option>
+		<?php
+		foreach(getFamilyList() as $row) { ?>
+			<option value="<?=$row['idFamily']?>"><?=$row['familyLabel']?></option>
+		<?php } ?>
+	</select>
+
+	<label for="idMaterials"><?=$lang['machineMaterials']?></label>
+	<select id="idMaterials" multiple name="idMaterials[]">
+		<option value="" selected="selected"><?=$lang['machineMaterials']?></option>
+		<?php
+		$materialsList = (array)listMaterials();
+
+		if($materialsList && $materialsList > 0)
+			foreach($materialsList as $row) { ?>
+				<option value="<?=$row['idMat']?>"><?=$row['labelMat']?></option>
+			<?php } ?>
+	</select>
+
+	<input type="submit" value="<?=$lang["submit"]?>" name="submit">
+</form>

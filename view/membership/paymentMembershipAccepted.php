@@ -1,12 +1,12 @@
 <?php
 
     // if(selectMembership($_POST['idUser'])['endMembershipDate'] !== NULL){
-    //     updateMembership($_POST['membershipingDate'],$_POST['endMembershipDate'],'web','',
+    //     updateMembership($_POST['membershipDate'],$_POST['endMembershipDate'],'web','',
     //                      $_POST['idMembershipFrame'] ,$_POST['idUser']);
     //     addFunnies($_POST['idUser'],$_POST['bonusMembership']);
     // }
     // else{
-    //     addMembership($_POST['membershipingDate'],$_POST['endMembershipDate'],'web','',
+    //     addMembership($_POST['membershipDate'],$_POST['endMembershipDate'],'web','',
     //                   $_POST['idMembershipFrame'] ,$_POST['idUser']);
     //     addFunnies($_POST['idUser'],$_POST['bonusMembership']);
     // }
@@ -17,7 +17,7 @@
 <?php
     if(selectMembership($_GET['idUser'])['endMembershipDate'] !== NULL) {
         try {
-            updateMembership($_GET['membershipingDate'],$_GET['endMembershipDate'],'web','', $_GET['idMembershipFrame'] ,$_GET['idUser']);
+            updateMembership($_GET['membershipDate'],$_GET['endMembershipDate'],'web','', $_GET['idMembershipFrame'] ,$_GET['idUser']);
             addFunnies($_GET['idUser'],$_GET['bonusMembership']);
         }
         catch(Exception $e) {
@@ -26,7 +26,7 @@
     }
     else {
         try {
-            addMembership($_GET['membershipingDate'],$_GET['endMembershipDate'],'web','', $_GET['idMembershipFrame'] ,$_GET['idUser']);
+            addMembership($_GET['membershipDate'],$_GET['endMembershipDate'],'web','', $_GET['idMembershipFrame'] ,$_GET['idUser']);
             addFunnies($_GET['idUser'],$_GET['bonusMembership']);
         }
         catch(Exception $e) {

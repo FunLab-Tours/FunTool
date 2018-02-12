@@ -1,7 +1,7 @@
 <?php
 
 if(isset($_POST['submit'])) {
-	$errorManager = addFamily($_POST['codeFamily'], $_POST['labelFamily']);
+	$errorManager = addSubFamily($_POST['codeSubFamily'], $_POST['labelSubFamily'], $_GET['add_subFamily']);
 
 	if($errorManager == "" || ($errorManager && $errorManager > 0))
 		header('Location: index.php?page=machine&familyManagement');
@@ -11,8 +11,10 @@ if(isset($_POST['submit'])) {
 
 ?>
 
+<body>
 <form action="" method="post">
-	<input type="text" placeholder="<?=$lang['family_label']?>" name="labelFamily"/>
-	<input type="text" placeholder="<?=$lang['family_code']?>" name="codeFamily"/>
+	<input type="text" placeholder="<?=$lang['subFamily_label']?>" name="labelSubFamily"/>
+	<input type="text" placeholder="<?=$lang['subFamily_code']?>" name="codeSubFamily"/>
 	<input type="submit" value="<?=$lang["submit"]?>" name="submit">
 </form>
+</body>

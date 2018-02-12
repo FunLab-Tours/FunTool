@@ -21,7 +21,7 @@
 
 <?php
     echo $lang["selectedFrame"]." ".$frameName." ".$lang["for"]." ".$membershipPrice." €";
-    $donationRadio = $_POST['donationRadio']; 
+    $donationRadio = $_POST['donationRadio'];
     $donation = $_POST['donation'];
 ?>
 <br></br>
@@ -31,10 +31,10 @@
     }
     else if($donation>0){
         echo $lang["donationGiven"]." ".$donation." €";
-    } 
+    }
 ?>
 <br></br>
-<?php  
+<?php
     $totalToPay = $donationRadio + $donation + $membershipPrice;
     echo $lang["total"]." ".$totalToPay." €";
 ?>
@@ -109,13 +109,13 @@
                 return actions.payment.execute().then(function() {
                     window.alert('Payment Complete!');
                     location.replace("index.php?page=membership&idUser=<?=$idUser?>&membershipingDate=<?=$membershipingDate?>&endMembershipDate=<?=$endMembershipDate?>&idMembershipFrame=<?=$idMembershipFrame?>&bonusMembership=<?=$bonusMembership?>");
-                    // document.getElementById("paymentAccepted").innerHTML = 
+                    // document.getElementById("paymentAccepted").innerHTML =
                     // var div = document.getElementById("dom-target");
                     // var myData = div.textContent;
 
 
                 });
-            
+
             }
 
         }, '#paypal-button-container');
@@ -127,15 +127,15 @@
     </script>
 
 <div id="dom-target" style="display: none;">
-    <?php  
+    <?php
         // if(selectMembership($idUser)['endMembershipDate'] !== NULL){
         //     updateMembership($membershipingDate,$endMembershipDate,'web','',
         //                         $idMembershipFrame ,$idUser);
         //     addFunnies($idUser,$bonusMembership);
-                                
-    
+
+
         // }
-    
+
         // else{
         //     addMembership($membershipingDate,$endMembershipDate,'web','',
         //                     $idMembershipFrame ,$idUser);
