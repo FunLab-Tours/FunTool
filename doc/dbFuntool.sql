@@ -310,7 +310,7 @@ CREATE TABLE Rights(
 CREATE TABLE Maintenance(
         idMaintenance          int (11) Auto_increment  NOT NULL ,
         nameMaintenance        Varchar (25) ,
-        timeBetweenMaintenance Time ,
+        daysBetweenMaintenance Integer ,
         idMachine              Int ,
         PRIMARY KEY (idMaintenance )
 )ENGINE=InnoDB;

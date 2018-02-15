@@ -2,6 +2,8 @@
 
 $lang = [];
 
+$lang['add'] = "Ajouter";
+
 $lang['profile'] = "Accéder à son profil";
 $lang['membership'] = "Adhérer au FunLab";
 $lang['funniesManagement'] = "Gérer ses funnies";
@@ -288,7 +290,11 @@ $lang['maintenance'] = "Maintenances";
 $lang['historical'] = "Historique des maintenances";
 $lang['maintenance_name_time'] = "Noms des maintenances et intervalles de temps entre chacune d'elles";
 $lang['remainTime'] = "Temps restant";
-$lang['each'] = "chaque";
+$lang['each'] = "tous les";
+$lang['day'] = "jour(s)";
+$lang['maintenanceNameInput'] = "Nom de la maintenance";
+$lang['daysBetweenMaintenanceInput'] = "Nombre de jours entre les maintenances";
+
 
 $lang['cantGetParameters'] = "Ne peut pas obtenir les paramètres !";
 $lang['invalidUser'] = "Mauvais nom d'utilisateur ou mot de passe.";

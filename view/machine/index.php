@@ -2,7 +2,8 @@
 
 loadModules("machine/machine");
 loadModules("machine/machineFamily");
-loadModules("machine/machineSubFamily");
+loadModules("maintenance/maintenance");
+loadModules("maintenance/historical");
 loadModules("picture");
 loadModules("materials");
 
