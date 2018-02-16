@@ -79,7 +79,7 @@ $lang['register'] = "S'inscrire";
 $lang['unregister'] = "Se désinscrire";
 
 $lang['machineName'] = "Nom de la machine";
-$lang['machineShortLabel'] = "Label";
+$lang['machineShortLabel'] = "Nom";
 $lang['machineLongLabel'] = "Description";
 $lang['machineUsePrice'] = "Prix d'utilisation à l'heure";
 $lang['machineSerialNumber'] = "Numéro de série";
@@ -90,7 +90,7 @@ $lang['machineDocLink2'] = "Documentation 2";
 $lang['machineFamily'] = "Famille de la machine";
 $lang['machineSubFamily'] = "Sous-famille de la machine";
 $lang['codeMachineInput'] = "Code de la machine";
-$lang['shortLabelInput'] = "Label";
+$lang['shortLabelInput'] = "Nom";
 $lang['longLabelInput'] = "Description";
 $lang['machineUsePriceInput'] = "Prix d'utilisation à l'heure";
 $lang['serialNumberInput'] = "Numéro de série";
