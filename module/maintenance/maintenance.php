@@ -36,11 +36,11 @@ function createMaintenance($maintenanceName, $daysBetweenMaintenance, $idMachine
  */
 function editMaintenance($idMaintenance, $name, $daysBetweenMaintenance) {
 	global $DB_DB;
-	$request = $DB_DB->prepare("UPDATE Maintenance SET nameMaintenance = :nameMaintenance, daysBetweenMaintenances = :daysBetweenMaintenance WHERE idMaintenance = :idMaintenance");
+	$request = $DB_DB->prepare("UPDATE Maintenance SET nameMaintenance = :nameMaintenance, daysBetweenMaintenance = :daysBetweenMaintenance WHERE idMaintenance = :idMaintenance");
 
 	try {
 		$request->execute(array(
-			'name' => $name,
+			'nameMaintenance' => $name,
 			'daysBetweenMaintenance' => $daysBetweenMaintenance,
 			'idMaintenance' => $idMaintenance
 		));
@@ -61,7 +61,7 @@ function editMaintenance($idMaintenance, $name, $daysBetweenMaintenance) {
  */
 function deleteMaintenance($idMaintenance) {
 	global $DB_DB;
-	$request = $DB_DB->prepapre("DELETE FROM Maintenance WHERE idMaintenant = :idMaintenance");
+	$request = $DB_DB->prepare("DELETE FROM Maintenance WHERE idMaintenance = :idMaintenance");
 
 	try {
 		$request->execute(array(
